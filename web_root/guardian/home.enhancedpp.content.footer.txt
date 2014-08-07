@@ -1,0 +1,45 @@
+<!-- TODO: Use JS logic here. -->
+<!-- begin PS-DATA -->
+<!-- prefGradesAttendance uses false for a 1 value because
+it's controlled by the /admin/schoolsetup/portals.html setup page,
+which uses on-by-default (1=false, 0=true) boolean values.-->
+<div id="ps-data"
+     data-ps='
+        {
+            "prefMobilePagesEnabled": ~[if.pref.mobilepages_enable=1]true[else]false[/if],
+            "prefMobileDisableGuardian": ~[if.prefschool.mobiledisable_guardian=1]true[else]false[/if],
+            "prefGradesAttendance": ~[if.pref.gradesattendance~(curschoolid)=1]false[else#ga]true[/if],
+            "enabledMouseUpdate": ~(f.table_info;table=students;dothisfor=all;field=enabledemoupdate;*id=~(curstudid);fn=value),
+
+        }
+     '
+        ></div>
+<!-- end PS-DATA -->
+
+~[if.pref.mobilepages_enable=1]
+<script language="JavaScript">
+    var pref = 1;
+</script>
+[/if]
+~[if.prefschool.mobiledisable_guardian=1][else]
+<script language="JavaScript" src="/scripts/mobile/detectMobileWebkit.js"></script>
+[/if]
+
+<script type="text/template" id="header-template">
+    <h1>~[if#ga.pref.gradesattendance~(curschoolid)=1][else#ga]~[text:psx.html.guardian.home.grades_and_attendance]
+        ~(studentname)[/if#ga]</h1>
+    ~[SetPostValue:enabledemoupdate=~(f.table_info;table=students;dothisfor=all;field=enabledemoupdate;*id=~(curstudid);fn=value)]
+    ~[if#1.pref.demographic~(curschoolid)=1][else#1]~[if#2.~[gpv:enabledemoupdate]=1]
+    <center><B>Please check your demographics to ensure the information we have on file is correct.</B>
+    </center>[/if#2][/if#1]<br>
+    ~[if#score.pref.ppscores~(schoolid)=1][else#score]
+    <center><a href="/guardian/ppstudentasmtlist.html">Click Here</a> to see a list of all your
+        ~[if#isguardian.isguardian]students [/if#isguardian]past assignments for this term.
+    </center>[/if#score]
+</script>
+
+<script type="text/template" id="version-template">
+    ~[wc:epp_version]
+</script>
+
+<script src="/guardian/javascript/home.js"></script>

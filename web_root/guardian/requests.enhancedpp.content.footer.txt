@@ -1,0 +1,5 @@
+<script type="text/template" id="version-template">
+    ~[wc:epp_version]
+</script>
+
+<script src="/guardian/javascript/requests.js"></script>

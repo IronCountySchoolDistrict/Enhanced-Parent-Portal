@@ -1,0 +1,25 @@
+<div id="bellschedule" parentid="home" title="Bell Schedule" class="panel">
+<fieldset>
+<div class="row" style="text-align:left;min-height:35px;padding:5px;"><label>
+<img src="/images/clocksmall.gif" width="30" height="30" alt="" border="0">
+~[tlist_sql; SELECT	bs.Name FROM Bell_Schedule bs WHERE bs.id = ~[gpv:schedid]]~(Name;t)[/tlist_sql]
+&nbsp;~[eaodate;dayabbr]</label>
+</div>
+<div class="row">
+<table border="0" cellspacing="0" cellpadding="2" align="center">
+<tr class="bold">
+<th>Period</th>
+<th>Start Time</th>
+<th>End Time</th>
+<th>Duration</th>
+</tr>
+<tr align="center" bgcolor="#edf3fe">~[tlist;bell_schedule_items;bell_schedule_id=~[gpv:schedid];alternatecolor;nonemessage=No bell schedule items have been created for this bell schedule.;sortcmd;start_time,&gt;,period_id,&gt;]
+<td align="left">~([138]abbreviation)</td>
+<td align="left">~(start_time)</td>
+<td>~(end_time)</td>
+<td>~(minutes_attended)</td>
+</tr>
+</table>
+</div>
+</fieldset>
+</div>

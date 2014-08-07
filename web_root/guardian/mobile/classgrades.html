@@ -1,0 +1,56 @@
+<ul id="classgrades" parentid="home" title="Grades">
+<li class="group">~(current.final.grade.name) Classes<br />
+	<img class="indicator" src="/images/icon_late.gif"> = Late Assignments<br />
+	<img class="indicator" src="/images/icon_missing.gif"> = Missing Assignments
+</li>
+~[tlist_sql;
+SELECT
+cc.dcid,
+'~(current.final.grade.name)' fg,
+sync_cc.sectionenrollmentid psmseid,
+c.course_name, sec.expression,
+(case when sum(NVL(psmas.ismissing,0)) > 0 then 'inline' ELSE 'none' END) missingicon,
+(case when sum(NVL(psmas.turnedinlate,0)) > 0 then 'inline' ELSE 'none' END) lateicon
+FROM CC
+INNER JOIN SECTIONS sec on CC.sectionid = sec.id
+INNER JOIN COURSES c on sec.course_number = c.course_number
+INNER JOIN SYNC_SECTIONENROLLMENTMAP sync_cc on cc.dcid = sync_cc.ccdcid
+LEFT OUTER JOIN PGAssignments PGA on cc.sectionid = pga.sectionid 
+  	AND CASE 
+			WHEN PGA.PUBLISHSTATE = 1 THEN PGA.PUBLISHONSPECIFICDATE
+			WHEN PGA.PUBLISHSTATE = 2 THEN (PGA.DATEDUE - PGA.PUBLISHDAYSBEFOREDUE)
+			WHEN PGA.PUBLISHSTATE = 3 THEN PGA.DATEDUE
+			WHEN PGA.PUBLISHSTATE = 4 THEN to_date('12/31/9999','MM/DD/YYYY')
+			ELSE to_date('01/01/1900','MM/DD/YYYY') END <= SYSDATE
+	AND pga.datedue between CC.dateenrolled and cc.dateleft-1
+
+LEFT OUTER JOIN SYNC_PGASSIGNMENTSMAP sync_pga on pga.dcid = sync_pga.pgassignmentsdcid
+LEFT OUTER JOIN PSM_ASSIGNMENTSCORE PSMAS ON sync_pga.sectionassignmentid = psmas.sectionassignmentid and sync_cc.sectionenrollmentid = psmas.sectionenrollmentid AND CASE WHEN PSMAS.EXEMPT != 1 THEN 1
+     WHEN PSMAS.EXEMPT = 1 and (PSMAS.SCORE is null or PSMAS.ACTUALSCOREENTERED is null) THEN 2 ELSE 1 END = 1
+
+WHERE CC.studentid = ~(curstudid) 
+AND trunc(sysdate) between CC.dateenrolled and cc.dateleft-1
+and pga.datedue >= (SELECT min(date1) from termbins where schoolid=sec.schoolid 
+  and termid=sec.termid
+  and upper(storecode)=upper('~(current.final.grade.name)')
+  )
+  and pga.datedue <= (SELECT max(date2) from termbins where schoolid=sec.schoolid  
+  and termid=sec.termid
+  and upper(storecode)=upper('~(current.final.grade.name)')
+  )
+GROUP by cc.dcid,sync_cc.sectionenrollmentid, c.course_name, sec.expression
+~[if.prefschool.mobileclasssort=classname]ORDER BY c.course_name, sec.expression
+[else]ORDER BY sec.expression, c.course_name[/if]]
+		<li class="hindent">
+		~[if.pref.ppscores~(schoolid)=1]
+		<!-- ~(cc.dcid) ~(fg) ~(psmseid) ~(c.course_name;t)-->~(sec.expression;t;externalexpression) ~(c.course_name;t)
+			<img class="indicator" style="display:~(MISSINGICON;t)" align="right" src="/images/icon_missing.gif">
+			<img class="indicator" style="display:~(LATEICON;t)" align="right" src="/images/icon_late.gif">
+		[else]<a href="#scores.html?frn=004~(cc.dcid)&fg=~(fg)&psmseid=~(psmseid)&coursetitle=~(c.course_name;t)">~(sec.expression;t;externalexpression) ~(c.course_name;t)
+			<img class="indicator" style="display:~(MISSINGICON;t)" align="right" src="/images/icon_missing.gif">
+			<img class="indicator" style="display:~(LATEICON;t)" align="right" src="/images/icon_late.gif">
+			</a>
+		[/if]
+		</li>
+		[/tlist_sql]
+	</ul>

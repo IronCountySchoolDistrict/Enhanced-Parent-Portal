@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+~[if#1.pref.schoolinfo~(curschoolid)=1]~[redirect:/guardian/home_not_available.html]
+[else#1]
+	~[if#1a.isguardianAndSSOEnabled]
+	~[if#2.~([Students]allowwebaccess)=0]
+	~[redirect:/guardian/home_not_available.html]
+	[/if#2]
+	[/if#1a]
+[/if#1]
+<title>School Info</title>
+~[wc:guardian_header]
+  <h1>School Info</h1>
+  <!-- title -->
+
+  <div id="school-info" class="box-round group">
+	<table cellpadding="2" cellspacing="0" align="center">
+	  <tr class="headerRow">
+		<td colspan="100%" class="bold"><center>School Information</center></td>
+	  </tr>
+
+~[tlist_sql;
+SELECT sch.Name schoolname, sch.SchoolAddress, sch.SchoolCity, sch.SchoolState , sch.SchoolZip, sch.SchoolPhone, sch.SchoolFax, sch.Principal, 
+  sch.PrincipalPhone, sch.PrincipalEmail, sch.AsstPrincipal, sch.AsstPrincipalPhone, sch.AsstPrincipalEmail, 
+ps_customfields.getCF('Schools',sch.school_number,'Att_sec_email') Att_sec_email,
+ps_customfields.getCF('Schools',sch.school_number,'Registrar_email') Registrar_email
+FROM Schools sch
+WHERE sch.School_Number = ~(curschoolid)]
+	  <tr class="~[evenoddrow;reset]">
+		<td class="bold">School Name</td>
+		<td>~(SchoolName;t)</td>
+	  </tr>
+	  <tr class="~[evenoddrow]">
+		<td class="bold">School Address</td>
+		<td>~(SchoolAddress;t)</td>
+	  </tr>
+	  <tr>
+		<td class="bold"></td>
+		<td>~(SchoolCity;t), ~(SchoolState;t)  ~(SchoolZip;t)</td>
+	  </tr>
+	  <tr class="~[evenoddrow]">
+		<td class="bold">School Phone</td>
+		<td>~(SchoolPhone;t)</td>
+	  </tr>
+	  <tr class="~[evenoddrow]">
+		<td class="bold">School Fax</td>
+		<td>~(SchoolFax;t)</td>
+	  </tr>
+	  <tr><td colspan="100%"><hr></td></tr>
+	  <tr class="~[evenoddrow]">
+		<td class="bold">School Principal</td>
+		<td>~(Principal;t)</td>
+	  </tr>
+	  <tr class="~[evenoddrow]">
+		<td class="bold">Principal's Phone</td>
+		<td>~(PrincipalPhone;t)</td>
+	  </tr>
+	  <tr class="~[evenoddrow]">
+		<td class="bold">Principal's Email</td>
+		<td><a href="mailto:~(PrincipalEmail;t)">~(PrincipalEmail;t)</a></td>
+	  </tr>
+	  <tr><td colspan="100%"><hr></td></tr>
+	  <tr class="~[evenoddrow]">
+		<td class="bold">Assistant Principal</td>
+		<td>~(AsstPrincipal;t)</td>
+	  </tr>
+	  <tr class="~[evenoddrow]">
+		<td class="bold">Assistant Principal's Phone</td>
+		<td>~(AsstPrincipalPhone;t)</td>
+	  </tr>
+	  <tr class="~[evenoddrow]">
+		<td class="bold">Assistant Principal's Email</td>
+		<td><a href="mailto:~(AsstPrincipalEmail;t)">~(AsstPrincipalEmail;t)</a></td>
+	  </tr>
+	  <tr><td colspan="100%"><hr></td></tr>
+	  <tr class="~[evenoddrow]">
+		<td class="bold">Attendance Secretary's Email</td>
+		<td><a href="mailto:~(Att_sec_email;t)">~(Att_sec_email;t)</a></td>
+	  </tr>
+	  <tr><td colspan="100%"><hr></td></tr>
+	  <tr class="~[evenoddrow]">
+		<td class="bold">Registrar's Email</td>
+		<td><a href="mailto:~(Registrar_email;t)">~(Registrar_email;t)</a></td>
+	  </tr>
+[/tlist_sql]
+	  
+	</table>
+	<table cellpadding="2" cellspacing="0" align="center">
+	  <tr class="headerRow">
+		<td colspan="100%" class="bold"><center>This Year's Terms</center></td>
+	  </tr>
+	  <tr class="headerRow">
+	    <td class="bold">Term</td>
+	    <td class="bold">Start Date</td>
+	    <td class="bold">End Date</td>
+	    <td class="bold"># School Days</td>
+	  </tr>
+	  
+~[tlist_sql;
+SELECT ter.Name, ter.Abbreviation, MIN(CD.Date_Value) fday, MAX(CD.Date_Value) lday, SUM(cd.InSession) numInsession
+FROM Terms ter
+  INNER JOIN Calendar_Day cd ON ter.SchoolID = cd.SchoolID
+    AND ter.FirstDay <= cd.Date_Value
+    AND ter.LastDay >= cd.Date_Value
+WHERE ter.SchoolID = ~(curschoolid)
+  AND ter.YearID = ~(curyearid)
+  AND ter.Portion = (SELECT MAX(Portion) FROM Terms WHERE SchoolID = ~(curschoolid) AND YearID = ~(curyearid))
+  AND cd.InSession = 1
+GROUP BY ter.Name, ter.Abbreviation, ter.FirstDay, ter.LastDay
+ORDER BY ter.FirstDay;alternatecolor]
+	  <tr class="oddRow">
+	    <td class="bold">~(Term;t) (~(abb;t))</td>
+	    <td class="bold">~(StartDate;d)</td>
+	    <td class="bold">~(EndDate;d)</td>
+	    <td class="bold" align="center">~(numDays;l)</td>
+	  </tr>
+[/tlist_sql]
+	</table>
+  </div>
+</div>
+
+
+</div>
+<!-- end parent content -->
+
+<!-- end of title and student content -->
+</div>
+<input id="activeNav" type="hidden" value="#btn-school-info"/>
+<input id="activePageVersion" type="hidden" value="3.3.1"/>
+~[wc:guardian_footer]
+</body></head>
