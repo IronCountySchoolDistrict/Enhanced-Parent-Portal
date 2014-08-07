@@ -37,7 +37,13 @@
 ~[if.~(studentscreenaccess;addresses.html)=1]<a href="addresses.html?frn=~(studentfrn)">~[text:psx.html.admin_students.more2.addresses]</a><br>[/if]
 ~[if.~(studentscreenaccess;morecustom.html)=1]<a href="morecustom.html?frn=~(studentfrn)" target="_self">~[text:psx.html.admin_students.more2.custom_screens]</a><br>[/if]
 ~[if.~(studentscreenaccess;generaldemographics.html)=1]<a href="generaldemographics.html?frn=~(studentfrn)">~[text:psx.html.admin_students.more2.demographics]</a><br>[/if]
-~[if.~(parent_verify)=1]<a href="studentpages/parentdemochange.html?frn=~(studentfrn)"><font color="#FF0000"><b>Demographics Verify</font></b></a><br>[/if]
+~[if.~(studentscreenaccess;generaldemographics.html)=1]
+    <a href="/admin/students/parentdemochange.html?frn=~(studentfrn)">
+        <font color="#FF0000"><b>Demographics Verify</b>
+        </font>
+    </a>
+    <br>
+[/if]
 ~[if.~(studentscreenaccess;emergency.html)=1]<a href="emergency.html?frn=~(studentfrn)">~[text:psx.html.admin_students.more2.emergencymedical]</a><br>[/if]
 ~[if.~(studentscreenaccess;family.html)=1]~[text]psx.html.admin_students.more2.family,param:~[x:fmly_more2tag][/text]</a><br>[/if]
 ~[if.~(studentscreenaccess;health/home_health.html)=1]<a href="health/home_health.html?frn=~(studentfrn)">~[text:psx.html.admin_students.more2.health]</a><br>[/if]
