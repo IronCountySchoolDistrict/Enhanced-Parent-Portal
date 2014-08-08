@@ -1,0 +1,40 @@
+[
+    ~[tlist_sql;
+        SELECT
+            STUDENTS_DCID
+            ADDRESS_CITY,
+            ADDRESS_STATE,
+            ADDRESS_STREET,
+            ADDRESS_ZIP,
+            CELL_PHONE,
+            EMAIL,
+            EMPLOYER,
+            HOME_PHONE,
+            IS_LEG_GUAR,
+            FIRST_NAME,
+            LAST_NAME,
+            PRIORITY,
+            RELATIONSHIP,
+            WORK_PHONE
+        FROM U_DEF_STU_CONTS
+        WHERE STUDENTS_DCID=~[gpv:students_dcid]]
+    {
+        "studentsDCID": "~(students_dcid)",
+        "addressCity": "~(address_city)",
+        "addressState": "~(address_state)",
+        "addressStreet": "~(address_street)",
+        "addressZip": "~(address_zip)",
+        "cellPhone": "~(cell_phone)",
+        "email": "~(email)",
+        "employer": "~(employer)",
+        "homePhone": "~(home_phone)",
+        "isLegGuar": "~(is_leg_guar)",
+        "firstName": "~(first_name)",
+        "lastName": "~(last_name)",
+        "priority": "~(priority)",
+        "relationship": "~(relationship)",
+        "workPhone": "~(work_phone)"
+    },
+    [/tlist_sql]
+    {}
+]

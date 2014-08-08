@@ -1,36 +1,80 @@
 <!DOCTYPE html>
 <html>
 <head>
-~[if#1.pref.demographic~(curschoolid)=1]~[redirect:/guardian/home_not_available.html]
-[else#1]
-~[if#1a.isguardianAndSSOEnabled]
-~[if#2.~([Students]allowwebaccess)=0]
-~[redirect:/guardian/home_not_available.html]
-[/if#2]
-[/if#1a]
-[/if#1]
-~[if.~([Students]enabledemoupdate)=1][else]~[redirect:/guardian/home_not_available.html][/if]
+    ~[if#1.pref.demographic~(curschoolid)=1]~[redirect:/guardian/home_not_available.html]
+    [else#1]
+        ~[if#1a.isguardianAndSSOEnabled]
+            ~[if#2.~([Students]allowwebaccess)=0]
+                ~[redirect:/guardian/home_not_available.html]
+            [/if#2]
+        [/if#1a]
+    [/if#1]
 
+    ~[if.~([Students]enabledemoupdate)=1]
+    [else]
+        ~[redirect:/guardian/home_not_available.html]
+    [/if]
 
-<title>Student Information Update</title>
-<link href="/images/css/screen.css" rel="stylesheet" media="screen">
-<link href="/images/css/print.css" rel="stylesheet" media="print">
-<link rel="stylesheet" href="/images/student-contacts/css/theme/crm-css/jquery-ui.custom.css" type="text/css">
-<link rel="stylesheet" href="/images/student-contacts/css/datatable_jui.css" type="text/css">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script>
-<script type="text/javascript"
-        src="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.min.js"></script>
-<script type="text/javascript"
-        src="//cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.5/js/TableTools.min.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/1.2.1/ZeroClipboard.min.js"></script>
+    ~[SetPostValue:nextschool=~(f.table_info;table=students;dothisfor=all;field=Next_School;*id=~(curstudid);fn=value)]
+    ~[SetPostValue:Sched_AllowRequests=~(f.table_info;table=students;dothisfor=all;field=Sched_AllowRequests;*id=~(curstudid);fn=value)]
+    ~[SetPostValue:enabledemoupdate=~(f.table_info;table=students;dothisfor=all;field=enabledemoupdate;*id=~(curstudid);fn=value)]
 
-<link rel="stylesheet" href="/scripts/student-information-update/tabletools/css/TableTools.css" type="text/css">
-<link rel="stylesheet" href="/scripts/student-information-update/tabletools/css/TableTools_JUI.css" type="text/css">
-<link rel="stylesheet" href="/images/student-contacts/css/datatable_jui.css" type="text/css">
+    <title>Student Information Update</title>
+    <link href="/images/css/screen.css" rel="stylesheet" media="screen">
+    <link href="/images/css/print.css" rel="stylesheet" media="print">
+    <link rel="stylesheet" href="/images/student-information-update/css/theme/crm-css/jquery-ui.custom.css"
+          type="text/css">
+    <link rel="stylesheet" href="/images/student-information-update/css/datatable_jui.css" type="text/css">
 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script>
+    <script type="text/javascript"
+            src="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.min.js"></script>
+    <script type="text/javascript"
+            src="//cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.5/js/TableTools.min.js"></script>
+    <script type="text/javascript"
+            src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/1.2.1/ZeroClipboard.min.js"></script>
 
+    <link rel="stylesheet" href="/scripts/student-information-update/tabletools/css/TableTools.css" type="text/css">
+    <link rel="stylesheet" href="/scripts/student-information-update/tabletools/css/TableTools_JUI.css" type="text/css">
+    <link rel="stylesheet" href="/images/student-information-update/css/datatable_jui.css" type="text/css">
+
+    <script>
+        var psData = {};
+
+        // Render these ids as strings so if there are leading 0s
+        // so they don't get removed (as they are when parsed as Numbers).
+        psData.curstudid = "~(curstudid)";
+        psData.frn = "~(frn)";
+        psData.studentfrn = "~(studentfrn)";
+
+        $('document').ready(function () {
+            var currentTime = new Date();
+            var monthChanged = currentTime.getMonth() + 1;
+            var dayChanged = currentTime.getDate();
+            var yearChanged = currentTime.getFullYear();
+            var trimUser = $.trim($('#parentName').val());
+            document.getElementById("whoChanged").value = trimUser + ' on ' + monthChanged + '-' + dayChanged + '-' + yearChanged;
+        });
+    </script>
+
+    <script src="/scripts/student-information-update/info-update.js"></script>
+
+    <style type="text/css">
+        #btn-access-log a {background: url(/guardian/images/iconAccessLog.png) no-repeat;}
+        #btn-demographic-update a {background: url(/guardian/images/iconDemographicUpdate.png) no-repeat;}
+        #btn-discipline-log a {background: url(/guardian/images/iconDisciplineLog.png) no-repeat;}
+        #btn-graduation-progress a {background: url(/guardian/images/iconGraduationProgress.png) no-repeat;}
+        #btn-honor-roll a {background: url(/guardian/images/iconHonorRoll.png) no-repeat;}
+        #btn-password-reset a {background: url(/guardian/images/iconPasswordReset.png) no-repeat;}
+        #btn-print-transcript a {background: url(/guardian/images/iconPrintTranscript.png) no-repeat;}
+        #btn-school-info a {background: url(/guardian/images/iconSchoolInfo.png) no-repeat;}
+        #btn-test-scores a {background: url(/guardian/images/iconTestScores.png) no-repeat;}
+        #btn-web-based-cal a {background: url(/guardian/images/iconWebBasedCal.png) no-repeat;}
+        #btn-next-year-sched a {background: url(/images/img/iconClassReg.png) no-repeat;}
+    </style>
 
     <style type="text/css">
         body, td, p, ul, div {
@@ -112,12 +156,6 @@
         }
 
     </style>
-    ~[frame_type:none]
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="yes" />
-    <link href="/images/css/screen.css" rel="stylesheet" type="text/css" media="screen" />
-    <link href="/images/css/print.css" rel="stylesheet" type="text/css" media="print" />
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 </head>
 <body id="parentPageTemp" class="psparent">
 
@@ -137,8 +175,10 @@
 			[/if]
 			<span>
         </li>
-        <li><a href="javascript:helpwindow('~[x:help_pagelink]')" title="~[text:psx.common.help_title]">~[text:psx.common.help]</a></li>
-        <li><a href="home.html?ac=logoff" id="btnLogout" target="_top" title="~[text:psx.common.sign_out_title]" accesskey="l">~[text:psx.common.sign_out]</a></li>
+        <li><a href="javascript:helpwindow('~[x:help_pagelink]')" title="~[text:psx.common.help_title]">~[text:psx.common.help]</a>
+        </li>
+        <li><a href="home.html?ac=logoff" id="btnLogout" target="_top" title="~[text:psx.common.sign_out_title]"
+               accesskey="l">~[text:psx.common.sign_out]</a></li>
     </ul>
     <div id="branding-powerschool">
         <a href="/guardian/home.html" tabindex="0">&nbsp;</a>
@@ -165,9 +205,9 @@
     <!-- Script to set the selected_student_id and submit the form to retrieve data belonging to the currently selected student
         Consolidating all the logic related to switching the student into this ftl will improve code readability" -->
     <script type="text/javascript">
-        function switchStudent(studentId){
+        function switchStudent(studentId) {
             var switchStudentForm = document.getElementById('switch_student_form');
-            switchStudentForm.selected_student_id.value=studentId;
+            switchStudentForm.selected_student_id.value = studentId;
             switchStudentForm.submit();
         }
     </script>
@@ -180,55 +220,113 @@
         ~[if#guard.isguardian]
         ~[if#ssl.~(sslenabled)=true]
         ~[if.pref.EnableMyDataButton=1]
-        <li class="icon-btn-mydata"><a title="~[text:psx.common.mydata_button_title]" href="/guardian/studentRecordDownload.action">&nbsp;</a></li>
+        <li class="icon-btn-mydata"><a title="~[text:psx.common.mydata_button_title]"
+                                       href="/guardian/studentRecordDownload.action">&nbsp;</a></li>
         [/if]
         [/if#ssl]
         [/if#guard]
 
-        <li class="icon-btn-download"><a title="~[text:psx.common.alleyoop_data_title]" href="studentdata.xml?ac=download">&nbsp;</a></li>
+        <li class="icon-btn-download"><a title="~[text:psx.common.alleyoop_data_title]"
+                                         href="studentdata.xml?ac=download">&nbsp;</a></li>
 
         ~[if.isI18nMessageTracking]
-        <li id="icon-btn-translate"><a title="~[text:psx.common.translate_page_title]" href="/guardian/viewBatchTranslation.action?pageType=interactive&interactiveid=none" class="dialogM" id="interactive_l10n">&nbsp;</a></li>
+        <li id="icon-btn-translate"><a title="~[text:psx.common.translate_page_title]"
+                                       href="/guardian/viewBatchTranslation.action?pageType=interactive&interactiveid=none"
+                                       class="dialogM" id="interactive_l10n">&nbsp;</a></li>
         [/if]
         ~[brij_render_insert:notification:authorizedNotificationCountAJAX]
         ~[if.isstudent]~[pluginnavlinks:student.header][/if]
-        <li class="icon-btn-print" title="~[text:psx.common.print_title]"><a href="javascript:window.print()">&nbsp;</a></li>
+        <li class="icon-btn-print" title="~[text:psx.common.print_title]"><a href="javascript:window.print()">&nbsp;</a>
+        </li>
     </ul>
 </div>
 
 <div id="content" class="group">
-
 <div id="nav-main">
     <h3>~[text:psx.txt.wildcards.guardian_header.navigation]</h3>
     <ul>
-        <li id="btn-gradesAttendance"><a href="/guardian/home.html">~[text:psx.txt.wildcards.guardian_header_yui.grades_and_attendance]</a></li>
+        <li id="btn-gradesAttendance"><a href="/guardian/home.html">~[text:psx.txt.wildcards.guardian_header_yui.grades_and_attendance]</a>
+        </li>
         ~[if.isStudentOrGuardian]~[pluginnavlinks:guardian.left_nav_sn_test_results][/if]
-        <li id="btn-gradesHistory"><a href="/guardian/termgrades.html">~[text:psx.txt.wildcards.guardian_header_yui.grade_history]</a></li>
-        <li id="btn-attendanceHistory"><a href="/guardian/attendance.html">~[text:psx.txt.wildcards.guardian_header_yui.attendance_history]</a></li>
+        <li id="btn-gradesHistory"><a href="/guardian/termgrades.html">~[text:psx.txt.wildcards.guardian_header_yui.grade_history]</a>
+        </li>
+        <li id="btn-attendanceHistory"><a href="/guardian/attendance.html">~[text:psx.txt.wildcards.guardian_header_yui.attendance_history]</a>
+        </li>
         ~[if.isguardian]
-        <li id="btn-emailNotification"><a href="/guardian/autoemailsetup.html">~[text:psx.txt.wildcards.guardian_header_yui.email_notification]</a></li>
+        <li id="btn-emailNotification"><a href="/guardian/autoemailsetup.html">~[text:psx.txt.wildcards.guardian_header_yui.email_notification]</a>
+        </li>
         [/if]
-        <li id="btn-teacherComments"><a href="/guardian/teachercomments.html">~[text:psx.txt.wildcards.guardian_header_yui.teacher_comments]</a></li>
-        <li id="btn-schoolBulletin"><a href="/guardian/bulletin_popup.html" class="dialogM" title="~[text:psx.txt.wildcards.guardian_header.view_school_bulletin]">~[text:psx.txt.wildcards.guardian_header_yui.school_bulletin]</a></li>
-        <li id="btn-classRegistration"><a href="/guardian/requestform.html">~[text:psx.txt.wildcards.guardian_header_yui.class_registration]</a></li>
+        <li id="btn-teacherComments"><a href="/guardian/teachercomments.html">~[text:psx.txt.wildcards.guardian_header_yui.teacher_comments]</a>
+        </li>
+        <li id="btn-schoolBulletin"><a href="/guardian/bulletin_popup.html" class="dialogM"
+                                       title="~[text:psx.txt.wildcards.guardian_header.view_school_bulletin]">~[text:psx.txt.wildcards.guardian_header_yui.school_bulletin]</a>
+        </li>
+        <li id="btn-classRegistration"><a href="/guardian/requestform.html">~[text:psx.txt.wildcards.guardian_header_yui.class_registration]</a>
+        </li>
         ~[if.pref.nolunchdisplay=1][else]
-        <li id="btn-balance"><a href="/guardian/lunchbal.html">~[text:psx.txt.wildcards.guardian_header_yui.balance]</a></li>
+        <li id="btn-balance"><a href="/guardian/lunchbal.html">~[text:psx.txt.wildcards.guardian_header_yui.balance]</a>
+        </li>
         [/if.pref.nolunchdisplay=1]
-        <li id="btn-myCalendars"><a href="/guardian/mycalendars.html">~[text:psx.txt.wildcards.guardian_header_yui.my_calendars]</a></li>
-        <li id="btn-schoolInformation"><a href="/guardian/schoolinformation.html">~[text:psx.txt.wildcards.guardian_header_yui.school_information]</a></li>
+        <li id="btn-myCalendars"><a href="/guardian/mycalendars.html">~[text:psx.txt.wildcards.guardian_header_yui.my_calendars]</a>
+        </li>
+        <li id="btn-schoolInformation"><a href="/guardian/schoolinformation.html">~[text:psx.txt.wildcards.guardian_header_yui.school_information]</a>
+        </li>
         ~[if.isstudentAndManagementEnabled]
-        <li id="btn-accountPreferences"><a href="/guardian/accountmanagement_student_password.html">~[text:psx.txt.wildcards.guardian_header_yui.account_preferences1]</a></li>
+        <li id="btn-accountPreferences"><a href="/guardian/accountmanagement_student_password.html">~[text:psx.txt.wildcards.guardian_header_yui.account_preferences1]</a>
+        </li>
         [/if]
         ~[if.isguardianAndSSOEnabled]
-        <li id="btn-accountPreferences"><a href="/guardian/accountmanagement_profile.html">~[text:psx.txt.wildcards.guardian_header_yui.account_preferences]</a></li>
+        <li id="btn-accountPreferences"><a href="/guardian/accountmanagement_profile.html">~[text:psx.txt.wildcards.guardian_header_yui.account_preferences]</a>
+        </li>
         [/if]
+
+        <!-- Start EPP Custom Links -->
+        ~[if#1.pref.accesslog~(curschoolid)=1][else#1]<li id="btn-access-log"><a href="accesslog.html" >Access Logs</a></li>[/if#1]
+        ~[if#isstudent.isstudent]
+        [else#isstudent]
+        ~[if#1.~[gpv:enabledemoupdate]=1]
+            ~[if#3.pref.demographic~(curschoolid)=2]
+                <li id="btn-demographic-update" class="selected">
+                    <a href="student-information-update.html">Student Info</a>
+                </li>
+            [else#3]
+                ~[if#2.pref.demographic~(curschoolid)#1]
+                    <li id="btn-demographic-update">
+                        <a href="parentdemographics.html">Demographic Change</a>
+                    </li>
+                [/if#2]
+            [/if#3]
+        [/if#1]
+        [/if#isstudent]
+        ~[if#1.pref.discipline~(curschoolid)=1][else#1]<li id="btn-discipline-log"><a href="discipline.html" >Discipline</a></li>[/if#1]
+        ~[if#1.pref.graduation~(curschoolid)=1][else#1]<li id="btn-graduation-progress"><a href="~[if#gradplan.pref.graduationver~(curschoolid)=1]planselect.html[else#gradplan]graduation.html[/if#gradplan]" >Graduation Progress</a></li>[/if#1]
+        ~[if#1.pref.honorroll~(curschoolid)=1][else#1]<li id="btn-honor-roll"><a href="honorroll.html" >Honor Roll</a></li>[/if#1]
+        ~[if#1.pref.studentsched~(curschoolid)=1][else#1]<li id="btn-print-transcript"><a href="studentsched.html" >My Schedule</a></li>[/if#1]
+        ~[if#gs.~[f.in;value=~[gpv:nextschool];in=0,999999]=0]
+        ~[if#A.pref.nextschedule~[gpv:nextschool]=1][else#A]
+        ~[if#1.~(curyearid)00#~(schedule.yearidfuture)]
+        <li id="btn-next-year-sched"><a href="nextyearschedule.html" >Next Years Schedule</a></li>
+        [/if#1]
+        [/if#A]
+        [/if#gs]
+        ~[if#1.pref.schoolinfo~(curschoolid)=1][else#1]<li id="btn-school-info"><a href="schoolinfo.html" >School Information</a></li>[/if#1]
+        ~[if#1.pref.testscore~(curschoolid)=1][else#1]<li id="btn-test-scores"><a href="testscore.html" >Test Scores</a></li>[/if#1]
+        <!-- End EPP Custom Links -->
 
         ~[if.isstudent]~[pluginnavlinks:student.left_nav][/if]
         ~[if.isguardianAndSSOEnabled]~[pluginnavlinks:guardian.left_nav][/if]
     </ul>
     <div id="cust-leftnav-footer">~[cust.insertion_point:leftnav.footer]</div>
-    ~[if.isguardian][else]<iframe frameBorder="0" scrolling="no" allowtransparency="true" src="https://powersource.pearsonschoolsystems.com/public/ios/powerschool_student.html?districtCode=~[displaypref:mobile_district_code]" width="100%" height="150"></iframe>[/if]
-    ~[if.isguardianAndSSOEnabled]<iframe frameBorder="0" scrolling="no" allowtransparency="true" src="https://powersource.pearsonschoolsystems.com/public/ios/powerschool_parent.html?districtCode=~[displaypref:mobile_district_code]" width="100%" height="150"></iframe>[/if]
+    ~[if.isguardian][else]
+    <iframe frameBorder="0" scrolling="no" allowtransparency="true"
+            src="https://powersource.pearsonschoolsystems.com/public/ios/powerschool_student.html?districtCode=~[displaypref:mobile_district_code]"
+            width="100%" height="150"></iframe>
+    [/if]
+    ~[if.isguardianAndSSOEnabled]
+    <iframe frameBorder="0" scrolling="no" allowtransparency="true"
+            src="https://powersource.pearsonschoolsystems.com/public/ios/powerschool_parent.html?districtCode=~[displaypref:mobile_district_code]"
+            width="100%" height="150"></iframe>
+    [/if]
 
 </div>
 <div id="content-main" class="group">
@@ -338,126 +436,30 @@
 <hr>
 <h2>Parent/Legal Guardian Contact Information</h2>
 
-<div id="maincontent" align="center">
-    <div id="error_container"></div>
-    <!--CUSTOM Student Contacts list -->
+<div style="text-align: center;">
+    <div id="maincontent" align="center" style="display: inline-block;">
+        <div id="error_container"></div>
+        <!--CUSTOM Student Contacts list -->
 
-    <table id="holder" border="1" cellpadding="2" cellspacing="0" align="center">
-        <thead>
-        <tr class="inforow">
-            <th>&nbsp;</th>
-            <th>Contact</th>
-            <th>Address</th>
-            <th>Contact Info</th>
-            <th>Options</th>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
-    <!-- END Student Contacts Content list-->
-    <!-- Begin guardian information form -->
-    <form id="miscform" action="/admin/changesrecorded.white.html" method="POST">
-        <table class="datatable" border="1" cellpadding="4" cellspacing="0" align="center">
-            <tr id="echeader" class="inforow">
-                <td colspan="4" class="bold">Emergency Contacts</td>
-            </tr>
-            <tr>
-                <td class="bold">Doctor</td>
-                <td>Name<br/><input type="text" name="[students]Doctor_Name" value="" size="25"></td>
-                <td>Phone<br/><input type="text" name="[students]Doctor_Phone" value="" size="15"></td>
-            </tr>
-            <tr>
-                <td class="bold">Dentist</td>
-                <td>Name<br/><input type="text" name="[students]Dentist_Name" value="" size="25"></td>
-                <td>Phone<br/><input type="text" name="[students]Dentist_Phone" value="" size="15"></td>
-            </tr>
-            ~[if#sso.prefSSOEnabled]
-            [else#sso]
+        <table id="holder" border="1" cellpadding="2" cellspacing="0" align="center">
+            <thead>
             <tr class="inforow">
-                <td colspan="4" class="bold">Student Contact Automatic Email Reports</td>
+                <th>&nbsp;</th>
+                <th>Contact</th>
+                <th>Address</th>
+                <th>Contact Info</th>
+                <th>Options</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
             </tr>
-            <tr>
-                <td class="bold">Contact is registered to receive</td>
-                <td colspan="3">
-                    <input type="checkbox" name="[students]autosend_summary" value="yes"> Summary of current grades and
-                    attendance
-                    <br/>
-                    <input type="checkbox" name="[students]Autosend_attendancedetail" value="yes"> Detailed report of
-                    attendance
-                    <br/>
-                    <input type="checkbox" name="[students]Autosend_gradedetail" value="yes"> Detailed report showing
-                    all
-                    assignment scores for each class
-                    <br/>
-                    <input type="checkbox" name="[students]Autosend_schoolannouncements" value="yes"> School
-                    announcements
-                    <br/>
-                    <input type="checkbox" name="[students]Autosend_balancealert" value="yes"> Balance Alert (Note: Will
-                    only
-                    be sent when a student is low on funds.)
-                </td>
-            </tr>
-            <tr>
-                <td class="bold">How often?</td>
-                <td colspan="3">
-                    <select name="[students]Autosend_howoften">
-                        <option value="0" selected>Never</option>
-                        <option value="7">Once a week</option>
-                        <option value="14">Once every two weeks</option>
-                        <option value="30">Once a month</option>
-                        <option value="1">Daily</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td class="bold">Send now?</td>
-                <td colspan="3">
-                    <input type="checkbox" name="sendNow" value="checked">
-                </td>
-            </tr>
-            <tr>
-                <td class="bold">Automatic Email Reports email list:</td>
-                <td colspan="3">
-                    <input type="text" name="[students]GuardianEmail" id="auto_emails" value="" size="40">
-                </td>
-            </tr>
-            <tr>
-                <td colspan="4">&nbsp;</td>
-            </tr>
-            [/if#sso]
-            <tr class="inforow">
-                <td colspan="4" class="bold">Student Contact Alert</td>
-            </tr>
-            <tr>
-                <td class="bold">Student Contact Alert Text</td>
-                <td colspan="3">
-                    <textarea name="[students]Alert_Guardian" rows="7" cols="40"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td class="bold">Alert Expires (date)</td>
-                <td colspan="3">
-                    <input type="text" name="[students]Alert_GuardianExpires" value="" size="10"
-                           onchange="checkDates('~(JSFieldParam;[students]Alert_GuardianExpires)');"/> (0/0/0 to never
-                    expire)
-                </td>
-            </tr>
-            <tr style="background-color:#ffffff">
-                <td colspan="4" align="right">
-                    <input type="hidden" value="sendnow" name="ac"/>
-                    <input type="hidden" name="ac" value="prim"/>
-                    ~[submitbutton]
-                </td>
-            </tr>
+            </thead>
+            <tbody>
+            </tbody>
         </table>
-    </form>
-    <!--End guardian information form -->
+        <!-- END Student Contacts Content list-->
+    </div>
+    <!-- end of content of bounding box time -->
 </div>
-<!-- end of content of bounding box time -->
 
 <div class="button-row">
     <input type="hidden" name="[students]parent_verify" id="parentverified" value="1"/>
@@ -466,17 +468,6 @@
 </div>
 [/if#isstudent]
 ~[if#isguardian.isguardianAndSSOEnabled]
-<script>
-    $j('document').ready(function () {
-        var $j = jQuery.noConflict();
-        var currentTime = new Date();
-        var monthChanged = currentTime.getMonth() + 1;
-        var dayChanged = currentTime.getDate();
-        var yearChanged = currentTime.getFullYear();
-        var trimUser = $j.trim($j('#parentName').val());
-        document.getElementById("whoChanged").value = trimUser + ' on ' + monthChanged + '-' + dayChanged + '-' + yearChanged;
-    });
-</script>
 <input type="hidden" id="whoChanged" name="[students]parent_wholastchanged" value="">
 [/if#isguardian]
 </form>
@@ -487,5 +478,53 @@
 <input id="activeNav" type="hidden" value="#btn-demographic-update"/>
 <input id="activePageVersion" type="hidden" value="4.0"/>
 ~[wc:guardian_footer]
+
+<script>
+    if (typeof psData === 'undefined') {
+        var psData = {};
+    }
+    // By default, these pref values are null, and then set to 1 when disabled.
+    psData.showGradesAttendance = ~[if.~[displaypref:gradesattendance~(curschoolid)]=1]false[else]true[/if];
+    psData.showHistoricalGrades = ~[if.~[displaypref:historicalgrades~(curschoolid)]=1]false[else]true[/if];
+    psData.showAttendance = ~[if.~[displaypref:attendance~(curschoolid)]=1]false[else]true[/if];
+    psData.showEmail = ~[if.~[displaypref:email~(curschoolid)]=1]false[else]true[/if];
+    psData.showComments = ~[if.~[displaypref:comments~(curschoolid)]=1]false[else]true[/if];
+    psData.showBulletin = ~[if.~[displaypref:bulletin~(curschoolid)]=1]false[else]true[/if];
+    psData.showSchedule = ~[if.~[displaypref:studentsched~(curschoolid)]=1]false[else]true[/if];
+    psData.showBalance = ~[if.~[displaypref:balance~(curschoolid)]=1]false[else]true[/if];
+    psData.showCalendars = ~[if.~[displaypref:icalcalendar~(curschoolid)]=1]false[else]true[/if];
+
+    // Remove PowerSchool Information Link, which is replaced with EPP School Information link
+    $('a:contains("School Information")').eq(0).remove();
+
+    // Remove stock PowerSchool nav-main navigation links if preference is set to disable those links.
+    if (!psData.showGradesAttendance) {
+        $('#nav-main li:contains("Grades and Attendance")').remove();
+    }
+    if (!psData.showHistoricalGrades) {
+        $('#nav-main li:contains("Grade History")').remove();
+    }
+    if (!psData.showAttendance) {
+        $('#nav-main li:contains("Attendance History")').remove();
+    }
+    if (!psData.showEmail) {
+        $('#nav-main li:contains("Email Notification")').remove();
+    }
+    if (!psData.showComments) {
+        $('#nav-main li:contains("Teacher Comments")').remove();
+    }
+    if (!psData.showBulletin) {
+        $('#nav-main li:contains("School Bulletin")').remove();
+    }
+    if (!psData.showSchedule) {
+        $('#nav-main li:contains("Class Registration")').remove();
+    }
+    if (!psData.showBalance) {
+        $('#nav-main li:contains("Balance")').remove();
+    }
+    if (!psData.showCalendars) {
+        $('#nav-main li:contains("My Calendars")').remove();
+    }
+</script>
 </body>
 </html>
