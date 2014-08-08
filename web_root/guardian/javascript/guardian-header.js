@@ -30,31 +30,31 @@ $j(document).ready(function() {
     $j('a:contains("School Information")').eq(0).remove();
 
     // Remove stock PowerSchool nav-main navigation links if preference is set to disable those links.
-    if (!psData.showGradesAttendance) {
+    if (psData.showGradesAttendance === '1') {
         $j('#nav-main li:contains("Grades and Attendance")').remove();
     }
-    if (!psData.showHistoricalGrades) {
+    if (psData.showHistoricalGrades === '1') {
         $j('#nav-main li:contains("Grade History")').remove();
     }
-    if (!psData.showAttendance) {
+    if (psData.showAttendance === '1') {
         $j('#nav-main li:contains("Attendance History")').remove();
     }
-    if (!psData.showEmail) {
+    if (psData.showEmail === '1') {
         $j('#nav-main li:contains("Email Notification")').remove();
     }
-    if (!psData.showComments) {
+    if (psData.showComments === '1') {
         $j('#nav-main li:contains("Teacher Comments")').remove();
     }
-    if (!psData.showBulletin) {
+    if (psData.showBulletin === '1') {
         $j('#nav-main li:contains("School Bulletin")').remove();
     }
-    if (!psData.showSchedule) {
+    if (psData.showSchedule === '1') {
         $j('#nav-main li:contains("Class Registration")').remove();
     }
-    if (!psData.showBalance) {
+    if (psData.showBalance === '1') {
         $j('#nav-main li:contains("Balance")').remove();
     }
-    if (!psData.showCalendars) {
+    if (psData.showCalendars === '1') {
         $j('#nav-main li:contains("My Calendars")').remove();
     }
 

@@ -1,0 +1,10 @@
+~[tlist_sql;
+    SELECT
+        COUNT(*)
+    FROM U_DEF_STU_CONTS
+    WHERE STUDENTS_DCID=~[gpv:students_dcid]
+]
+    {
+        "numOfContacts": "~(count)"
+    }
+[/tlist_sql]

@@ -1,4 +1,4 @@
-/*global $,psData,confirm, loadingDialogInstance*/
+/*global $,psData,confirm*/
 
 String.prototype.trim = function () {
     return this.replace(/^\s+/, '').replace(/\s+$/, '');
@@ -46,8 +46,6 @@ var $ = jQuery.noConflict();
     var m_keyindex = 0;
     var m_requestURL = '/guardian/data/getContacts.html';
     $(document).ready(function () {
-        loadingDialogInstance.open();
-
         $.ajaxSetup({
             url: m_requestURL
         });
@@ -150,41 +148,36 @@ var $ = jQuery.noConflict();
         });
         $('body').on('click', '.addcontact', function () {
             $('.addcontact').hide();
-            $.getJSON(m_requestURL + '?students_dcid=' + psData., {"frn": psData.frn, "action": "addcontact", "sid": psData.curstudid})
-                .success(function (data) {
-                    if (data.contactnumber > 0) {
-                        var n = data.contactnumber;
-                        var ridx = m_table.fnAddData([n, "", "", "", "", "", ""]);
-                        var sourcerow = m_table.fnSettings().aoData[ridx].nTr;
-                        $.get(m_requestURL, {"frn": psData.frn, "gidx": n, "action": "geteditor"}
-                        )
-                            .success(function (editform) {
-                                var editrow = m_table.fnOpen(sourcerow, editform, "edit_row");
-                                $('form', editrow).submit(function () {
-                                    //copy mother/father to fields.txt in students table
-                                    if ($("#contact" + n + "_rel").val() == "Father") {
-                                        syncParent('father', n);
-                                    }
-                                    else if ($("#contact" + n + "_rel").val() == "Mother") {
-                                        syncParent('mother', n);
-                                    }
-                                    $.post('/admin/changesrecorded.white.html', $(this).serialize()
-                                    )
-                                        .success(function (data) {
-                                            m_table.fnClose(sourcerow);
-                                            refreshContact(n, sourcerow);
-                                        });
-                                    $('.addcontact').show();
-                                    return false;//prevent normal form submission
-                                });
-                                $('.edit_cancel', editrow).click(function () {
-                                    m_table.fnClose(sourcerow);
-                                    m_table.fnDeleteRow(sourcerow);
-                                    $('.addcontact').show();
-                                });
+            var ridx = m_table.fnAddData(["", "", "", "", "", "", ""]);
+            var sourcerow = m_table.fnSettings().aoData[ridx].nTr;
+            $.get('/guardian/data/getEditor.html', {"frn": psData.frn, "gidx": n})
+                .success(function (editform) {
+                    var editrow = m_table.fnOpen(sourcerow, editform, "edit_row");
+                    /*
+                    $('form', editrow).submit(function () {
+                        //copy mother/father to fields.txt in students table
+                        if ($("#contact" + n + "_rel").val() == "Father") {
+                            syncParent('father', n);
+                        }
+                        else if ($("#contact" + n + "_rel").val() == "Mother") {
+                            syncParent('mother', n);
+                        }
+                        $.post('/admin/changesrecorded.white.html', $(this).serialize())
+                            .success(function (data) {
+                                m_table.fnClose(sourcerow);
+                                refreshContact(n, sourcerow);
                             });
-                    }
+                        $('.addcontact').show();
+                        return false;//prevent normal form submission
+                    });
+                    */
+                    $('.edit_cancel', editrow).click(function () {
+                        m_table.fnClose(sourcerow);
+                        m_table.fnDeleteRow(sourcerow);
+                        $('.addcontact').show();
+                    });
                 });
+
         });
         //bind click event on all edit icons
         $('body').on('click', '.editcontact', function () {
@@ -209,8 +202,8 @@ var $ = jQuery.noConflict();
                                 .success(function (data) {
                                     m_table.fnClose(sourcerow);
                                     refreshContact(n, sourcerow);
+                                    return false;//prevent normal form submission
                                 });
-                            return false;//prevent normal form submission
                         });
                         $('.edit_cancel', editrow).click(function () {
                             m_table.fnClose(sourcerow);
@@ -262,11 +255,7 @@ var $ = jQuery.noConflict();
         $.get(m_requestURL, {"frn": psData.frn, "sid": psData.curstudid, "action": "fetchcontacts"})
             .done(function (data) {
                 var removedWhitespace = data.replace(/\s/g, '');
-                if (removedWhitespace !== "") {
-                    var response = eval(data);
-                } else {
-                    loadingDialogInstance.closeDialog();
-                }
+                var response = eval(data);
             });
 
     });//End jquery document ready function
@@ -312,7 +301,6 @@ var $ = jQuery.noConflict();
             data: settings
         })
             .success(function (data, status) {
-                loadingDialogInstance.closeDialog();
                 if (row == null) {
                     m_table.fnAddData(data);
                 }

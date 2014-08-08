@@ -1,39 +1,43 @@
 [
     ~[tlist_sql;
         SELECT
-            STUDENTS_DCID
+            STUDENTS_DCID,
+            IS_LEG_GUAR,
+            PRIORITY,
+            LAST_NAME,
+            FIRST_NAME,
+            ADDRESS_STREET,
             ADDRESS_CITY,
             ADDRESS_STATE,
-            ADDRESS_STREET,
             ADDRESS_ZIP,
-            CELL_PHONE,
             EMAIL,
-            EMPLOYER,
             HOME_PHONE,
-            IS_LEG_GUAR,
-            FIRST_NAME,
-            LAST_NAME,
+            CELL_PHONE,
+            WORK_PHONE,
+            PRIORITY_PHONE,
+            EMPLOYER,
             PRIORITY,
-            RELATIONSHIP,
-            WORK_PHONE
+            RELATIONSHIP
         FROM U_DEF_STU_CONTS
         WHERE STUDENTS_DCID=~[gpv:students_dcid]]
     {
         "studentsDCID": "~(students_dcid)",
+        "isLegGuar": "~(is_leg_guar)",
+        "priority": "~(priority)",
+        "lastName": "~(last_name)",
+        "firstName": "~(first_name)",
+        "addressStreet": "~(address_street)",
         "addressCity": "~(address_city)",
         "addressState": "~(address_state)",
-        "addressStreet": "~(address_street)",
         "addressZip": "~(address_zip)",
-        "cellPhone": "~(cell_phone)",
         "email": "~(email)",
-        "employer": "~(employer)",
         "homePhone": "~(home_phone)",
-        "isLegGuar": "~(is_leg_guar)",
-        "firstName": "~(first_name)",
-        "lastName": "~(last_name)",
+        "cellPhone": "~(cell_phone)",
+        "workPhone": "~(work_phone)",
+        "priorityPhone": "~(priority_phone)",
+        "employer": "~(employer)",
         "priority": "~(priority)",
-        "relationship": "~(relationship)",
-        "workPhone": "~(work_phone)"
+        "relationship": "~(relationship)"
     },
     [/tlist_sql]
     {}

@@ -74,15 +74,15 @@
         var psData = {};
     }
     // By default, these pref values are null, and then set to 1 when disabled.
-    psData.showGradesAttendance = ~[if.~[displaypref:gradesattendance~(curschoolid)]=1]false[else]true[/if];
-    psData.showHistoricalGrades = ~[if.~[displaypref:historicalgrades~(curschoolid)]=1]false[else]true[/if];
-    psData.showAttendance = ~[if.~[displaypref:attendance~(curschoolid)]=1]false[else]true[/if];
-    psData.showEmail = ~[if.~[displaypref:email~(curschoolid)]=1]false[else]true[/if];
-    psData.showComments = ~[if.~[displaypref:comments~(curschoolid)]=1]false[else]true[/if];
-    psData.showBulletin = ~[if.~[displaypref:bulletin~(curschoolid)]=1]false[else]true[/if];
-    psData.showSchedule = ~[if.~[displaypref:studentsched~(curschoolid)]=1]false[else]true[/if];
-    psData.showBalance = ~[if.~[displaypref:balance~(curschoolid)]=1]false[else]true[/if];
-    psData.showCalendars = ~[if.~[displaypref:icalcalendar~(curschoolid)]=1]false[else]true[/if];
+    psData.showGradesAttendance = '~[displaypref:gradesattendance~(curschoolid)]';
+    psData.showHistoricalGrades = '~[displaypref:historicalgrades~(curschoolid)]';
+    psData.showAttendance = '~[displaypref:attendance~(curschoolid)]';
+    psData.showEmail = '~[displaypref:email~(curschoolid)]';
+    psData.showComments = '~[displaypref:comments~(curschoolid)]';
+    psData.showBulletin = '~[displaypref:bulletin~(curschoolid)]';
+    psData.showSchedule = '~[displaypref:studentsched~(curschoolid)]';
+    psData.showBalance = '~[displaypref:balance~(curschoolid)]';
+    psData.showCalendars = '~[displaypref:icalcalendar~(curschoolid)]';
 </script>
 
 <!--PDS Versioning/Contibutor Information Start-->
