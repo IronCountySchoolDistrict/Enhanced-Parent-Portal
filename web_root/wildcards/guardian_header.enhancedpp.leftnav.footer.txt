@@ -42,7 +42,7 @@
       ~[if#1.~[gpv:enabledemoupdate]=1]
         ~[if#3.pref.demographic~(curschoolid)=2]
             <li id="btn-demographic-update">
-                <a href="student-information-update.html">Student Info</a>
+                <a href="student-info.html">Student Info</a>
             </li>
         [else#3]
             ~[if#2.pref.demographic~(curschoolid)#1]
