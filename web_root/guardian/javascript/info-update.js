@@ -150,7 +150,7 @@ var $ = jQuery.noConflict();
             $('.addcontact').hide();
             var ridx = m_table.fnAddData(["", "", "", "", "", "", ""]);
             var sourcerow = m_table.fnSettings().aoData[ridx].nTr;
-            $.get('/guardian/data/getEditor.html', {"frn": psData.frn, "gidx": n})
+            $.get('/guardian/data/getEditor.html')
                 .success(function (editform) {
                     var editrow = m_table.fnOpen(sourcerow, editform, "edit_row");
                     /*
