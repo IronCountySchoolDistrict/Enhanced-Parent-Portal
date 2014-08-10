@@ -146,13 +146,15 @@ var $ = jQuery.noConflict();
                 primary: 'ui-icon-plus'
             }
         });
-        $('body').on('click', '.addcontact', function () {
+        $('body').on('click', '.addcontact', function (e) {
+            e.preventDefault();
             $('.addcontact').hide();
             var ridx = m_table.fnAddData(["", "", "", "", "", "", ""]);
             var sourcerow = m_table.fnSettings().aoData[ridx].nTr;
             $.get('/guardian/data/getEditor.html')
-                .success(function (editform) {
-                    var editrow = m_table.fnOpen(sourcerow, editform, "edit_row");
+                .done(function (editForm) {
+
+                    var editrow = m_table.fnOpen(sourcerow, editForm, "edit_row");
                     /*
                     $('form', editrow).submit(function () {
                         //copy mother/father to fields.txt in students table
@@ -176,17 +178,18 @@ var $ = jQuery.noConflict();
                         m_table.fnDeleteRow(sourcerow);
                         $('.addcontact').show();
                     });
+
                 });
 
         });
         //bind click event on all edit icons
-        $('body').on('click', '.editcontact', function () {
+        $('body').on('click', '.editcontact', function (e) {
+            e.preventDefault();
             var row = $(this).parents('tr')[0];
             if (row) {
                 var sourcerow = row;
                 var n = m_table.fnGetData(row)[m_keyindex];
-                $.get(m_requestURL, {"frn": psData.frn, "gidx": n, "action": "geteditor"}
-                )
+                $.get(m_requestURL, {"frn": psData.frn, "gidx": n, "action": "geteditor"})
                     .success(function (editform) {
                         var editrow = m_table.fnOpen(row, editform, "edit_row");
                         $('form', editrow).submit(function () {
