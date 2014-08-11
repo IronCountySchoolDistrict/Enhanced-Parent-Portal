@@ -16,21 +16,6 @@ function copyEmail(email) {
     $("#auto_emails").val(data);
 }
 
-function copyGuardianEmail(n) {
-    $('#contact' + n + '_email').val($('#guardianemail' + n).text());
-}
-
-function copyAddress(type, n) {
-    $('#c' + n + '_street').val($('#' + type + 'street' + n).text());
-    $('#c' + n + '_city').val($('#' + type + 'city' + n).text());
-    $('#c' + n + '_state').val($('#' + type + 'state' + n).text());
-    $('#c' + n + '_zip').val($('#' + type + 'zip' + n).text());
-}
-
-function copyPhone(n) {
-    $('#contact' + n + '_homephone').val($('#studentphone' + n).text());
-}
-
 function cleanEmailList() {
     var autoEmailsSelector = $('#auto_emails');
     var emails = autoEmailsSelector.val().replace(/\s+/g, ''); //clean all white space
@@ -39,11 +24,16 @@ function cleanEmailList() {
 }
 
 var $ = jQuery.noConflict();
+var config = {
+    // PowerSchool Point of Contact server, which will talk with the PS REST API.
+    "psPoc": "https://psit.irondistrict.org"
+};
 
 (function () {
     'use strict';
     var m_table;
     var m_keyindex = 0;
+    // Use PS POC server
     var m_requestURL = '/guardian/data/getContacts.html';
     $(document).ready(function () {
         $.ajaxSetup({
@@ -151,20 +141,11 @@ var $ = jQuery.noConflict();
             $('.addcontact').hide();
             var ridx = m_table.fnAddData(["", "", "", "", "", "", ""]);
             var sourcerow = m_table.fnSettings().aoData[ridx].nTr;
-            $.get('/guardian/data/getEditor.html')
+            $.get(config['ps'] + '/guardian/data/getEditor.html')
                 .done(function (editForm) {
-
                     var editrow = m_table.fnOpen(sourcerow, editForm, "edit_row");
-                    /*
                     $('form', editrow).submit(function () {
-                        //copy mother/father to fields.txt in students table
-                        if ($("#contact" + n + "_rel").val() == "Father") {
-                            syncParent('father', n);
-                        }
-                        else if ($("#contact" + n + "_rel").val() == "Mother") {
-                            syncParent('mother', n);
-                        }
-                        $.post('/admin/changesrecorded.white.html', $(this).serialize())
+                        $.post(config['psPoc'] + '/' + config[''])
                             .success(function (data) {
                                 m_table.fnClose(sourcerow);
                                 refreshContact(n, sourcerow);
@@ -172,7 +153,6 @@ var $ = jQuery.noConflict();
                         $('.addcontact').show();
                         return false;//prevent normal form submission
                     });
-                    */
                     $('.edit_cancel', editrow).click(function () {
                         m_table.fnClose(sourcerow);
                         m_table.fnDeleteRow(sourcerow);
