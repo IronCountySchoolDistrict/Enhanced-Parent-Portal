@@ -1,18 +1,14 @@
-<form id="edit-form" method="post" action="studentcontacts.html" >
+<form id="edit-form" method="post" action="studentcontacts.html">
     <table class="datatable" border="1" cellpadding="4" cellspacing="0" align="center" style="width:98% !important;">
-        <tr class="inforow">
-            <td colspan="4" class="bold">Modify Contact Information</td>
-        </tr>
-
         <tr>
             <td class="bold">Name (last, first):</td>
             <td class="bold">
-                <input type="text" name="last-name" id="contact_last" value="" size="15" />,
-                <input type="text" name="first-name" id="contact_first" value="" size="10" />
+                <input type="text" name="last-name" id="last-name" value="" size="15"/>,
+                <input type="text" name="first-name" id="first-name" value="" size="10"/>
             </td>
-            <td class="bold">Emergency<br /> Contact Priority</td>
+            <td class="bold">Emergency<br/> Contact Priority</td>
             <td>
-                <select name="priority">
+                <select name="priority-phone" id="priority-phone">
                     <option selected></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -29,7 +25,7 @@
         <tr>
             <td class="bold">Relationship</td>
             <td colspan="3">
-                <select name="relationship" id="contact_rel">
+                <select name="relationship" id="relationship">
                     <option selected></option>
                     <option value="Mother">Mother</option>
                     <option value="Father">Father</option>
@@ -57,33 +53,25 @@
             </td>
         </tr>
         <tr>
-            <td class="bold" >
+            <td class="bold">
                 Home Address
             </td>
-            <td  colspan="3">
-                Street<br />
-                <input id="c_street" size="26" name="address-street" value="" type="text" /> <br />
-                City, State, Zip<br />
-                <input id="c_city" size="20" name="address-city" value="" type="text" />, <input id="c_state" size="3" name="address-state" value="" type="text" /> <input id="c_zip" size="6" name="address-zip" value="" type="text" /><br />
-                <br />
+            <td colspan="3">
+                Street<br/>
+                <input id="address" size="26" name="address" value="" type="text"/><br/>
+                City, State, Zip<br/>
+                <input id="city" size="20" name="city" value="" type="text"/>, <input id="state" size="3" name="state"
+                                                                                      value="" type="text"/> <input
+                    id="zip" size="6" name="zip" value="" type="text"/><br/>
+                <br/>
             </td>
         </tr>
         <tr>
             <td class="bold">
                 Email:
             </td>
-            <td  valign="top">
-                <input  type="text" name="email" value="" id="contact_email" /><br />
-                <div class="mini">
-                    <span class="title">Demographics Guardian Email</span><br />
-                    <span class="data" id="guardianemail">~([students]guardianemail)</span><a href="javascript:copyGuardianEmail()">[Copy]</a>
-                </div>
-            </td>
-            <td class="bold">
-                Receive letter mailings?
-            </td>
-            <td>
-                <input type="checkbox" name="[students]contact_recvmail" value="1" />
+            <td valign="top">
+                <input type="text" name="email" value="" id="email"/><br/>
             </td>
         </tr>
         <tr>
@@ -91,49 +79,32 @@
                 Home Phone:
             </td>
             <td valign="top">
-                <input size="17" type="text" name="[students]contact_homephone" value="" id="contact_homephone" /><br />
-                <div class="mini">
-                    <span class="title">Student Home Phone</span><br />
-                    <span class="data" id="studentphone">~([students]home_phone)</span><a href="javascript:copyPhone()">[Copy]</a>
-                </div>
+                <input size="17" type="text" name="home-phone" value="" id="home-phone"/><br/>
             </td>
-            <td  class="bold">
+            <td class="bold">
                 Cell Phone:
             </td>
             <td>
-                <input type="text" size="17" name="[students]contact_cellphone" value="" id="contact_cellphone" />
+                <input type="text" size="17" name="cell-phone" value="" id="cell-phone"/>
             </td>
         </tr>
         <tr>
-            <td  class="bold">Employer:</td>
+            <td class="bold">Employer:</td>
             <td>
-                <input type="text" name="[students]contact_employer" value="" size="25" id="contact_employer" /></td>
-            <td  class="bold">
+                <input type="text" name="employer" value="" size="25" id="employer"/></td>
+            <td class="bold">
                 Work Phone:
             </td>
             <td>
-                <input type="text" size="17" name="[students]contact_workphone" value="" id="contact_workphone" />
+                <input type="text" size="17" name="work-phone" value="" id="work-phone"/>
             </td>
         </tr>
 
         <tr>
             <td style="background-color:#ffffff" colspan="4" align="right">
-                <!--hidden fields.txt for syncing data -->
-                <input type="hidden" name="[students]Father" value="" id="sync_father" />
-                <input type="hidden" name="[students]fatherdayphone" value="" id="sync_fatherdayphone" />
-                <input type="hidden" name="[students]father_employer" value="" id="sync_father_employer" />
-                <input type="hidden" name="[students]father_home_phone" value="" id="sync_father_home_phone" />
-                <input type="hidden" name="[students]Mother" value="" id="sync_mother" />
-                <input type="hidden" name="[students]motherdayphone" value="" id="sync_motherdayphone" />
-                <input type="hidden" name="[students]mother_employer" value="" id="sync_mother_employer" />
-                <input type="hidden" name="[students]mother_home_phone" value="" id="sync_mother_home_phone" />
-
-                <!--end hidden sync fields.txt -->
-                <input type="hidden" name="ac" value="prim" />
                 <button id="cancelbtn" class="button edit_cancel" type="button">Cancel</button>
-                <button id="submitbtn" type="submit">Submit</button>
+                <button id="submitbtn" type="submit">Save</button>
             </td>
-
         </tr>
     </table>
 </form>
