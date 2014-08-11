@@ -61,7 +61,7 @@
         });
     </script>
 
-    <script src="/scripts/student-info/info-update.js"></script>
+    <script src="/guardian/javascript/student-info.js"></script>
 
     <style type="text/css">
         #btn-access-log a {background: url(/guardian/images/iconAccessLog.png) no-repeat;}
@@ -359,7 +359,7 @@
 
 <div id="demographic-update" class="box-round group">
 <!-- start parent content-->
-<form action="changesrecorded.html" method="POST" id="demographic-update" class="noSubmitLoading">
+<form method="POST" id="demographic-update-form" class="noSubmitLoading">
 <h2>Personal Information</h2>
 <table border="0" cellspacing="0" cellpadding="4" class="linkDescList">
     <tr>
@@ -380,7 +380,8 @@
         <td><input type="text" name="[students]mailing_street" value="" size="30"/><br>
             <input type="text" name="[students]mailing_city" value="" size="14"/>,
             <input type="text" name="[students]mailing_state" value="" size="2"/>
-            <input type="text" name="[students]mailing_zip" value="" size="10"/></td>
+            <input type="text" name="[students]mailing_zip" value="" size="10"/>
+        </td>
     </tr>
     <tr>
         <td class="bold">Residence Address</td>
