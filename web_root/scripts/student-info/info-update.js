@@ -153,7 +153,7 @@ var $ = jQuery.noConflict();
             $.get('/guardian/data/getEditor.html', {"frn": psData.frn, "gidx": n})
                 .success(function (editform) {
                     var editrow = m_table.fnOpen(sourcerow, editform, "edit_row");
-                    /*
+
                     $('form', editrow).submit(function () {
                         //copy mother/father to fields.txt in students table
                         if ($("#contact" + n + "_rel").val() == "Father") {
@@ -170,7 +170,7 @@ var $ = jQuery.noConflict();
                         $('.addcontact').show();
                         return false;//prevent normal form submission
                     });
-                    */
+
                     $('.edit_cancel', editrow).click(function () {
                         m_table.fnClose(sourcerow);
                         m_table.fnDeleteRow(sourcerow);
