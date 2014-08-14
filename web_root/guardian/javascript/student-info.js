@@ -26,7 +26,10 @@ function cleanEmailList() {
 var $ = jQuery.noConflict();
 var config = {
     // PowerSchool Point of Contact server, which will talk with the PS REST API.
-    "psPoc": "https://psit.irondistrict.org"
+    "psPoc": "https://psit.irondistrict.org",
+
+    // Student Contacts Database Extension Table Name
+    "stuContDBE": "U_STUDENT_CONTACTS"
 };
 
 (function () {
@@ -47,7 +50,7 @@ var config = {
             "bPaginate": false,
             "bFilter": false,
             "bJQueryUI": true,
-            "sDom": '<"H"lfr<"addcontact">>t<"F"ip>',
+            "sDom": '<"H"lfr<"add-leg-par-guar">>t<"F"ip>',
             "aaSorting": [
                 [5, 'asc'],
                 [6, 'asc']
@@ -88,9 +91,6 @@ var config = {
                         else {
                             result += address;
                         }
-                        if (info.mailto == "1") {
-                            result += "*Receives mailings";
-                        }
                         return result;
                     },
                     "aTargets": [2]
@@ -130,33 +130,78 @@ var config = {
         });
 
         //create add contact button, and bind click event handler
-        $('.addcontact').append('<button>Add Contact</button>');
-        $('.addcontact button').button({
+        $('.add-leg-par-guar').append('<button>Add Legal Parent/Guardian</button>');
+        $('.add-leg-par-guar button').button({
             icons: {
                 primary: 'ui-icon-plus'
             }
         });
-        $('body').on('click', '.addcontact', function (e) {
+        $('body').on('click', '.add-leg-par-guar', function (e) {
             e.preventDefault();
-            $('.addcontact').hide();
+            $('.add-leg-par-guar').hide();
+
+            // Add blank row
             var ridx = m_table.fnAddData(["", "", "", "", "", "", ""]);
+
             var sourcerow = m_table.fnSettings().aoData[ridx].nTr;
-            $.get(config['ps'] + '/guardian/data/getEditor.html')
+            $.get('/guardian/data/getEditor.html?parent=1')
                 .done(function (editForm) {
                     var editrow = m_table.fnOpen(sourcerow, editForm, "edit_row");
-                    $('form', editrow).submit(function () {
-                        $.post(config['psPoc'] + '/' + config[''])
-                            .success(function (data) {
+                    $('form', editrow).on('submit', function (event) {
+                        event.preventDefault();
+                        // Call PS PoC function for creating a new contact
+                        var postUrl = config['psPoc'] + '/' +
+                            'contacts/' +
+                            psData.studentDcid;
+
+                        var postData = $(this).serialize();
+                        $.ajax({
+                            type: "POST",
+                            dataType: "json",
+                            data: postData,
+                            url: postUrl
+                        }).success(function (data) {
+                            var newRecordId = data['result'][0]['success_message']['id'];
+                            // Get new contact data
+                            $.get(config['psPoc'] + '/contacts/' + newRecordId, function(contactData) {
+                                var stuContDBE = config["stuContDBE"];
+                                var actualData = contactData['tables'][stuContDBE];
                                 m_table.fnClose(sourcerow);
-                                refreshContact(n, sourcerow);
+                                var formattedData = [];
+                                formattedData.push(contactData['id']);
+                                formattedData.push({
+                                    "firstname": actualData['first_name'],
+                                    "lastname": actualData['last_name'],
+                                    "priority": actualData['priority'],
+                                    "relation": actualData['relationship']
+                                });
+                                formattedData.push({
+                                    "city": actualData['city'],
+                                    "state": actualData['state'],
+                                    "street": actualData['street'],
+                                    "zip": actualData['zip']
+                                });
+
+                                formattedData.push({
+                                    "cellphone": actualData['cellphone'],
+                                    "email": actualData['email'],
+                                    "employer": actualData['employer'],
+                                    "homephone": actualData['home_phone'],
+                                    "workphone": actualData['work_phone']
+                                });
+                                formattedData.push("<button class='editcontact'>Edit</button><br /><button class='deletecontact'>Delete</button>");
+                                formattedData.push(actualData['priority']);
+                                formattedData.push(actualData['last_name'] + ', ' + actualData['first_name']);
+                                updateRowData(formattedData, ridx);
                             });
-                        $('.addcontact').show();
-                        return false;//prevent normal form submission
+
+                        });
+                        $('.add-leg-par-guar').show();
                     });
                     $('.edit_cancel', editrow).click(function () {
                         m_table.fnClose(sourcerow);
                         m_table.fnDeleteRow(sourcerow);
-                        $('.addcontact').show();
+                        $('.add-leg-par-guar').show();
                     });
 
                 });
@@ -172,7 +217,8 @@ var config = {
                 $.get(m_requestURL, {"frn": psData.frn, "gidx": n, "action": "geteditor"})
                     .success(function (editform) {
                         var editrow = m_table.fnOpen(row, editform, "edit_row");
-                        $('form', editrow).submit(function () {
+                        $('form', editrow).submit(function (event) {
+                            event.preventDefault();
                             //copy mother/father to fields.txt in students table
                             if ($("#contact" + n + "_rel").val() == "Father") {
                                 syncParent('father', n);
@@ -184,7 +230,7 @@ var config = {
                             )
                                 .success(function (data) {
                                     m_table.fnClose(sourcerow);
-                                    refreshContact(n, sourcerow);
+                                    refreshContact(sourcerow, n);
                                     return false;//prevent normal form submission
                                 });
                         });
@@ -266,41 +312,32 @@ var config = {
         $(f_dayphone).val(dayphoneval);
     }
 
-    function refreshContact(num, row) {
-        var settings = {"frn": psData.studentfrn, "action": "getcontact", "gidx": num};
-        $.ajax({
-            type: "GET",
-            async: true,
-            beforeSend: function (x) {
-                if (x && x.overrideMimeType) {
-                    x.overrideMimeType("application/j-son;charset=UTF-8");
-                }
-            },
-            dataType: "text json",
-            dataFilter: function (data) {
-                data = data.replace(/[\r\n\t]/g, '');
-                return data;
-            },
-            data: settings
-        })
-            .success(function (data, status) {
-                if (row == null) {
-                    m_table.fnAddData(data);
-                }
-                else {
-                    m_table.fnUpdate(data, row);
-                }
-                $('.editcontact').button({
-                    icons: {
-                        primary: "ui-icon-pencil"
-                    }
-                });
-                $('.deletecontact').button({
-                    icons: {
-                        primary: "ui-icon-trash"
-                    }
-                });
-            });
+    function bindButtons() {
+        $('.editcontact').button({
+            icons: {
+                primary: "ui-icon-pencil"
+            }
+        });
+        $('.deletecontact').button({
+            icons: {
+                primary: "ui-icon-trash"
+            }
+        });
+    }
+
+    /**
+     * Update data in an existing table row
+     * @param data {object} - See aoColumnDefs for formatting of this object
+     * @param row {Node} - Row that is getting updated
+     */
+    function updateRowData(data, row) {
+        m_table.fnUpdate(data, row);
+        bindButtons();
+    }
+
+    function insertNewRow(data) {
+        m_table.fnAddData(data);
+        bindButtons();
     }
 
     function displayError(msg) {

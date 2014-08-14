@@ -3,12 +3,12 @@
         <tr>
             <td class="bold">Name (last, first):</td>
             <td class="bold">
-                <input type="text" name="last-name" id="last-name" value="" size="15"/>,
-                <input type="text" name="first-name" id="first-name" value="" size="10"/>
+                <input type="text" name="last-name" id="last-name" value="" size="15" placeholder="Last Name"/>,
+                <input type="text" name="first-name" id="first-name" value="" size="10" placeholder="First Name"/>
             </td>
             <td class="bold">Emergency<br/> Contact Priority</td>
             <td>
-                <select name="priority-phone" id="priority-phone">
+                <select name="priority" id="priority">
                     <option selected></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -61,8 +61,8 @@
                 <input id="address" size="26" name="address" value="" type="text"/><br/>
                 City, State, Zip<br/>
                 <input id="city" size="20" name="city" value="" type="text"/>, <input id="state" size="3" name="state"
-                                                                                      value="" type="text"/> <input
-                    id="zip" size="6" name="zip" value="" type="text"/><br/>
+                                                                                      value="" type="text"/>
+                <input id="zip" size="6" name="zip" value="" type="text"/><br/>
                 <br/>
             </td>
         </tr>
@@ -79,13 +79,17 @@
                 Home Phone:
             </td>
             <td valign="top">
-                <input size="17" type="text" name="home-phone" value="" id="home-phone"/><br/>
+                <input size="17" type="text" name="home-phone" value="" id="home-phone"/>
+                <input type="radio" name="priority-phone" id="priority-phone-home" value="home"/>
+                <label for="priority-phone-home">Set Primary</label>
             </td>
             <td class="bold">
                 Cell Phone:
             </td>
             <td>
                 <input type="text" size="17" name="cell-phone" value="" id="cell-phone"/>
+                <input type="radio" name="priority-phone" id="priority-phone-cell" value="cell"/>
+                <label for="priority-phone-cell">Set Primary</label>
             </td>
         </tr>
         <tr>
@@ -97,8 +101,12 @@
             </td>
             <td>
                 <input type="text" size="17" name="work-phone" value="" id="work-phone"/>
+                <input type="radio" name="priority-phone" id="priority-phone-work" value="work"/>
+                <label for="priority-phone-work">Set Primary</label>
             </td>
         </tr>
+
+        <input type="hidden" name="leg-par-guar" value="~[gpv:parent]" />
 
         <tr>
             <td style="background-color:#ffffff" colspan="4" align="right">

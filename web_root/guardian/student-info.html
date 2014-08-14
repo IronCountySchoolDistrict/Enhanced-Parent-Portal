@@ -61,7 +61,8 @@
         });
     </script>
 
-    <script src="/guardian/javascript/student-info.js"></script>
+    <!--<script src="/guardian/javascript/student-info.js"></script>-->
+    <script src="/guardian/javascript/student-update.js"></script>
 
     <style type="text/css">
         #btn-access-log a {background: url(/guardian/images/iconAccessLog.png) no-repeat;}
@@ -359,7 +360,7 @@
 
 <div id="demographic-update" class="box-round group">
 <!-- start parent content-->
-<form method="POST" id="demographic-update-form" class="noSubmitLoading">
+<form method="POST" id="demographic-update-form">
 <h2>Personal Information</h2>
 <table border="0" cellspacing="0" cellpadding="4" class="linkDescList">
     <tr>
@@ -374,99 +375,126 @@
     </tr>
     <tr>
         <td class="bold">Mailing Address</td>
-        <td width="200">~([Students]mailing_street)<br>~([Students]mailing_city), ~([Students]mailing_state)
-            ~([Students]mailing_zip)
+        <td width="200">
+            <span id="on-file-mailing-street"></span>
+            <span style="display: block;">
+                <span id="on-file-mailing-city"></span>,
+                <span id="on-file-mailing-state"></span>
+                <span id="on-file-mailing-zip"></span>
+            </span>
         </td>
-        <td><input type="text" name="[students]mailing_street" value="" size="30"/><br>
-            <input type="text" name="[students]mailing_city" value="" size="14"/>,
-            <input type="text" name="[students]mailing_state" value="" size="2"/>
-            <input type="text" name="[students]mailing_zip" value="" size="10"/>
+        <td>
+            <input type="text" id="mailing-street" name="mailing-street" value="" size="30"/><br>
+            <input type="text" id="mailing-city" name="mailing-city" value="" size="14"/>,
+            <input type="text" id="mailing-state" name="mailing-state" value="" size="2"/>
+            <input type="text" id="mailing-zip" name="mailing-zip" value="" size="10"/>
         </td>
     </tr>
     <tr>
         <td class="bold">Residence Address</td>
-        <td width="200">~([Students]street)<br>~([Students]city), ~([Students]state) ~([Students]zip)</td>
-        <td><input type="text" name="[students]street" value="" size="30"/><br>
-            <input type="text" name="[students]city" value="" size="14"/>,
-            <input type="text" name="[students]state" value="" size="2"/>
-            <input type="text" name="[students]zip" value="" size="10"/>
+        <td width="200">
+            <span id="on-file-residence-street"></span>
+            <span style="display: block;">
+                <span id="on-file-residence-city"></span>,
+                <span id="on-file-residence-state"></span>
+                <span id="on-file-residence-zip"></span>
+            </span>
+        </td>
+        <td>
+            <input type="text" id="residence-street" name="residence-street" value="" size="30"/><br>
+            <input type="text" id="residence-city" name="residence-city" value="" size="14"/>,
+            <input type="text" id="residence-state" name="residence-state" value="" size="2"/>
+            <input type="text" id="residence-zip" name="residence-zip" value="" size="10"/>
         </td>
     </tr>
     <tr>
         <td class="bold">Student's Email Address</td>
-        <td width="200">~([Students]studentemail)</td>
+        <td width="200">
+            <span id="on-file-student-email"></span>
+        </td>
         <td>
-            <input type="text" name="[Students]studentemail" value="" size="30"/>
+            <input type="text" id="student-email" name="student-email" value="" size="30"/>
         </td>
     </tr>
     <tr>
-        <td class="bold">Students's Cell Phone Number</td>
-        <td width="200">~([Students.U_Students_Extension]Cell_Phone_Number)</td>
+        <td class="bold">Student's Cell Phone</td>
+        <td width="200">
+            <span id="on-file-student-cell-phone"></span>
+        </td>
         <td>
-            <input type="text" name="[Students.U_Students_Extension]Cell_Phone_Number" value="" size="30"/>
+            <input type="text" id="student-cell-phone" name="student-cell-phone" value="" size="30"/>
         </td>
     </tr>
     <tr>
         <td class="bold">Physician's Name</td>
-        <td width="200">~([Students]Doctor_Name)</td>
+        <td width="200">
+            <span id="on-file-doctor-name"></span>
+        </td>
         <td>
-            <input type="text" name="[Students]Doctor_Name" value="" size="30"/>
+            <input type="text" id="doctor-name" name="doctor-name" value="" size="30"/>
         </td>
     </tr>
     <tr>
         <td class="bold">Physician's Phone Number</td>
-        <td width="200">~([Students]Doctor_Phone)</td>
+        <td width="200">
+            <span id="on-file-doctor-phone"></span>
+        </td>
         <td>
-            <input type="text" name="[Students]Doctor_Phone" value="" size="30"/>
+            <input type="text" id="doctor-phone" name="doctor-phone" value="" size="30"/>
         </td>
     </tr>
     <tr>
         <td class="bold">Dentist's Name</td>
-        <td width="200">~([Students]Dentist_Name)</td>
+        <td width="200">
+            <span id="on-file-dentist-name"></span>
+        </td>
         <td>
-            <input type="text" name="[Students]Dentist_Name" value="" size="30"/>
+            <input type="text" id="dentist-name" name="dentist-name" value="" size="30"/>
         </td>
     </tr>
     <tr>
         <td class="bold">Dentist's Phone Number</td>
-        <td width="200">~([Students]Doctor_Phone)</td>
+        <td width="200">
+            <span id="on-file-dentist-phone"></span>
+        </td>
         <td>
-            <input type="text" name="[Students]Dentist_Phone" value="" size="30"/>
+            <input type="text" id="dentist-phone" name="dentist-phone" value="" size="30"/>
         </td>
     </tr>
 </table>
-<hr>
-<h2>Parent/Legal Guardian Contact Information</h2>
+<!--<hr>-->
+<!--<h2>Parent/Legal Guardian Contact Information</h2>-->
 
-<div style="text-align: center;">
-    <div id="maincontent" align="center" style="display: inline-block;">
-        <div id="error_container"></div>
-        <!--CUSTOM Student Contacts list -->
 
-        <table id="holder" border="1" cellpadding="2" cellspacing="0" align="center">
-            <thead>
-            <tr class="inforow">
-                <th>&nbsp;</th>
-                <th>Contact</th>
-                <th>Address</th>
-                <th>Contact Info</th>
-                <th>Options</th>
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        <!-- END Student Contacts Content list-->
-    </div>
-    <!-- end of content of bounding box time -->
-</div>
+<!--<div style="text-align: center;">-->
+    <!--<div id="maincontent" align="center" style="display: inline-block;">-->
+        <!--<div id="error_container"></div>-->
+        <!--&lt;!&ndash;CUSTOM Student Contacts list &ndash;&gt;-->
+
+        <!--<table id="holder" border="1" cellpadding="2" cellspacing="0" align="center">-->
+            <!--<thead>-->
+            <!--<tr class="inforow">-->
+                <!--<th>&nbsp;</th>-->
+                <!--<th>Contact</th>-->
+                <!--<th>Address</th>-->
+                <!--<th>Contact Info</th>-->
+                <!--<th>Options</th>-->
+                <!--<th>&nbsp;</th>-->
+                <!--<th>&nbsp;</th>-->
+            <!--</tr>-->
+            <!--</thead>-->
+            <!--<tbody>-->
+            <!--</tbody>-->
+        <!--</table>-->
+        <!--&lt;!&ndash; END Student Contacts Content list&ndash;&gt;-->
+    <!--</div>-->
+    <!--&lt;!&ndash; end of content of bounding box time &ndash;&gt;-->
+<!--</div>-->
 
 <div class="button-row">
     <input type="hidden" name="[students]parent_verify" id="parentverified" value="1"/>
     <input type="hidden" name="ac" value="autosendupdate"/>
-    <button type="submit" value="Submit" onClick="setParentVerified();">Submit</button>
+    <button type="submit" value="Submit">Submit</button>
 </div>
 [/if#isstudent]
 ~[if#isguardian.isguardianAndSSOEnabled]
