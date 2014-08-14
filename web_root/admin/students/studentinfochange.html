@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<!-- start right frame -->
+<head>
+    <title>Student Info Change</title>
+    ~[wc:commonscripts]
+    <link href="/images/css/screen.css" rel="stylesheet" media="screen">
+    <link href="/images/css/print.css" rel="stylesheet" media="print">
+
+    <script src="/admin/javascript/parentdemo.js"></script>
+    <script type="text/javascript">
+        /*global approveFieldChange*/
+        function addressChange() {
+            "use strict";
+            approveFieldChange('~(JSFieldParam;[students]street)', '~(JSFieldParam;[students]parent_street)');
+            approveFieldChange('~(JSFieldParam;[students]city)', '~(JSFieldParam;[students]parent_city)');
+            approveFieldChange('~(JSFieldParam;[students]state)', '~(JSFieldParam;[students]parent_state)');
+            approveFieldChange('~(JSFieldParam;[students]zip)', '~(JSFieldParam;[students]parent_zip)');
+        }
+
+        function mailingAddressChange() {
+            "use strict";
+            approveFieldChange('~(JSFieldParam;[students]mailing_street)', '~(JSFieldParam;[students]parent_mailing_street)');
+            approveFieldChange('~(JSFieldParam;[students]mailing_city)', '~(JSFieldParam;[students]parent_mailing_city)');
+            approveFieldChange('~(JSFieldParam;[students]mailing_state)', '~(JSFieldParam;[students]parent_mailing_state)');
+            approveFieldChange('~(JSFieldParam;[students]mailing_zip)', '~(JSFieldParam;[students]parent_mailing_zip)');
+        }
+
+        psData = {};
+        psData.studentDcid = "~(rn)";
+    </script>
+    <script src="/scripts/student-info/js/student-info.js"></script>
+
+</head>
+<body>
+
+<form action="/admin/changesrecorded.white.html" method="POST">
+    ~[wc:admin_header_frame_css]<!-- breadcrumb start --><a href="/admin/home.html" target="_top">~[text:psx.html.admin_students.modifydata.start_page]</a>
+    &gt; <a href="home.html?selectstudent=nosearch" target="_top">~[text:psx.html.admin_students.modifydata.student_selection]</a>
+    &gt;Student Info Change<!-- breadcrumb end -->~[wc:admin_navigation_frame_css]
+
+    ~[wc:title_student_begin_css]Student Info Change~[wc:title_student_end_css]
+
+    <!-- start of content and bounding box -->
+    <div class="box-round">
+
+        <table border="0" cellspacing="0" cellpadding="4">
+            <tr>
+                <td class="bold">If SSO is on then this person is who last submitted a change:
+                    ~(parent_wholastchanged)
+                </td>
+            </tr>
+            <tr>
+                <td class="bold">If this box is checked, any guardian can see demographics data and request changes
+                    (potential legal issues!):<input type="checkbox" name="[students]enabledemoupdate" value="1"/></td>
+            </tr>
+        </table>
+        <table class="linkDescList" border="0" cellspacing="0" cellpadding="4">
+            <tr>
+                <td class="bold">&nbsp;</td>
+                <td width="200">On file with the school.</td>
+                <td>&nbsp;</td>
+                <td>Parent/Guardian Submitted Changes</td>
+            </tr>
+            <tr>
+                <td class="bold">Name (last, first MI)</td>
+                <td>~([students]lastfirst)</td>
+                <td></td>
+                <td><em>If you make changes, using the formatting shown is appreciated.</em></td>
+            </tr>
+            <tr>
+                <td class="bold">Mailing Address</td>
+                <td>
+                    <input type="text" name="on-file-mailing-street" id="on-file-mailing-street" value="" size="30"/>
+                    <br>
+                    <input type="text" name="on-file-mailing-city" id="on-file-mailing-city" value="" size="14"/>
+                    ,
+                    <input type="text" name="on-file-mailing-state" id="on-file-mailing-state" value="" size="2"/>
+                    <input type="text" name="on-file-mailing-zip" name="on-file-mailing-zip" value="" size="10"/>
+                </td>
+                <td><input type="button" value="Approve" onClick="addressChange();"/></td>
+                <td>
+                    <input type="text" name="staging-mailing-street" id="staging-mailing-street" value="" size="30"/>
+                    <br>
+                    <input type="text" name="staging-mailing-city" id="staging-mailing-city" value="" size="14"/>
+                    ,
+                    <input type="text" name="staging-mailing-state" id="staging-mailing-state" value="" size="2"/>
+                    <input type="text" name="staging-mailing-zip" id="staging-mailing-zip" value="" size="10"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="bold">Residence Address</td>
+                <td><input type="text" name="on-file-residence-street" value="" size="30"/>
+                    <br>
+                    <input type="text" name="on-file-residence-city" value="" size="14"/>
+                    ,
+                    <input type="text" name="on-file-residence-state" value="" size="2"/>
+                    <input type="text" name="on-file-residence-zip" value="" size="10"/>
+                </td>
+                <td><input type="button" value="Approve" onClick="mailingAddressChange();"/></td>
+                <td><input type="text" name="staging-residence-street" value="" size="30"/>
+                    <br>
+                    <input type="text" name="staging-residence-city" value="" size="14"/>
+                    ,
+                    <input type="text" name="staging-residence-state" value="" size="2"/>
+                    <input type="text" name="staging-residence-zip" value="" size="10"/></td>
+            </tr>
+            <tr>
+                <td class="bold">Student's Email Address</td>
+                <td>
+                    <input type="text" name="on-file-student-email" id="on-file-student-email" value="" size="17">
+                    <br/>
+                </td>
+                <td>
+                    <input type="button" value="Approve"
+                           onClick="approveFieldChange('student-email','staging-student-email')"/>
+                </td>
+                <td><input type="text" name="staging-student-email" id="staging-student-email" value="" size="17"/></td>
+            </tr>
+
+            <!-- start copy here -->
+
+
+            <tr>
+                <td class="bold">Student's Cell Phone</td>
+                <td>
+                    <input type="text" name="on-file-student-cell-phone" id="on-file-student-cell-phone" value=""
+                           size="13">
+                    <br/>
+                    <em>000-000-0000 </em>
+                </td>
+                <td>
+                    <input type="button" value="Approve"
+                           onClick="approveFieldChange('student-cell-phone','staging-student-cell-phone');"/>
+                </td>
+                <td><input type="text" name="staging-student-cell-phone" id="staging-student-cell-phone" value=""
+                           size="13"/></td>
+
+            </tr>
+            <tr bgcolor="#edf3fe">
+                <td class="bold">Physician's Name</td>
+                <td>
+                    <input type="text" name="on-file-doctor-name" id="on-file-doctor-name" value="" size="25"></td>
+                <td>
+                    <input type="button" value="Approve"
+                           onClick="approveFieldChange('doctor-name','staging-doctor-name');"/>
+                </td>
+                <td>
+                    <input type="text" name="staging-doctor-name" id="staging-doctor-name" value="" size="25">
+                </td>
+            </tr>
+            <tr>
+                <td class="bold">Physician's Phone Number</td>
+                <td>
+                    <input type="text" name="on-file-doctor-phone" id="on-file-doctor-phone" value="" size="13"/> <em>000-000-0000 </em>
+                </td>
+                <td>
+                    <input type="button" value="Approve"
+                           onClick="approveFieldChange('doctor-phone','staging-doctor-phone');"/>
+                </td>
+                <td>
+                    <input type="text" name="staging-doctor-phone" id="staging-doctor-phone" value="" size="13"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="bold">Dentist's Name</td>
+                <td>
+                    <input type="text" name="on-file-dentist-name" id="on-file-dentist-name" value="" size="13">
+                </td>
+                <td><input type="button" value="Approve"
+                           onClick="approveFieldChange('dentist-name','staging-dentist-name');"/>
+                </td>
+                <td><input type="text" name="staging-dentist-name" id="staging-dentist-name" value="" size="13"/></td>
+
+            </tr>
+            <tr>
+                <td class="bold">Dentist's Phone Number</td>
+                <td><input type="text" name="on-file-dentist-phone" id="on-file-dentist-phone" value="" size="25"></td>
+                <td><input type="button" value="Approve"
+                           onClick="approveFieldChange('dentist-phone','staging-dentist-phone');"/>
+                </td>
+                <td><input type="text" name="staging-dentist-phone" id="staging-dentist-phone" value="" size="25"/></td>
+            </tr>
+
+            <!-- end copy here -->
+        </table>
+    </div>
+    <div class="button-row">
+        <input type="hidden" name="ac" value="prim">~[submitbutton]
+    </div>
+    </div>
+
+    <!-- end of content of bounding box -->
+
+    ~[wc:admin_footer_frame_css]
+</form>
+
+</body>
+</html><!-- end right frame -->
