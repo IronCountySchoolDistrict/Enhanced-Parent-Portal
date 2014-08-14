@@ -1,0 +1,7 @@
+<script type="text/template" id="stu-info-verify-template">
+    <li>
+        <a href="student.html?frn=00153770" id="student-verify-link">Student Info Verify</a>
+    </li>
+</script>
+
+<script src="/scripts/student-info/js/student-info.js"></script>
