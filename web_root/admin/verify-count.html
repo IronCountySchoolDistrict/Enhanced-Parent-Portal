@@ -2,10 +2,9 @@
 SELECT
     COUNT(*)
 FROM
-    students
+    u_def_ext_students
 WHERE
     schoolid=~(curschoolid) AND
-    ps_customfields.getstudentscf(id,
-    'parent_verify') > 0]
+    parent_verify > 0]
         {"count": "~(count)"}
 [/tlist_sql]

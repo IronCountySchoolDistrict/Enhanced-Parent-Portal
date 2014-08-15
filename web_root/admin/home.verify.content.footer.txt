@@ -6,7 +6,7 @@
 </style>
 
 <script type="text/template" id="parent-verify-template">
-    <a href="students/home.html?selectstudent=parent_verify=1" id="parent-verify-link">
+    <a href="students/home.html?selectstudent=U_Students_Extension.parent_verify=1" id="parent-verify-link">
         Parent Verify
     </a>
 </script>

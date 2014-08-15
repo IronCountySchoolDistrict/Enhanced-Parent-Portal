@@ -22,7 +22,7 @@ $j.get(config['psPoc'] + '/student-info/staging/' + psData.studentDcid, function
         $j('#staging-on-file').css({'display': 'block'});
     }
 
-    loadOnFileData();
+    //loadOnFileData();
     loadStagingData();
 }, 'json');
 
@@ -49,7 +49,7 @@ function loadOnFileData() {
         // it.
         var studentsExtension;
         if (Object.prototype.toString.call(studentInfo._extension_data._table_extension) === '[object Array]') {
-            var studentsExtension = $j.grep(studentInfo._extension_data._table_extension, function (elem) {
+            studentsExtension = $j.grep(studentInfo._extension_data._table_extension, function (elem) {
                 if (elem.name === 'u_students_extension') {
                     return elem._field;
                 }
@@ -92,7 +92,7 @@ function loadOnFileData() {
         // it.
         var studentCoreFieldsExt;
         if (Object.prototype.toString.call(studentInfo._extension_data._table_extension) === '[object Array]') {
-            var studentCoreFieldsExt = $j.grep(studentInfo._extension_data._table_extension, function (elem) {
+            studentCoreFieldsExt = $j.grep(studentInfo._extension_data._table_extension, function (elem) {
                 if (elem.name === 'studentcorefields') {
                     return elem._field;
                 }
@@ -179,6 +179,7 @@ function loadStagingData() {
     }, 'json');
 }
 
+// Save student email before the rest of the form submits
 $j(function() {
     $j('#approve-dentist-name').on('click', function(event) {
         var fieldName = $j('#on-file-dentist-name').attr('name');
@@ -189,4 +190,33 @@ $j(function() {
         approveFieldChange(fieldName, 'staging-dentist-phone');
     });
 
-})
+    $j('#student-info-form').submit(function(event) {
+        //event.preventDefault();
+        var postData = {
+            'userSentContact.email': $j('#on-file-student-email').val(),
+            'userSentContact.id': psData.psmStudentContactId,
+            'userSentContact.studentID': psData.psmStudentId,
+            'userSentContact.studentContactTypeID': psData.psmStudentContactTypeId,
+            'deleteFlag_0': 'deleteFlag_0',
+            'ac': 'brij:studentemail/StoreStudentEmails',
+            'doc': '/admin/students/emailconfig.html',
+            'render_in_java': 'true',
+            'frn': psData.studentFrn
+        };
+
+        $j.ajax({
+            type: "POST",
+            data: postData,
+            url: "/admin/students/emailconfig.html"
+        }).done(function(resp) {
+            console.dir(resp);
+        });
+        return true;
+    });
+});
+
+// Populate student email address on page load
+$j(function() {
+    var studentEmailValue = $j('#studEmail_0').val();
+    $j('#on-file-student-email').val(studentEmailValue);
+});

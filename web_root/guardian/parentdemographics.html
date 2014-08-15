@@ -29,7 +29,7 @@ document.getElementById("parentverified").value='1';
 </tr>
 </table>
 [else#isstudent]
-~[if#parentverify.~([Students]parent_verify)=1]<font color="#FF0000"><b><center>Your information has already been sent in for approval. If you would like to resubmit new information, you can, but it is not needed.</center></b></font><br>[/if#parentverify]
+~[if#parentverify.~([students.U_Students_Extension]parent_verify)=1]<font color="#FF0000"><b><center>Your information has already been sent in for approval. If you would like to resubmit new information, you can, but it is not needed.</center></b></font><br>[/if#parentverify]
 
   <div id="demographic-update" class="box-round group">
     <!-- start parent content-->
@@ -93,7 +93,7 @@ document.getElementById("parentverified").value='1';
 </table>
 
 		<div class="button-row"> 
-			<input type="hidden" name="[students]parent_verify" id="parentverified" value="1" />
+			<input type="hidden" name="[students.U_Students_Extension]parent_verify" id="parentverified" value="1" />
       		<input type="hidden" name="ac" value="autosendupdate" />
       		<button type="submit" value="Submit" onClick="setParentVerified();">Submit</button>
       	</div>  
