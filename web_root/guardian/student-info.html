@@ -41,15 +41,55 @@
     <link rel="stylesheet" href="/scripts/student-info/tabletools/css/TableTools_JUI.css" type="text/css">
     <link rel="stylesheet" href="/images/student-info/css/datatable_jui.css" type="text/css">
 
+    <script type="text/template" id="psm-student-contact-email-template">
+        ~[tlist_sql;
+        SELECT
+        email
+        FROM
+        PSM_studentcontact
+        WHERE
+        studentid=(
+        SELECT
+        id
+        FROM
+        PSM_student
+        WHERE
+        studentidentifier=~(student_number)) AND
+        studentcontacttypeid=(
+        SELECT
+        id
+        FROM
+        PSM_studentcontacttype
+        WHERE
+        name='Self')]
+        ~(studentContactId)
+        [/tlist_sql]
+    </script>
+
+
     <script>
-        var psData = {};
+        if (typeof psData === 'undefined') {
+            psData = {};
+        }
 
         // Render these ids as strings so if there are leading 0s
         // so they don't get removed (as they are when parsed as Numbers).
         psData.curstudid = "~(curstudid)";
         psData.frn = "~(frn)";
-        psData.studentfrn = "~(studentfrn)";
-        psData.studentDcid = psData.studentfrn.substring(3);
+        psData.studentFrn = "~(studentfrn)";
+        psData.studentDcid = psData.studentFrn.substring(3);
+        psData.psmStudentContactEmail = $('#psm-student-contact-email-template').html().trim();
+
+        // By default, these pref values are null, and then set to 1 when disabled.
+        psData.showGradesAttendance = '~[displaypref:gradesattendance~(curschoolid)]';
+        psData.showHistoricalGrades = '~[displaypref:historicalgrades~(curschoolid)]';
+        psData.showAttendance = '~[displaypref:attendance~(curschoolid)]';
+        psData.showEmail = '~[displaypref:email~(curschoolid)]';
+        psData.showComments = '~[displaypref:comments~(curschoolid)]';
+        psData.showBulletin = '~[displaypref:bulletin~(curschoolid)]';
+        psData.showSchedule = '~[displaypref:studentsched~(curschoolid)]';
+        psData.showBalance = '~[displaypref:balance~(curschoolid)]';
+        psData.showCalendars = '~[displaypref:icalcalendar~(curschoolid)]';
 
         $('document').ready(function () {
             var currentTime = new Date();
@@ -348,6 +388,12 @@
 </table>
 [else#isstudent]
 
+
+
+<script>
+
+</script>
+
 <div id="demographic-update" class="box-round group">
 <!-- start parent content-->
 <form method="POST" id="demographic-update-form">
@@ -366,11 +412,11 @@
     <tr>
         <td class="bold">Mailing Address</td>
         <td width="200">
-            <span id="on-file-mailing-street"></span>
+            <span id="on-file-mailing-street">~([Students]mailing_street)</span>
             <span style="display: block;">
-                <span id="on-file-mailing-city"></span>,
-                <span id="on-file-mailing-state"></span>
-                <span id="on-file-mailing-zip"></span>
+                <span id="on-file-mailing-city">~([Students]mailing_city)</span>,
+                <span id="on-file-mailing-state">~([Students]mailing_state)</span>
+                <span id="on-file-mailing-zip">~([Students]mailing_zip)</span>
             </span>
         </td>
         <td>
@@ -383,11 +429,11 @@
     <tr>
         <td class="bold">Residence Address</td>
         <td width="200">
-            <span id="on-file-residence-street"></span>
+            <span id="on-file-residence-street">~([Students]street)</span>
             <span style="display: block;">
-                <span id="on-file-residence-city"></span>,
-                <span id="on-file-residence-state"></span>
-                <span id="on-file-residence-zip"></span>
+                <span id="on-file-residence-city">~([Students]city)</span>,
+                <span id="on-file-residence-state"> ~([Students]state)</span>
+                <span id="on-file-residence-zip">~([Students]zip)</span>
             </span>
         </td>
         <td>
@@ -409,7 +455,7 @@
     <tr>
         <td class="bold">Student's Cell Phone</td>
         <td width="200">
-            <span id="on-file-student-cell-phone"></span>
+            <span id="on-file-student-cell-phone">~([Students.U_Students_Extension]STUDENT_CELL_NUMBER)</span>
         </td>
         <td>
             <input type="text" id="student-cell-phone" name="student-cell-phone" value="" size="30"/>
@@ -418,7 +464,7 @@
     <tr>
         <td class="bold">Physician's Name</td>
         <td width="200">
-            <span id="on-file-doctor-name"></span>
+            <span id="on-file-doctor-name">~([Students]doctor_name)</span>
         </td>
         <td>
             <input type="text" id="doctor-name" name="doctor-name" value="" size="30"/>
@@ -427,7 +473,7 @@
     <tr>
         <td class="bold">Physician's Phone Number</td>
         <td width="200">
-            <span id="on-file-doctor-phone"></span>
+            <span id="on-file-doctor-phone">~([Students]doctor_phone)</span>
         </td>
         <td>
             <input type="text" id="doctor-phone" name="doctor-phone" value="" size="30"/>
@@ -436,7 +482,7 @@
     <tr>
         <td class="bold">Dentist's Name</td>
         <td width="200">
-            <span id="on-file-dentist-name"></span>
+            <span id="on-file-dentist-name">~([Students.StudentCoreFields]dentist_name)</span>
         </td>
         <td>
             <input type="text" id="dentist-name" name="dentist-name" value="" size="30"/>
@@ -445,7 +491,7 @@
     <tr>
         <td class="bold">Dentist's Phone Number</td>
         <td width="200">
-            <span id="on-file-dentist-phone"></span>
+            <span id="on-file-dentist-phone">~([Students.StudentCoreFields]dentist_phone)</span>
         </td>
         <td>
             <input type="text" id="dentist-phone" name="dentist-phone" value="" size="30"/>
@@ -501,20 +547,7 @@
 
 
 <script>
-    if (typeof psData === 'undefined') {
-        var psData = {};
-    }
 
-    // By default, these pref values are null, and then set to 1 when disabled.
-    psData.showGradesAttendance = '~[displaypref:gradesattendance~(curschoolid)]';
-    psData.showHistoricalGrades = '~[displaypref:historicalgrades~(curschoolid)]';
-    psData.showAttendance = '~[displaypref:attendance~(curschoolid)]';
-    psData.showEmail = '~[displaypref:email~(curschoolid)]';
-    psData.showComments = '~[displaypref:comments~(curschoolid)]';
-    psData.showBulletin = '~[displaypref:bulletin~(curschoolid)]';
-    psData.showSchedule = '~[displaypref:studentsched~(curschoolid)]';
-    psData.showBalance = '~[displaypref:balance~(curschoolid)]';
-    psData.showCalendars = '~[displaypref:icalcalendar~(curschoolid)]';
 
     // Remove PowerSchool Information Link, which is replaced with EPP School Information link
     $('a:contains("School Information")').eq(0).remove();
@@ -547,6 +580,10 @@
     if (psData.showCalendars === '1') {
         $('#nav-main li:contains("My Calendars")').remove();
     }
+
+    // Set student email to result of tlist_sql
+    $('#on-file-student-email').text(psData.psmStudentContactEmail)
+
 </script>
 </body>
 </html>
