@@ -1,0 +1,10 @@
+~[tlist_sql;
+select
+CASE
+WHEN sum(ps_customfields.getstudentscf(id,'parent_verify'))> 0 THEN 1
+ELSE 0
+END alink
+from students
+where schoolid=~(curschoolid)]
+    {"hasVerify": "~(alink;t)"}
+[/tlist_sql]

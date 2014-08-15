@@ -1,0 +1,44 @@
+<style>
+    #parent-verify-link {
+        font-weight: bold;
+        color: #FF0000;
+    }
+</style>
+
+<script type="text/template" id="parent-verify-template">
+    <a href="students/home.html?selectstudent=parent_verify=1" id="parent-verify-link">
+        Parent Verify
+    </a>
+</script>
+
+<script type="text/template" id="parent-loading-template">
+    <span>Loading Parent Verify...</span>
+</script>
+
+<script>
+    $j(function () {
+        var loadingTemplate = $j($j('#parent-loading-template').html());
+        var loadingSelector = $j('[href^="/admin/storedselections"]');
+        loadingTemplate.insertAfter(loadingSelector);
+        $j.get('/admin/has-verify.html', function (verifyLink) {
+            if (verifyLink.hasVerify !== '0') {
+                var count = 0;
+                $j.get('/admin/verify-count.html', function (verifyCount) {
+                    if (verifyCount.count) {
+                        count = verifyCount.count;
+                    }
+                    var insertSelector = $j('[href^="/admin/storedselections"]');
+                    var parentVerifyLink = $j($j('#parent-verify-template').html());
+                    parentVerifyLink.insertAfter(insertSelector);
+
+                    var parentVerifyText = parentVerifyLink.text();
+                    parentVerifyLink.text(parentVerifyText + ' (' + count + ')');
+
+                    loadingTemplate.remove();
+                }, 'json');
+            }
+
+
+        }, 'json');
+    });
+</script>

@@ -1,0 +1,11 @@
+~[tlist_sql;
+SELECT
+    COUNT(*)
+FROM
+    students
+WHERE
+    schoolid=~(curschoolid) AND
+    ps_customfields.getstudentscf(id,
+    'parent_verify') > 0]
+        {"count": "~(count)"}
+[/tlist_sql]
