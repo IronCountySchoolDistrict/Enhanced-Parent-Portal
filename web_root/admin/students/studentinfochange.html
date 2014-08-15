@@ -8,6 +8,52 @@
     <link href="/images/css/print.css" rel="stylesheet" media="print">
 
     <script src="/admin/javascript/parentdemo.js"></script>
+    <script type="text/template" id="psm-student-contact-id-template">
+        ~[tlist_sql;
+            SELECT
+                id
+            FROM
+                PSM_studentcontact
+            WHERE
+                studentid=(
+            SELECT
+                id
+            FROM
+                PSM_student
+            WHERE
+                studentidentifier=~(student_number)) AND
+                studentcontacttypeid=(
+            SELECT
+                id
+            FROM
+                PSM_studentcontacttype
+            WHERE
+                name='Self')]
+            ~(studentContactId)
+        [/tlist_sql]
+    </script>
+    <script type="text/template" id="psm-student-id-template">
+        ~[tlist_sql;
+        SELECT
+            id
+        FROM
+            PSM_student
+        WHERE
+            studentidentifier=~(student_number)]
+        ~(id)
+        [/tlist_sql]
+    </script>
+    <script type="text/template" id="psm-student-contact-type-template">
+        ~[tlist_sql;
+        SELECT
+            id
+        FROM
+            PSM_studentcontacttype
+        WHERE
+            name='Self']
+        ~(id)
+        [/tlist_sql]
+    </script>
     <script type="text/javascript">
         /*global approveFieldChange*/
         function mailingAddressChange() {
@@ -26,8 +72,15 @@
             approveFieldChange('on-file-residence-zip', 'staging-residence-zip');
         }
 
-        psData = {};
+        if (typeof psData === 'undefined') {
+            psData = {};
+        }
         psData.studentDcid = "~(rn)";
+        psData.studentFrn = "~(studentfrn)";
+        psData.psmStudentContactId = $j('#psm-student-contact-id-template').html().trim();
+        psData.psmStudentId = $j('#psm-student-id-template').html().trim();
+        psData.psmStudentContactTypeId = $j('#psm-student-contact-type-template').html().trim();
+
     </script>
     <script src="/scripts/student-info/js/student-info.js"></script>
 
@@ -109,18 +162,18 @@
             <tr>
                 <td class="bold">Student's Email Address</td>
                 <td>
-                    <input type="text" name="userSentContact.email" id="on-file-student-email" value="" size="17">
-                    <input type="hidden" name="[PSM_studentcontact]studentid" size="20" value="12643"/>
+                    <input type="text" name="on-file-email-address" id="on-file-student-email" value="" size="17">
                     <br/>
                 </td>
                 <td>
                     <input type="button" value="Approve"
                            onClick="approveFieldChange('on-file-student-email','staging-student-email')"/>
                 </td>
-                <td><input type="text" name="staging-student-email" id="staging-student-email" value="" size="17"/></td>
+                <td>
+                    <input type="text" name="on-file-email-address" id="staging-student-email" value="" size="17"/>
+                </td>
             </tr>
             <!-- start copy here -->
-
 
             <tr>
                 <td class="bold">Student's Cell Phone</td>
@@ -200,6 +253,8 @@
 
     ~[wc:admin_footer_frame_css]
 </form>
-
+<div style="display: none;" id="brij-student-email">
+    ~[brij_renderform:studentemail;:ListStudentEmails;:studentemail;:StoreStudentEmails]
+</div>
 </body>
 </html><!-- end right frame -->
