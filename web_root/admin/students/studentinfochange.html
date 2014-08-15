@@ -10,20 +10,20 @@
     <script src="/admin/javascript/parentdemo.js"></script>
     <script type="text/javascript">
         /*global approveFieldChange*/
-        function addressChange() {
-            "use strict";
-            approveFieldChange('~(JSFieldParam;[students]street)', '~(JSFieldParam;[students]parent_street)');
-            approveFieldChange('~(JSFieldParam;[students]city)', '~(JSFieldParam;[students]parent_city)');
-            approveFieldChange('~(JSFieldParam;[students]state)', '~(JSFieldParam;[students]parent_state)');
-            approveFieldChange('~(JSFieldParam;[students]zip)', '~(JSFieldParam;[students]parent_zip)');
-        }
-
         function mailingAddressChange() {
             "use strict";
-            approveFieldChange('~(JSFieldParam;[students]mailing_street)', '~(JSFieldParam;[students]parent_mailing_street)');
-            approveFieldChange('~(JSFieldParam;[students]mailing_city)', '~(JSFieldParam;[students]parent_mailing_city)');
-            approveFieldChange('~(JSFieldParam;[students]mailing_state)', '~(JSFieldParam;[students]parent_mailing_state)');
-            approveFieldChange('~(JSFieldParam;[students]mailing_zip)', '~(JSFieldParam;[students]parent_mailing_zip)');
+            approveFieldChange('on-file-mailing-street', 'staging-mailing-street');
+            approveFieldChange('on-file-mailing-city', 'staging-mailing-city');
+            approveFieldChange('on-file-mailing-state', 'staging-mailing-state');
+            approveFieldChange('on-file-mailing-zip', 'staging-mailing-zip');
+        }
+
+        function residenceAddressChange() {
+            "use strict";
+            approveFieldChange('on-file-residence-street', 'staging-residence-street');
+            approveFieldChange('on-file-residence-city', 'staging-residence-city');
+            approveFieldChange('on-file-residence-state', 'staging-residence-state');
+            approveFieldChange('on-file-residence-zip', 'staging-residence-zip');
         }
 
         psData = {};
@@ -34,7 +34,8 @@
 </head>
 <body>
 
-<form action="/admin/changesrecorded.white.html" method="POST">
+<form action="/admin/changesrecorded.white.html" method="POST" id="student-info-form">
+~[DirectTable.Select:PSM_studentcontact;studentsdcid;~(rn)]
     ~[wc:admin_header_frame_css]<!-- breadcrumb start --><a href="/admin/home.html" target="_top">~[text:psx.html.admin_students.modifydata.start_page]</a>
     &gt; <a href="home.html?selectstudent=nosearch" target="_top">~[text:psx.html.admin_students.modifydata.student_selection]</a>
     &gt;Student Info Change<!-- breadcrumb end -->~[wc:admin_navigation_frame_css]
@@ -71,14 +72,14 @@
             <tr>
                 <td class="bold">Mailing Address</td>
                 <td>
-                    <input type="text" name="on-file-mailing-street" id="on-file-mailing-street" value="" size="30"/>
+                    <input type="text" name="[Students]mailing_street" id="on-file-mailing-street" value="" size="30"/>
                     <br>
-                    <input type="text" name="on-file-mailing-city" id="on-file-mailing-city" value="" size="14"/>
+                    <input type="text" name="[Students]mailing_city" id="on-file-mailing-city" value="" size="14"/>
                     ,
-                    <input type="text" name="on-file-mailing-state" id="on-file-mailing-state" value="" size="2"/>
-                    <input type="text" name="on-file-mailing-zip" name="on-file-mailing-zip" value="" size="10"/>
+                    <input type="text" name="[Students]mailing_state" id="on-file-mailing-state" value="" size="2"/>
+                    <input type="text" name="[Students]mailing_zip" id="on-file-mailing-zip" value="" size="10"/>
                 </td>
-                <td><input type="button" value="Approve" onClick="addressChange();"/></td>
+                <td><input type="button" value="Approve" onClick="mailingAddressChange();"/></td>
                 <td>
                     <input type="text" name="staging-mailing-street" id="staging-mailing-street" value="" size="30"/>
                     <br>
@@ -90,48 +91,48 @@
             </tr>
             <tr>
                 <td class="bold">Residence Address</td>
-                <td><input type="text" name="on-file-residence-street" value="" size="30"/>
+                <td><input type="text" name="[Students]street" id="on-file-residence-street" value="" size="30"/>
                     <br>
-                    <input type="text" name="on-file-residence-city" value="" size="14"/>
+                    <input type="text" name="[Students]city" id="on-file-residence-city" value="" size="14"/>
                     ,
-                    <input type="text" name="on-file-residence-state" value="" size="2"/>
-                    <input type="text" name="on-file-residence-zip" value="" size="10"/>
+                    <input type="text" name="[Students]state" id="on-file-residence-state" value="" size="2"/>
+                    <input type="text" name="[Students]zip" id="on-file-residence-zip" value="" size="10"/>
                 </td>
-                <td><input type="button" value="Approve" onClick="mailingAddressChange();"/></td>
-                <td><input type="text" name="staging-residence-street" value="" size="30"/>
+                <td><input type="button" value="Approve" onClick="residenceAddressChange();"/></td>
+                <td><input type="text" name="staging-residence-street" id="staging-residence-street" value="" size="30"/>
                     <br>
-                    <input type="text" name="staging-residence-city" value="" size="14"/>
+                    <input type="text" name="staging-residence-city" id="staging-residence-city" value="" size="14"/>
                     ,
-                    <input type="text" name="staging-residence-state" value="" size="2"/>
-                    <input type="text" name="staging-residence-zip" value="" size="10"/></td>
+                    <input type="text" name="staging-residence-state" id="staging-residence-state" value="" size="2"/>
+                    <input type="text" name="staging-residence-zip" id="staging-residence-zip" value="" size="10"/></td>
             </tr>
             <tr>
                 <td class="bold">Student's Email Address</td>
                 <td>
-                    <input type="text" name="on-file-student-email" id="on-file-student-email" value="" size="17">
+                    <input type="text" name="userSentContact.email" id="on-file-student-email" value="" size="17">
+                    <input type="hidden" name="[PSM_studentcontact]studentid" size="20" value="12643"/>
                     <br/>
                 </td>
                 <td>
                     <input type="button" value="Approve"
-                           onClick="approveFieldChange('student-email','staging-student-email')"/>
+                           onClick="approveFieldChange('on-file-student-email','staging-student-email')"/>
                 </td>
                 <td><input type="text" name="staging-student-email" id="staging-student-email" value="" size="17"/></td>
             </tr>
-
             <!-- start copy here -->
 
 
             <tr>
                 <td class="bold">Student's Cell Phone</td>
                 <td>
-                    <input type="text" name="on-file-student-cell-phone" id="on-file-student-cell-phone" value=""
+                    <input type="text" name="[Students.U_STUDENTS_EXTENSION]student_cell_number" id="on-file-student-cell-phone" value=""
                            size="13">
                     <br/>
                     <em>000-000-0000 </em>
                 </td>
                 <td>
                     <input type="button" value="Approve"
-                           onClick="approveFieldChange('student-cell-phone','staging-student-cell-phone');"/>
+                           onClick="approveFieldChange('on-file-student-cell-phone','staging-student-cell-phone');"/>
                 </td>
                 <td><input type="text" name="staging-student-cell-phone" id="staging-student-cell-phone" value=""
                            size="13"/></td>
@@ -140,10 +141,10 @@
             <tr bgcolor="#edf3fe">
                 <td class="bold">Physician's Name</td>
                 <td>
-                    <input type="text" name="on-file-doctor-name" id="on-file-doctor-name" value="" size="25"></td>
+                    <input type="text" name="[Students]doctor_name" id="on-file-doctor-name" value="" size="25"></td>
                 <td>
                     <input type="button" value="Approve"
-                           onClick="approveFieldChange('doctor-name','staging-doctor-name');"/>
+                           onClick="approveFieldChange('on-file-doctor-name','staging-doctor-name');"/>
                 </td>
                 <td>
                     <input type="text" name="staging-doctor-name" id="staging-doctor-name" value="" size="25">
@@ -152,11 +153,11 @@
             <tr>
                 <td class="bold">Physician's Phone Number</td>
                 <td>
-                    <input type="text" name="on-file-doctor-phone" id="on-file-doctor-phone" value="" size="13"/> <em>000-000-0000 </em>
+                    <input type="text" name="[Students]doctor_phone" id="on-file-doctor-phone" value="" size="13"/> <em>000-000-0000 </em>
                 </td>
                 <td>
                     <input type="button" value="Approve"
-                           onClick="approveFieldChange('doctor-phone','staging-doctor-phone');"/>
+                           onClick="approveFieldChange('on-file-doctor-phone','staging-doctor-phone');"/>
                 </td>
                 <td>
                     <input type="text" name="staging-doctor-phone" id="staging-doctor-phone" value="" size="13"/>
@@ -166,19 +167,17 @@
             <tr>
                 <td class="bold">Dentist's Name</td>
                 <td>
-                    <input type="text" name="on-file-dentist-name" id="on-file-dentist-name" value="" size="13">
+                    <input type="text" name="[Students.studentcorefields]dentist_name" id="on-file-dentist-name" value="" size="13">
                 </td>
-                <td><input type="button" value="Approve"
-                           onClick="approveFieldChange('dentist-name','staging-dentist-name');"/>
+                <td><input id="approve-dentist-name" type="button" value="Approve" />
                 </td>
                 <td><input type="text" name="staging-dentist-name" id="staging-dentist-name" value="" size="13"/></td>
 
             </tr>
             <tr>
                 <td class="bold">Dentist's Phone Number</td>
-                <td><input type="text" name="on-file-dentist-phone" id="on-file-dentist-phone" value="" size="25"></td>
-                <td><input type="button" value="Approve"
-                           onClick="approveFieldChange('dentist-phone','staging-dentist-phone');"/>
+                <td><input type="text" name="[Students.studentcorefields]dentist_phone" id="on-file-dentist-phone" value="" size="25"></td>
+                <td><input id="approve-dentist-phone" type="button" value="Approve" />
                 </td>
                 <td><input type="text" name="staging-dentist-phone" id="staging-dentist-phone" value="" size="25"/></td>
             </tr>
@@ -187,7 +186,14 @@
         </table>
     </div>
     <div class="button-row">
-        <input type="hidden" name="ac" value="prim">~[submitbutton]
+        <input type="hidden" name="ac" value="prim">
+        <input type="hidden" name="Students.dcid" value="~(rn)">
+        ~[tlist_sql;
+            select id from PSM_STUDENT where studentidentifier=~(student_number)
+        ]
+            <input type="hidden" name="PSM_student.id" value="~(id)">
+        [/tlist_sql]
+        ~[submitbutton]
     </div>
     </div>
 
