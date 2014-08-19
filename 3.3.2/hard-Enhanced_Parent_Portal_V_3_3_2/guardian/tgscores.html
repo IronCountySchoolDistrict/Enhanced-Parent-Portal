@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Class Score Detail - PowerSchool Parent Access</title>
+    ~[wc:guardian_header]
+    ~[if.prefschool.sgshowpa=1]
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td background="/images/transparent.gif">
+<br>
+<!-- title -->
+&nbsp;&nbsp;<span class="header">Grade History</span><br><br>
+<!-- title -->
+[else]
+<ul class="tabs" id="nav-secondary">
+    <li>
+        <a href="/guardian/termgrades.html?histyearid=~[gpv:histyearid]">Grade History</a>
+    </li>
+    <li>
+        <a href="/guardian/termgradesstd.html?histyearid=~[gpv:histyearid]">Standards&nbsp;Grades</a>
+    </li>
+</ul>
+[/if.prefschool.sgshowpa=1]
+
+<!-- start of title and student content -->
+~[if#score.pref.ppscores~(schoolid)=1]
+
+<h1>Score Information Not Available</h1>
+
+<p> This information is not available for the current student at this time.</p>
+<a href="javascript:history.go(-1)"><img src="/images/btn_back_on.gif" alt="" width="63" height="26" border="0"></a>
+[else#score]
+<style>
+    .psparent #content-main .box-round {
+        margin: 10px 20px;
+    }
+
+    pre {
+        white-space: pre-wrap; /* css-3 */
+        white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        word-wrap: break-word; /* Internet Explorer 5.5+ */
+    }
+</style>
+<!-- title -->
+<!-- start student content -->
+<div class="box-round">
+
+    <h2>Class Score Detail</h2>
+    <table border="0" cellpadding="0" cellspacing="0" align="center" width="99%">
+        <tr class="center">
+            <th>Course</th>
+            <th>Teacher</th>
+            <th>Expression</th>
+            <th>Final Grade<sup>1</sup></th>
+        </tr>
+        <tr align="center">
+            <td>~[sectioninfo:~(sectionid);coursename]</td>
+            <td>~[sectioninfo:~(sectionid);teachername]</td>
+            <td>~(*class_expression frn="~(relsectionfrn)")</td>
+            <td>
+                ~[if#A.~[dbval;table=termbins;field=suppressltrgrd;*storecode=~[gpv:fg];*termid=~(termid);*schoolid=~(schoolid)]#true]
+                ~[decode;~(frn);031@;~(grade);~(final.grade;~[gpv:fg])] &nbsp;
+                [/if#A]
+                ~[if#B.~[dbval;table=termbins;field=SuppressPercentScr;*storecode=~[gpv:fg];*termid=~(termid);*schoolid=~(schoolid)]=0]
+                <script type="text/javascript">
+                    if ("~[decode;~(frn);031@;~(grade);~(final.grade;~[gpv:fg])]" == "--") {
+                        document.write("&nbsp;");
+                    } else {
+                        document.write("~[decode;~(frn);031@;~(percent);~(final.pct;~[gpv:fg])]% &nbsp;");
+                    }
+                </script>
+                [/if#B]
+            </td>
+        </tr>
+    </table>
+
+    <!-- The following row has 2 paragraphs - only one is visible at a time -->
+    <!-- 4D's parser breaks on ; or : in comment fields passed to 'decode'-->
+
+    <p><strong>~[text:psx.html.guardian.scores.teacher_comments]</strong></p>
+
+    <div class="comment">
+        ~[if#sgcomment.~[decode;~(frn);031@;true;false]=true]
+        <pre>~(comment)</pre>
+        [else#sgcomment]
+        <pre>~(final.comment;~[gpv:fg])</pre>
+        [/if#sgcomment]
+    </div>
+    <p><strong>~[text:psx.html.guardian.scores.section_description]</strong></p>
+
+    <div class="comment">
+        <pre>~([03]teacherdescr)</pre>
+    </div>
+    <table>
+        <tr>
+            <td colspan="11" align="center">
+                ~[if#sg.~(frn)=031@]~[text:psx.html.guardian.scores.grade_stored_on,param:~(datestored)][else#sg]~[text:psx.html.guardian.scores.grades_last_updated_on,param:~(LastGradeUpdate)][/if#sg]
+            </td>
+        </tr>
+        <tr>
+            <td colspan="11" align="center"><b>1</b>~[text:psx.html.guardian.scores._this_final_grade_may_include_assignments_that_are_not_yet_p]<a
+                    href="#" onclick="openSpecialWeighting('parent');">~[text:psx.html.guardian.scores.special_weighting]</a>~[text:psx.html.guardian.scores.used_by_the_teacher]
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="box-round">
+<h2>Assignment Scores</h2>
+<table border="0" cellpadding="0" cellspacing="0" align="center" width="99%">
+~[if#stdscore.pref.ppscoresstd~(schoolid)=1]
+<tr>
+    <th>~[text:psx.html.guardian.scores.due_date]</th>
+    <th>~[text:psx.html.guardian.scores.category]</th>
+    <th>~[text:psx.html.guardian.scores.assignment]</th>
+    <th class="bold">Standard</th>
+    <th class="center">~[text:psx.html.guardian.scores.score]</th>
+    <th class="center">~[if#suppresspct.~[dbval;table=termbins;field=SuppressPercentScr]=0]%[/if#suppresspct]</th>
+    <th class="center">
+        ~[if#suppressltr.~[dbval;table=termbins;field=suppressltrgrd]#true]~[text:psx.html.guardian.scores.grd][/if#suppressltr]
+    </th>
+    <th class="center" colspan="5">~[text:psx.html.guardian.scores.codes]</th>
+</tr>
+~[tlist_sql;
+select
+case when a=1 then
+'
+<tr class="'||altcolor||'">
+    <td>'||to_char(B,'MM/DD/YYYY')||'</td>
+    <td>'||C||'</td>
+    <td>'||D||'</td>
+    <td></td>
+    <td align="center">'||F||'</td>
+    <td align="center">'||G||'</td>
+    <td align="center">'||H||'</td>
+    <td width="19"><img class="indicator" style="display'||chr(58)||I||'" src="'||'/images/icon_check.gif"></td>
+    <td width="19"><img class="indicator" style="display'||chr(58)||J||'" src="'||'/images/icon_late.gif"></td>
+
+    <td width="19"><img class="indicator" style="display'||chr(58)||K||'" src="'||'/images/icon_missing.gif"></td>
+    <td width="19"><img class="indicator" style="display'||chr(58)||L||'" src="'||'/images/icon_exempt.gif"></td>
+    <td width="19"><img class="indicator" style="display'||chr(58)||M||'" src="'||'/images/icon_excluded.gif"></td>
+</tr>
+'
+when a=2 then
+'
+<tr>
+    <td colspan="3" bgcolor="#F0F0F0"></td>
+    <td colspan="3" bgcolor="#F0F0F0">'||E||'</td>
+    <td align="center" bgcolor="#F0F0F0">'||H||'</td>
+    <td width="19" bgcolor="#F0F0F0"><img class="indicator" style="display'||chr(58)||I||'"
+                                          src="'||'/images/icon_check.gif"></td>
+    <td width="19" bgcolor="#F0F0F0"><img class="indicator" style="display'||chr(58)||J||'"
+                                          src="'||'/images/icon_late.gif"></td>
+    <td width="19" bgcolor="#F0F0F0"><img class="indicator" style="display'||chr(58)||K||'"
+                                          src="'||'/images/icon_missing.gif"></td>
+    <td width="19" bgcolor="#F0F0F0"><img class="indicator" style="display'||chr(58)||L||'"
+                                          src="'||'/images/icon_exempt.gif"></td>
+    <td width="19" bgcolor="#F0F0F0"><img class="indicator" style="display'||chr(58)||M||'"
+                                          src="'||'/images/icon_excluded.gif"></td>
+</tr>
+'
+end asmt_output
+from
+(SELECT case when mod(rownum,2) = 1 then 'oddRow' else '' end altcolor, a,b,c,csort,d,dsort,e,f,g,h,i,j,k,l,m from
+(SELECT
+1 a,
+PGA.DATEDUE b,
+case when pgc.description is not null then '<a href="categorydescr.html?frn=094'||pgc.dcid||'"/>'||pgc.name||'</a>' else
+pgc.name end c,
+pgc.name csort,
+case when pga.description is not null then '<a href="asmtdescr.html?frn=092'||pga.dcid||'"/>'||pga.name||'</a>' else
+pga.name end d,
+pga.name dsort,
+null e,
+CASE WHEN pga.PUBLISHSCORES != 0 THEN (case when ssa.comment_value is not null then '<a
+        href="javascript'||chr(58)||'alertcommentwindow('||cc.studentid||','||sec.id||','||pga.id||')">'||to_char(ssa.SCORE)||'</a>'
+else to_char(ssa.SCORE) end) ||'/'|| to_char(pga.POINTSPOSSIBLE) ELSE 'Score Not Published' END f,
+CASE WHEN pga.PUBLISHSCORES != 0 AND TB.SUPPRESSPERCENTSCR = 0 THEN case when ssa.percent is null then ' ' ELSE
+to_char(ssa.percent)||chr(37) END ELSE '' END g,
+CASE WHEN pga.PUBLISHSCORES != 0 AND TB.SUPPRESSLTRGRD = 0 THEN ssa.grade ELSE '' END h,
+(case when NVL(psmas.TURNEDIN,0) = 1 then 'inline' ELSE 'none' END) i,
+(case when NVL(psmas.TURNEDINLATE,0) = 1 then 'inline' ELSE 'none' END) j,
+(case when NVL(psmas.ISMISSING,0) = 1 then 'inline' ELSE 'none' END) k,
+(case when NVL(psmas.EXEMPT,0) = 1 then 'inline' ELSE 'none' END) l,
+(case when PGA.INCLUDEINFINALGRADES = 0 then 'inline' ELSE 'none' END) m
+FROM CC
+~[if#sgcg.~(frn)=031@]inner join storedgrades sg on abs(cc.sectionid)=abs(sg.sectionid) and cc.studentid = sg.studentid
+and sg.dcid = ~(rn)[/if#sgcg]
+INNER JOIN PGAssignments PGA on cc.sectionid = pga.sectionid
+and pga.datedue >= (SELECT min(date1) from termbins where schoolid=~(schoolid)
+and termid=abs(~(termid))
+and upper(storecode)=upper('~[gpv:fg]')
+)
+and pga.datedue <= (SELECT max(date2) from termbins where schoolid=~(schoolid)
+and termid=abs(~(termid))
+and upper(storecode)=upper('~[gpv:fg]')
+)
+AND CASE
+WHEN PGA.PUBLISHSTATE = 1 THEN PGA.PUBLISHONSPECIFICDATE
+WHEN PGA.PUBLISHSTATE = 2 THEN (PGA.DATEDUE - PGA.PUBLISHDAYSBEFOREDUE)
+WHEN PGA.PUBLISHSTATE = 3 THEN PGA.DATEDUE
+WHEN PGA.PUBLISHSTATE = 4 THEN to_date('12/31/9999','MM/DD/YYYY')
+ELSE to_date('01/01/1900','MM/DD/YYYY') END <= SYSDATE
+AND pga.datedue between CC.dateenrolled and cc.dateleft-1
+INNER JOIN SYNC_SECTIONENROLLMENTMAP sync_cc on cc.dcid = sync_cc.ccdcid and CC.studentid = ~(curstudid)
+INNER JOIN SECTIONS sec on CC.sectionid = sec.id
+INNER JOIN COURSES c on sec.course_number = c.course_number
+INNER JOIN PGCategories PGC on pga.pgcategoriesid = pgc.id
+INNER JOIN TermBins TB on sec.termid=tb.termid and sec.schoolid=tb.schoolid and upper(tb.storecode) = upper('~[gpv:fg]')
+LEFT OUTER JOIN SYNC_PGASSIGNMENTSMAP sync_pga on pga.dcid = sync_pga.pgassignmentsdcid
+LEFT OUTER JOIN PSM_ASSIGNMENTSCORE PSMAS ON sync_pga.sectionassignmentid = psmas.sectionassignmentid and
+sync_cc.sectionenrollmentid = psmas.sectionenrollmentid
+LEFT OUTER JOIN SECTIONSCORESID SSI ON sec.id = ssi.sectionid and cc.studentid = ssi.studentid
+LEFT OUTER JOIN SECTIONSCORESASSIGNMENTS SSA ON pga.id = ssa.assignment and ssi.dcid = ssa.fdcid
+WHERE
+~[if#sgcg.~(frn)=031@][ELSE#sgcg]cc.dcid = ~(rn) and[/if#sgcg]
+CASE WHEN PSMAS.EXEMPT != 1 THEN 1
+WHEN PSMAS.EXEMPT = 1 and (PSMAS.SCORE is null or PSMAS.ACTUALSCOREENTERED is null) THEN 2 ELSE 1 END = 1
+order by b,csort,dsort,a,e)
+union all
+SELECT
+null altcolor,
+2 a,
+PGA.DATEDUE b,
+pgc.name c,
+pgc.name csort,
+pga.name d,
+pga.name dsort,
+psm_s.name e,
+null f,
+null g,
+psm_ass.actualscoreentered h,
+(case when NVL(psm_ass.TURNEDIN,0) = 1 then 'inline' ELSE 'none' END) i,
+(case when NVL(psm_ass.TURNEDINLATE,0) = 1 then 'inline' ELSE 'none' END) j,
+(case when NVL(psm_ass.ISMISSING,0) = 1 then 'inline' ELSE 'none' END) k,
+(case when NVL(psm_ass.EXEMPT,0) = 1 then 'inline' ELSE 'none' END) l,
+'none' m
+FROM CC
+~[if#sgcg.~(frn)=031@]inner join storedgrades sg on abs(cc.sectionid)=abs(sg.sectionid) and cc.studentid = sg.studentid
+and sg.dcid = ~(rn)[/if#sgcg]
+INNER JOIN PGAssignments PGA on cc.sectionid = pga.sectionid
+and pga.datedue >= (SELECT min(date1) from termbins where schoolid=~(schoolid)
+and termid=~(termid)
+and upper(storecode)=upper('~[gpv:fg]')
+)
+and pga.datedue <= (SELECT max(date2) from termbins where schoolid=~(schoolid)
+and termid=~(termid)
+and upper(storecode)=upper('~[gpv:fg]')
+)
+AND CASE
+WHEN PGA.PUBLISHSTATE = 1 THEN PGA.PUBLISHONSPECIFICDATE
+WHEN PGA.PUBLISHSTATE = 2 THEN (PGA.DATEDUE - PGA.PUBLISHDAYSBEFOREDUE)
+WHEN PGA.PUBLISHSTATE = 3 THEN PGA.DATEDUE
+WHEN PGA.PUBLISHSTATE = 4 THEN to_date('12/31/9999','MM/DD/YYYY')
+ELSE to_date('01/01/1900','MM/DD/YYYY') END <= SYSDATE
+AND pga.datedue between CC.dateenrolled and cc.dateleft-1
+INNER JOIN PGCategories PGC on pga.pgcategoriesid = pgc.id
+INNER JOIN SYNC_SECTIONENROLLMENTMAP sync_cc on cc.dcid = sync_cc.ccdcid and CC.studentid =~(curstudid)
+INNER JOIN SECTIONS sec on CC.sectionid = sec.id
+INNER JOIN COURSES c on sec.course_number = c.course_number
+INNER JOIN SYNC_PGASSIGNMENTSMAP sync_pga on pga.dcid = sync_pga.pgassignmentsdcid
+INNER JOIN PSM_ASSIGNMENTSTANDARD PSM_AS on sync_pga.sectionassignmentid = psm_as.sectionassignmentid
+INNER JOIN PSM_ASSIGNMENTSTANDARDSCORE PSM_ASS on sync_cc.sectionenrollmentid = PSM_ASS.sectionenrollmentid and
+psm_as.id=psm_ass.assignmentstandardid
+INNER JOIN PSM_STANDARD PSM_S on psm_as.standardid=psm_s.id
+LEFT OUTER JOIN PSM_ASSIGNMENTSCORE PSMAS ON sync_pga.sectionassignmentid = psmas.sectionassignmentid and
+sync_cc.sectionenrollmentid = psmas.sectionenrollmentid
+WHERE
+~[if#sgcg.~(frn)=031@][ELSE#sgcg]cc.dcid = ~(rn) and[/if#sgcg]
+CASE WHEN PSMAS.EXEMPT != 1 THEN 1
+WHEN PSMAS.EXEMPT = 1 and (PSMAS.SCORE is null or PSMAS.ACTUALSCOREENTERED is null) THEN 2 ELSE 1 END = 1
+order by b,csort,dsort,a,e)]
+~(asmt_output)[/tlist_sql]
+[else#stdscore]
+<tr>
+    <th>Due Date</th>
+    <th>Category</th>
+    <th>Assignment</th>
+    <th class="center" colspan="5">Codes</th>
+    <th class="center">Score</th>
+    <th class="center">~[if#A.~[dbval;table=termbins;field=SuppressPercentScr]=0]%[/if#A]</th>
+    <th class="center">~[if#B.~[dbval;table=termbins;field=suppressltrgrd]#true]Grd[/if#B]</th>
+</tr>
+~[tlist_sql;
+SELECT
+pga.datedue,
+pgc.name category,
+pga.name assignment,
+(case when NVL(psmas.TURNEDIN,0) = 1 then 'inline' ELSE 'none' END) turnedin,
+(case when NVL(psmas.TURNEDINLATE,0) = 1 then 'inline' ELSE 'none' END) late,
+(case when NVL(psmas.ISMISSING,0) = 1 then 'inline' ELSE 'none' END) missing,
+(case when NVL(psmas.EXEMPT,0) = 1 then 'inline' ELSE 'none' END) exempt,
+(case when PGA.INCLUDEINFINALGRADES = 0 then 'inline' ELSE 'none' END) notclac,
+CASE WHEN pga.PUBLISHSCORES != 0 THEN to_char(ssa.SCORE) ||'/'|| to_char(pga.POINTSPOSSIBLE) ELSE 'Score Not Published'
+END earnposs,
+CASE WHEN pga.PUBLISHSCORES != 0 AND
+~[dbval;table=termbins;field=SuppressPercentScr;*storecode=~[gpv:fg];*termid=~(termid);*schoolid=~(schoolid)] = 0 THEN
+to_char(ssa.percent)||chr(37) ELSE '' END percent,
+CASE WHEN pga.PUBLISHSCORES != 0 AND
+~[if#1.~[dbval;table=termbins;field=suppressltrgrd;*storecode=~[gpv:fg];*termid=~(termid);*schoolid=~(schoolid)]#true]1[else#1]2[/if#1]
+= 1 THEN ssa.grade ELSE '' END ltrgrade
+FROM CC
+inner join storedgrades sg on abs(cc.sectionid)=abs(sg.sectionid) and cc.studentid = sg.studentid and sg.dcid =
+SUBSTR(~[gpv:frn],3)
+INNER JOIN PGAssignments PGA on cc.sectionid = pga.sectionid and pga.datedue >= (SELECT min(date1) from termbins where
+schoolid=~(schoolid) and yearid = substr(~(termid),0,2) and upper(storecode) = upper('~[gpv:fg]')) and pga.datedue <=
+(SELECT max(date2) from termbins where schoolid=~(schoolid) and yearid = substr(~(termid),0,2) and upper(storecode) =
+upper('~[gpv:fg]'))
+AND CASE
+WHEN PGA.PUBLISHSTATE = 1 THEN PGA.PUBLISHONSPECIFICDATE
+WHEN PGA.PUBLISHSTATE = 2 THEN (PGA.DATEDUE - PGA.PUBLISHDAYSBEFOREDUE)
+WHEN PGA.PUBLISHSTATE = 3 THEN PGA.DATEDUE
+WHEN PGA.PUBLISHSTATE = 4 THEN to_date('12/31/9999','MM/DD/YYYY')
+ELSE PGA.DATEDUE END <= SYSDATE
+INNER JOIN SYNC_SECTIONENROLLMENTMAP sync_cc on cc.dcid = sync_cc.ccdcid and CC.studentid = ~(curstudid)
+INNER JOIN SECTIONS sec on CC.sectionid = sec.id
+INNER JOIN COURSES c on sec.course_number = c.course_number
+INNER JOIN PGCategories PGC on pga.pgcategoriesid = pgc.id
+LEFT OUTER JOIN SYNC_PGASSIGNMENTSMAP sync_pga on pga.dcid = sync_pga.pgassignmentsdcid
+LEFT OUTER JOIN PSM_ASSIGNMENTSCORE PSMAS ON sync_pga.sectionassignmentid = psmas.sectionassignmentid and
+sync_cc.sectionenrollmentid = psmas.sectionenrollmentid
+LEFT OUTER JOIN SECTIONSCORESID SSI ON sec.id = ssi.sectionid and cc.studentid = ssi.studentid
+LEFT OUTER JOIN SECTIONSCORESASSIGNMENTS SSA ON pga.id = ssa.assignment and ssi.dcid = ssa.fdcid
+WHERE
+CASE WHEN PSMAS.EXEMPT != 1 THEN 1
+WHEN PSMAS.EXEMPT = 1 and (PSMAS.SCORE is null or PSMAS.ACTUALSCOREENTERED is null) THEN 2 ELSE 1 END = 1
+
+order by datedue, pga.name;alternatecolor]
+<tr bgcolor="#edf3fe">
+    <td>~(duedate;d)</td>
+    <td>~(category;t)</td>
+    <td>~(assignment;t)</td>
+    <td width="14"><img class="indicator" style="display:~(turnedin;t)" src="/images/icon_check.gif"></td>
+    <td width="14"><img class="indicator" style="display:~(late;t)" src="/images/icon_late.gif"></td>
+    <td width="14"><img class="indicator" style="display:~(missing;t)" src="/images/icon_missing.gif"></td>
+    <td width="14"><img class="indicator" style="display:~(exempt;t)" src="/images/icon_exempt.gif"></td>
+    <td width="19"><img class="indicator" style="display:~(notcalc;t)" src="/images/icon_excluded.gif"></td>
+    <td align="center"><span class="bold-underline">~(earnposs;t)</span></td>
+    <td align="center">~(percent;t)</td>
+    <td align="center">~(ltrgrade;t)</td>
+</tr>
+[/tlist_sql]
+[/if#stdscore]
+<tr>
+    <td colspan="11" align="center"><img src="/images/icon_check.gif" alt="Collected">~[text:psx.html.guardian.scores._collected]<img
+            src="/images/icon_late.gif" alt="Late">~[text:psx.html.guardian.scores._late]<img
+            src="/images/icon_missing.gif" alt="Missing">~[text:psx.html.guardian.scores._missing]<img
+            src="/images/icon_exempt.gif" alt="Exempt">~[text:psx.html.guardian.scores._score_is_exempt_from_final_grade]<img
+            src="/images/icon_excluded.gif" alt="Excluded">~[text:psx.html.guardian.scores._assignment_is_not_included_in_final_grade]
+    </td>
+</tr>
+</table>
+</div>
+~[if#scorewght.pref.ppscoreswght~(schoolid)=1]
+[else#scorewght]
+<div class="box-round">
+    <h2>Special Weighting</h2>
+    ~[tlist_sql;select
+    case when prt.name != LAG(prt.name, 1, 0 ) OVER (ORDER BY prt.startdate, prt.termsort, prt.Name, weights.Name) and
+    prt.termsort < LAG(prt.termsort, 1, 0 ) OVER (ORDER BY prt.startdate, prt.termsort, prt.Name, weights.Name) then 2
+    when prt.name != LAG(prt.name, 1, 0 ) OVER (ORDER BY prt.startdate, prt.termsort, prt.Name, weights.Name) then 1
+    else 0 end OPENDIV,
+    case when prt.name != LAG(prt.name, 1, 0 ) OVER (ORDER BY prt.startdate, prt.termsort, prt.Name, weights.Name) then
+    '1'
+    else '0' end || case when pfgs.FinalGradeSetupType = 'TotalPoints' then '1' else
+    decode(weights.GradingFormulaWeightingType,'CategoryBasedWeighting','2','TermBasedWeighting','3','AssignmentBasedWeighting','4','1')
+    end tableinfo,
+    prt.Name,
+    case when pfgs.FinalGradeSetupType = 'TotalPoints' then 'Total Points' else
+    decode(weights.GradingFormulaWeightingType,'CategoryBasedWeighting','Category Based','TermBasedWeighting','Term
+    Based','AssignmentBasedWeighting','Assignment Based','Total Points') end weight_type,
+    case when weights.GradingFormulaWeightingType='AssignmentBasedWeighting' then pa.name else weights.Name end,
+    weights.Weighting, weights.LowScoresToDiscard,
+    case when prt.name != LEAD(prt.name, 1, 0 ) OVER (ORDER BY prt.startdate, prt.termsort, prt.Name, weights.Name) and
+    prt.termsort > LEAD(prt.termsort, 1, 0 ) OVER (ORDER BY prt.startdate, prt.termsort, prt.Name, weights.Name) then
+    prt.termsort+1
+    when prt.name != LEAD(prt.name, 1, 0 ) OVER (ORDER BY prt.startdate, prt.termsort, prt.Name, weights.Name) and
+    prt.termsort < LEAD(prt.termsort, 1, 0 ) OVER (ORDER BY prt.startdate, prt.termsort, prt.Name, weights.Name) then 2
+    when prt.name != LEAD(prt.name, 1, 0 ) OVER (ORDER BY prt.startdate, prt.termsort, prt.Name, weights.Name) then 1
+    else 0 end CLOSEDIV
+    FROM PSM_SECTION psec
+    inner join sync_sectionmap ssm on psec.id=ssm.sectionid
+    inner join Sections sec on ssm.sectionsdcid=sec.dcid and sec.id=~(sectionid)
+    INNER JOIN PSM_TERM pter ON psec.TermID = pter.ID
+    INNER JOIN (SELECT
+    level termsort, to_number(NVL(replace(Sys_connect_by_path(termid, 'X'),'X',''),'0')) termid, ID, StartDate, EndDate,
+    Name
+    FROM PSM_REPORTINGTERM
+    START WITH PARENTREPORTINGTERMID is null
+    CONNECT BY PRIOR id = PARENTREPORTINGTERMID) prt ON pter.ID = prt.TermID
+    LEFT OUTER JOIN PSM_FINALGRADESETUP pfgs ON psec.ID = pfgs.SectionID AND prt.ID = pfgs.ReportingTermID
+    LEFT OUTER JOIN (
+    SELECT pgf.ID,
+    pgf.ContentGroupID,
+    pgfw.GradingFormulaWeightingType,
+    pgfw.Weighting,
+    pgfw.lowScoresToDiscard,
+    CASE WHEN pgfw.AssignmentCategoryID is null THEN prt.Name ELSE pac.Name END Name,
+    pgfw.assignmentid
+    FROM PSM_GRADINGFORMULA pgf
+    INNER JOIN PSM_GRADINGFORMULAWEIGHTING pgfw ON pgf.ID = pgfw.ParentGradingFormulaID
+    LEFT OUTER JOIN PSM_ASSIGNMENTCATEGORY pac ON pgfw.AssignmentCategoryID = pac.ID
+    LEFT OUTER JOIN PSM_REPORTINGTERM prt ON pgfw.ReportingTermID = prt.ID
+    ) weights ON pfgs.GradingFormulaID = weights.ID
+    left outer join psm_assignment pa on weights.assignmentid=pa.id
+    ORDER BY prt.startdate, prt.termsort, prt.Name, weights.Name]
+    ~(1;l;if.test=1;then=
+    <div class="box-round">
+        <table>;else.if=2;then=
+    </div>
+    <div class="box-round">
+        <table>;else=)
+            ~(2;t;if.test=11;then=
+            <tr>
+                <th class="bold">Term ~(3)</th>
+            </tr>
+            ;else.if=12;then=
+            <tr>
+                <th class="bold">Term ~(3)</th>
+                <th class="bold">Name</th>
+                <th class="bold">Weight %</th>
+                <th class="bold">Low scores to discard</th>
+            </tr>
+            ;else.if=13;then=
+            <tr>
+                <th class="bold">Term ~(3)</th>
+                <th class="bold">Name</th>
+                <th class="bold">Weight %</th>
+            </tr>
+            ;else.if=14;then=
+            <tr>
+                <th class="bold">Term ~(3)</th>
+                <th class="bold">Name</th>
+                <th class="bold">Weight %</th>
+            </tr>
+            ;else=)
+            <tr>
+                <td>~(4)</td>
+                <td style="display:~(2;t;if.test=11;then=none;else.if=01;then=none;else=)">~(5)</td>
+                <td style="display:~(2;t;if.test=11;then=none;else.if=01;then=none;else=)">~(6)</td>
+                <td style="display:~(2;t;if.test=11;then=none;else.if=01;then=none;else.if=13;then=none;else.if=03;then=none;else.if=14;then=none;else.if=04;then=none;else=)">
+                    ~(7)
+                </td>
+            </tr>
+            ~(8;l;if.test=1;then=
+        </table>
+    </div>
+    ;else.if=2;then=
+</table>
+;else.if=3;then=</table></div>;else.if=4;then=</table></div>;else.if=5;then=</table></div></div>
+;else.if=6;then=</table></div></div></div>;else.if=7;then=</table></div></div></div></div>;else=)
+[/tlist_sql]
+</div>
+[/if#scorewght]
+
+[/if#score]
+<!-- end student content -->
+</div>
+<input id="activeNav" type="hidden" value="#btn-gradesHistory"/>
+<input id="activePageVersion" type="hidden" value="3.3.1"/>
+~[wc:guardian_footer]
+</body>
+</html>

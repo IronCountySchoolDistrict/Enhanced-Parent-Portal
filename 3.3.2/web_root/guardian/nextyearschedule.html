@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Next Years Schedule - PowerSchool Parent Access</title>
+~[if#1.pref.nextschedule~([Students]Next_School)=1]~[redirect:/guardian/home_not_available.html]
+[else#1]
+	~[if#1a.isguardianAndSSOEnabled]
+	~[if#2.~([Students]allowwebaccess)=0]
+	~[redirect:/guardian/home_not_available.html]
+	[/if#2]
+	[/if#1a]
+[/if#1]
+~[wc:guardian_header]
+~[SetPostValue:schedulerequestyearid=~(schedule.yearidfuture)]
+~[SetPostValue:id=~(curstudid)]
+  <h1>~[yearname:~[gpv:schedulerequestyearid]] Schedule</h1>
+  <!-- title -->
+
+    <!-- start parent content-->
+<div class="box-round group">
+~[if#sched.~(curschoolid)#~(Next_School)]
+<h2>List View</h2>
+<table border="0" cellspacing="0" cellpadding="4">
+<tr bgcolor="#f6f6f6">
+<td class="bold">Course Name</td>
+<td class="bold">Expression</td>
+<td class="bold">Section</td>
+<td class="bold">Teacher</td>
+<td class="bold">Term</td>
+</tr>
+~[tlist_sql;SELECT c.course_name, cc.expression, cc.section_number, t.lastfirst,term.abbreviation from schedulecc cc 
+inner join schedulebuilds sb on cc.buildid = sb.buildid and sb.currentbuild = 1 and cc.schoolid =sb.schoolid and cc.schoolid = ~(next_school) and cc.studentid=~(curstudid)
+inner join teachers t on cc.teacherid = t.id
+inner join scheduleterms term on cc.termid = term.id and cc.schoolid=term.schoolid
+inner join courses c on cc.course_number = c.course_number order by upper(c.course_name);alternatecolor]
+<tr bgcolor="#edf3fe">
+<td>~(c.course_name)</td>
+<td>~(cc.expression)</td>
+<td>~(cc.section_number)</td>
+<td>~(t.lastfirst)</td>
+<td>~(term.abbreviation)</td>
+[/tlist_sql]
+</tr>
+</table>
+[else#sched]
+<h2>List View</h2>
+<table border="0" cellspacing="0" cellpadding="4">
+<tr bgcolor="#f6f6f6">
+<td class="bold">Course Name</td>
+<td class="bold">Expression</td>
+<td class="bold">Section</td>
+<td class="bold">Teacher</td>
+<td class="bold">Term</td>
+</tr>
+~[tlist_sql;SELECT c.course_name, cc.expression, cc.section_number, t.lastfirst,term.abbreviation from schedulecc cc 
+inner join schedulebuilds sb on cc.buildid = sb.buildid and sb.currentbuild = 1 and cc.schoolid =sb.schoolid and cc.schoolid = ~(next_school) and cc.studentid=~(curstudid)
+inner join teachers t on cc.teacherid = t.id
+inner join scheduleterms term on cc.termid = term.id and cc.schoolid=term.schoolid
+inner join courses c on cc.course_number = c.course_number order by upper(c.course_name);alternatecolor]
+<tr bgcolor="#edf3fe">
+<td>~(c.course_name)</td>
+<td>~(cc.expression)</td>
+<td>~(cc.section_number)</td>
+<td>~(t.lastfirst)</td>
+<td>~(term.abbreviation)</td>
+[/tlist_sql]
+</tr>
+</table>
+<br>
+<h2>Matrix View</h2>
+
+<table border="0" cellspacing="0" cellpadding="4">
+<tr>
+	<td>~[x:scheduleStudentMatrix]</td></tr>
+</table>
+[/if#sched]
+
+</div>
+
+
+</div>
+<!-- end parent content -->
+
+<!-- end of title and student content -->
+</div>
+<input id="activeNav" type="hidden" value="#btn-next-year-sched"/>
+<input id="activePageVersion" type="hidden" value="3.3.1"/>
+~[wc:guardian_footer]
+</body></head>

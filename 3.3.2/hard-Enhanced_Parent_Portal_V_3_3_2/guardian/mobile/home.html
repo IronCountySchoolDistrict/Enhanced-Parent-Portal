@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>PowerSchool</title>
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=5.0; user-scalable=1;"/>
+<link rel="apple-touch-icon" href="/images/mobile/ps6-logo-touch-icon.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<link href="/scripts/mobile/ps-iui.css" rel="stylesheet">
+<link rel="stylesheet" title="default" href="/scripts/mobile/ps-iui.css" type="text/css" />
+<link rel="alternate stylesheet" title="android" href="/scripts/mobile/android-theme.css" type="text/css">
+
+<script type="application/x-javascript" src="/scripts/mobile/ps-iui.js"></script>
+<SCRIPT type="application/x-javascript" src="/scripts/iui/0.31/iui-theme-switcher.js"></SCRIPT>
+<script type="text/javascript">
+	iui.animOn = true;
+	var uagent = navigator.userAgent.toLowerCase();
+	if(uagent.indexOf('android') != -1) {
+		iui.ts.setTheme("android");	
+	} else {
+		iui.ts.setTheme("default");	
+	}
+</script>
+
+
+<script type="text/javascript">
+	~[if#1.prefschool.mobiledisable_guardian=1]location.href = "../home.html";[else#1]~[if#isguardian.isguardian]~[if#2.~([01]allowwebaccess)=0]location.href = "home_not_available.html";[/if#2][/if#isguardian][/if#1]
+	
+</script>
+</head>
+<body>
+	<div class="toolbar">
+		<h1 id="pageTitle">PowerSchool</h1>
+        <a id="backButton" class="button" href="#" type="backlink"></a>
+		<a id="otherButton" class="button" href="#"></a>
+    </div>
+    
+    <ul id="home" title="Home" selected="true" hideBackButton="true" otherButtonLabel="Logout" otherButtonHref="home.html?ac=logoff" otherButtonTarget="_self">
+		<div align="right"></div>
+~[if.isguardianAndSSOEnabled]
+    	<li class="group">Current Student: ~[x:username]<br />
+	<font style="font-size:11px;">~[eaodate;dayabbr] - (Last Login:&nbsp;~[x:lastlogin])</font></li>
+	<li><a href="#students-list" id="curstudent">Change Student</a></li>
+[else]
+    	<li class="group">~[x:username] - ~[eaodate;dayabbr]<br />
+	<font style="font-size:11px;">(Last Login:&nbsp;~[x:lastlogin])</font></li>
+[/if]
+		~[tlist_sql;SELECT bs.id, bs.Name
+			FROM Calendar_Day cd
+			INNER JOIN Bell_Schedule bs ON cd.Bell_Schedule_ID = bs.ID
+			WHERE cd.date_value = trunc(sysdate)
+				AND cd.SchoolID =~(curschoolid);nonemessage=<li>No schedule defined for today</li>]
+		<li><a href="#bellschedule.html?schedid=~(bs.id;l)">~(bs.Name;t)</a></li>
+		[/tlist_sql]
+		<li class="group">Menu</li>
+		~[if.pref.gradesattendance~(curschoolid)=1][else]<li><a href="#classgrades.html">Assignments: ~(current.final.grade.name)</a></li>[/if]
+		~[if.pref.ppscores~(schoolid)=1][else]<li><a href="#missingasmts.html">Missing Asmts: ~(current.final.grade.name)</a></li>[/if]
+		~[if.pref.gradesattendance~(curschoolid)=1][else]<li><a href="#scheduleplus.html">Schedule +</a></li>
+		<li><a href="#teachercontact">Teacher Emails</a></li>[/if]
+		~[if.pref.bulletin~(curschoolid)=1][else]<li><a href="#bulletin.html">Daily Bulletin</a></li>[/if]
+		<li><a href="/guardian/home.html?mobileHome=main" target="_self" id="exitlink">Exit to Main PS site</a>
+	</ul>
+	
+	<ul id="teachercontact" parentid="home" title="Teachers">
+		~[tlist_sql;select Teachers.email_addr, Courses.Course_Name,
+				CC.Expression, Teachers.LastFirst,
+				Sections.Room, Sections.ID, Sections.TermID
+			from Sections, Teachers, Courses, Terms, CC
+			where ABS(CC.SectionID) = Sections.ID
+			  and Sections.Teacher = Teachers.ID
+			  and Courses.Course_Number = Sections.Course_Number
+			  and Terms.ID = Sections.TermID 
+			  and Terms.SchoolID = Sections.SchoolID
+			;alternatecolor;currentschedule]
+		<li class="hindent">
+			<a href="mailto:~(Teachers.email_addr)
+			?subject=~(Courses.Course_name;t) - ~[x:username]
+			&body=Re: ~[x:username]<br />
+			Course: ~(Courses.Course_name) ~(CC.Expression;t;externalexpression)<br /><br />">
+			~(CC.Expression;t;externalexpression) 
+			~(Teachers.LastFirst;t)<br />
+			<span class="listDetails">
+				~(Courses.Course_Name;t) Rm ~(Sections.Room;t)
+			</span>
+			<!-- ~(Sections.ID;l) ~(Sections.TermID;l) -->
+			</a>
+		</li>
+		[/tlist_sql]
+	</ul>
+
+<!-- PA-73: Render list of associated students if  the user is a guardian -->
+~[if.isguardianAndSSOEnabled]~[brij_render:parentportal-pkg;:listOnlyStudentsAssociatedWithGuardian][/if]
+
+
+</body>
+</html><!-- non framed -->

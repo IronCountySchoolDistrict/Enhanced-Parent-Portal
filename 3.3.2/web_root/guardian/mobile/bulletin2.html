@@ -1,0 +1,20 @@
+<div id="bulletin2" parentid="home" title="~[bulletindate;0]">
+	<div class="bulletinNav">
+		<img class="zleft" onclick="iui.decreaseFontSize();" src="/images/mobile/icon_zoom_out.png"/>
+		<a href="#bulletin.html?date=~[bulletindate;-1]" class="prevButton" type="backlink">~[bulletindate;-1]</a>
+		<a href="#bulletin.html?date=~[bulletindate;1]" class="nextButton">~[bulletindate;1]</a>
+		<img class="zright" onclick="iui.increaseFontSize();" src="/images/mobile/icon_zoom_in.png"/>
+	</div>
+	<table border="0" cellpadding="4" cellspacing="0" align="center">
+		<tr bgcolor="#edf3fe">
+			<td align="center">~[schoolname] Bulletin for ~[bulletindate]</td>
+		</tr>
+		<tr>
+			<td>~[x:bulletinitems]</td>
+		</tr>
+	</table>
+	<div class="bulletinNavb">
+		<a href="#bulletin.html?date=~[bulletindate;-1]" class="prevButton" type="backlink">~[bulletindate;-1]</a>
+		<a href="#bulletin.html?date=~[bulletindate;1]" class="nextButton">~[bulletindate;1]</a>
+	</div>
+</div>

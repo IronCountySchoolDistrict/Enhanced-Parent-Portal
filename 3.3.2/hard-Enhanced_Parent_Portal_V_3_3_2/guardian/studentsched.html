@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+~[if#1.pref.studentsched~(curschoolid)=1]~[redirect:/guardian/home_not_available.html]
+[else#1]
+	~[if#isguardian.isguardian]
+	~[if#2.~([01]allowwebaccess)=0]
+	~[redirect:/guardian/home_not_available.html]
+	[/if#2]
+	~[/if#isguardian]
+[/if#1]
+
+<title>Student Schedule</title>
+~[wc:guardian_header]
+  <ul id="nav-secondary" class="tabs">
+  	<li class="selected"><a href="#">Student Schedule</a></li>
+    <li><a href="studentbellsched.html">Weekly Schedule</a></li>
+  </ul>
+  <h1>Student Schedule</h1>
+  <!-- title -->
+
+  <div class="box-round group">
+    <!-- start parent content-->
+~[SetPostValue:skipDontPrintFilter=1]
+
+<table border="0" cellspacing="0" cellpadding="0" align="center">
+<div align="center">Enrollments for current school only.</div>
+~[x:sched_studentschedulematrix]
+</table>
+
+  </div>
+<div class="box-round group">
+<table border="0" cellspacing="0" cellpadding="4" align="center">
+<tr>
+<td colspan="8" align="center" class="bold">[termname]</td>
+</tr>
+<tr bgcolor="#f6f6f6">
+<td class="bold">Exp~[x:yearschedule]</td>
+<td class="bold">Trm</td>
+<td class="bold">Crs-Sec</td>
+<td class="bold">Course Name</td>
+<td class="bold">Teacher</td>
+<td class="bold">Room</td>
+<td class="bold">Enroll</td>
+<td class="bold">Leave</td>
+</tr>
+    ~[tlist_sql;select
+            CC.Expression, Sections.SchoolID, Sections.TermID,
+            Terms.Abbreviation,
+            Sections.Course_Number, Sections.Section_Number, Sections.ID,
+            Courses.Course_Name,
+            Teachers.LastFirst,
+            Sections.Room,
+            CC.DateEnrolled,
+            CC.DateLeft
+        from CC, Sections, Teachers, Courses, Terms
+        where ABS(CC.SectionID) = Sections.ID
+          and Sections.Teacher = Teachers.ID
+          and Courses.Course_Number = Sections.Course_Number
+          and Terms.ID = Sections.TermID and Terms.SchoolID = Sections.SchoolID
+        ;alternatecolor;currentschedule]
+    <tr bgcolor="#edf3fe">
+    <td>~(CC.Expression;t;externalExpression)<!-- ~(Sections.SchoolID;l) ~(Sections.TermID;l) --></td>
+    <td>~(Terms.Abbreviation;t)</td>
+    <td>~(Sections.Course_Number;t)-~(Sections.Section_Number;t)<!-- ~(Sections.ID;l) --></td>
+    <td>~(Courses.Course_Name;t)</td>
+    <td>~(Teachers.LastFirst;t)</td>
+    <td>~(Sections.Room;t)</td>
+    <td>~(CC.DateEnrolled;d)</td>
+    <td>~(CC.DateLeft;d)</td>
+    </tr>
+    [/tlist_sql]
+</table>  
+</div> 
+</div>
+
+
+</div>
+<!-- end parent content -->
+
+<!-- end of title and student content -->
+</div>
+<input id="activeNav" type="hidden" value="#btn-print-transcript"/>
+<input id="activePageVersion" type="hidden" value="3.3.1"/>
+~[wc:guardian_footer]
+</body></head>

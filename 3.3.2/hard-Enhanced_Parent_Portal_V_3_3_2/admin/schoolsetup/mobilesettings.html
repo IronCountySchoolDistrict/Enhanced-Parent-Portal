@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<!-- non framed -->
+<head>
+<title>~[text:psx.html.admin_schoolsetup.mobilesettings.mobile_settings]</title>
+~[wc:commonscripts]
+<link href="/images/css/screen.css" rel="stylesheet" media="screen">
+<link href="/images/css/print.css" rel="stylesheet" media="print">
+</head>
+
+<body>
+
+<form action="home.html" method="POST">
+~[wc:admin_header_css]<!-- breadcrumb start --><a href="/admin/home.html" target="_top">~[text:psx.html.admin_schoolsetup.mobilesettings.start_page]</a> &gt; <a href="/admin/schoolsetup/home.html" target="_top">~[text:psx.html.admin_schoolsetup.mobilesettings.school_setup]</a> &gt;~[text:psx.html.admin_schoolsetup.mobilesettings.powerschool_mobile_settings]<!-- breadcrumb end -->~[wc:admin_navigation_css]
+
+<h1>~[text:psx.html.admin_schoolsetup.mobilesettings.mobile_settings1]</h1><!-- start of content and bounding box -->
+
+~[SetPostValue:selectedTab=GS]
+~[brij_render:common-ps;:MobileSettingsTabs]
+
+<div class="box-round">
+        <table border="0" cellspacing="0" cellpadding="4">
+            <tr class="headerRow">
+                <th>
+                    ~[text:psx.html.admin_schoolsetup.mobilesettings.function]
+                </th>
+                <th align="center">
+                    ~[text:psx.html.admin_schoolsetup.mobilesettings.optimized_pages]
+                </th>
+            </tr>
+            <tr class="~[evenoddrow;reset]">
+                <td class="bold">
+                    ~[text:psx.html.admin_schoolsetup.mobilesettings.disable_mobile_ps_admin]
+                </td>
+                <td align="center">
+                    <input type="checkbox" name="[prefschool]mobiledisable_admin" value="1">
+                </td>
+            </tr>
+            <tr class="~[evenoddrow]">
+                <td class="bold">
+                    ~[text:psx.html.admin_schoolsetup.mobilesettings.disable_mobile_ps_teachers]
+                </td>
+                <td align="center">
+                    <input type="checkbox" name="[prefschool]mobiledisable_teachers" value="1">
+                </td>
+            </tr>
+            <tr class="~[evenoddrow]">
+                <td class="bold">
+                    ~[text:psx.html.admin_schoolsetup.mobilesettings.disable_mobile_ps_subs]
+                </td>
+                <td align="center">
+                    <input type="checkbox" name="[prefschool]mobiledisable_subs" value="1">
+                </td>
+            </tr>
+            <tr class="~[evenoddrow]">
+                <td class="bold">
+                Disable Mobile PS (Public)
+                </td>
+                <td align="center">
+                	<input type="checkbox" name="[prefschool]mobiledisable_guardian" value="1">
+                </td>
+            </tr>
+            <tr class="~[evenoddrow]">
+                <td class="bold">
+                    ~[text:psx.html.admin_schoolsetup.mobilesettings.default_class_sort]
+                </td>
+                <td align="center">
+                    <select name="[prefschool]mobileclasssort">
+                        <option value="classname">
+                            ~[text:psx.html.admin_schoolsetup.mobilesettings.courseexpression]
+                        </option>
+                        <option value="expression">
+                            ~[text:psx.html.admin_schoolsetup.mobilesettings.expressioncourse]
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr class="~[evenoddrow]">
+                <td class="bold">
+                    ~[text:psx.html.admin_schoolsetup.mobilesettings.hide_bus_route]
+                </td>
+                <td align="center">
+                    <input type="checkbox" name="[prefschool]mobilehidebus" value="1">
+                </td>
+            </tr>
+            <tr class="~[evenoddrow]">
+                <td class="bold">
+                    ~[text:psx.html.admin_schoolsetup.mobilesettings.show_bus_info_from_transportation_or_student_fields]
+                </td>
+                <td align="center">
+                    <select name="[prefschool]mobilebustable">
+                        <option value="transportation">
+                            ~[text:psx.html.admin_schoolsetup.mobilesettings.transportation]
+                        </option>
+                        <option value="students">
+                            ~[text:psx.html.admin_schoolsetup.mobilesettings.students]
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr class="~[evenoddrow]">
+                <td class="bold">
+                    ~[text:psx.html.admin_schoolsetup.mobilesettings.hide_student_photos]
+                </td>
+                <td align="center">
+                    <input type="checkbox" name="[prefschool]mobilehidephoto" value="1">
+                </td>
+            </tr>
+            <tr class="~[evenoddrow]">
+                <td class="bold">
+                    ~[text:psx.html.admin_schoolsetup.mobilesettings.hide_lunch_count_subs]
+                </td>
+                <td align="center">
+                    <input type="checkbox" name="[prefschool]mobilehidelunchsub" value="1">
+                </td>
+            </tr>
+            <tr class="~[evenoddrow]">
+                <td class="bold">
+                    ~[text:psx.html.admin_schoolsetup.mobilesettings.hide_lunch_count_teachers]
+                </td>
+                <td align="center">
+                    <input type="checkbox" name="[prefschool]mobilehidelunchteacher" value="1">
+                </td>
+            </tr>
+        </table>
+        <p>~[text:psx.html.admin_schoolsetup.mobilesettings.these_settings_only_apply_for_this_school]</p>
+<div class="button-row"><input type="hidden" name="ac" value="prim"><input type="hidden" name="ac" value="initschools">~[submitbutton]</div>
+</div>
+<br>
+
+<!-- end of content of bounding box -->
+
+~[wc:admin_footer_css]
+</form>
+
+</body>
+</html><!-- non framed -->

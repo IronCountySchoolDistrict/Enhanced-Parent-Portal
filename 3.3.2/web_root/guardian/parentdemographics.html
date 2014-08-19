@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+~[if#1.pref.demographic~(curschoolid)=1]~[redirect:/guardian/home_not_available.html]
+[else#1]
+	~[if#1a.isguardianAndSSOEnabled]
+	~[if#2.~([Students]allowwebaccess)=0]
+	~[redirect:/guardian/home_not_available.html]
+	[/if#2]
+	[/if#1a]
+[/if#1]
+~[if.~([Students]enabledemoupdate)=1][else]~[redirect:/guardian/home_not_available.html][/if]
+
+<SCRIPT LANGUAGE="JavaScript">
+function setParentVerified() {
+document.getElementById("parentverified").value='1';
+}
+</SCRIPT>
+<title>Demographic Update</title>
+
+~[wc:guardian_header]
+  <h1>Demographic Update</h1>
+  <!-- title -->
+~[if#isstudent.isstudent]
+<table border="0" cellspacing="0" cellpadding="0" align="center">
+<tr align="center">
+
+<td>Your account does not allow access to this page.</td>
+</tr>
+</table>
+[else#isstudent]
+~[if#parentverify.~([Students]parent_verify)=1]<font color="#FF0000"><b><center>Your information has already been sent in for approval. If you would like to resubmit new information, you can, but it is not needed.</center></b></font><br>[/if#parentverify]
+
+  <div id="demographic-update" class="box-round group">
+    <!-- start parent content-->
+    <form action="changesrecorded.html" method="POST" id="demographic-update" class="noSubmitLoading" onSubmit="setParentVerified();">
+<table border="0" cellspacing="0" cellpadding="4">
+	<tr bgcolor="#ffffff">
+		<td class="bold">&nbsp;</td>
+		<td width="200">On file with the school</td>
+		<td>Please make your updates</td>
+	</tr>
+	<tr bgcolor="#edf3fe">
+		<td class="bold">Name (last,first MI)</td>
+		<td width="200">~([Students]lastfirst)</td>
+		<td><em>If you make changes, please use the suggested formats.</em></td>
+	</tr>
+	<tr>
+		<td class="bold">Address</td>
+		<td width="200">~([Students]street)<br>~([Students]city), ~([Students]state) ~([Students]zip)</td>
+		<td><input type="text" name="[students]parent_street" value="" size="30" /><br>
+			<input type="text" name="[students]parent_city" value="" size="14" />, <input type="text" name="[students]parent_state" value="" size="2" /> <input type="text" name="[students]parent_zip" value="" size="10" /></td>
+	</tr>
+	<tr bgcolor="#edf3fe">
+		<td class="bold">Home Phone</td>
+		<td width="200">~([Students]home_phone)</td>
+		<td><input type="text" name="[students]parent_home_phone" value="" size="17" /> <em>000-000-0000</em> </td>
+	</tr>
+	<tr> 
+		<td class="bold">Father's Employer</td>
+		<td width="200">~([Students]Father_Employer)</td>
+		<td><input type="text" name="[students]parent_Father_Employer" value="" size="25" /></td>
+	</tr>
+	<tr bgcolor="#edf3fe">
+		<td class="bold">Father's Home Phone</td>
+		<td width="200">~([Students]Father_home_phone)</td>
+		<td><input type="text" name="[students]parent_Father_home_phone" value="" size="13" /> <em>000-000-0000 </em> </td>
+	</tr>
+	<tr> 
+		<td class="bold">Mailing Address</td>
+		<td width="200">~([Students]mailing_street)<br>             
+			~([Students]mailing_city), ~([Students]mailing_state) ~([Students]mailing_zip)</td>
+		<td><input type="text" name="[students]parent_mailing_street" value="" size="30" /><br>
+			<input type="text" name="[students]parent_mailing_city" value="" size="14" />, <input type="text" name="[students]parent_mailing_state" value="" size="2" /> <input type="text" name="[students]parent_mailing_zip" value="" size="10" /></td>
+	</tr>
+	<tr bgcolor="#edf3fe">
+		<td class="bold">Mother's Day Phone</td>
+		<td width="200">~([Students]motherdayphone)</td>
+		<td><input type="text" name="[students]parent_motherdayphone" value="" size="13" /> <em>000-000-0000</em> </td>
+	</tr>
+	<tr> 
+		<td class="bold">Mother's Employer</td>
+		<td width="200">~([Students]Mother_Employer)</td>
+		<td><input type="text" name="[students]parent_Mother_Employer" value="" size="25" /></td>
+	</tr>
+	<tr bgcolor="#edf3fe">
+		<td class="bold">Mother's Home Phone</td>
+		<td width="200">~([Students]Mother_home_phone)</td>
+		<td><input type="text" name="[students]parent_Mother_home_phone" value="" size="13" />
+        <em>000-000-0000</em></td>
+	</tr>
+
+</table>
+
+		<div class="button-row"> 
+			<input type="hidden" name="[students]parent_verify" id="parentverified" value="1" />
+      		<input type="hidden" name="ac" value="autosendupdate" />
+      		<button type="submit" value="Submit" onClick="setParentVerified();">Submit</button>
+      	</div>  
+  </div>
+[/if#isstudent]
+</div>
+~[if#isguardian.isguardianAndSSOEnabled]
+<script type="text/javascript">
+$j('document').ready(function(){
+var $j = jQuery.noConflict();
+var currentTime = new Date();
+var monthChanged = currentTime.getMonth() + 1;
+var dayChanged = currentTime.getDate();
+var yearChanged = currentTime.getFullYear();
+var trimUser = $j.trim($j('#parentName').val());
+document.getElementById("whoChanged").value = trimUser + ' on ' + monthChanged + '-' + dayChanged + '-' + yearChanged;
+});
+</script>
+	<input type="hidden" id="whoChanged" name="[students]parent_wholastchanged" value="">
+[/if#isguardian]
+</form>
+</div>
+<!-- end parent content -->
+
+<!-- end of title and student content -->
+</div>
+<input id="activeNav" type="hidden" value="#btn-demographic-update" />
+<input id="activePageVersion" type="hidden" value="3.3.1"/>
+~[wc:guardian_footer]
+</body></html>

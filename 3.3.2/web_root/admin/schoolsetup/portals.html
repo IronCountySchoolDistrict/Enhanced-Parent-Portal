@@ -1,0 +1,516 @@
+<!--
+    TODO: Change how columns are set up. Possibly break into tabs, split up columns.
+     OR: Tabs based on each school.
+     OR: Show the bar listing each field/school when user scrolls the page.
+-->
+
+<!DOCTYPE html>
+<html>
+<!-- non framed -->
+<head>
+    <title>Parent Portal Settings</title>
+    ~[wc:commonscripts]
+    <link href="/images/css/screen.css" rel="stylesheet" media="screen">
+    <link href="/images/css/print.css" rel="stylesheet" media="print">
+    <style>
+        td {
+            text-align: center;
+        }
+        .box-round input {
+            margin: 0px;
+        }
+    </style>
+    <script>
+
+        function selects(what) {
+            // Index returns 0-index value, nth-child uses 1-index value,
+            // so add 1 to account for the offset.
+            var index = $j(this).parent().index() + 1;
+            var selector = 'tr td:nth-child(' + index + ') select';
+            var selectElems = $j(selector);
+            $j.each(selectElems, function(index, elem) {
+                elem.options[0].selected = true;
+            });
+        }
+
+    </script>
+</head>
+
+<body>
+
+~[wc:admin_header_css]<!-- breadcrumb start --><a href="/admin/home.html" target="_top">~[text:psx.html.admin_schoolsetup.home.start_page]</a>
+&gt;~[text:psx.html.admin_schoolsetup.home.school_setup1]<!-- breadcrumb end -->~[wc:admin_navigation_css]
+<form action="portals.html" onsubmit="return true;" id="portalForm" method="POST" name="form1">
+<input type="hidden" name="formSubmitted" value="true"/>
+
+<h1>Parent Portal Settings</h1>
+~[if#formSubmitted.~[gpv:formSubmitted]=True]
+<div id="changes-saved-message" class="feedback-confirm">Changes saved</div>
+[/if#formSubmitted]
+    <BR>The First Page Per Day redirects the Parents to a specified page the first time they log in for the day.
+    <BR>The 1x feature of Student Schedule Requests only works when logged in as a Guardian. Students have Full even if
+    set to 1x or Full.</h3>
+
+<!-- start of content and bounding box -->
+<div class="box-round">
+
+~[if.district.office]
+<table class="sortable" border="0" cellspacing="0" cellpadding="4">
+    <tr>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td>School Name</td>
+        <td>First Page Per Day<BR></td>
+        <td>Grades & Attendance<BR><input type="button" value="All" onClick="selects.call(this, 'A1');"></td>
+        <td>Score Detail<BR><input type="button" value="All" onClick="selects.call(this, 'A1A');"></td>
+        <td>Score Detail Setup<BR></td>
+        <td>Score Weighting<BR><input type="button" value="All" onClick="selects.call(this, 'A1B');"></td>
+        <td>Grades History<BR><input type="button" value="All" onClick="selects.call(this, 'A2');"></td>
+        <td>Attendance<BR><input type="button" value="All" onClick="selects.call(this, 'A3');"></td>
+        <td>Email<BR><input type="button" value="All" onClick="selects.call(this, 'A4');"></td>
+        <td>Comments<BR><input type="button" value="All" onClick="selects.call(this, 'A5');"></td>
+        <td>Bulletin<BR><input type="button" value="All" onClick="selects.call(this, 'A6');"></td>
+        <td>Next Year Schedule<BR><input type="button" value="All" onClick="selects.call(this, 'A6A');"></td>
+        <td>Schedule<BR><input type="button" value="All" onClick="selects.call(this, 'A6B');"></td>
+        <td>Student Schedule Requests<BR></td>
+        <td>Balances<BR><input type="button" value="All" onClick="selects.call(this, 'A7');"></td>
+        <td>iCal Calendar<BR><input type="button" value="All" onClick="selects.call(this, 'A8');"></td>
+        <td>Graduation Progress<BR><input type="button" value="All" onClick="selects.call(this, 'A9');"></td>
+        <td>Graduation Progress Setup<BR></td>
+        <td>Demographic Update<BR><input type="button" value="All" onClick="selects.call(this, 'A11');"></td>
+        <td>Honor Roll<BR><input type="button" value="All" onClick="selects.call(this, 'A13');"></td>
+        <td>Test Scores<BR><input type="button" value="All" onClick="selects.call(this, 'A15');"></td>
+        <td>Discipline Log<BR><input type="button" value="All" onClick="selects.call(this, 'A16');"></td>
+        <td>Access Log<BR><input type="button" value="All" onClick="selects.call(this, 'A17');"></td>
+        <td>Fees<BR><input type="button" value="All" onClick="selects.call(this, 'A19');"></td>
+        <td>School Information<BR><input type="button" value="All" onClick="selects.call(this, 'A20');"></td>
+        <td>Disable Grade Download Link<BR><input type="button" value="All" onClick="selects.call(this, 'A20A');"></td>
+    </tr>
+    <tr bgcolor="#edf3fe">~[tlist;schools;school_number>0;alternatecolor;sortcmd;[schools]name,&gt;]
+        <td>~(name)</td>
+        <td align="center">
+            <select name="[pref]guardian1stscreen~(school_number)">
+                <option value="">(Disabled)</option>
+                <option value="accesslog.html">Access Log</option>
+                <option value="lunchbal.html">Balance</option>
+                <option value="bulletin2.html">Bulletin</option>
+                <option value="parentdemographics.html">Demo Update</option>
+                <option value="home.html">Grades & Attendance</option>
+                <option value="termgrades.html">Grade History</option>
+                <option value="honorroll.html">Honor Roll</option>
+                <option value="nextyearschedule.html">Next Year Schedule</option>
+                <option value="studentsched.html">Schedule</option>
+                <option value="schoolinfo.html">School Info</option>
+                <option value="standardGradesFromGradebook.html">Standards Grades</option>
+                <option value="studentsched.html">Schedule</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]gradesattendance~(school_number)" id="a1">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]ppscores~(school_number)" id="a1a">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        <td align="center">
+            <select name="[pref]ppscoresstd~(school_number)">
+                <option value="">Traditional</option>
+                <option value="1">Traditional and Standard</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]ppscoreswght~(school_number)" id="a1b">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+
+        <td align="center">
+            <select name="[pref]historicalgrades~(school_number)" id="a2">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]attendance~(school_number)" id="a3">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]email~(school_number)" id="a4">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]comments~(school_number)" id="a5">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]bulletin~(school_number)" id="a6">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]nextschedule~(school_number)" id="a6a">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]studentsched~(school_number)" id="a6b">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]schedule~(school_number)">
+                <option value="">Hide</option>
+                <option value="0">View Only</option>
+                <option value="1">Edit 1x (Guardian only)</option>
+                <option value="2">Edit Full</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]balance~(school_number)" id="a7">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]icalcalendar~(school_number)" id="a8">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]graduation~(school_number)" id="a9">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]graduationver~(school_number)">
+                <option value="">Grad Progress</option>
+                <option value="1">Grad Planner (new)</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]demographic~(school_number)" id="a11">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]honorroll~(school_number)" id="a13">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]testscore~(school_number)" id="a15">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]discipline~(school_number)" id="a16">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]accesslog~(school_number)" id="a17">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]fees~(school_number)" id="a19">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]schoolinfo~(school_number)" id="a20">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+        <td align="center">
+            <select name="[pref]eppdisabledl~(school_number)" id="a20a">
+                <option value="">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+        </td>
+    </tr>
+</table>
+[else]
+<table border="0" cellspacing="0" cellpadding="4">
+<tr class="~[evenoddrow;reset]">
+    <td>First page per day</td>
+    <td align="center">
+        <select name="[pref]guardian1stscreen~(curschoolid)">
+            <option value="">(Disabled)</option>
+            <option value="accesslog.html">Access Log</option>
+            <option value="lunchbal.html">Balance</option>
+            <option value="bulletin2.html">Bulletin</option>
+            <option value="parentdemographics.html">Demo Update</option>
+            <option value="home.html">Grades & Attendance</option>
+            <option value="termgrades.html">Grade History</option>
+            <option value="honorroll.html">Honor Roll</option>
+            <option value="nextyearschedule.html">Next Year Schedule</option>
+            <option value="studentsched.html">Schedule</option>
+            <option value="schoolinfo.html">School Info</option>
+            <option value="standardGradesFromGradebook.html">Standards Grades</option>
+            <option value="studentsched.html">Schedule</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Grades &amp; Attendance</td>
+    <td align="center">
+        <select name="[pref]gradesattendance~(school_number)" id="chk1">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Score Detail</td>
+    <td align="center">
+        <select name="[pref]ppscores~(curschoolid)" id="chk1a">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Score Detail Setup</td>
+    <td align="center">
+        <select name="[pref]ppscoresstd~(curschoolid)">
+            <option value="">Traditional</option>
+            <option value="1">Traditional and Standard</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Score Weighting</td>
+    <td align="center">
+        <select name="[pref]ppscoreswght~(curschoolid)" id="chk1b">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Grades History</td>
+    <td align="center">
+        <select name="[pref]historicalgrades~(curschoolid)" id="chk2">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Attendance</td>
+    <td align="center">
+        <select name="[pref]attendance~(curschoolid)" id="chk3">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Email</td>
+    <td align="center">
+        <select name="[pref]email~(curschoolid)" id="chk4">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Comments</td>
+    <td align="center">
+        <select name="[pref]comments~(curschoolid)" id="chk5">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Bulletin</td>
+    <td align="center">
+        <select name="[pref]bulletin~(curschoolid)" id="chk6">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Next Years Schedule</td>
+    <td align="center">
+        <select name="[pref]nextschedule~(curschoolid)" id="chk6a">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Schedule</td>
+    <td align="center">
+        <select name="[pref]studentsched~(curschoolid)" id="chk6b">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Student Schedule Requests</td>
+    <td align="center">
+        <select name="[pref]schedule~(curschoolid)">
+            <option value="">Hide</option>
+            <option value="0">View Only</option>
+            <option value="1">Edit 1x</option>
+            <option value="2">Edit Full</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Balances</td>
+    <td align="center">
+        <select name="[pref]balance~(curschoolid)" id="chk7">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>iCal Calendar</td>
+    <td align="center">
+        <select name="[pref]icalcalendar~(curschoolid)" id="chk8">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Graduation Progress</td>
+    <td align="center">
+        <select name="[pref]graduation~(curschoolid)" id="chk9">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+<td>Graduation Progress Setup</td>
+    <td align="center">
+        <select name="[pref]graduationver~(curschoolid)">
+            <option value="">Grad Progress</option>
+            <option value="1">Grad Planner (new)</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Demographic Update</td>
+    <td align="center">
+        <select name="[pref]demographic~(curschoolid)" id="chk11">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Honor Roll</td>
+    <td align="center">
+        <select name="[pref]honorroll~(curschoolid)" id="chk13">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Test Scores</td>
+    <td align="center">
+        <select name="[pref]testscore~(curschoolid)" id="chk15">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Discipline Log</td>
+    <td align="center">
+        <select name="[pref]discipline~(curschoolid)" id="chk16">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Access Log</td>
+    <td align="center">
+        <select name="[pref]accesslog~(curschoolid)" id="chk17">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Fees</td>
+    <td align="center">
+        <select name="[pref]fees~(curschoolid)" id="chk19">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>School Information</td>
+    <td align="center">
+        <select name="[pref]schoolinfo~(curschoolid)" id="chk20">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+    <td>Disable Grade Download Link</td>
+    <td align="center">
+        <select name="[pref]eppdisabledl~(curschoolid)" id="chk20a">
+            <option value="">Enabled</option>
+            <option value="1">Disabled</option>
+        </select>
+    </td>
+</tr>
+</table>
+[/if.district.office]
+<br>
+
+</div>
+<div class="button-row"><input type="hidden" name="ac" value="prim"><input type="hidden" name="ac" value="initschools">~[submitbutton]
+</div>
+</div>
+<br>
+</form>
+
+
+<!-- end of content of bounding box -->
+
+~[wc:admin_footer_css]
+
+</body>
+</html><!-- non framed -->

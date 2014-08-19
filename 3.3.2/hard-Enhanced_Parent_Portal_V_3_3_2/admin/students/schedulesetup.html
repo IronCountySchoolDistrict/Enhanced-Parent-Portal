@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<!-- start right frame -->
+<head>
+<title>~[text:psx.html.admin_students.schedulesetup.scheduling_setup]</title>
+~[wc:commonscripts]
+~[get_js_texts:psx.js.admin_javascript.ChoicesList.]
+<script language="JavaScript" src="/admin/JavaScript/ChoicesList.js"></script>
+<script language="javascript">
+<!--
+function newWindow1()
+{
+window.open("/admin/nextschools/","newWindow1","toolbar=no,resizable=no,width=500,height=315")
+}
+
+//-->
+</script>
+<link href="/images/css/screen.css" rel="stylesheet" media="screen">
+<link href="/images/css/print.css" rel="stylesheet" media="print">
+</head>
+
+<body>
+
+<form action="/admin/changesrecorded.white.html" method="POST">
+~[wc:admin_header_frame_css]<!-- breadcrumb start --><a href="/admin/home.html" target="_top">~[text:psx.html.admin_students.schedulesetup.start_page]</a> &gt; <a href="home.html?selectstudent=nosearch" target="_top">~[text:psx.html.admin_students.schedulesetup.student_selection]</a> &gt;~[text:psx.html.admin_students.schedulesetup.scheduling_setup1]<!-- breadcrumb end -->~[wc:admin_navigation_frame_css]
+
+~[wc:title_student_begin_css]~[text:psx.html.admin_students.schedulesetup.scheduling_setup2]~[wc:title_student_end_css]
+
+<!-- start of content and bounding box -->
+<div class="box-round">
+
+<table border="0" cellspacing="0" cellpadding="4">
+<tr class="headerrow">
+<td colspan="2" class="bold">~[text:psx.html.admin_students.schedulesetup.required_settings]</td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold">~[text:psx.html.admin_students.schedulesetup.next_year_grade]</td>
+<td><input type="text" name="[Students]Sched_NextYearGrade" value="" size="5"></td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold">~[text:psx.html.admin_students.schedulesetup.priority]</td>
+<td><input type="text" name="[Students]Sched_Priority" value="" size="4" maxlength="3"></td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold">~[text:psx.html.admin_students.schedulesetup.schedule_this_student]</td>
+<td><input type="checkbox" name="[Students]Sched_Scheduled" value="1"></td>
+</tr>
+  <!-- Start of customization to allow students to submit requests 1 time -->
+  <tr class="~[evenoddrow]">
+	<td class="bold">Allow student to submit requests</td>
+	<td><input type="checkbox" name="[Students]Sched_AllowRequests" value="1"></td>
+  </tr>
+  <!-- End of customization to allow students to submit requests 1 time -->
+<tr class="~[evenoddrow]">
+<td class="bold">~[text:psx.html.admin_students.schedulesetup.year_of_graduation]</td>
+<td><input type="text" name="[Students]Sched_YearOfGraduation" value="" size="6" maxlength="4"></td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold">~[text:psx.html.admin_students.schedulesetup.summer_school_indicator]</td>
+<td><select name="[Students]summerschoolid" special="summerschools;blank"><option></select></td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold">~[text:psx.html.admin_students.schedulesetup.note_for_summer_school_admin]</td>
+<td><textarea name="[Students]SummerSchoolNote" cols="20" rows="4" maxlength="80" value=""></textarea></td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold">~[text:psx.html.admin_students.schedulesetup.next_school_indicator]</td>
+<td><select name="[Students]next_school" special="lists.nextschools"><option></select></td>
+</tr>
+<tr>
+<td colspan="2">&nbsp;</td>
+</tr>
+<t class="headerrow">
+<td colspan="2" class="bold">~[text:psx.html.admin_students.schedulesetup.optional_settings]</td>
+
+<tr class="~[evenoddrow;reset]">
+<td class="bold">~[text:psx.html.admin_students.schedulesetup.next_year_campusbuilding]</td>
+<td><input type="text" class="NonEnterableFields" name="[Students]Sched_NextYearBuilding" value="" size="10" onfocus="javascript:this.blur()"> <a href="JavaScript:	OpenChoicesList('ListType=Single&amp;TableName=Schedulebuildings&amp;DisplayFieldName1=Description&amp;ValueField=Description&amp;searchfield1=SchoolID&amp;searchvalue1=~([Students]next_school)&amp;comparator1=equals;&amp;singlevalue=~(JSFieldParam;[Students]sched_nextyearbuilding)');" class="button" name="btnAssociate">~[text:psx.html.admin_students.schedulesetup.associate]</a></td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold">~[text:psx.html.admin_students.schedulesetup.next_year_house]</td>
+<td><input type="text" class="NonEnterableFields" name="[Students]Sched_NextYearHouse" value="" size="10" onfocus="javascript:this.blur()"> <a href="JavaScript:	OpenChoicesList('ListType=Single&amp;TableName=Schedulehouses&amp;DisplayFieldName1=Description&amp;ValueField=Description&amp;searchfield1=SchoolID&amp;searchvalue1=~([Students]next_school)&amp;comparator1=equals;&amp;singlevalue=~(JSFieldParam;[Students]sched_nextyearhouse)');" class="button" name="btnAssociate">~[text:psx.html.admin_students.schedulesetup.associate1]</a></td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold">~[text:psx.html.admin_students.schedulesetup.next_year_team]</td>
+<td><select name="[Students]Sched_NextYearTeam" special="lists.teachergroups.~([Students]next_school)"><option></select></td>
+</tr>
+</table>
+
+<div class="button-row"><input type="hidden" name="ac" value="prim">~[submitbutton]</div>
+</div>
+<!-- end of content of bounding box -->
+
+~[wc:admin_footer_frame_css]
+</form>
+
+</body>
+</html><!-- end right frame -->

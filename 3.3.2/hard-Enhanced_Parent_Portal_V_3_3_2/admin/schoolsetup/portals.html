@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<!-- non framed -->
+<head>
+<title>Parent Portal Settings</title>
+~[wc:commonscripts]
+<link href="/images/css/screen.css" rel="stylesheet" media="screen">
+<link href="/images/css/print.css" rel="stylesheet" media="print">
+<SCRIPT TYPE="text/javascript">
+
+function selects(what) {
+	var form = document.form1;
+	for (var i=0; i<form.elements.length; i++) {
+		if (form.elements[i].id == "a1") {
+			if (what == 'A1') {
+				form.elements[i].checked = true;
+			} 
+		}
+		if (form.elements[i].id == "a1a") {
+			if (what == 'A1A') {
+				form.elements[i].checked = true;
+			} 
+		}
+		if (form.elements[i].id == "a1b") {
+			if (what == 'A1B') {
+				form.elements[i].checked = true;
+			} 
+		}
+		if (form.elements[i].id == "a2") {
+			if (what == 'A2') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a3") {
+			if (what == 'A3') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a4") {
+			if (what == 'A4') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a5") {
+			if (what == 'A5') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a6") {
+			if (what == 'A6') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a6a") {
+			if (what == 'A6A') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a6b") {
+			if (what == 'A6B') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a7") {
+			if (what == 'A7') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a8") {
+			if (what == 'A8') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a9") {
+			if (what == 'A9') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a10") {
+			if (what == 'A10') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a11") {
+			if (what == 'A11') {
+				form.elements[i].checked = true;
+			} 
+		}
+		if (form.elements[i].id == "a13") {
+			if (what == 'A13') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a14") {
+			if (what == 'A14') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a15") {
+			if (what == 'A15') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a16") {
+			if (what == 'A16') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a17") {
+			if (what == 'A17') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a18") {
+			if (what == 'A18') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a19") {
+			if (what == 'A19') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a20") {
+			if (what == 'A20') {
+				form.elements[i].checked = true;
+			}
+		}
+		if (form.elements[i].id == "a20a") {
+			if (what == 'A20A') {
+				form.elements[i].checked = true;
+			}
+		}
+	}
+}
+
+</SCRIPT>
+</head>
+
+<body>
+
+~[wc:admin_header_css]<!-- breadcrumb start --><a href="/admin/home.html" target="_top">~[text:psx.html.admin_schoolsetup.home.start_page]</a> &gt;~[text:psx.html.admin_schoolsetup.home.school_setup1]<!-- breadcrumb end -->~[wc:admin_navigation_css]
+<form action="portals.html"  onsubmit="return true;" id="portalForm" method="POST" name="form1">
+<input type="hidden" name="formSubmitted" value="true"/>
+<h1>Parent Portal Settings</h1>
+~[if#formSubmitted.~[gpv:formSubmitted]=True]<div id="changes-saved-message" class="feedback-confirm">Changes saved</div>[/if#formSubmitted]
+<h3>Any item checked will <u>not</u> appear as an icon on that school's parent portal.
+<BR>The First Page Per Day redirects the Parents to a specified page the first time they log in for the day.
+<BR>The 1x feature of Student Schedule Requests only works when logged in as a Guardian. Students have Full even if set to 1x or Full.</h3>
+
+<!-- start of content and bounding box -->
+<div class="box-round">
+
+~[if.district.office]
+<table class="sortable" border="0" cellspacing="0" cellpadding="4">
+<tr><td>
+
+    </td>
+</tr>
+<tr>
+<td>School Name</td>
+<td>First Page Per Day<BR></td>
+<td>Grades & Attendance<BR><input type="button" value="All" onClick="selects('A1');"></td>
+<td>Score Detail<BR><input type="button" value="All" onClick="selects('A1A');"></td>
+<td>Score Detail Setup<BR></td>
+<td>Score Weighting<BR><input type="button" value="All" onClick="selects('A1B');"></td>
+<td>Grades History<BR><input type="button" value="All" onClick="selects('A2');"></td>
+<td>Attendance<BR><input type="button" value="All" onClick="selects('A3');"></td>
+<td>Email<BR><input type="button" value="All" onClick="selects('A4');"></td>
+<td>Comments<BR><input type="button" value="All" onClick="selects('A5');"></td>
+<td>Bulletin<BR><input type="button" value="All" onClick="selects('A6');"></td>
+<td>Next Year Schedule<BR><input type="button" value="All" onClick="selects('A6A');"></td>
+<td>Schedule<BR><input type="button" value="All" onClick="selects('A6B');"></td>
+<td>Student Schedule Requests<BR></td>
+<td>Balances<BR><input type="button" value="All" onClick="selects('A7');"></td>
+<td>iCal Calendar<BR><input type="button" value="All" onClick="selects('A8');"></td>
+<td>Graduation Progress<BR><input type="button" value="All" onClick="selects('A9');"></td>
+<td>Graduation Progress Setup<BR></td>
+<td>Demographic Update<BR><input type="button" value="All" onClick="selects('A11');"></td>
+<td>Honor Roll<BR><input type="button" value="All" onClick="selects('A13');"></td>
+<td>Test Scores<BR><input type="button" value="All" onClick="selects('A15');"></td>
+<td>Discipline Log<BR><input type="button" value="All" onClick="selects('A16');"></td>
+<td>Access Log<BR><input type="button" value="All" onClick="selects('A17');"></td>
+<td>Fees<BR><input type="button" value="All" onClick="selects('A19');"></td>
+<td>School Information<BR><input type="button" value="All" onClick="selects('A20');"></td>
+<td>Disable Grade Download Link<BR><input type="button" value="All" onClick="selects('A20A');"></td>
+</tr>
+	<tr bgcolor="#edf3fe">~[tlist;schools;school_number>0;alternatecolor;sortcmd;[schools]name,&gt;]
+	<td>~(name)</td>
+	<td align="center">
+	<select name="[pref]guardian1stscreen~(school_number)">
+	  <option value="">(Disabled)</option>
+	  <option value="accesslog.html">Access Log</option>
+	  <option value="lunchbal.html">Balance</option>
+	  <option value="bulletin2.html">Bulletin</option>
+	  <option value="parentdemographics.html">Demo Update</option>
+	  <option value="home.html">Grades & Attendance</option>
+	  <option value="termgrades.html">Grade History</option>
+	  <option value="honorroll.html">Honor Roll</option>
+	  <option value="nextyearschedule.html">Next Year Schedule</option>
+	  <option value="studentsched.html">Schedule</option>
+	  <option value="schoolinfo.html">School Info</option>
+	  <option value="standardGradesFromGradebook.html">Standards Grades</option>
+	  <option value="studentsched.html">Schedule</option>
+	</select>
+	</td>
+	<td align="center"><input type="checkbox" name="[pref]gradesattendance~(school_number)" value="1" id="a1"></td>
+ 	<td align="center"><input type="checkbox" name="[pref]ppscores~(school_number)" value="1" id="a1a"></td>
+ 	<td align="center">
+ 	<select name="[pref]ppscoresstd~(school_number)">
+	  <option value="">Traditional</option>
+	  <option value="1">Traditional and Standard</option>
+	</select>
+	</td>
+	<td align="center"><input type="checkbox" name="[pref]ppscoreswght~(school_number)" value="1" id="a1b"></td>
+	<td align="center"><input type="checkbox" name="[pref]historicalgrades~(school_number)" value="1" id="a2"></td>
+	<td align="center"><input type="checkbox" name="[pref]attendance~(school_number)" value="1" id="a3"></td>
+	<td align="center"><input type="checkbox" name="[pref]email~(school_number)" value="1" id="a4"></td>
+	<td align="center"><input type="checkbox" name="[pref]comments~(school_number)" value="1" id="a5"></td>
+	<td align="center"><input type="checkbox" name="[pref]bulletin~(school_number)" value="1" id="a6"></td>
+	<td align="center"><input type="checkbox" name="[pref]nextschedule~(school_number)" value="1" id="a6a"></td>
+	<td align="center"><input type="checkbox" name="[pref]studentsched~(school_number)" value="1" id="a6b"></td>
+	<td align="center">
+	<select name="[pref]schedule~(school_number)">
+	  <option value="">Hide</option>
+	  <option value="0">View Only</option>
+	  <option value="1">Edit 1x (Guardian only)</option>
+	  <option value="2">Edit Full</option>
+	</select>
+	</td>
+	<td align="center"><input type="checkbox" name="[pref]balance~(school_number)" value="1" id="a7"></td>
+	<td align="center"><input type="checkbox" name="[pref]icalcalendar~(school_number)" value="1" id="a8"></td>
+	<td align="center"><input type="checkbox" name="[pref]graduation~(school_number)" value="1" id="a9"></td>
+ 	<td align="center">
+ 	<select name="[pref]graduationver~(school_number)">
+	  <option value="">Grad Progress</option>
+	  <option value="1">Grad Planner (new)</option>
+	</select>
+	</td>
+	<td align="center"><input type="checkbox" name="[pref]demographic~(school_number)" value="1" id="a11"></td>
+	<td align="center"><input type="checkbox" name="[pref]honorroll~(school_number)" value="1" id="a13"></td>
+	<td align="center"><input type="checkbox" name="[pref]testscore~(school_number)" value="1" id="a15"></td>
+	<td align="center"><input type="checkbox" name="[pref]discipline~(school_number)" value="1" id="a16"></td>
+	<td align="center"><input type="checkbox" name="[pref]accesslog~(school_number)" value="1" id="a17"></td>
+	<td align="center"><input type="checkbox" name="[pref]fees~(school_number)" value="1" id="a19"></td>
+  	<td align="center"><input type="checkbox" name="[pref]schoolinfo~(school_number)" value="1" id="a20"></td>
+  	<td align="center"><input type="checkbox" name="[pref]eppdisabledl~(school_number)" value="1" id="a20a"></td>
+</tr>
+</table>
+[else]
+<table border="0" cellspacing="0" cellpadding="4">
+  <tr class="~[evenoddrow;reset]">
+ 	<td>First page per day</td>
+	<td align="center"> 
+	<select name="[pref]guardian1stscreen~(curschoolid)">
+	  <option value="">(Disabled)</option>
+	  <option value="accesslog.html">Access Log</option>
+	  <option value="lunchbal.html">Balance</option>
+	  <option value="bulletin2.html">Bulletin</option>
+	  <option value="parentdemographics.html">Demo Update</option>
+	  <option value="home.html">Grades & Attendance</option>
+	  <option value="termgrades.html">Grade History</option>
+	  <option value="honorroll.html">Honor Roll</option>
+	  <option value="nextyearschedule.html">Next Year Schedule</option>
+	  <option value="studentsched.html">Schedule</option>
+	  <option value="schoolinfo.html">School Info</option>
+	  <option value="standardGradesFromGradebook.html">Standards Grades</option>
+	  <option value="studentsched.html">Schedule</option>
+	</select>
+	</td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Grades &amp; Attendance</td>
+	<td align="center"><input type="checkbox" name="[pref]gradesattendance~(curschoolid)" value="1" id="chk1"></td>
+	</tr>
+  	<tr class="~[evenoddrow]">
+	<td>Score Detail</td>
+	<td align="center"><input type="checkbox" name="[pref]ppscores~(curschoolid)" value="1" id="chk1a"></td>
+	</tr>
+  	<tr class="~[evenoddrow]">
+	<td>Score Detail Setup</td>
+	<td align="center">
+ 	<select name="[pref]ppscoresstd~(curschoolid)">
+	  <option value="">Traditional</option>
+	  <option value="1">Traditional and Standard</option>
+	</select>
+	</td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Score Weighting</td>
+	<td align="center"><input type="checkbox" name="[pref]ppscoreswght~(curschoolid)" value="1" id="chk1b"></td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Grades History</td>
+	<td align="center"><input type="checkbox" name="[pref]historicalgrades~(curschoolid)" value="1" id="chk2"></td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Attendance</td>
+	<td align="center"><input type="checkbox" name="[pref]attendance~(curschoolid)" value="1" id="chk3"></td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Email</td>
+	<td align="center"><input type="checkbox" name="[pref]email~(curschoolid)" value="1" id="chk4"></td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Comments</td>
+	<td align="center"><input type="checkbox" name="[pref]comments~(curschoolid)" value="1" id="chk5"></td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Bulletin</td>
+	<td align="center"><input type="checkbox" name="[pref]bulletin~(curschoolid)" value="1" id="chk6"></td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Next Years Schedule</td>
+	<td align="center"><input type="checkbox" name="[pref]nextschedule~(curschoolid)" value="1" id="chk6a"></td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Schedule</td>
+	<td align="center"><input type="checkbox" name="[pref]studentsched~(curschoolid)" value="1" id="chk6b"></td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Student Schedule Requests</td>
+	<td align="center">
+	<select name="[pref]schedule~(curschoolid)">
+	  <option value="">Hide</option>
+	  <option value="0">View Only</option>
+	  <option value="1">Edit 1x</option>
+	  <option value="2">Edit Full</option>
+	</select>
+	</td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Balances</td>
+	<td align="center"><input type="checkbox" name="[pref]balance~(curschoolid)" value="1" id="chk7"></td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>iCal Calendar</td>
+	<td align="center"><input type="checkbox" name="[pref]icalcalendar~(curschoolid)" value="1" id="chk8"></td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Graduation Progress</td>
+	<td align="center"><input type="checkbox" name="[pref]graduation~(curschoolid)" value="1" id="chk9"></td>
+    </tr>
+    <td>Graduation Progress Setup</td>
+ 	<td align="center">
+ 	<select name="[pref]graduationver~(curschoolid)">
+	  <option value="">Grad Progress</option>
+	  <option value="1">Grad Planner (new)</option>
+	</select>
+	</td>
+	<tr class="~[evenoddrow]">
+	<td>Demographic Update</td>
+	<td align="center"><input type="checkbox" name="[pref]demographic~(curschoolid)" value="1" id="chk11"></td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Honor Roll</td>
+	<td align="center"><input type="checkbox" name="[pref]honorroll~(curschoolid)" value="1" id="chk13"></td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Test Scores</td>
+	<td align="center"><input type="checkbox" name="[pref]testscore~(curschoolid)" value="1" id="chk15"></td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Discipline Log</td>
+	<td align="center"><input type="checkbox" name="[pref]discipline~(curschoolid)" value="1" id="chk16"></td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Access Log</td>
+	<td align="center"><input type="checkbox" name="[pref]accesslog~(curschoolid)" value="1" id="chk17"></td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Fees</td>
+	<td align="center"><input type="checkbox" name="[pref]fees~(curschoolid)" value="1" id="chk19"></td>
+  	</tr>
+	<tr class="~[evenoddrow]">
+	<td>School Information</td>
+	<td align="center"><input type="checkbox" name="[pref]schoolinfo~(curschoolid)" value="1" id="chk20"></td>
+	</tr>
+	<tr class="~[evenoddrow]">
+	<td>Disable Grade Download Link</td>
+	<td align="center"><input type="checkbox" name="[pref]eppdisabledl~(curschoolid)" value="1" id="chk20a"></td>
+	</tr>
+</table>
+[/if.district.office]
+<br>
+
+</div>
+<div class="button-row"><input type="hidden" name="ac" value="prim"><input type="hidden" name="ac" value="initschools">~[submitbutton]</div>
+</div>
+<br>
+</form>
+
+
+<!-- end of content of bounding box -->
+
+~[wc:admin_footer_css]
+
+</body>
+</html><!-- non framed -->

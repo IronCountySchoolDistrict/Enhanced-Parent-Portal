@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+~[if#1.pref.studentsched~(curschoolid)=1]~[redirect:/guardian/home_not_available.html]
+[else#1]
+	~[if#isguardian.isguardian]
+	~[if#2.~([01]allowwebaccess)=0]
+	~[redirect:/guardian/home_not_available.html]
+	[/if#2]
+	~[/if#isguardian]
+[/if#1]
+
+<title>Weekly Schedule</title>
+~[wc:guardian_header]
+
+<!-- start parent content-->
+  <ul id="nav-secondary" class="tabs">
+    <li><a href="studentsched.html">Student Schedule</a></li>
+  	<li class="selected"><a href="#">Weekly Schedule</a></li>
+  </ul>
+<h1>Weekly Schedule</h1>
+~[SetPostValue:skipDontPrintFilter=1]
+<div align="center">
+<table id="tableStudentSchedMatrix" class="gridSched" border="0" cellpadding="0" cellspacing="0">~[x:sched_weekschedule;timeinterval=60;tickinterval=60]
+<tr>
+<td class="scheduleHeader">&nbsp;</td>
+<td class="scheduleHeader"><b>[date;dateformat=DDDD]<br>[date;dateformat=STANDARD]</b></td>
+<td class="scheduleHeader">&nbsp;</td>
+</tr>
+<tr class="scheduleRow" valign="top">
+<td rowspan="[rowspan]" class="[tickclass]">[time]</td>
+<td rowspan="[rowspan]" class="[scheduleclass]">[relcoursename]<br>[relteachername]<br>[relroom]<br>[starttime] - [endtime]</td>
+<td rowspan="[rowspan]" class="[tickclass]">&nbsp;</td>
+</tr>
+</table>
+</div>
+<!-- end parent content -->
+<input id="activeNav" type="hidden" value="#btn-print-transcript"/>
+<input id="activePageVersion" type="hidden" value="3.3.1"/>
+~[wc:guardian_footer]
+</html>

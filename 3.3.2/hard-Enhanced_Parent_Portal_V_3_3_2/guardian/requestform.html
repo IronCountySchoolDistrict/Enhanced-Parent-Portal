@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>~[text:psx.html.guardian.requestform.class_registration]</title>
+~[SetPostValue:schedulerequestyearid=~(schedule.yearidfuture)]
+~[SetPostValue:subtitle=Future]
+
+~[wc:guardian_header_yui]
+
+<!--Custom EPP Logic Start-->
+~[SetPostValue:nextschool=~(f.table_info;table=students;field=Next_School;dothisfor=all;*id=~(curstudid);fn=value)]
+~[SetPostValue:allowwebaccess=~(f.table_info;table=students;field=allowwebaccess;dothisfor=all;*id=~(curstudid);fn=value)]
+~[SetPostValue:Sched_AllowRequests=~(f.table_info;table=students;field=Sched_AllowRequests;dothisfor=all;*id=~(curstudid);fn=value)]
+~[SetPostValue:nextschoolname=~(f.table_info;table=schools;field=name;dothisfor=all;*school_number=~[gpv:nextschool];fn=value)]
+~[if#1.pref.schedule~[gpv:nextschool]=]~[redirect:/guardian/home_not_available.html]
+[else#1]
+	~[if#1a.isguardianAndSSOEnabled]
+	~[if#2.~[gpv:allowwebaccess]=0]
+	~[redirect:/guardian/home_not_available.html]
+	[/if#2]
+	[/if#1a]
+[/if#1]
+~[if.~[gpv:Sched_AllowRequests]#1]
+~[redirect:/guardian/requests.html?schedulerequestyearid=~(schedule.yearidfuture)]
+[/if]
+<!--Custom EPP Logic End-->
+
+~[if.request.screens.open.for.grade]
+[else]
+	~[redirect:/guardian/requests.html?schedulerequestyearid=~(schedule.yearidfuture)]
+[/if.request.screens.open.for.grade]
+
+~[SetPostValue:yearid2=~[yearid:~(gpv.schedulerequestyearid)]]
+~[SetPostValue:studentid=~(curstudid)]
+<!-- title -->
+
+~[if.request.screens.open.for.grade]
+          <h1>~[text]psx.html.guardian.requestform.welcome_to_the__class_registration_system_for,param:~[gpv:nextschoolname],param:~[yearname:~[gpv:schedulerequestyearid]][/text] ~(studentname)</h1>
+  ~[if.~(gpv.schedulerequestyearid)=~(schedule.yearidcurrent)]
+          <p>~[displayprefschool:gr~([Students]Grade_Level)screenmessage-~(gpv.schedulerequestyearid)]</p>
+          <script>
+	var reqMinCredits = "~[prefschool:gr~([Students]Grade_Level)minrequests-~(gpv.schedulerequestyearid)]";
+	var reqMaxCredits = "~[prefschool:gr~([Students]Grade_Level)maxrequests-~(gpv.schedulerequestyearid)]";
+        </script>
+
+  [/if]
+  ~[if.~(gpv.schedulerequestyearid)#~(schedule.yearidcurrent)]
+          <p>~[displayprefnextschool:gr~([Students]Sched_NextYearGrade)screenmessage-~(gpv.schedulerequestyearid)]</p>
+          <script>
+	var reqMinCredits = "~[displayprefnextschool:gr~([Students]Sched_NextYearGrade)minrequests-~(gpv.schedulerequestyearid)]";
+	var reqMaxCredits = "~[displayprefnextschool:gr~([Students]Sched_NextYearGrade)maxrequests-~(gpv.schedulerequestyearid)]";
+        </script>
+  [/if]
+  [else]
+		  <h1>~[text:psx.html.guardian.requestform.the__class_registration_system_for__is_closed,param:~(schoolname),param:~[yearname:~[gpv:schedulerequestyearid]]]</h1>
+[/if.request.screens.open.for.grade]
+
+  <!-- title -->
+  <!-- start student content -->
+~[if.request.screens.open.for.grade]
+          <form id="reqform" action="requests~[if#2.pref.schedule~[gpv:nextschool]=1]approved[/if#2].html?schedulerequestyearid=~(schedule.yearidfuture)" method="POST" onsubmit="doSubmitRequest();return false;" class="noSubmitLoading">
+	<input type="hidden" name="alertasjson" value="true">
+	<input type="hidden" name="schedulerequestyearid" value="~(schedule.yearidfuture)">
+            <p align="center"><a href="requests.html?schedulerequestyearid=~(schedule.yearidfuture)">~[text:psx.html.guardian.requestform.view_course_requests]</a></p>
+            <div class="group box-round"> ~[Comment:  This is needed or the padding divs inside here won't work!]
+              ~[brij_render:courseprerequisites-pkg;:CourseRequestsPage]
+             </div><!--This end DIV tag is added to fix the brij tag, apparently the padding DIV was not terminated properly-->
+              
+~[if#2.pref.schedule~[gpv:nextschool]=1]
+		<p style="color:red;">Requests can only be submitted once.<br>You will need to contact your counselor if you need to make further changes.</p>
+		<input type="hidden" name="enableif" value="1">
+
+[/if#2]
+              <div class="button-row">
+                <input type="hidden" name="ac" value="courserequestsubmit">
+                <input type="submit" value="~[text]psx.html.guardian.requestform.submit[/text]" class="btn-submit">
+              </div>
+
+          </form>
+
+[else]
+~[Comment:  Below renders when screens are NOT open for this student's grade in their next-year school ...]
+          <p align="center"><a href="requests.html?schedulerequestyearid=~(schedule.yearidfuture)">~[text:psx.html.guardian.requestform.view_course_requests1]</a></p>
+          <div class="group box-round">
+         	  <script>
+	function initAllGroups() {}	// So we don't get an error in the JavaScript console (function only meaningful when screens are open!)
+      		  </script>
+            <p class="alert">~[text:psx.html.guardian.requestform.your_grade_level_may_not_request_classes_at_this_time]</p>
+          </div>
+[/if.request.screens.open.for.grade]
+          <!-- end student content -->
+
+<input id="activeNav" type="hidden" value="#btn-classRegistration"/>
+<input id="activePageVersion" type="hidden" value="3.3.1"/>
+
+~[wc:guardian_footer_yui] 
+~[get_js_texts:psx.js.scripts_course-prereqs.CourseRequestPopup.]
+<script type="text/javascript" src="/scripts/course-prereqs/CourseRequestPopup.js"></script>
+~[get_js_texts:psx.js.scripts_course-prereqs.CourseRequests.]
+<script type="text/javascript" src="/scripts/course-prereqs/CourseRequests.js"></script>
+~[get_js_texts:psx.js.scripts.yui-support.]
+<script type="text/javascript" src="/scripts/yui-support.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<div id="scheduleplus" title="Schedule +" class="panel" otherButtonLabel="Home" otherButtonHref="#home">
+	<h2 class="group">~(lastfirst) (~(grade_level))</h2>
+	<table class="schedule" border="0" cellspacing="0" cellpadding="2">
+	<tr class="header">
+	<th>Pd</th>
+	<th>Course</th>
+	<th>~(current.final.grade.name)</th>
+	<th>A</th>
+	<th>T</th>
+	<th>Tch</th>
+	<th class="last">Rm</th>
+	</tr>
+		~[tlist_sql;select CC.Expression,
+				Courses.Course_Name,
+        case when tb.suppressltrgrd = 0 THEN pg.Grade ELSE NULL END||
+        case when tb.suppressltrgrd = 0 and tb.suppresspercentscr = 0  then '<br />' END||
+        case when tb.suppresspercentscr = 0 THEN pg.percent ELSE NULL END grades,
+				cc.CurrentAbsences abs, cc.CurrentTardies tar,
+				Teachers.LastFirst, Sections.Room, Sections.ID, Sections.TermID
+			from Sections, Teachers, Courses, Terms, CC
+			LEFT OUTER JOIN PGFinalGrades pg
+				ON cc.SectionID = pg.SectionID 
+				AND cc.StudentID = pg.StudentID 
+				AND upper(pg.FinalGradeName) = upper('~(current.final.grade.name)')
+        LEFT OUTER JOIN TERMBINS tb on pg.finalgradename=tb.storecode and cc.schoolid=tb.schoolid and cc.termid = tb.termid
+			where ABS(CC.SectionID) = Sections.ID
+			  and Sections.Teacher = Teachers.ID
+			  and Courses.Course_Number = Sections.Course_Number
+			  and Terms.ID = Sections.TermID 
+			  and Terms.SchoolID = Sections.SchoolID
+			;alternatecolor;currentschedule]
+		<tr bgcolor="#edf3fe">
+		<td class="first">~(CC.Expression;t;externalexpression)</td>
+		<td>~(Courses.Course_Name;t)</td>
+		<td>~(Grades;t)</td>
+		<td>~(abs;l)</td>
+		<td>~(tar;l)</td>
+		<td>~(Teachers.LastFirst;t)</td>
+		<td class="last">~(Sections.Room;t)</td><!-- ~(Sections.ID;l) ~(Sections.TermID;l) -->
+		</tr>
+		[/tlist_sql]
+	</table>
+</div>
