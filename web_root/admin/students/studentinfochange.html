@@ -10,47 +10,59 @@
     <script src="/admin/javascript/parentdemo.js"></script>
     <script type="text/template" id="psm-student-contact-id-template">
         ~[tlist_sql;
-            SELECT
-                id
-            FROM
-                PSM_studentcontact
-            WHERE
-                studentid=(
-            SELECT
-                id
-            FROM
-                PSM_student
-            WHERE
-                studentidentifier=~(student_number)) AND
-                studentcontacttypeid=(
-            SELECT
-                id
-            FROM
-                PSM_studentcontacttype
-            WHERE
-                name='Self')]
-            ~(studentContactId)
+        SELECT
+        id
+        FROM
+        PSM_studentcontact
+        WHERE
+        studentid=(
+        SELECT
+        id
+        FROM
+        PSM_student
+        WHERE
+        studentidentifier=~(student_number)) AND
+        studentcontacttypeid=(
+        SELECT
+        id
+        FROM
+        PSM_studentcontacttype
+        WHERE
+        name='Self')]
+        ~(studentContactId)
         [/tlist_sql]
     </script>
     <script type="text/template" id="psm-student-id-template">
         ~[tlist_sql;
         SELECT
-            id
+        id
         FROM
-            PSM_student
+        PSM_student
         WHERE
-            studentidentifier=~(student_number)]
+        studentidentifier=~(student_number)]
         ~(id)
         [/tlist_sql]
     </script>
     <script type="text/template" id="psm-student-contact-type-template">
         ~[tlist_sql;
         SELECT
-            id
+        id
         FROM
-            PSM_studentcontacttype
+        PSM_studentcontacttype
         WHERE
-            name='Self']
+        name='Self']
+        ~(id)
+        [/tlist_sql]
+    </script>
+
+    <script type="text/template" id="student-info-template">
+        ~[tlist_sql;
+        SELECT
+        id
+        FROM
+        u_student_info_staging
+        WHERE
+        studentsdcid=~(rn)]
         ~(id)
         [/tlist_sql]
     </script>
@@ -77,6 +89,7 @@
         }
         psData.studentDcid = "~(rn)";
         psData.studentFrn = "~(studentfrn)";
+        psData.studentInfoStagingId = $j('#student-info-template').html().trim();
         psData.psmStudentContactId = $j('#psm-student-contact-id-template').html().trim();
         psData.psmStudentId = $j('#psm-student-id-template').html().trim();
         psData.psmStudentContactTypeId = $j('#psm-student-contact-type-template').html().trim();
@@ -88,7 +101,7 @@
 <body>
 
 <form action="/admin/changesrecorded.white.html" method="POST" id="student-info-form">
-~[DirectTable.Select:PSM_studentcontact;studentsdcid;~(rn)]
+    ~[DirectTable.Select:PSM_studentcontact;studentsdcid;~(rn)]
     ~[wc:admin_header_frame_css]<!-- breadcrumb start --><a href="/admin/home.html" target="_top">~[text:psx.html.admin_students.modifydata.start_page]</a>
     &gt; <a href="home.html?selectstudent=nosearch" target="_top">~[text:psx.html.admin_students.modifydata.student_selection]</a>
     &gt;Student Info Change<!-- breadcrumb end -->~[wc:admin_navigation_frame_css]
@@ -134,12 +147,29 @@
                 </td>
                 <td><input type="button" value="Approve" onClick="mailingAddressChange();"/></td>
                 <td>
-                    <input type="text" name="staging-mailing-street" id="staging-mailing-street" value="" size="30"/>
+                    <input type="text"
+                           name="CF-[STUDENTS:11649.U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:5772]mailing_street"
+                           id="staging-mailing-street"
+                           class="staging"
+                           value="" size="30">
                     <br>
-                    <input type="text" name="staging-mailing-city" id="staging-mailing-city" value="" size="14"/>
+                    <input type="text"
+                           name="CF-[STUDENTS:11649.U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:5772]mailing_city"
+                           id="staging-mailing-city"
+                           class="staging"
+                           value="" size="14">
                     ,
-                    <input type="text" name="staging-mailing-state" id="staging-mailing-state" value="" size="2"/>
-                    <input type="text" name="staging-mailing-zip" id="staging-mailing-zip" value="" size="10"/>
+                    <input type="text"
+                           name="CF-[STUDENTS:11649.U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:5772]mailing_state"
+                           id="staging-mailing-state"
+                           class="staging"
+                           value="" size="2">
+                    <br/>
+                    <input type="text"
+                           name="CF-[STUDENTS:11649.U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:5772]mailing_zip"
+                           id="staging-mailing-zip"
+                           class="staging"
+                           value="" size="10">
                 </td>
             </tr>
             <tr>
@@ -152,12 +182,30 @@
                     <input type="text" name="[Students]zip" id="on-file-residence-zip" value="" size="10"/>
                 </td>
                 <td><input type="button" value="Approve" onClick="residenceAddressChange();"/></td>
-                <td><input type="text" name="staging-residence-street" id="staging-residence-street" value="" size="30"/>
+                <td>
+                    <input type="text"
+                           name="CF-[STUDENTS:11649.U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:5772]residence_street"
+                           id="staging-residence-street"
+                           class="staging"
+                           value="" size="30">
                     <br>
-                    <input type="text" name="staging-residence-city" id="staging-residence-city" value="" size="14"/>
+                    <input type="text"
+                           name="CF-[STUDENTS:11649.U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:5772]residence_city"
+                           id="staging-residence-city"
+                           class="staging"
+                           value="" size="14">
                     ,
-                    <input type="text" name="staging-residence-state" id="staging-residence-state" value="" size="2"/>
-                    <input type="text" name="staging-residence-zip" id="staging-residence-zip" value="" size="10"/></td>
+                    <input type="text"
+                           name="CF-[STUDENTS:11649.U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:5772]residence_state"
+                           id="staging-residence-state"
+                           class="staging"
+                           value="" size="2">
+                    <br />
+                    <input type="text"
+                           name="CF-[STUDENTS:11649.U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:5772]residence_zip"
+                           id="staging-residence-zip"
+                           class="staging"
+                           value="" size="10">
             </tr>
             <tr>
                 <td class="bold">Student's Email Address</td>
@@ -170,7 +218,11 @@
                            onClick="approveFieldChange('on-file-student-email','staging-student-email')"/>
                 </td>
                 <td>
-                    <input type="text" name="on-file-email-address" id="staging-student-email" value="" size="17"/>
+                    <input type="text"
+                           name="CF-[STUDENTS:11649.U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:5772]student_email"
+                           id="staging-student-email"
+                           class="staging"
+                           value="">
                 </td>
             </tr>
             <!-- start copy here -->
@@ -178,7 +230,8 @@
             <tr>
                 <td class="bold">Student's Cell Phone</td>
                 <td>
-                    <input type="text" name="[Students.U_STUDENTS_EXTENSION]student_cell_number" id="on-file-student-cell-phone" value=""
+                    <input type="text" name="[Students.U_STUDENTS_EXTENSION]student_cell_number"
+                           id="on-file-student-cell-phone" value=""
                            size="13">
                     <br/>
                     <em>000-000-0000 </em>
@@ -187,7 +240,9 @@
                     <input type="button" value="Approve"
                            onClick="approveFieldChange('on-file-student-cell-phone','staging-student-cell-phone');"/>
                 </td>
-                <td><input type="text" name="staging-student-cell-phone" id="staging-student-cell-phone" value=""
+                <td><input type="text" name="CF-[STUDENTS:11649.U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:5772]student_cell_phone"
+                           id="staging-student-cell-phone" value=""
+                           class="staging"
                            size="13"/></td>
             </tr>
             <tr bgcolor="#edf3fe">
@@ -199,7 +254,11 @@
                            onClick="approveFieldChange('on-file-doctor-name','staging-doctor-name');"/>
                 </td>
                 <td>
-                    <input type="text" name="staging-doctor-name" id="staging-doctor-name" value="" size="25">
+                    <input type="text"
+                           name="CF-[STUDENTS:11649.U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:5772]doctor_name"
+                           id="staging-doctor-name"
+                           class="staging"
+                           value="">
                 </td>
             </tr>
             <tr>
@@ -212,27 +271,46 @@
                            onClick="approveFieldChange('on-file-doctor-phone','staging-doctor-phone');"/>
                 </td>
                 <td>
-                    <input type="text" name="staging-doctor-phone" id="staging-doctor-phone" value="" size="13"/>
+                    <input type="text"
+                           name="CF-[STUDENTS:11649.U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:5772]doctor_phone"
+                           id="staging-doctor-phone"
+                           class="staging"
+                           value="">
                 </td>
             </tr>
 
             <tr>
                 <td class="bold">Dentist's Name</td>
                 <td>
-                    <input type="text" name="[Students.studentcorefields]dentist_name" id="on-file-dentist-name" value="" size="13">
+                    <input type="text" name="[Students.studentcorefields]dentist_name" id="on-file-dentist-name"
+                           value="" size="13">
                 </td>
-                <td><input id="approve-dentist-name" type="button" value="Approve" />
+                <td><input id="approve-dentist-name" type="button" value="Approve"/>
                 </td>
-                <td><input type="text" name="staging-dentist-name" id="staging-dentist-name" value="" size="13"/></td>
+                <td>
+                    <input type="text"
+                           name="CF-[STUDENTS:11649.U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:5772]dentist_name"
+                           id="staging-dentist-name"
+                           class="staging"
+                           value="">
+                </td>
 
             </tr>
             <tr>
                 <td class="bold">Dentist's Phone Number</td>
-                <td><input type="text" name="[Students.studentcorefields]dentist_phone" id="on-file-dentist-phone" value="" size="25"></td>
-                <td><input id="approve-dentist-phone" type="button" value="Approve" />
+                <td><input type="text" name="[Students.studentcorefields]dentist_phone" id="on-file-dentist-phone"
+                           value="" size="25"></td>
+                <td><input id="approve-dentist-phone" type="button" value="Approve"/>
                 </td>
-                <td><input type="text" name="staging-dentist-phone" id="staging-dentist-phone" value="" size="25"/></td>
+                <td>
+                    <input type="text"
+                           name="CF-[STUDENTS:11649.U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:5772]dentist_phone"
+                           id="staging-dentist-phone"
+                           class="staging"
+                           value="">
+                </td>
             </tr>
+
 
             <!-- end copy here -->
         </table>
@@ -241,11 +319,18 @@
         <input type="hidden" name="ac" value="prim">
         <input type="hidden" name="Students.dcid" value="~(rn)">
         ~[tlist_sql;
-            select id from PSM_STUDENT where studentidentifier=~(student_number)
+        select id from PSM_STUDENT where studentidentifier=~(student_number)
         ]
-            <input type="hidden" name="PSM_student.id" value="~(id)">
+        <input type="hidden" name="PSM_student.id" value="~(id)">
         [/tlist_sql]
-        Uncheck when done verifying information. --> <input type="checkbox" name="[students.U_Students_Extension]parent_verify" value="1" />
+        Uncheck when done verifying information. --> <input type="checkbox"
+                                                            name="[students.U_Students_Extension]parent_verify"
+                                                            value="1"/>
+
+        ~[tlist_sql;select id from u_student_info_staging where studentsdcid=~(rn)]
+
+        [/tlist_sql]
+        <input style="display: none;" id="dc-input" type="checkbox" name="DC-Students:~(rn).U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:~(staging_id)">
         ~[submitbutton]
     </div>
     </div>

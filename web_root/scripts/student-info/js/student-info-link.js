@@ -2,7 +2,7 @@
 $j(function() {
     var config = {
         // PowerSchool Point of Contact server, which will talk with the PS REST API.
-        "psPoc": "https://psit.irondistrict.org",
+        "psPoc": "https://psapi.irondistrict.org",
 
         // Student Contacts Database Extension Table Name
         "stuInfoDbe": "u_student_info"

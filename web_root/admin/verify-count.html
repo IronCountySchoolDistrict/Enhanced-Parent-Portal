@@ -2,9 +2,14 @@
 SELECT
     COUNT(*)
 FROM
-    u_def_ext_students
+    u_def_ext_students ext
 WHERE
-    schoolid=~(curschoolid) AND
-    parent_verify > 0]
+    ext.studentsdcid in (
+        select
+            dcid
+        from students
+        where schoolid=~(curschoolid)
+            AND parent_verify > 0)
+    ]
         {"count": "~(count)"}
 [/tlist_sql]

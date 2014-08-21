@@ -21,13 +21,15 @@
         var loadingSelector = $j('[href^="/admin/storedselections"]');
         loadingTemplate.insertAfter(loadingSelector);
         $j.get('/admin/has-verify.html', function (verifyLink) {
+            var insertSelector = $j('[href^="/admin/storedselections"]');
+
             if (verifyLink.hasVerify !== '0') {
                 var count = 0;
                 $j.get('/admin/verify-count.html', function (verifyCount) {
                     if (verifyCount.count) {
                         count = verifyCount.count;
                     }
-                    var insertSelector = $j('[href^="/admin/storedselections"]');
+
                     var parentVerifyLink = $j($j('#parent-verify-template').html());
                     parentVerifyLink.insertAfter(insertSelector);
 
@@ -36,9 +38,11 @@
 
                     loadingTemplate.remove();
                 }, 'json');
+            } else {
+                loadingTemplate.remove();
+
+                $j('<span>Parent Verify (0)</span>').insertAfter(insertSelector);
             }
-
-
         }, 'json');
     });
 </script>

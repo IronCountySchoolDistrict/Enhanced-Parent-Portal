@@ -1,10 +1,19 @@
 ~[tlist_sql;
-select
+SELECT
 CASE
-WHEN sum(parent_verify)> 0 THEN 1
+WHEN SUM(parent_verify)> 0
+THEN 1
 ELSE 0
 END alink
-from u_def_ext_students
-where schoolid=~(curschoolid)]
-    {"hasVerify": "~(alink;t)"}
+FROM
+u_def_ext_students ext
+WHERE
+ext.studentsdcid IN (SELECT
+    dcid
+    FROM
+    students
+    WHERE
+    schoolid=~(curschoolid) )
+]
+    {"hasVerify": "~(parent_verify)"}
 [/tlist_sql]
