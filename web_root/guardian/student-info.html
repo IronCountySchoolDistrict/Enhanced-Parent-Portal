@@ -3,16 +3,16 @@
 <head>
     ~[if#1.pref.demographic~(curschoolid)=1]~[redirect:/guardian/home_not_available.html]
     [else#1]
-        ~[if#1a.isguardianAndSSOEnabled]
-            ~[if#2.~([Students]allowwebaccess)=0]
-                ~[redirect:/guardian/home_not_available.html]
-            [/if#2]
-        [/if#1a]
+    ~[if#1a.isguardianAndSSOEnabled]
+    ~[if#2.~([Students]allowwebaccess)=0]
+    ~[redirect:/guardian/home_not_available.html]
+    [/if#2]
+    [/if#1a]
     [/if#1]
 
     ~[if.~([Students]enabledemoupdate)=1]
     [else]
-        ~[redirect:/guardian/home_not_available.html]
+    ~[redirect:/guardian/home_not_available.html]
     [/if]
 
     ~[SetPostValue:nextschool=~(f.table_info;table=students;dothisfor=all;field=Next_School;*id=~(curstudid);fn=value)]
@@ -22,20 +22,16 @@
     <title>Student Information Update</title>
     <link href="/images/css/screen.css" rel="stylesheet" media="screen">
     <link href="/images/css/print.css" rel="stylesheet" media="print">
-    <link rel="stylesheet" href="/images/student-info/css/theme/crm-css/jquery-ui.custom.css"
-          type="text/css">
+    <link rel="stylesheet" href="/images/student-info/css/theme/crm-css/jquery-ui.custom.css" type="text/css">
     <link rel="stylesheet" href="/images/student-info/css/datatable_jui.css" type="text/css">
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script>
-    <script type="text/javascript"
-            src="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.min.js"></script>
-    <script type="text/javascript"
-            src="//cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.5/js/TableTools.min.js"></script>
-    <script type="text/javascript"
-            src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/1.2.1/ZeroClipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.5/js/TableTools.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/1.2.1/ZeroClipboard.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/2.0.2/parsley.js"></script>
 
     <link rel="stylesheet" href="/scripts/student-info/tabletools/css/TableTools.css" type="text/css">
     <link rel="stylesheet" href="/scripts/student-info/tabletools/css/TableTools_JUI.css" type="text/css">
@@ -103,19 +99,52 @@
 
     <!--<script src="/guardian/javascript/student-contacts.js"></script>-->
     <script src="/guardian/javascript/student-info.js"></script>
+    <script src="/guardian/javascript/validate.js"></script>
 
     <style type="text/css">
-        #btn-access-log a {background: url(/guardian/images/iconAccessLog.png) no-repeat;}
-        #btn-demographic-update a {background: url(/guardian/images/iconDemographicUpdate.png) no-repeat;}
-        #btn-discipline-log a {background: url(/guardian/images/iconDisciplineLog.png) no-repeat;}
-        #btn-graduation-progress a {background: url(/guardian/images/iconGraduationProgress.png) no-repeat;}
-        #btn-honor-roll a {background: url(/guardian/images/iconHonorRoll.png) no-repeat;}
-        #btn-password-reset a {background: url(/guardian/images/iconPasswordReset.png) no-repeat;}
-        #btn-print-transcript a {background: url(/guardian/images/iconPrintTranscript.png) no-repeat;}
-        #btn-school-info a {background: url(/guardian/images/iconSchoolInfo.png) no-repeat;}
-        #btn-test-scores a {background: url(/guardian/images/iconTestScores.png) no-repeat;}
-        #btn-web-based-cal a {background: url(/guardian/images/iconWebBasedCal.png) no-repeat;}
-        #btn-next-year-sched a {background: url(/images/img/iconClassReg.png) no-repeat;}
+        #btn-access-log a {
+            background: url(/guardian/images/iconAccessLog.png) no-repeat;
+        }
+
+        #btn-demographic-update a {
+            background: url(/guardian/images/iconDemographicUpdate.png) no-repeat;
+        }
+
+        #btn-discipline-log a {
+            background: url(/guardian/images/iconDisciplineLog.png) no-repeat;
+        }
+
+        #btn-graduation-progress a {
+            background: url(/guardian/images/iconGraduationProgress.png) no-repeat;
+        }
+
+        #btn-honor-roll a {
+            background: url(/guardian/images/iconHonorRoll.png) no-repeat;
+        }
+
+        #btn-password-reset a {
+            background: url(/guardian/images/iconPasswordReset.png) no-repeat;
+        }
+
+        #btn-print-transcript a {
+            background: url(/guardian/images/iconPrintTranscript.png) no-repeat;
+        }
+
+        #btn-school-info a {
+            background: url(/guardian/images/iconSchoolInfo.png) no-repeat;
+        }
+
+        #btn-test-scores a {
+            background: url(/guardian/images/iconTestScores.png) no-repeat;
+        }
+
+        #btn-web-based-cal a {
+            background: url(/guardian/images/iconWebBasedCal.png) no-repeat;
+        }
+
+        #btn-next-year-sched a {
+            background: url(/images/img/iconClassReg.png) no-repeat;
+        }
     </style>
 
     <style type="text/css">
@@ -197,6 +226,10 @@
             margin-bottom: 10px !important;
         }
 
+        .error-message {
+            display: none;
+        }
+
     </style>
 </head>
 <body id="parentPageTemp" class="psparent">
@@ -246,7 +279,7 @@
 
     <!-- Script to set the selected_student_id and submit the form to retrieve data belonging to the currently selected student
         Consolidating all the logic related to switching the student into this ftl will improve code readability" -->
-    <script type="text/javascript">
+    <script>
         function switchStudent(studentId) {
             var switchStudentForm = document.getElementById('switch_student_form');
             switchStudentForm.selected_student_id.value = studentId;
@@ -323,36 +356,52 @@
         [/if]
 
         <!-- Start EPP Custom Links -->
-        ~[if#1.pref.accesslog~(curschoolid)=1][else#1]<li id="btn-access-log"><a href="accesslog.html" >Access Logs</a></li>[/if#1]
+        ~[if#1.pref.accesslog~(curschoolid)=1][else#1]
+        <li id="btn-access-log"><a href="accesslog.html">Access Logs</a></li>
+        [/if#1]
         ~[if#isstudent.isstudent]
         [else#isstudent]
         ~[if#1.~[gpv:enabledemoupdate]=1]
-            ~[if#3.pref.demographic~(curschoolid)=2]
-                <li id="btn-demographic-update" class="selected">
-                    <a href="student-info.html">Student Info</a>
-                </li>
-            [else#3]
-                ~[if#2.pref.demographic~(curschoolid)#1]
-                    <li id="btn-demographic-update">
-                        <a href="parentdemographics.html">Demographic Change</a>
-                    </li>
-                [/if#2]
-            [/if#3]
+        ~[if#3.pref.demographic~(curschoolid)=2]
+        <li id="btn-demographic-update" class="selected">
+            <a href="student-info.html">Student Info</a>
+        </li>
+        [else#3]
+        ~[if#2.pref.demographic~(curschoolid)#1]
+        <li id="btn-demographic-update">
+            <a href="parentdemographics.html">Demographic Change</a>
+        </li>
+        [/if#2]
+        [/if#3]
         [/if#1]
         [/if#isstudent]
-        ~[if#1.pref.discipline~(curschoolid)=1][else#1]<li id="btn-discipline-log"><a href="discipline.html" >Discipline</a></li>[/if#1]
-        ~[if#1.pref.graduation~(curschoolid)=1][else#1]<li id="btn-graduation-progress"><a href="~[if#gradplan.pref.graduationver~(curschoolid)=1]planselect.html[else#gradplan]graduation.html[/if#gradplan]" >Graduation Progress</a></li>[/if#1]
-        ~[if#1.pref.honorroll~(curschoolid)=1][else#1]<li id="btn-honor-roll"><a href="honorroll.html" >Honor Roll</a></li>[/if#1]
-        ~[if#1.pref.studentsched~(curschoolid)=1][else#1]<li id="btn-print-transcript"><a href="studentsched.html" >My Schedule</a></li>[/if#1]
+        ~[if#1.pref.discipline~(curschoolid)=1][else#1]
+        <li id="btn-discipline-log"><a href="discipline.html">Discipline</a></li>
+        [/if#1]
+        ~[if#1.pref.graduation~(curschoolid)=1][else#1]
+        <li id="btn-graduation-progress"><a
+                href="~[if#gradplan.pref.graduationver~(curschoolid)=1]planselect.html[else#gradplan]graduation.html[/if#gradplan]">Graduation
+            Progress</a></li>
+        [/if#1]
+        ~[if#1.pref.honorroll~(curschoolid)=1][else#1]
+        <li id="btn-honor-roll"><a href="honorroll.html">Honor Roll</a></li>
+        [/if#1]
+        ~[if#1.pref.studentsched~(curschoolid)=1][else#1]
+        <li id="btn-print-transcript"><a href="studentsched.html">My Schedule</a></li>
+        [/if#1]
         ~[if#gs.~[f.in;value=~[gpv:nextschool];in=0,999999]=0]
         ~[if#A.pref.nextschedule~[gpv:nextschool]=1][else#A]
         ~[if#1.~(curyearid)00#~(schedule.yearidfuture)]
-        <li id="btn-next-year-sched"><a href="nextyearschedule.html" >Next Years Schedule</a></li>
+        <li id="btn-next-year-sched"><a href="nextyearschedule.html">Next Years Schedule</a></li>
         [/if#1]
         [/if#A]
         [/if#gs]
-        ~[if#1.pref.schoolinfo~(curschoolid)=1][else#1]<li id="btn-school-info"><a href="schoolinfo.html" >School Information</a></li>[/if#1]
-        ~[if#1.pref.testscore~(curschoolid)=1][else#1]<li id="btn-test-scores"><a href="testscore.html" >Test Scores</a></li>[/if#1]
+        ~[if#1.pref.schoolinfo~(curschoolid)=1][else#1]
+        <li id="btn-school-info"><a href="schoolinfo.html">School Information</a></li>
+        [/if#1]
+        ~[if#1.pref.testscore~(curschoolid)=1][else#1]
+        <li id="btn-test-scores"><a href="testscore.html">Test Scores</a></li>
+        [/if#1]
         <!-- End EPP Custom Links -->
 
         ~[if.isstudent]~[pluginnavlinks:student.left_nav][/if]
@@ -378,7 +427,10 @@
     });
 </script>
 <h1>Student Info Update</h1>
-    <div id="staging-on-file" style="text-align: center; font-weight: bold; color: #ff0000; display: none;">Your information has already been sent in for approval. If you would like to resubmit new information, you can, but it is not needed.</div>
+
+<div id="staging-on-file" style="text-align: center; font-weight: bold; color: #ff0000; display: none;">Your information
+    has already been sent in for approval. If you would like to resubmit new information, you can, but it is not needed.
+</div>
 <!-- title -->
 ~[if#isstudent.isstudent]
 <table border="0" cellspacing="0" cellpadding="0" align="center">
@@ -387,7 +439,6 @@
     </tr>
 </table>
 [else#isstudent]
-
 
 
 <script>
@@ -399,132 +450,273 @@
 <form method="POST" id="demographic-update-form">
 <h2>Personal Information</h2>
 <table border="0" cellspacing="0" cellpadding="4" class="linkDescList">
-    <tr>
-        <td class="bold">&nbsp;</td>
-        <td width="200">On file with the school</td>
-        <td>Please make your updates</td>
-    </tr>
-    <tr>
-        <td class="bold">Name (last,first MI)</td>
-        <td width="200">~([Students]lastfirst)</td>
-        <td><em>If you make changes, please use the suggested formats.</em></td>
-    </tr>
-    <tr>
-        <td class="bold">Mailing Address</td>
-        <td width="200">
-            <span id="on-file-mailing-street">~([Students]mailing_street)</span>
+<tr>
+    <td class="bold">&nbsp;</td>
+    <td width="300">On file with the school</td>
+    <td>Please make your updates</td>
+</tr>
+<tr>
+    <td class="bold">Name (last,first MI)</td>
+    <td width="200">~([Students]lastfirst)</td>
+    <td><em>If you make changes, please use the suggested formats.</em></td>
+</tr>
+<tr>
+    <td class="bold">Mailing Address</td>
+    <td width="200">
+        <span id="on-file-mailing-street">~([Students]mailing_street)</span>
             <span style="display: block;">
                 <span id="on-file-mailing-city">~([Students]mailing_city)</span>,
                 <span id="on-file-mailing-state">~([Students]mailing_state)</span>
                 <span id="on-file-mailing-zip">~([Students]mailing_zip)</span>
             </span>
-        </td>
-        <td>
-            <input type="text" id="mailing-street" name="mailing-street" value="" size="30"/><br>
-            <input type="text" id="mailing-city" name="mailing-city" value="" size="14"/>,
-            <input type="text" id="mailing-state" name="mailing-state" value="" size="2"/>
-            <input type="text" id="mailing-zip" name="mailing-zip" value="" size="10"/>
-        </td>
-    </tr>
-    <tr>
-        <td class="bold">Residence Address</td>
-        <td width="200">
-            <span id="on-file-residence-street">~([Students]street)</span>
+    </td>
+    <td>
+            <span class="field-container" style="display:block;">
+                <input type="text" id="mailing-street" name="mailing-street" value="" size="30"
+                       data-parsley-trigger="change"
+                       data-parsley-danglingspaces/>
+            </span>
+            <span class="field-container">
+            <input type="text" id="mailing-city" name="mailing-city" value="" size="14"
+                   data-parsley-trigger="change"
+                   data-parsley-danglingspaces/>,
+                </span>
+            <span class="field-container">
+            <select class="form-control" name="mailing-state" id="mailing-state"
+                    data-parsley-trigger="change">
+                <option></option>
+                <option value="AL">Alabama</option>
+                <option value="AK">Alaska</option>
+                <option value="AZ">Arizona</option>
+                <option value="AR">Arkansas</option>
+                <option value="CA">California</option>
+                <option value="CO">Colorado</option>
+                <option value="CT">Connecticut</option>
+                <option value="DE">Delaware</option>
+                <option value="DC">District Of Columbia</option>
+                <option value="FL">Florida</option>
+                <option value="GA">Georgia</option>
+                <option value="HI">Hawaii</option>
+                <option value="ID">Idaho</option>
+                <option value="IL">Illinois</option>
+                <option value="IN">Indiana</option>
+                <option value="IA">Iowa</option>
+                <option value="KS">Kansas</option>
+                <option value="KY">Kentucky</option>
+                <option value="LA">Louisiana</option>
+                <option value="ME">Maine</option>
+                <option value="MD">Maryland</option>
+                <option value="MA">Massachusetts</option>
+                <option value="MI">Michigan</option>
+                <option value="MN">Minnesota</option>
+                <option value="MS">Mississippi</option>
+                <option value="MO">Missouri</option>
+                <option value="MT">Montana</option>
+                <option value="NE">Nebraska</option>
+                <option value="NV">Nevada</option>
+                <option value="NH">New Hampshire</option>
+                <option value="NJ">New Jersey</option>
+                <option value="NM">New Mexico</option>
+                <option value="NY">New York</option>
+                <option value="NC">North Carolina</option>
+                <option value="ND">North Dakota</option>
+                <option value="OH">Ohio</option>
+                <option value="OK">Oklahoma</option>
+                <option value="OR">Oregon</option>
+                <option value="PA">Pennsylvania</option>
+                <option value="RI">Rhode Island</option>
+                <option value="SC">South Carolina</option>
+                <option value="SD">South Dakota</option>
+                <option value="TN">Tennessee</option>
+                <option value="TX">Texas</option>
+                <option value="UT">Utah</option>
+                <option value="VT">Vermont</option>
+                <option value="VA">Virginia</option>
+                <option value="WA">Washington</option>
+                <option value="WV">West Virginia</option>
+                <option value="WI">Wisconsin</option>
+                <option value="WY">Wyoming</option>
+            </select>
+                </span>
+            <span class="field-container">
+            <input type="text" id="mailing-zip" name="mailing-zip" value="" size="10"
+                   maxlength="5"
+                   data-parsley-trigger="change"
+                   data-parsley-danglingspaces/>
+                </span>
+    </td>
+</tr>
+<tr>
+    <td class="bold">Residence Address</td>
+    <td width="200">
+        <span id="on-file-residence-street">~([Students]street)</span>
             <span style="display: block;">
                 <span id="on-file-residence-city">~([Students]city)</span>,
                 <span id="on-file-residence-state"> ~([Students]state)</span>
                 <span id="on-file-residence-zip">~([Students]zip)</span>
             </span>
-        </td>
-        <td>
-            <input type="text" id="residence-street" name="residence-street" value="" size="30"/><br>
-            <input type="text" id="residence-city" name="residence-city" value="" size="14"/>,
-            <input type="text" id="residence-state" name="residence-state" value="" size="2"/>
-            <input type="text" id="residence-zip" name="residence-zip" value="" size="10"/>
-        </td>
-    </tr>
-    <tr>
-        <td class="bold">Student's Email Address</td>
-        <td width="200">
-            <span id="on-file-student-email"></span>
-        </td>
-        <td>
-            <input type="text" id="student-email" name="student-email" value="" size="30"/>
-        </td>
-    </tr>
-    <tr>
-        <td class="bold">Student's Cell Phone</td>
-        <td width="200">
-            <span id="on-file-student-cell-phone">~([Students.U_Students_Extension]STUDENT_CELL_NUMBER)</span>
-        </td>
-        <td>
-            <input type="text" id="student-cell-phone" name="student-cell-phone" value="" size="30"/>
-        </td>
-    </tr>
-    <tr>
-        <td class="bold">Physician's Name</td>
-        <td width="200">
-            <span id="on-file-doctor-name">~([Students]doctor_name)</span>
-        </td>
-        <td>
-            <input type="text" id="doctor-name" name="doctor-name" value="" size="30"/>
-        </td>
-    </tr>
-    <tr>
-        <td class="bold">Physician's Phone Number</td>
-        <td width="200">
-            <span id="on-file-doctor-phone">~([Students]doctor_phone)</span>
-        </td>
-        <td>
-            <input type="text" id="doctor-phone" name="doctor-phone" value="" size="30"/>
-        </td>
-    </tr>
-    <tr>
-        <td class="bold">Dentist's Name</td>
-        <td width="200">
-            <span id="on-file-dentist-name">~([Students.StudentCoreFields]dentist_name)</span>
-        </td>
-        <td>
-            <input type="text" id="dentist-name" name="dentist-name" value="" size="30"/>
-        </td>
-    </tr>
-    <tr>
-        <td class="bold">Dentist's Phone Number</td>
-        <td width="200">
-            <span id="on-file-dentist-phone">~([Students.StudentCoreFields]dentist_phone)</span>
-        </td>
-        <td>
-            <input type="text" id="dentist-phone" name="dentist-phone" value="" size="30"/>
-        </td>
-    </tr>
+    </td>
+    <td>
+        <input type="text" id="residence-street" name="residence-street" value="" size="30"
+               data-parsley-trigger="change"
+               data-parsley-danglingspaces/><br>
+        <input type="text" id="residence-city" name="residence-city" value="" size="14"
+               data-parsley-trigger="change"
+               data-parsley-danglingspaces/>,
+        <select class="form-control" name="residence-state" id="residence-state"
+                data-parsley-trigger="change">
+            <option></option>
+            <option value="AL">Alabama</option>
+            <option value="AK">Alaska</option>
+            <option value="AZ">Arizona</option>
+            <option value="AR">Arkansas</option>
+            <option value="CA">California</option>
+            <option value="CO">Colorado</option>
+            <option value="CT">Connecticut</option>
+            <option value="DE">Delaware</option>
+            <option value="DC">District Of Columbia</option>
+            <option value="FL">Florida</option>
+            <option value="GA">Georgia</option>
+            <option value="HI">Hawaii</option>
+            <option value="ID">Idaho</option>
+            <option value="IL">Illinois</option>
+            <option value="IN">Indiana</option>
+            <option value="IA">Iowa</option>
+            <option value="KS">Kansas</option>
+            <option value="KY">Kentucky</option>
+            <option value="LA">Louisiana</option>
+            <option value="ME">Maine</option>
+            <option value="MD">Maryland</option>
+            <option value="MA">Massachusetts</option>
+            <option value="MI">Michigan</option>
+            <option value="MN">Minnesota</option>
+            <option value="MS">Mississippi</option>
+            <option value="MO">Missouri</option>
+            <option value="MT">Montana</option>
+            <option value="NE">Nebraska</option>
+            <option value="NV">Nevada</option>
+            <option value="NH">New Hampshire</option>
+            <option value="NJ">New Jersey</option>
+            <option value="NM">New Mexico</option>
+            <option value="NY">New York</option>
+            <option value="NC">North Carolina</option>
+            <option value="ND">North Dakota</option>
+            <option value="OH">Ohio</option>
+            <option value="OK">Oklahoma</option>
+            <option value="OR">Oregon</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="RI">Rhode Island</option>
+            <option value="SC">South Carolina</option>
+            <option value="SD">South Dakota</option>
+            <option value="TN">Tennessee</option>
+            <option value="TX">Texas</option>
+            <option value="UT">Utah</option>
+            <option value="VT">Vermont</option>
+            <option value="VA">Virginia</option>
+            <option value="WA">Washington</option>
+            <option value="WV">West Virginia</option>
+            <option value="WI">Wisconsin</option>
+            <option value="WY">Wyoming</option>
+        </select>
+        <input type="text" id="residence-zip" name="residence-zip" value="" size="10"
+               maxlength="5"
+               data-parsley-trigger="change"
+               data-parsley-danglingspaces/>
+    </td>
+</tr>
+<tr>
+    <td class="bold">Student's Email Address</td>
+    <td width="200">
+        <span id="on-file-student-email"></span>
+    </td>
+    <td>
+        <input type="email" id="student-email" name="student-email" value="" size="30"
+               data-parsley-trigger="change"/>
+    </td>
+</tr>
+<tr>
+    <td class="bold">Student's Cell Phone</td>
+    <td width="200">
+        <span id="on-file-student-cell-phone">~([Students.U_Students_Extension]STUDENT_CELL_NUMBER)</span>
+    </td>
+    <td>
+        <input type="text" id="student-cell-phone" name="student-cell-phone" value="" size="30"
+               data-parsley-trigger="change"
+               data-parsley-phonenum/>
+    </td>
+</tr>
+<tr>
+    <td class="bold">Physician's Name</td>
+    <td width="200">
+        <span id="on-file-doctor-name">~([Students]doctor_name)</span>
+    </td>
+    <td>
+        <input type="text" id="doctor-name" name="doctor-name" value="" size="30"
+               data-parsley-trigger="change"
+               data-parsley-danglingspaces/>
+    </td>
+</tr>
+<tr>
+    <td class="bold">Physician's Phone Number</td>
+    <td width="200">
+        <span id="on-file-doctor-phone">~([Students]doctor_phone)</span>
+    </td>
+    <td>
+        <input type="text" id="doctor-phone" name="doctor-phone" value="" size="30"
+               data-parsley-trigger="change"
+               data-parsley-phonenum/>
+    </td>
+</tr>
+<tr>
+    <td class="bold">Dentist's Name</td>
+    <td width="200">
+        <span id="on-file-dentist-name">~([Students.StudentCoreFields]dentist_name)</span>
+    </td>
+    <td>
+        <input type="text" id="dentist-name" name="dentist-name" value="" size="30"
+               data-parsley-trigger="change"
+               data-parsley-danglingspaces/>
+    </td>
+</tr>
+<tr>
+    <td class="bold">Dentist's Phone Number</td>
+    <td width="200">
+        <span id="on-file-dentist-phone">~([Students.StudentCoreFields]dentist_phone)</span>
+    </td>
+    <td>
+        <input type="text" id="dentist-phone" name="dentist-phone" value="" size="30"
+               data-parsley-trigger="change"
+               data-parsley-phonenum/>
+    </td>
+</tr>
 </table>
 <!--<hr>-->
 <!--<h2>Parent/Legal Guardian Contact Information</h2>-->
 
 
 <!--<div style="text-align: center;">-->
-    <!--<div id="maincontent" align="center" style="display: inline-block;">-->
-        <!--<div id="error_container"></div>-->
-        <!--&lt;!&ndash;CUSTOM Student Contacts list &ndash;&gt;-->
+<!--<div id="maincontent" align="center" style="display: inline-block;">-->
+<!--<div id="error_container"></div>-->
+<!--&lt;!&ndash;CUSTOM Student Contacts list &ndash;&gt;-->
 
-        <!--<table id="holder" border="1" cellpadding="2" cellspacing="0" align="center">-->
-            <!--<thead>-->
-            <!--<tr class="inforow">-->
-                <!--<th>&nbsp;</th>-->
-                <!--<th>Contact</th>-->
-                <!--<th>Address</th>-->
-                <!--<th>Contact Info</th>-->
-                <!--<th>Options</th>-->
-                <!--<th>&nbsp;</th>-->
-                <!--<th>&nbsp;</th>-->
-            <!--</tr>-->
-            <!--</thead>-->
-            <!--<tbody>-->
-            <!--</tbody>-->
-        <!--</table>-->
-        <!--&lt;!&ndash; END Student Contacts Content list&ndash;&gt;-->
-    <!--</div>-->
-    <!--&lt;!&ndash; end of content of bounding box time &ndash;&gt;-->
+<!--<table id="holder" border="1" cellpadding="2" cellspacing="0" align="center">-->
+<!--<thead>-->
+<!--<tr class="inforow">-->
+<!--<th>&nbsp;</th>-->
+<!--<th>Contact</th>-->
+<!--<th>Address</th>-->
+<!--<th>Contact Info</th>-->
+<!--<th>Options</th>-->
+<!--<th>&nbsp;</th>-->
+<!--<th>&nbsp;</th>-->
+<!--</tr>-->
+<!--</thead>-->
+<!--<tbody>-->
+<!--</tbody>-->
+<!--</table>-->
+<!--&lt;!&ndash; END Student Contacts Content list&ndash;&gt;-->
+<!--</div>-->
+<!--&lt;!&ndash; end of content of bounding box time &ndash;&gt;-->
 <!--</div>-->
 
 <div class="button-row">

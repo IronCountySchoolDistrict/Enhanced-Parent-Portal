@@ -37,6 +37,14 @@
                     parentVerifyLink.text(parentVerifyText + ' (' + count + ')');
 
                     loadingTemplate.remove();
+
+                    $j('#parent-verify-link').on('click', function(event) {
+                        event.preventDefault();
+                        // Make sure the student info verify page is shown when parent verify link is clicked
+                        $j.get('/admin/students/studentinfochange.html?frn=~(studentfrn)', function(getEvent) {
+                            window.location.href = '/admin/students/home.html?selectstudent=U_Students_Extension.parent_verify=1';
+                        });
+                    })
                 }, 'json');
             } else {
                 loadingTemplate.remove();

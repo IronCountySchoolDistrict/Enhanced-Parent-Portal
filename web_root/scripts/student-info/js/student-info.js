@@ -114,7 +114,8 @@ $j(function () {
         approveFieldChange(fieldName, 'staging-dentist-phone');
     });
 
-    $j('#student-info-form').submit(function (event) {
+    // Only allow one form submit to occur.
+    $j('#student-info-form').one('submit', function (event) {
         if (stagingFormIsEmpty()) {
             $j('.staging').css({'display': 'none'});
             var deleteFieldName = 'DC-Students:' + psData.studentDcid + '.U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:' + psData.studentInfoStagingId;
