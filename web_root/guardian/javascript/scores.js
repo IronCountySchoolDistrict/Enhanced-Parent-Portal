@@ -11,8 +11,7 @@ require(['underscore'], function() {
         scoresTemplate;
 
     // Remove the original content from the DOM.
-    // Start at the h1 tag and select the next 7 elements.
-    $j('h1').nextAll().andSelf().slice(0, 8).remove();
+    $j('h1').nextAll().andSelf().not('#cust-content-footer').remove();
 
     // Hide the .box-round div that contains the custom-content-footer insertion point.
     // This div is the first result in the following selector.
