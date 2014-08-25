@@ -8,15 +8,15 @@ newdate.setHours(5);
 newdate.setMinutes(0);
 newdate.setSeconds(0);//Use the same number you used above to replace the 5 in this line as well.
 
-var guardianVisits = GetCookie("guardianVisits~(curschoolid)";
+var guardianVisits = GetCookie("guardianVisits~(curschoolid)");
 if (!guardianVisits) {
     guardianVisits = 0;
 }
 guardianVisits++;
 SetCookie("guardianVisits~(curschoolid)", guardianVisits, newdate, "/", null, false);
 if (guardianVisits == 1) {
-    if ("~[pref:guardian1stscreen~(curschoolid)]" !== '') {
-        location.href = "~[pref:guardian1stscreen~(curschoolid)]";
+    if (guardianFirstScreen !== '') {
+        location.href = guardianFirstScreen;
     }
 }
 /*
