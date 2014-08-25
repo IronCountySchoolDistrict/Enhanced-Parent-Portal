@@ -9,6 +9,10 @@ $j(function () {
         "stuInfoStagingDbe": "u_student_info_staging"
     };
 
+    // Populate student email address on page load
+    var studentEmailValue = $j('#studEmail_0').val();
+    $j('#on-file-student-email').val(studentEmailValue);
+
     loadingDialogInstance.open();
 
     var studentInInfoStaging;
@@ -117,8 +121,8 @@ $j(function () {
     // Only allow one form submit to occur.
     $j('#student-info-form').one('submit', function (event) {
         if (stagingFormIsEmpty()) {
-            $j('.staging').css({'display': 'none'});
-            var deleteFieldName = 'DC-Students:' + psData.studentDcid + '.U_STUDENT_CONTACTS.U_STUDENT_INFO_STAGING:' + psData.studentInfoStagingId;
+            $j('.staging').attr({'disabled': 'disabled'});
+            var deleteFieldName = 'DC-Students:' + psData.studentDcid + '.U_STUDENT_INFO.U_STUDENT_INFO_STAGING:' + psData.studentInfoStagingId;
             var deleteData = {
                 'ac': 'prim'
             };
@@ -126,34 +130,34 @@ $j(function () {
             $j.ajax({
                 type: "POST",
                 data: deleteData,
+                async: false,
                 url: "/admin/changesrecorded.white.html"
+            }).done(function() {
+                //event.preventDefault();
+                var postData = {
+                    'userSentContact.email': $j('#on-file-student-email').val(),
+                    'userSentContact.id': psData.psmStudentContactId,
+                    'userSentContact.studentID': psData.psmStudentId,
+                    'userSentContact.studentContactTypeID': psData.psmStudentContactTypeId,
+                    'deleteFlag_0': 'deleteFlag_0',
+                    'ac': 'brij:studentemail/StoreStudentEmails',
+                    'doc': '/admin/students/emailconfig.html',
+                    'render_in_java': 'true',
+                    'frn': psData.studentFrn
+                };
+
+                $j.ajax({
+                    type: "POST",
+                    data: postData,
+                    async: false,
+                    url: "/admin/students/emailconfig.html"
+                }).done(function (resp) {
+                    console.dir(resp);
+                    return true;
+                });
             });
         }
-
-        //event.preventDefault();
-        var postData = {
-            'userSentContact.email': $j('#on-file-student-email').val(),
-            'userSentContact.id': psData.psmStudentContactId,
-            'userSentContact.studentID': psData.psmStudentId,
-            'userSentContact.studentContactTypeID': psData.psmStudentContactTypeId,
-            'deleteFlag_0': 'deleteFlag_0',
-            'ac': 'brij:studentemail/StoreStudentEmails',
-            'doc': '/admin/students/emailconfig.html',
-            'render_in_java': 'true',
-            'frn': psData.studentFrn
-        };
-
-        $j.ajax({
-            type: "POST",
-            data: postData,
-            url: "/admin/students/emailconfig.html"
-        }).done(function (resp) {
-            console.dir(resp);
-        });
-        return true;
     });
 
-    // Populate student email address on page load
-    var studentEmailValue = $j('#studEmail_0').val();
-    $j('#on-file-student-email').val(studentEmailValue);
+
 });
