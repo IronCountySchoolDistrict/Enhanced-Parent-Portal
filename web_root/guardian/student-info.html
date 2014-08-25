@@ -1,236 +1,236 @@
 <!DOCTYPE html>
 <html>
 <head>
-    ~[if#1.pref.demographic~(curschoolid)=1]~[redirect:/guardian/home_not_available.html]
-    [else#1]
-    ~[if#1a.isguardianAndSSOEnabled]
-    ~[if#2.~([Students]allowwebaccess)=0]
-    ~[redirect:/guardian/home_not_available.html]
-    [/if#2]
-    [/if#1a]
-    [/if#1]
+~[if#1.pref.demographic~(curschoolid)=1]~[redirect:/guardian/home_not_available.html]
+[else#1]
+~[if#1a.isguardianAndSSOEnabled]
+~[if#2.~([Students]allowwebaccess)=0]
+~[redirect:/guardian/home_not_available.html]
+[/if#2]
+[/if#1a]
+[/if#1]
 
-    ~[if.~([Students]enabledemoupdate)=1]
-    [else]
-    ~[redirect:/guardian/home_not_available.html]
-    [/if]
+~[if.~([Students]enabledemoupdate)=1]
+[else]
+~[redirect:/guardian/home_not_available.html]
+[/if]
 
-    ~[SetPostValue:nextschool=~(f.table_info;table=students;dothisfor=all;field=Next_School;*id=~(curstudid);fn=value)]
-    ~[SetPostValue:Sched_AllowRequests=~(f.table_info;table=students;dothisfor=all;field=Sched_AllowRequests;*id=~(curstudid);fn=value)]
-    ~[SetPostValue:enabledemoupdate=~(f.table_info;table=students;dothisfor=all;field=enabledemoupdate;*id=~(curstudid);fn=value)]
+~[SetPostValue:nextschool=~(f.table_info;table=students;dothisfor=all;field=Next_School;*id=~(curstudid);fn=value)]
+~[SetPostValue:Sched_AllowRequests=~(f.table_info;table=students;dothisfor=all;field=Sched_AllowRequests;*id=~(curstudid);fn=value)]
+~[SetPostValue:enabledemoupdate=~(f.table_info;table=students;dothisfor=all;field=enabledemoupdate;*id=~(curstudid);fn=value)]
 
-    <title>Student Information Update</title>
-    <link href="/images/css/screen.css" rel="stylesheet" media="screen">
-    <link href="/images/css/print.css" rel="stylesheet" media="print">
-    <link rel="stylesheet" href="/images/student-info/css/theme/crm-css/jquery-ui.custom.css" type="text/css">
-    <link rel="stylesheet" href="/images/student-info/css/datatable_jui.css" type="text/css">
+<title>Student Information Update</title>
+<link href="/images/css/screen.css" rel="stylesheet" media="screen">
+<link href="/images/css/print.css" rel="stylesheet" media="print">
+<link rel="stylesheet" href="/images/student-info/css/theme/crm-css/jquery-ui.custom.css" type="text/css">
+<link rel="stylesheet" href="/images/student-info/css/datatable_jui.css" type="text/css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.5/js/TableTools.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/1.2.1/ZeroClipboard.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/2.0.2/parsley.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.5/js/TableTools.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/1.2.1/ZeroClipboard.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/2.0.2/parsley.js"></script>
 
-    <link rel="stylesheet" href="/scripts/student-info/tabletools/css/TableTools.css" type="text/css">
-    <link rel="stylesheet" href="/scripts/student-info/tabletools/css/TableTools_JUI.css" type="text/css">
-    <link rel="stylesheet" href="/images/student-info/css/datatable_jui.css" type="text/css">
+<link rel="stylesheet" href="/scripts/student-info/tabletools/css/TableTools.css" type="text/css">
+<link rel="stylesheet" href="/scripts/student-info/tabletools/css/TableTools_JUI.css" type="text/css">
+<link rel="stylesheet" href="/images/student-info/css/datatable_jui.css" type="text/css">
 
-    <script type="text/template" id="psm-student-contact-email-template">
-        ~[tlist_sql;
-        SELECT
-        email
-        FROM
-        PSM_studentcontact
-        WHERE
-        studentid=(
-        SELECT
-        id
-        FROM
-        PSM_student
-        WHERE
-        studentidentifier=~(student_number)) AND
-        studentcontacttypeid=(
-        SELECT
-        id
-        FROM
-        PSM_studentcontacttype
-        WHERE
-        name='Self')]
-        ~(studentContactId)
-        [/tlist_sql]
-    </script>
+<script type="text/template" id="psm-student-contact-email-template">
+    ~[tlist_sql;
+    SELECT
+    email
+    FROM
+    PSM_studentcontact
+    WHERE
+    studentid=(
+    SELECT
+    id
+    FROM
+    PSM_student
+    WHERE
+    studentidentifier=~(student_number)) AND
+    studentcontacttypeid=(
+    SELECT
+    id
+    FROM
+    PSM_studentcontacttype
+    WHERE
+    name='Self')]
+    ~(studentContactId)
+    [/tlist_sql]
+</script>
 
 
-    <script>
-        if (typeof psData === 'undefined') {
-            psData = {};
-        }
+<script>
+    if (typeof psData === 'undefined') {
+        psData = {};
+    }
 
-        // Render these ids as strings so if there are leading 0s
-        // so they don't get removed (as they are when parsed as Numbers).
-        psData.curstudid = "~(curstudid)";
-        psData.frn = "~(frn)";
-        psData.studentFrn = "~(studentfrn)";
-        psData.studentDcid = psData.studentFrn.substring(3);
-        psData.psmStudentContactEmail = $('#psm-student-contact-email-template').html().trim();
+    // Render these ids as strings so if there are leading 0s
+    // so they don't get removed (as they are when parsed as Numbers).
+    psData.curstudid = "~(curstudid)";
+    psData.frn = "~(frn)";
+    psData.studentFrn = "~(studentfrn)";
+    psData.studentDcid = psData.studentFrn.substring(3);
+    psData.psmStudentContactEmail = $('#psm-student-contact-email-template').html().trim();
 
-        // By default, these pref values are null, and then set to 1 when disabled.
-        psData.showGradesAttendance = '~[displaypref:gradesattendance~(curschoolid)]';
-        psData.showHistoricalGrades = '~[displaypref:historicalgrades~(curschoolid)]';
-        psData.showAttendance = '~[displaypref:attendance~(curschoolid)]';
-        psData.showEmail = '~[displaypref:email~(curschoolid)]';
-        psData.showComments = '~[displaypref:comments~(curschoolid)]';
-        psData.showBulletin = '~[displaypref:bulletin~(curschoolid)]';
-        psData.showSchedule = '~[displaypref:studentsched~(curschoolid)]';
-        psData.showBalance = '~[displaypref:balance~(curschoolid)]';
-        psData.showCalendars = '~[displaypref:icalcalendar~(curschoolid)]';
+    // By default, these pref values are null, and then set to 1 when disabled.
+    psData.showGradesAttendance = '~[displaypref:gradesattendance~(curschoolid)]';
+    psData.showHistoricalGrades = '~[displaypref:historicalgrades~(curschoolid)]';
+    psData.showAttendance = '~[displaypref:attendance~(curschoolid)]';
+    psData.showEmail = '~[displaypref:email~(curschoolid)]';
+    psData.showComments = '~[displaypref:comments~(curschoolid)]';
+    psData.showBulletin = '~[displaypref:bulletin~(curschoolid)]';
+    psData.showSchedule = '~[displaypref:studentsched~(curschoolid)]';
+    psData.showBalance = '~[displaypref:balance~(curschoolid)]';
+    psData.showCalendars = '~[displaypref:icalcalendar~(curschoolid)]';
 
-        $('document').ready(function () {
-            var currentTime = new Date();
-            var monthChanged = currentTime.getMonth() + 1;
-            var dayChanged = currentTime.getDate();
-            var yearChanged = currentTime.getFullYear();
-            var trimUser = $.trim($('#parentName').val());
-            document.getElementById("whoChanged").value = trimUser + ' on ' + monthChanged + '-' + dayChanged + '-' + yearChanged;
-        });
-    </script>
+    $('document').ready(function () {
+        var currentTime = new Date();
+        var monthChanged = currentTime.getMonth() + 1;
+        var dayChanged = currentTime.getDate();
+        var yearChanged = currentTime.getFullYear();
+        var trimUser = $.trim($('#parentName').val());
+        document.getElementById("whoChanged").value = trimUser + ' on ' + monthChanged + '-' + dayChanged + '-' + yearChanged;
+    });
+</script>
 
-    <!--<script src="/guardian/javascript/student-contacts.js"></script>-->
-    <script src="/guardian/javascript/student-info.js"></script>
-    <script src="/guardian/javascript/validate.js"></script>
+<!--<script src="/guardian/javascript/student-contacts.js"></script>-->
+<script src="/guardian/javascript/student-info.js"></script>
+<script src="/guardian/javascript/validate.js"></script>
 
-    <style type="text/css">
-        #btn-access-log a {
-            background: url(/guardian/images/iconAccessLog.png) no-repeat;
-        }
+<style type="text/css">
+    #btn-access-log a {
+        background: url(/guardian/images/iconAccessLog.png) no-repeat;
+    }
 
-        #btn-demographic-update a {
-            background: url(/guardian/images/iconDemographicUpdate.png) no-repeat;
-        }
+    #btn-demographic-update a {
+        background: url(/guardian/images/iconDemographicUpdate.png) no-repeat;
+    }
 
-        #btn-discipline-log a {
-            background: url(/guardian/images/iconDisciplineLog.png) no-repeat;
-        }
+    #btn-discipline-log a {
+        background: url(/guardian/images/iconDisciplineLog.png) no-repeat;
+    }
 
-        #btn-graduation-progress a {
-            background: url(/guardian/images/iconGraduationProgress.png) no-repeat;
-        }
+    #btn-graduation-progress a {
+        background: url(/guardian/images/iconGraduationProgress.png) no-repeat;
+    }
 
-        #btn-honor-roll a {
-            background: url(/guardian/images/iconHonorRoll.png) no-repeat;
-        }
+    #btn-honor-roll a {
+        background: url(/guardian/images/iconHonorRoll.png) no-repeat;
+    }
 
-        #btn-password-reset a {
-            background: url(/guardian/images/iconPasswordReset.png) no-repeat;
-        }
+    #btn-password-reset a {
+        background: url(/guardian/images/iconPasswordReset.png) no-repeat;
+    }
 
-        #btn-print-transcript a {
-            background: url(/guardian/images/iconPrintTranscript.png) no-repeat;
-        }
+    #btn-print-transcript a {
+        background: url(/guardian/images/iconPrintTranscript.png) no-repeat;
+    }
 
-        #btn-school-info a {
-            background: url(/guardian/images/iconSchoolInfo.png) no-repeat;
-        }
+    #btn-school-info a {
+        background: url(/guardian/images/iconSchoolInfo.png) no-repeat;
+    }
 
-        #btn-test-scores a {
-            background: url(/guardian/images/iconTestScores.png) no-repeat;
-        }
+    #btn-test-scores a {
+        background: url(/guardian/images/iconTestScores.png) no-repeat;
+    }
 
-        #btn-web-based-cal a {
-            background: url(/guardian/images/iconWebBasedCal.png) no-repeat;
-        }
+    #btn-web-based-cal a {
+        background: url(/guardian/images/iconWebBasedCal.png) no-repeat;
+    }
 
-        #btn-next-year-sched a {
-            background: url(/images/img/iconClassReg.png) no-repeat;
-        }
-    </style>
+    #btn-next-year-sched a {
+        background: url(/images/img/iconClassReg.png) no-repeat;
+    }
+</style>
 
-    <style type="text/css">
-        body, td, p, ul, div {
-            color: inherit;
-        }
+<style type="text/css">
+    body, td, p, ul, div {
+        color: inherit;
+    }
 
-        #maincontent td, #maincontent tr, #maincontent th {
-            border: 1px solid;
-            font-size: 9pt;
-        }
+    #maincontent td, #maincontent tr, #maincontent th {
+        border: 1px solid;
+        font-size: 9pt;
+    }
 
-        #holder td, #holder p {
-            font-size: 9pt;
-        }
+    #holder td, #holder p {
+        font-size: 9pt;
+    }
 
-        #holder tr.odd {
-            background-color: #EDF3FE;
-        }
+    #holder tr.odd {
+        background-color: #EDF3FE;
+    }
 
-        .hidden {
-            display: none;
-        }
+    .hidden {
+        display: none;
+    }
 
-        #successmsg {
-            font-size: 11pt;
-            background-color: lightblue;
-            text-align: center;
-        }
+    #successmsg {
+        font-size: 11pt;
+        background-color: lightblue;
+        text-align: center;
+    }
 
-        #maincontent table {
-            border-collapse: collapse;
-        }
+    #maincontent table {
+        border-collapse: collapse;
+    }
 
-        #holder_wrapper {
-            width: 750px;
-        }
+    #holder_wrapper {
+        width: 750px;
+    }
 
-        div.contactinfo {
-            margin-left: 20px;
-            margin-right: 20px;
-            border-bottom: 1px solid black;
-        }
+    div.contactinfo {
+        margin-left: 20px;
+        margin-right: 20px;
+        border-bottom: 1px solid black;
+    }
 
-        .infoheader {
-            font-weight: bold;
-        }
+    .infoheader {
+        font-weight: bold;
+    }
 
-        .inforow {
-            background-image: url(/images/blue_grad.png);
-        }
+    .inforow {
+        background-image: url(/images/blue_grad.png);
+    }
 
-        .datatable {
-            background-color: #edf3fe;
-            width: 750px !important;
-        }
+    .datatable {
+        background-color: #edf3fe;
+        width: 750px !important;
+    }
 
-        div.address {
-            float: left;
-            margin-left: 15px;
-        }
+    div.address {
+        float: left;
+        margin-left: 15px;
+    }
 
-        .mini {
-            color: #339900;
-            font-size: 7pt;
-        }
+    .mini {
+        color: #339900;
+        font-size: 7pt;
+    }
 
-        .mini .title {
-            color: #000000;
-            text-decoration: underline;
-        }
+    .mini .title {
+        color: #000000;
+        text-decoration: underline;
+    }
 
-        .mini .data {
-            color: #339900;
-        }
+    .mini .data {
+        color: #339900;
+    }
 
-        .editcontact, .deletecontact {
-            color: #ffffff !important;
-            margin-bottom: 10px !important;
-        }
+    .editcontact, .deletecontact {
+        color: #ffffff !important;
+        margin-bottom: 10px !important;
+    }
 
-        .error-message {
-            display: none;
-        }
+    .error-message {
+        display: none;
+    }
 
-    </style>
+</style>
 </head>
 <body id="parentPageTemp" class="psparent">
 
@@ -476,12 +476,13 @@
                        data-parsley-trigger="change"
                        data-parsley-danglingspaces/>
             </span>
-            <span class="field-container">
-            <input type="text" id="mailing-city" name="mailing-city" value="" size="14"
-                   data-parsley-trigger="change"
-                   data-parsley-danglingspaces/>,
-                </span>
-            <span class="field-container">
+        <span>
+            <span class="field-container" style="width: 130px; display: inline-block; vertical-align: top;">
+                <input type="text" id="mailing-city" name="mailing-city" value="" size="14"
+                       data-parsley-trigger="change"
+                       data-parsley-danglingspaces/>,
+            </span>
+            <span class="field-container" style="width: 157px; display: inline-block; vertical-align: top;">
             <select class="form-control" name="mailing-state" id="mailing-state"
                     data-parsley-trigger="change">
                 <option></option>
@@ -538,12 +539,13 @@
                 <option value="WY">Wyoming</option>
             </select>
                 </span>
-            <span class="field-container">
-            <input type="text" id="mailing-zip" name="mailing-zip" value="" size="10"
-                   maxlength="5"
-                   data-parsley-trigger="change"
-                   data-parsley-danglingspaces/>
-                </span>
+            <span class="field-container" style="width: 102px; display: inline-block; vertical-align: top;">
+                <input type="text" id="mailing-zip" name="mailing-zip" value="" size="10"
+                       maxlength="5"
+                       data-parsley-trigger="change"
+                       data-parsley-danglingspaces/>
+            </span>
+        </span>
     </td>
 </tr>
 <tr>
@@ -557,12 +559,18 @@
             </span>
     </td>
     <td>
-        <input type="text" id="residence-street" name="residence-street" value="" size="30"
-               data-parsley-trigger="change"
-               data-parsley-danglingspaces/><br>
+        <span class="field-container" style="display:block;">
+            <input type="text" id="residence-street" name="residence-street" value="" size="30"
+                   data-parsley-trigger="change"
+                   data-parsley-danglingspaces/>
+        </span>
+        <span>
+            <span class="field-container" style="width: 130px; display: inline-block; vertical-align: top;">
         <input type="text" id="residence-city" name="residence-city" value="" size="14"
                data-parsley-trigger="change"
                data-parsley-danglingspaces/>,
+                </span>
+        <span class="field-container" style="width: 157px; display: inline-block; vertical-align: top;">
         <select class="form-control" name="residence-state" id="residence-state"
                 data-parsley-trigger="change">
             <option></option>
@@ -618,10 +626,14 @@
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
         </select>
-        <input type="text" id="residence-zip" name="residence-zip" value="" size="10"
-               maxlength="5"
-               data-parsley-trigger="change"
-               data-parsley-danglingspaces/>
+        </span>
+        <span class="field-container" style="width: 102px; display: inline-block; vertical-align: top;">
+            <input type="text" id="residence-zip" name="residence-zip" value="" size="10"
+                   maxlength="5"
+                   data-parsley-trigger="change"
+                   data-parsley-danglingspaces/>
+        </span>
+        </span>
     </td>
 </tr>
 <tr>
