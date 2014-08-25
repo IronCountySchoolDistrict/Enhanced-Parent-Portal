@@ -3,7 +3,7 @@ window.ParsleyValidator
         var pattern = /^[0-9]{3}\-[0-9]{3}\-[0-9]{4}$/;
         return pattern.test(value);
     }, 60)
-    .addMessage('en', 'phonenum', 'This field must match the form: ###-###-####.');
+    .addMessage('en', 'phonenum', 'This field must match the format: ###-###-####.');
 
 window.ParsleyValidator
     .addValidator('danglingspaces', function (value) {
@@ -27,7 +27,7 @@ $(function() {
         // bootstrap form classes
         successClass: 'has-success has-feedback',
         errorClass: 'hasHadError error',
-        errorsWrapper: '<p class=\"error-message\"></p>',
+        errorsWrapper: '<span class=\"error-message\"></span>',
         errorTemplate: '<span></span>',
         excluded: ':hidden'
     }).subscribe('parsley:field:error', function (ParsleyField) {

@@ -29,7 +29,7 @@ var config = {
     "psPoc": "https://psit.irondistrict.org",
 
     // Student Contacts Database Extension Table Name
-    "stuContDBE": "U_STUDENT_CONTACTS"
+    "stuContDBE": "U_STUDENT_INFO"
 };
 
 (function () {
