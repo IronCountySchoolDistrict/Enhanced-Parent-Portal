@@ -1,6 +1,9 @@
 <!-- TODO: Use JS logic here. -->
 
 ~[if.pref.guardian1stscreen~(curschoolid)=][else]
+    <script>
+        var guardianFirstScreen = "~[displaypref:guardian1stscreen~(curschoolid)]";
+    </script>
     <script src="javascript/eppdailyredirect.js"></script>
 [/if]
 
