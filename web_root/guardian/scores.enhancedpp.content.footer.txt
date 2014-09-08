@@ -42,7 +42,7 @@
 </script>
 
 <!--
-    TODO: Refactor the sql calls and pstags logic in this template to reflect a more modular design (html5 data)
+    TODO: Refactor the sql calls and pstags logic in this template to reflect a more modular design (html5 json)
     Use JS where possible for control logic.
 -->
 <script type="text/template" id="scores-template">

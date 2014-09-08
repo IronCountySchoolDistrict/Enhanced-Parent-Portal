@@ -2,6 +2,6 @@
 require(['underscore'], function() {
     'use strict';
     var psData;
-    psData = $j.parseJSON($j('#ps-data').data().ps);
+    psData = $j.parseJSON($j('#ps-json').data().ps);
     console.dir(psData);
 });

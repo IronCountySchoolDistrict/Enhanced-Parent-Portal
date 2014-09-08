@@ -15,7 +15,7 @@ if (!psData.historicalGrades ||
  *   "courseGrades": [grade,percent,behavior,earnedCreditHours,]
  *     -- these four elements in the array are repeated for each store code shown in the column headers of the table.
  *     if no grade entry exists for a storecode, these four elements are blank strings.
- *     this enables the template that uses this data to just loop over the array to display grades data for every
+ *     this enables the template that uses this json to just loop over the array to display grades json for every
  *     storecode displayed on the page.
  *
  * @param grades {Object} See psData.storedGrades.
@@ -72,7 +72,7 @@ function normalizeGrades(grades, storeCodes) {
 /**
  * The PS database stores trimester entries with all null values that don't need to be displayed.
  * This function looks at psData.storedGrades and removes any grade entries that fall under a
- * trimester storecode and don't have any non-null grade data for that course.
+ * trimester storecode and don't have any non-null grade json for that course.
  *
  * @param grades {Object} See psData.storedGrades
  */
@@ -129,7 +129,7 @@ function getAllCourseNames(grades) {
 }
 
 /**
- * Create an Array of Objects that contains data for each year tab.
+ * Create an Array of Objects that contains json for each year tab.
  * The object follows the format:
  *  {
  *      "label": the text between the open/close a tag.

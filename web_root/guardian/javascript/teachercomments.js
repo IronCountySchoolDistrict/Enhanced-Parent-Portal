@@ -12,8 +12,8 @@ if (!(psPrefs.comments) ||
         verTemplate,
         verSelect;
 
-    psPrefs = $j.parseJSON($j('#ps-data').data().prefs);
-    psData = $j.parseJSON($j('#ps-data').data().ps);
+    psPrefs = $j.parseJSON($j('#ps-json').data().prefs);
+    psData = $j.parseJSON($j('#ps-json').data().ps);
 
     verTemplate = $j($j('#version-template').html());
     verSelect = $j('activeNav');

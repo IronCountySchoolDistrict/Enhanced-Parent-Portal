@@ -37,7 +37,7 @@ var config = {
     var m_table;
     var m_keyindex = 0;
     // Use PS POC server
-    var m_requestURL = '/guardian/data/getContacts.html';
+    var m_requestURL = '/guardian/json/getContacts.html';
     $(document).ready(function () {
         $.ajaxSetup({
             url: m_requestURL
@@ -144,7 +144,7 @@ var config = {
             var ridx = m_table.fnAddData(["", "", "", "", "", "", ""]);
 
             var sourcerow = m_table.fnSettings().aoData[ridx].nTr;
-            $.get('/guardian/data/getEditor.html?parent=1')
+            $.get('/guardian/json/getEditor.html?parent=1')
                 .done(function (editForm) {
                     var editrow = m_table.fnOpen(sourcerow, editForm, "edit_row");
                     $('form', editrow).on('submit', function (event) {
@@ -162,7 +162,7 @@ var config = {
                             url: postUrl
                         }).success(function (data) {
                             var newRecordId = data['result'][0]['success_message']['id'];
-                            // Get new contact data
+                            // Get new contact json
                             $.get(config['psPoc'] + '/contacts/' + newRecordId, function(contactData) {
                                 var stuContDBE = config["stuContDBE"];
                                 var actualData = contactData['tables'][stuContDBE];
@@ -326,7 +326,7 @@ var config = {
     }
 
     /**
-     * Update data in an existing table row
+     * Update json in an existing table row
      * @param data {object} - See aoColumnDefs for formatting of this object
      * @param row {Node} - Row that is getting updated
      */

@@ -19,8 +19,8 @@ require(['underscore'], function() {
 
     contentSelect = $j('#nav-secondary');
 
-    psPrefs = $j.parseJSON($j('#ps-data').data().prefs);
-    psData = $j.parseJSON($j('#ps-data').data().ps);
+    psPrefs = $j.parseJSON($j('#ps-json').data().prefs);
+    psData = $j.parseJSON($j('#ps-json').data().ps);
 
     if (psPrefs.ppscores === '1') {
         notAvailableTemplate = $j($j('#not-available-template').html());
