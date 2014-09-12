@@ -1,4 +1,6 @@
 /*global $j*/
-var template = $j($j('#enhancedpp-template').html());
-var select = $j('tr:contains("Payment Methods")');
-template.insertAfter(select);
+$j(function() {
+    var template = $j($j('#enhancedpp-template').html());
+    var select = $j('a[href*="misc-district.html"]');
+    template.insertAfter(select);
+});

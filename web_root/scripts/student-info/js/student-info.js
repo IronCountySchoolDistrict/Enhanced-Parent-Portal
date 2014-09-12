@@ -120,6 +120,7 @@ $j(function () {
 
     // Only allow one form submit to occur.
     $j('#student-info-form').one('submit', function (event) {
+        event.preventDefault();
         if (stagingFormIsEmpty()) {
             $j('.staging').attr({'disabled': 'disabled'});
             var deleteFieldName = 'DC-Students:' + psData.studentDcid + '.U_STUDENT_INFO.U_STUDENT_INFO_STAGING:' + psData.studentInfoStagingId;
@@ -133,7 +134,6 @@ $j(function () {
                 async: false,
                 url: "/admin/changesrecorded.white.html"
             }).done(function() {
-                //event.preventDefault();
                 var postData = {
                     'userSentContact.email': $j('#on-file-student-email').val(),
                     'userSentContact.id': psData.psmStudentContactId,

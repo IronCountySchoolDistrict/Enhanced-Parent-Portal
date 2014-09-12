@@ -1,0 +1,19 @@
+<script type="text/javascript">
+	$j('a[href*="mobilesettings.html"]').closest('tr').after(
+		'<!-- BEGIN link for Parent Portal Settings -->\
+		<tr>\
+			<td><a href="/admin/schoolsetup/portals.html">Parent Portal Settings</a></td>\
+			<td>Set which icons appear on the parent portal based on the school the child attends.</td>\
+		</tr>\
+		<!-- END link for Parent Portal Settings -->'
+	);
+</script>
+
+<script type="text/template" id="enhancedpp-template">
+    <tr>
+        <td><a href="/admin/schoolsetup/portals.html">Parent Portal Settings</a></td>
+        <td>Set which icons appear on a school's parent portal.</td>
+    </tr>
+</script>
+
+<script src="/admin/javascript/home.js"></script>
