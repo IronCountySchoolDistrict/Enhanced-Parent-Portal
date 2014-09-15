@@ -3,6 +3,24 @@
 <head>
     <title>Class Score Detail - PowerSchool Parent Access</title>
     ~[wc:guardian_header]
+    ~[if.prefschool.sgshowpa=1]
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+        <td background="/images/transparent.gif">
+        <br>
+        <!-- title -->
+        &nbsp;&nbsp;<span class="header">Grade History</span><br><br>
+        <!-- title -->
+    [else]
+        <ul class="tabs" id="nav-secondary">
+            <li>
+                <a href="/guardian/termgrades.html?histyearid=~[gpv:histyearid]">Grade History</a>
+            </li>
+            <li>
+                <a href="/guardian/termgradesstd.html?histyearid=~[gpv:histyearid]">Standards&nbsp;Grades</a>
+            </li>
+        </ul>
+    [/if.prefschool.sgshowpa=1]
 
 <!-- start of title and student content -->
 ~[if#score.pref.ppscores~(schoolid)=1]

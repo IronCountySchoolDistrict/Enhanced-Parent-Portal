@@ -1,1 +1,20 @@
+<script>
+    $j(function() {
+        ~[if#A.isguardianAndSSOEnabled]
+            ~[if#1.pref.gradesattendance~(curschoolid)=1]$j('input[name="autosendSummary"]').parent().hide();[/if#1]
+            ~[if#1.pref.ppscores~(curschoolid)=1]$j('input[name="autosendGradeDetail"]').parent().hide();[/if#1]
+            ~[if#1.pref.attendance~(curschoolid)=1]$j('input[name="autosendAttendanceDetail"]').parent().hide();[/if#1]
+            ~[if#1.pref.bulletin~(curschoolid)=1]$j('input[name="autosendSchoolAnnouncements"]').parent().hide();[/if#1]
+            ~[if#1.pref.balance~(curschoolid)=1]$j('input[name="autosendBalanceAlert"]').parent().hide();[/if#1]
+        [else#A]
+            ~[if#1.pref.gradesattendance~(curschoolid)=1]$j('input[name="~(JSFieldParam;[Students]autosend_summary)"]').parent().hide();[/if#1]
+            ~[if#1.pref.ppscores~(curschoolid)=1]$j('input[name="~(JSFieldParam;[Students]Autosend_gradedetail)"]').parent().hide();[/if#1]
+            ~[if#1.pref.attendance~(curschoolid)=1]$j('input[name="~(JSFieldParam;[Students]Autosend_attendancedetail)"]').parent().hide();[/if#1]
+            ~[if#1.pref.bulletin~(curschoolid)=1]$j('input[name="~(JSFieldParam;[Students]AutoSend_schoolannouncements)"]').parent().hide();[/if#1]
+            ~[if#1.pref.balance~(curschoolid)=1]$j('input[name="~(JSFieldParam;[Students]Autosend_balancealert)"]').parent().hide();[/if#1]
+        [/if#A]
+    });
+</script>
+
+
 <script src="/guardian/javascript/automailsetup.js"></script>

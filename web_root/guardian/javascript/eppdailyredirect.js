@@ -11,8 +11,9 @@ newdate.setSeconds(0);//Use the same number you used above to replace the 5 in t
 var guardianVisits = GetCookie("guardianVisits~(curschoolid)");
 if (!guardianVisits) {
     guardianVisits = 0;
+    guardianVisits++;
 }
-guardianVisits++;
+
 SetCookie("guardianVisits~(curschoolid)", guardianVisits, newdate, "/", null, false);
 if (guardianVisits == 1) {
     if (guardianFirstScreen !== '') {

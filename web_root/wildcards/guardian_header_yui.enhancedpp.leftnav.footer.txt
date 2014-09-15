@@ -7,6 +7,14 @@
     <script src="javascript/eppdailyredirect.js"></script>
 [/if]
 
+~[if.pref.eppdisabledl~(curschoolid)=1]
+<script>
+    $j(function() {
+        $j('li.icon-btn-download').remove();
+    });
+</script>
+[/if]
+
 <style type="text/css">
     #btn-access-log a {background: url(/guardian/images/iconAccessLog.png) no-repeat;}
     #btn-demographic-update a {background: url(/guardian/images/iconDemographicUpdate.png) no-repeat;}
@@ -67,7 +75,7 @@
     ~[if#1.pref.discipline~(curschoolid)=1][else#1]<li id="btn-discipline-log"><a href="discipline.html" >Discipline</a></li>[/if#1]
     ~[if#1.pref.graduation~(curschoolid)=1][else#1]<li id="btn-graduation-progress"><a href="~[if#gradplan.pref.graduationver~(curschoolid)=1]planselect.html[else#gradplan]graduation.html[/if#gradplan]" >Graduation Progress</a></li>[/if#1]
     ~[if#1.pref.honorroll~(curschoolid)=1][else#1]<li id="btn-honor-roll"><a href="honorroll.html" >Honor Roll</a></li>[/if#1]
-    ~[if#1.pref.studentsched~(curschoolid)=1][else#1]<li id="btn-print-transcript"><a href="studentsched.html" >My Schedule</a></li>[/if#1]
+    ~[if#1.pref.studentsched~(curschoolid)=1][else#1]<li id="btn-print-transcript"><a href="studentsched.html">My Schedule</a></li>[/if#1]
     ~[if#gs.~[f.in;value=~[gpv:nextschool];in=0,999999]=0]
         ~[if#A.pref.nextschedule~[gpv:nextschool]=1][else#A]
             ~[if#1.~(curyearid)00#~(schedule.yearidfuture)]
@@ -90,7 +98,7 @@
     psData.showGradesAttendance = ~[if.~[displaypref:gradesattendance~(curschoolid)]=1]false[else]true[/if];
     psData.showHistoricalGrades = ~[if.~[displaypref:historicalgrades~(curschoolid)]=1]false[else]true[/if];
     psData.showAttendance = ~[if.~[displaypref:attendance~(curschoolid)]=1]false[else]true[/if];
-    psData.showEmail = ~[if.~[displaypref:email~(curschoolid)]=1]false[else]true[/if];
+    psData.showEmail = ~[if#isguardian.isguardian]~[if#2.~[displaypref:email~(curschoolid)]=1]false[else#2]true[/if#2][/if#isguardian];
     psData.showComments = ~[if.~[displaypref:comments~(curschoolid)]=1]false[else]true[/if];
     psData.showBulletin = ~[if.~[displaypref:bulletin~(curschoolid)]=1]false[else]true[/if];
     psData.showSchedule = ~[if.~[displaypref:studentsched~(curschoolid)]=1]false[else]true[/if];
