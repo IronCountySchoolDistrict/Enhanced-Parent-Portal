@@ -1,0 +1,125 @@
+~[if#1.pref.schoolinfo~(curschoolid)=1]~[redirect:/guardian/home_not_available.html]
+[else#1]
+	~[if#1a.isguardianAndSSOEnabled]
+	~[if#2.~([Students]allowwebaccess)=0]
+	~[redirect:/guardian/home_not_available.html]
+	[/if#2]
+	[/if#1a]
+[/if#1]
+
+<table id="school-info" style="display:none">
+<colgroup><col style="width:20%"><col></colgroup>
+<tr class="headerRow">
+<td colspan="100%" class="bold"><center>School Information</center></td>
+</tr>
+
+~[tlist_sql;
+SELECT sch.Name schoolname, sch.SchoolAddress, sch.SchoolCity, sch.SchoolState , sch.SchoolZip, sch.SchoolPhone, sch.SchoolFax, sch.Principal, 
+  sch.PrincipalPhone, sch.PrincipalEmail, sch.AsstPrincipal, sch.AsstPrincipalPhone, sch.AsstPrincipalEmail, 
+ps_customfields.getCF('Schools',sch.school_number,'Att_sec_email') Att_sec_email,
+ps_customfields.getCF('Schools',sch.school_number,'Registrar_email') Registrar_email
+FROM Schools sch
+WHERE sch.School_Number = ~(curschoolid)]
+<tr class="~[evenoddrow;reset]">
+<td class="bold"><label>School Name:</label></td>
+<td>~(SchoolName;t)</td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold"><label>School Address:</label></td>
+<td>~(SchoolName;t) ~(SchoolAddress;t) ~(SchoolCity;t), ~(SchoolState;t)  ~(SchoolZip;t)</td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold"><label>School Phone:</label></td>
+<td>~(SchoolPhone;t)</td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold"><label>School Fax:</label></td>
+<td>~(SchoolFax;t)</td>
+</tr>
+<tr><td colspan="100%"><hr></td></tr>
+<tr class="~[evenoddrow]">
+<td class="bold"><label>School Principal:</label></td>
+<td>~(Principal;t)</td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold"><label>Principal's Phone:</label></td>
+<td>~(PrincipalPhone;t)</td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold"><label>Principal's Email:</label></td>
+<td><a href="mailto:~(PrincipalEmail;t)">~(PrincipalEmail;t)</a></td>
+</tr>
+<tr><td colspan="100%"><hr></td></tr>
+<tr class="~[evenoddrow]">
+<td class="bold"><label>Assistant Principal:</label></td>
+<td>~(AsstPrincipal;t)</td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold"><label>Assistant Principal's Phone:</label></td>
+<td>~(AsstPrincipalPhone;t)</td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold"><label>Assistant Principal's Email:</label></td>
+<td><a href="mailto:~(AsstPrincipalEmail;t)">~(AsstPrincipalEmail;t)</a></td>
+</tr>
+<tr><td colspan="100%"><hr></td></tr>
+<tr class="~[evenoddrow]">
+<td class="bold"><label>Attendance Secretary's Email:</label></td>
+<td><a href="mailto:~(Att_sec_email;t)">~(Att_sec_email;t)</a></td>
+</tr>
+<tr><td colspan="100%"><hr></td></tr>
+<tr class="~[evenoddrow]">
+<td class="bold"><label>Registrar's Email:</label></td>
+<td><a href="mailto:~(Registrar_email;t)">~(Registrar_email;t)</a></td>
+</tr>
+[/tlist_sql] 
+<tr><td colspan="100%"><hr></td></tr>
+</table>
+
+<table id="school-terms" style="display:none">
+<thead>
+<tr class="headerRow">
+<th colspan="100%"><center>This Year's Terms</center></th>
+</tr>
+<tr class="headerRow">
+<th>Term</th>
+<th>Start Date</th>
+<th>End Date</th>
+<th style="text-align:center"># School Days</th>
+</tr>
+</thead>
+<tbody>
+~[tlist_sql;
+SELECT ter.Name, ter.Abbreviation, MIN(CD.Date_Value) fday, MAX(CD.Date_Value) lday, SUM(cd.InSession) numInsession
+FROM Terms ter
+  INNER JOIN Calendar_Day cd ON ter.SchoolID = cd.SchoolID
+    AND ter.FirstDay <= cd.Date_Value
+    AND ter.LastDay >= cd.Date_Value
+WHERE ter.SchoolID = ~(curschoolid)
+  AND ter.YearID = ~(curyearid)
+  AND ter.Portion = (SELECT MAX(Portion) FROM Terms WHERE SchoolID = ~(curschoolid) AND YearID = ~(curyearid))
+  AND cd.InSession = 1
+GROUP BY ter.Name, ter.Abbreviation, ter.FirstDay, ter.LastDay
+ORDER BY ter.FirstDay;alternatecolor]
+<tr class="oddRow">
+<td class="bold">~(Term;t) (~(abb;t))</td>
+<td class="bold">~(StartDate;d)</td>
+<td class="bold">~(EndDate;d)</td>
+<td class="bold" align="center">~(numDays;l)</td>
+</tr>
+[/tlist_sql]
+</tbody>
+</table>
+
+<script language="JavaScript">
+$j(document).ready(function(){
+	$j('table#school-info').insertBefore( $j('div#schoolinfoview') ).show();
+	$j('table#school-terms').insertAfter( $j('div#schoolinfoview') ).show();
+	$j('div#schoolinfoview').load("mapsetup.action",function(){
+		$j('table#school-info').append($j('div#schoolinfoview table').find('tr:gt(3)'));
+		$j('div#schoolinfoview').remove();
+	});
+    
+    $j('input#activeNav').after( '<input id="activePageVersion" type="hidden" value="4.0"/>' );
+});
+</script>
