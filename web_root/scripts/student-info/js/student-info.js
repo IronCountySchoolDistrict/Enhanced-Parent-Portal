@@ -10,8 +10,12 @@ $j(function () {
     };
 
     // Populate student email address on page load
-    var studentEmailValue = $j('#studEmail_0').val();
-    $j('#on-file-student-email').val(studentEmailValue);
+    $j.get('/admin/students/brij_renderform.html?frn=001' + psData.studentFrn, function(studentEmailHtml) {
+        var parsedHtml = $j.parseHtml(studentEmailHtml);
+        var $html = $j(parsedHtml);
+        var studentEmailValue = $html.find('#studEmail_0').val();
+        $j('#on-file-student-email').val(studentEmailValue);
+    });
 
     loadingDialogInstance.open();
 
@@ -19,11 +23,7 @@ $j(function () {
     $j.get(config['psPoc'] + '/student-info/staging/' + psData.studentDcid, function (resp) {
 
         // Check if student has staging record
-        if (resp.record.length === 0) {
-            studentInInfoStaging = false;
-        } else {
-            studentInInfoStaging = true;
-        }
+        studentInInfoStaging = resp.record.length !== 0;
 
         if (studentInInfoStaging) {
             $j('#staging-on-file').css({'display': 'block'});
@@ -118,7 +118,6 @@ $j(function () {
         approveFieldChange(fieldName, 'staging-dentist-phone');
     });
 
-    // Only allow one form submit to occur.
     $j('#student-info-form').one('submit', function (event) {
         event.preventDefault();
         if (stagingFormIsEmpty()) {

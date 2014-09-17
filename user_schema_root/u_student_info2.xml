@@ -17,4 +17,6 @@
         <field name="Mailing_City" type="String" length="60"/>
         <field name="student_cell_phone" type="String" length="15"/>
     </extendedTable>
+
+
 </psExtension>

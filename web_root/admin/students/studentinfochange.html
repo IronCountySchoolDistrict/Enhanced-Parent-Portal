@@ -66,7 +66,7 @@
         ~(id)
         [/tlist_sql]
     </script>
-    <script type="text/javascript">
+    <script>
         /*global approveFieldChange*/
         function mailingAddressChange() {
             "use strict";
@@ -138,7 +138,8 @@
                 ~[tlist_sql;select s.dcid, sta.id
                 from u_student_info_staging sta
                 join students s on s.dcid=sta.studentsdcid
-                where sta.studentsdcid=~(rn)]
+                where sta.studentsdcid=~(rn)
+                order by whenmodified asc]
                 <td class="bold">Mailing Address</td>
                 <td>
                     <input type="text" name="[Students]mailing_street" id="on-file-mailing-street" value="" size="30"/>
@@ -321,16 +322,15 @@
     <div class="button-row">
         <input type="hidden" name="ac" value="prim">
         <input type="hidden" name="Students.dcid" value="~(rn)">
-
-        Uncheck when done verifying information. --> <input type="checkbox"
-                                                            name="[students.U_Students_Extension]parent_verify"
-                                                            value="1"/>
         [/tlist_sql]
+        Uncheck when done verifying information. -->
+        <input type="checkbox" name="[students.U_Students_Extension]parent_verify" value="1"/>
+
         ~[tlist_sql;select s.dcid, sta.id
         from u_student_info_staging sta
         join students s on s.dcid=sta.studentsdcid
         where sta.studentsdcid=~(rn)]
-        <input style="display: none;" id="dc-input" type="checkbox" name="DC-Students:~(dcid).U_STUDENT_INFO.U_STUDENT_INFO_STAGING:~(id)">
+            <input style="display: none;" id="dc-input" type="checkbox" name="DC-Students:~(dcid).U_STUDENT_INFO.U_STUDENT_INFO_STAGING:~(id)">
         [/tlist_sql]
         ~[submitbutton]
     </div>
@@ -340,8 +340,5 @@
 
     ~[wc:admin_footer_frame_css]
 </form>
-<div style="display: none;" id="brij-student-email">
-    ~[brij_renderform:studentemail;:ListStudentEmails;:studentemail;:StoreStudentEmails]
-</div>
 </body>
 </html><!-- end right frame -->
