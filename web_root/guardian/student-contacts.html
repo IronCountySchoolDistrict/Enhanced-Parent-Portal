@@ -12,65 +12,145 @@
         ~[SetPostValue:Sched_AllowRequests=~(f.table_info;table=students;dothisfor=all;field=Sched_AllowRequests;*id=~(curstudid);fn=value)]
         ~[SetPostValue:enabledemoupdate=~(f.table_info;table=students;dothisfor=all;field=enabledemoupdate;*id=~(curstudid);fn=value)]
 
-
-        <link href="/images/css/screen.css" rel="stylesheet" media="screen">
-        <link href="/images/css/print.css" rel="stylesheet" media="print">
-
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js"></script>
-        <script src="//cdn.datatables.net/1.10.2/js/jquery.dataTables.js"></script>
-        <script src="//cdn.datatables.net/tabletools/2.2.3/js/dataTables.tableTools.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/1.2.1/ZeroClipboard.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/2.0.2/parsley.js"></script>
-
-        <link rel="stylesheet" href="/scripts/student-info/tabletools/css/TableTools.css" type="text/css">
-        <link rel="stylesheet" href="/scripts/student-info/tabletools/css/TableTools_JUI.css" type="text/css">
-        <link rel="stylesheet" href="/images/student-info/css/datatable_jui.css" type="text/css">
+        <title>Student Contacts Update</title>
 
         <script>
-            var studentId = ~(curstudid);
+            var psData = {};
+
+            // Render these ids as strings so if there are leading 0s
+            // they don't get removed (as they are when parsed as Numbers).
+            psData.curstudid = "~(curstudid)";
+            psData.frn = "~(frn)";
+            psData.studentfrn = "~(studentfrn)";
         </script>
 
-        <script src="/scripts/student-contacts-update/studentcontacts-datatables.js"></script>
 
-        <title>Student Contacts Update</title>
+        ~[frame_type:none]
+
         ~[wc:guardian_header]
 
-        ~[wc:admin_header_frame_css]
-        <!-- breadcrumb start -->
-        <a href="/admin/home.html" target="_top">Start Page</a> &gt; <a href="home.html?selectstudent=nosearch"
-                                                                        target="_top">Student
-        Selection</a> &gt; Student Contacts
-        <!-- breadcrumb end -->
-        ~[wc:admin_navigation_frame_css]
-        <!-- Beginning of title of page -->
-        ~[wc:title_student_begin_css]Student Contacts~[wc:title_student_end_css]
-        <!-- Ending of title of page -->
-        <!-- start of content and bounding box -->
+        <style type="text/css">
+            body, td, p, ul, div {
+                color: inherit;
+            }
 
-        <div id="maincontent" align="center">
-            <div id="error_container"></div>
+            #maincontent td, #maincontent tr, #maincontent th {
+                border: 1px solid;
+                font-size: 9pt;
+            }
 
-            <!--START Student Contacts list -->
-            <table id="holder" border="1" cellpadding="2" cellspacing="0" align="center">
-                <thead>
-                <tr class="inforow">
-                    <th>&nbsp;</th>
-                    <th>Contact</th>
-                    <th>Address</th>
-                    <th>Contact Info</th>
-                    <th>Options</th>
-                    <th>&nbsp;</th>
-                    <th>&nbsp;</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-            <!-- END Student Contacts Content list-->
+            #holder td, #holder p {
+                font-size: 9pt;
+            }
+
+            #holder tr.odd {
+                background-color: #EDF3FE;
+            }
+
+            #holder {
+                width: 750px !important;
+                margin: 0 !important;
+            }
+
+            .hidden {
+                display: none;
+            }
+
+            #successmsg {
+                font-size: 11pt;
+                background-color: lightblue;
+                text-align: center;
+            }
+
+            #maincontent table {
+                border-collapse: collapse;
+            }
+
+            #holder_wrapper {
+                width: 750px;
+                display: inline-table !important;
+            }
+
+            div.contactinfo {
+                margin-left: 20px;
+                margin-right: 20px;
+                border-bottom: 1px solid black;
+            }
+
+            .infoheader {
+                font-weight: bold;
+            }
+
+            .inforow {
+                background-image: url(/images/blue_grad.png);
+            }
+
+            .dataTable {
+                background-color: #edf3fe;
+            }
+
+            div.address {
+                float: left;
+                margin-left: 15px;
+            }
+
+            .mini {
+                color: #339900;
+                font-size: 7pt;
+            }
+
+            .mini .title {
+                color: #000000;
+                text-decoration: underline;
+            }
+
+            .mini .data {
+                color: #339900;
+            }
+
+            .editcontact, .deletecontact {
+                color: #ffffff !important;
+                margin-bottom: 10px !important;
+            }
+        </style>
+
+        <link rel="stylesheet" href="/scripts/student-contacts-update/tabletools/css/TableTools.css" type="text/css">
+        <link rel="stylesheet" href="/scripts/student-contacts-update/tabletools/css/TableTools_JUI.css"
+              type="text/css">
+        <link rel="stylesheet" href="/images/student-info/css/datatable_jui.css" type="text/css">
+        <link rel="stylesheet" href="/images/student-info/css/theme/crm-css/jquery-ui.custom.css" type="text/css">
+
+        <script src="/scripts/student-contacts-update/main.js"></script>
+
+
+        <h1>Parent Contacts</h1>
+
+        <div class="box-round">
+
+            <!-- start of content and bounding box -->
+
+            <div id="maincontent" align="center">
+                <div id="error_container"></div>
+
+                <!--START Student Contacts list -->
+                <table id="holder" border="1" cellpadding="2" cellspacing="0" align="center">
+                    <thead>
+                    <tr class="inforow">
+                        <th>&nbsp;</th>
+                        <th>Contact</th>
+                        <th>Address</th>
+                        <th>Contact Info</th>
+                        <th>Options</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <!-- END Student Contacts Content list-->
+            </div>
+            ~[wc:guardian_footer]
         </div>
-        <!-- end of content of bounding box time
-        -->
-        ~[wc:guardian_footer]
-
+        </body>
 </html>
