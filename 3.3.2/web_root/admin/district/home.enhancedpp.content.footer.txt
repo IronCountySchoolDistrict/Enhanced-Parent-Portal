@@ -1,8 +1,0 @@
-<script type="text/template" id="enhancedpp-template">
-    <tr>
-        <td><a href="/admin/schoolsetup/portals.html">Parent Portal Settings</a></td>
-        <td>Set which icons appear on a school's parent portal.</td>
-    </tr>
-</script>
-
-<script src="/admin/javascript/home.js"></script>

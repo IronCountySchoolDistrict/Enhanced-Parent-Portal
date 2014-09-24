@@ -1,1 +1,0 @@
-<input id="activePageVersion" type="hidden" value="3.4.0"/>
