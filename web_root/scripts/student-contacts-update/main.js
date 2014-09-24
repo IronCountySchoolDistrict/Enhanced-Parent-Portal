@@ -5,6 +5,7 @@ require.config({
         // app modules
         contactsTable: '/scripts/student-contacts-update/contacts-table',
         buttons: '/scripts/student-contacts-update/buttons',
+        service: '/scripts/student-contacts-update/service',
 
         // external dependencies
         dataTables: '//cdn.datatables.net/1.10.2/js/jquery.dataTables',

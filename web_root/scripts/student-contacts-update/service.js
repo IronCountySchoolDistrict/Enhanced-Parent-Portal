@@ -9,7 +9,7 @@ define(function() {
          * @returns {*}
          */
         getContacts: function (options) {
-            return $j.get('/ws/schema/table/U_STUDENT_CONTACTS?q=studentsdcid==' + options.studentsdcid + '&projection=*');
+            return $j.get('https://psapitest.irondistrict.org/ws/schema/table/U_STUDENT_CONTACTS/studentsdcid==' + options.studentsdcid);
         }
     };
 });
