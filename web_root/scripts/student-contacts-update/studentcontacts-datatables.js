@@ -38,7 +38,7 @@ function cleanEmailList() {
     autoEmailsSelector.val(emails); //update field with clean value
 }
 
-var $ = jQuery.noConflict();
+var $ = jQuery;
 
 (function () {
     'use strict';
@@ -46,12 +46,13 @@ var $ = jQuery.noConflict();
     var m_keyindex = 0;
     var m_requestURL = '/admin/students/contacts/contactdata.html';
     $(document).ready(function () {
-        loadingDialogInstance.open();
+        var $ = jQuery;
+
 
         $.ajaxSetup({
             url: m_requestURL
         });
-        $('#error_container').ajaxError(function (e, jqxhr, settings, err) {
+        $('#error_container').ajaxError(function (jqXHR, textStatus, errorThrown) {
             clearError();
             displayError("AJAX Error.  Page=" + settings.url + " Error=" + jqxhr.statusText);
         });
@@ -156,8 +157,7 @@ var $ = jQuery.noConflict();
                         var n = data.contactnumber;
                         var ridx = m_table.fnAddData([n, "", "", "", "", "", ""]);
                         var sourcerow = m_table.fnSettings().aoData[ridx].nTr;
-                        $.get(m_requestURL, {"frn": psData.frn, "gidx": n, "action": "geteditor"}
-                        )
+                        $.get(m_requestURL, {"frn": psData.frn, "gidx": n, "action": "geteditor"})
                             .success(function (editform) {
                                 var editrow = m_table.fnOpen(sourcerow, editform, "edit_row");
                                 $('form', editrow).submit(function () {
@@ -168,8 +168,7 @@ var $ = jQuery.noConflict();
                                     else if ($("#contact" + n + "_rel").val() == "Mother") {
                                         syncParent('mother', n);
                                     }
-                                    $.post('/admin/changesrecorded.white.html', $(this).serialize()
-                                        )
+                                    $.post('/admin/changesrecorded.white.html', $(this).serialize())
                                         .success(function (data) {
                                             m_table.fnClose(sourcerow);
                                             refreshContact(n, sourcerow);
@@ -205,7 +204,7 @@ var $ = jQuery.noConflict();
                                 syncParent('mother', n);
                             }
                             $.post('/admin/changesrecorded.white.html', $(this).serialize()
-                                )
+                            )
                                 .success(function (data) {
                                     m_table.fnClose(sourcerow);
                                     refreshContact(n, sourcerow);
@@ -218,6 +217,53 @@ var $ = jQuery.noConflict();
                     });
             }
         });
+        //Fetch contact listing
+        $.get('/ws/schema/table/U_Student_Contacts_Staging?q=studentsdcid==' + psData.curstudid)
+            .done(function (data) {
+                var tableName = data['record'][0]['name'];
+                var contactsData = data['record'];
+                $.each(contactsData, function (index, value) {
+                    var record = value['tables'][tableName];
+                    var aDataObj = [
+                        "",
+                        {
+                            "priority": record.priority,
+                            "firstname": record.first_name,
+                            "lastname": record.last_name,
+                            "relation": record.relationship
+                        },
+                        {
+                            "street": record.street,
+                            "city": record.city,
+                            "state": record.state,
+                            "zip": record.zip
+                        },
+                        {
+                            "email": record.street,
+                            "homephone": record.city,
+                            "cellphone": record.state,
+                            "workphone": record.zip
+                        },
+                        "<button class='editcontact'>Edit</button><br /><button class='deletecontact'>Delete</button>",
+                        contactsData.priority,
+                            contactsData.last_name + ',' + contactsData.first_name
+                    ];
+
+                    m_table.fnAddData(aDataObj);
+
+                    $('.editcontact').button({
+                        icons: {
+                            primary: "ui-icon-pencil"
+                        }
+                    });
+                    $('.deletecontact').button({
+                        icons: {
+                            primary: "ui-icon-trash"
+                        }
+                    });
+                });
+            });
+
         //bind click event on all delete icons
         $('body').on('click', '.deletecontact', function () {
             var row = $(this).parents('tr')[0];
@@ -246,7 +292,7 @@ var $ = jQuery.noConflict();
                                 $.extend(p, n);
                             });
                             $.post('/admin/changesrecorded.white.html', p
-                                )
+                            )
                                 .success(function (data) {
                                     m_table.fnDeleteRow(sourcerow);
                                 });
@@ -258,16 +304,6 @@ var $ = jQuery.noConflict();
             }
         });
 
-        //Fetch contact listing
-        $.get(m_requestURL, {"frn": psData.frn, "sid": psData.curstudid, "action": "fetchcontacts"})
-            .done(function (data) {
-                var removedWhitespace = data.replace(/\s/g, '');
-                if (removedWhitespace !== "") {
-                    eval(data);
-                } else {
-                    loadingDialogInstance.closeDialog();
-                }
-            });
 
     });//End jquery document ready function
 
@@ -301,7 +337,7 @@ var $ = jQuery.noConflict();
             async: true,
             beforeSend: function (x) {
                 if (x && x.overrideMimeType) {
-                    x.overrideMimeType("application/j-son;charset=UTF-8");
+                    x.overrideMimeType("application/json;charset=UTF-8");
                 }
             },
             dataType: "text json",
@@ -312,7 +348,6 @@ var $ = jQuery.noConflict();
             data: settings
         })
             .success(function (data, status) {
-                loadingDialogInstance.closeDialog();
                 if (row == null) {
                     m_table.fnAddData(data);
                 }
@@ -333,10 +368,11 @@ var $ = jQuery.noConflict();
     }
 
     function displayError(msg) {
-        $('#error_container').html('<div id="alertmsg" style="padding: 0pt 0.7em;" class="ui-state-error ui-corner-all"><p><span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-alert"></span><strong>Alert: </strong>' + msg + '</p></div>').show();
+        $('#error_container').html('<div id="alertmsg" style="padding: 0 0.7em;" class="ui-state-error ui-corner-all"><p><span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-alert"></span><strong>Alert: </strong>' + msg + '</p></div>').show();
     }
 
     function clearError() {
         $('#error_container').empty().hide();
     }
+
 }());
