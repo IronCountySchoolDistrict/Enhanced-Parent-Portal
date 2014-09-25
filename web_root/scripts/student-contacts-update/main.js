@@ -3,9 +3,10 @@ require.config({
     baseUrl: '/scripts',
     paths: {
         // app modules
-        contactsTable: '/scripts/student-contacts-update/contacts-table',
+        table: '/scripts/student-contacts-update/table',
         buttons: '/scripts/student-contacts-update/buttons',
         service: '/scripts/student-contacts-update/service',
+        actions: '/scripts/student-contacts-update/actions',
 
         // external dependencies
         dataTables: '//cdn.datatables.net/1.10.2/js/jquery.dataTables',
@@ -15,9 +16,10 @@ require.config({
     }
 });
 
-require(['contactsTable', 'buttons'],
-    function (contactsTable, buttons) {
+require(['table', 'buttons', 'actions'],
+    function (table, buttons, actions) {
         'use strict';
-        var $dataTable = contactsTable.main();
+        var $dataTable = table.main();
         buttons.main($dataTable);
+        actions.main($dataTable);
     });
