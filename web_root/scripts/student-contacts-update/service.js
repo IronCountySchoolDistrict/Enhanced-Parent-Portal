@@ -8,8 +8,8 @@ define(function() {
          * @param options.studentsdcid {Number}
          * @returns {*}
          */
-        getContacts: function (options) {
-            return $j.get('https://psapitest.irondistrict.org/dbe/schema/search/U_STUDENT_CONTACTS/studentsdcid==' + options.studentsdcid, function() {}, 'json');
+        getParGuars: function (options) {
+            return $j.get('https://psapitest.irondistrict.org/dbe/schema/search/U_STUDENT_CONTACTS/studentsdcid==' + options.studentsdcid + '&leg_par_guar==1', function() {}, 'json');
         }
     };
 });
