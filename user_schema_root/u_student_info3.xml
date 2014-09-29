@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<psExtension xmlns="http://www.powerschool.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.powerschool.com psextension.xsd">
+    <extensionname>U_STUDENT_INFO</extensionname>
+    <extendedTable coreTable="Students" dbTableName="U_student_info_staging" childName="U_student_info_staging" comment="">
+        <field name="Residence_State" type="String" length="2"/>
+        <field name="doctor_name" type="String" length="60"/>
+        <field name="Mailing_Zip" type="String" length="10"/>
+        <field name="doctor_phone" type="String" length="15"/>
+        <field name="dentist_phone" type="String" length="15"/>
+        <field name="Residence_Street" type="String" length="60"/>
+        <field name="student_email" type="String" length="60"/>
+        <field name="dentist_name" type="String" length="60"/>
+        <field name="Mailing_Street" type="String" length="60"/>
+        <field name="Mailing_State" type="String" length="2"/>
+        <field name="Residence_City" type="String" length="60"/>
+        <field name="Residence_Zip" type="String" length="10"/>
+        <field name="Mailing_City" type="String" length="60"/>
+        <field name="student_cell_phone" type="String" length="15"/>
+    </extendedTable>
+
+    <extendedTable coreTable="Students" dbTableName="U_Student_Contacts_Staging2" childName="U_Student_Contacts_Staging" comment="">
+        <field name="PRIORITY" type="Integer"/>
+        <field name="LEGAL_GUARDIAN" type="Boolean"/>
+        <field name="LAST_NAME" type="String" length="40"/>
+        <field name="FIRST_NAME" type="String" length="40"/>
+        <field name="RELATIONSHIP" type="String" length="40"/>
+        <field name="MAILING_STREET" type="String" length="60"/>
+        <field name="MAILING_CITY" type="String" length="40"/>
+        <field name="MAILING_STATE" type="String" length="40"/>
+        <field name="MAILING_ZIP" type="String" length="10"/>
+        <field name="RESIDENCE_STREET" type="String" length="60"/>
+        <field name="RESIDENCE_CITY" type="String" length="40"/>
+        <field name="RESIDENCE_STATE" type="String" length="40"/>
+        <field name="RESIDENCE_ZIP" type="String" length="10"/>
+        <field name="PHONE1" type="String" length="40"/>
+        <field name="PHONE2" type="String" length="40"/>
+        <field name="PHONE3" type="String" length="40"/>
+        <field name="PHONE1TYPE" type="String" length="10"/>
+        <field name="PHONE2TYPE" type="String" length="10"/>
+        <field name="PHONE3TYPE" type="String" length="10"/>
+        <field name="EMPLOYER" type="String" length="40"/>
+    </extendedTable>
+
+    <extendedTable coreTable="Students" dbTableName="U_Student_Contacts2" childName="U_Student_Contacts" comment="">
+        <field name="PRIORITY" type="Integer"/>
+        <field name="LEGAL_GUARDIAN" type="Boolean"/>
+        <field name="LAST_NAME" type="String" length="40"/>
+        <field name="FIRST_NAME" type="String" length="40"/>
+        <field name="RELATIONSHIP" type="String" length="40"/>
+        <field name="MAILING_STREET" type="String" length="60"/>
+        <field name="MAILING_CITY" type="String" length="40"/>
+        <field name="MAILING_STATE" type="String" length="40"/>
+        <field name="MAILING_ZIP" type="String" length="10"/>
+        <field name="RESIDENCE_STREET" type="String" length="60"/>
+        <field name="RESIDENCE_CITY" type="String" length="40"/>
+        <field name="RESIDENCE_STATE" type="String" length="40"/>
+        <field name="RESIDENCE_ZIP" type="String" length="10"/>
+        <field name="PHONE1" type="String" length="40"/>
+        <field name="PHONE2" type="String" length="40"/>
+        <field name="PHONE3" type="String" length="40"/>
+        <field name="PHONE1TYPE" type="String" length="10"/>
+        <field name="PHONE2TYPE" type="String" length="10"/>
+        <field name="PHONE3TYPE" type="String" length="10"/>
+        <field name="EMPLOYER" type="String" length="40"/>
+    </extendedTable>
+</psExtension>
