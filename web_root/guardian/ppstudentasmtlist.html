@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript">
 ~[if#1.pref.ppscores~(schoolid)=1]~[redirect:/guardian/home_not_available.html]
 [else#1]
 	~[if#1a.isguardianAndSSOEnabled]
@@ -10,7 +9,6 @@
 	[/if#2]
 	[/if#1a]
 [/if#1]
-</script>
 <title>Assignment List for ~(current.final.grade.name)</title>
 ~[wc:guardian_header]
 ~[if.~[gpv:timeframe]=]

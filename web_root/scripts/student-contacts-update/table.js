@@ -1,11 +1,12 @@
 /*global define, $j*/
 
-define(function () {
+define(['actions'], function (actions) {
+    'use strict';
     return {
         main: function () {
             //var $dataTable = this.bindDatatables();
             this.addContactButton();
-
+            this.bindEditContact();
             //return $dataTable;
         },
         bindDatatables: function () {
@@ -106,7 +107,15 @@ define(function () {
                     primary: 'ui-icon-plus'
                 }
             });
+            $j('.ui-button-text').css({'color': '#fff'});
+        },
+
+        bindEditContact: function () {
+            $j('body').on('click', '.editcontact', function(event) {
+                var
+                actions.editContact();
+            });
         }
 
-    }
+    };
 });

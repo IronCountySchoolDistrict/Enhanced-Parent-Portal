@@ -1,11 +1,11 @@
-/*global define, $j*/
+/*global define, $j, psData*/
 
 define(['service', 'underscore'], function(service, _) {
     return {
-        main: function($dataTable) {
-            this.loadContacts($dataTable);
+        main: function() {
+            this.loadContacts();
         },
-        loadContacts: function($dataTable) {
+        loadContacts: function() {
             var options = {
                 studentsdcid: psData.studentfrn.slice(3)
             };
@@ -20,6 +20,14 @@ define(['service', 'underscore'], function(service, _) {
                     $j('tbody').append(renderedTemplate);
                 });
             });
+        },
+
+        /**
+         *
+         * @param rowIndex {Number}
+         */
+        editContact: function(rowIndex) {
+            var numOfContacts = $j('#student-contacts-table tr').not('.inforow');
         }
     };
 });

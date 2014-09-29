@@ -34,7 +34,7 @@
             color: inherit;
         }
 
-        #maincontent td, #maincontent tr, #maincontent th {
+        table td, table tr, table th {
             border: 1px solid;
             font-size: 9pt;
         }
@@ -135,7 +135,7 @@
             <div id="error_container"></div>
 
             <!--START Student Contacts list -->
-            <table id="holder" border="1" cellpadding="2" cellspacing="0" align="center">
+            <table id="student-contacts-table" border="1" cellpadding="2" cellspacing="0" align="center">
                 <thead>
                 <tr class="inforow">
                     <th>Contact</th>
@@ -149,8 +149,33 @@
             </table>
             <!-- END Student Contacts Content list-->
         </div>
-        ~[wc:guardian_footer]
+
     </div>
+
+    <h1>Emergency Contacts</h1>
+
+    <div class="box-round">
+
+        <!-- start of content and bounding box -->
+
+        <div align="center">
+            <!--START Student Contacts list -->
+            <table id="emergency-contacts-table" border="1" cellpadding="2" cellspacing="0" align="center">
+                <thead>
+                <tr class="inforow">
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Contact Info</th>
+                    <th>Options</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <!-- END Student Contacts Content list-->
+        </div>
+    </div>
+    ~[wc:guardian_footer]
 
     <script type="text/template" id="contact-template">
         <tr>
@@ -169,19 +194,28 @@
             </td>
             <td>
                 <%
-                    if (contact.street !== '') {
+                    if (contact.residence_street !== '') {
                 %>
-                <a href="http://maps.google.com/?z=14&q=<%= contact.street %>,<%= contact.city %>,<%= contact.state %>,<%= contact.zip %>(<%= contact.first_name%> <%= contact.last_name %>)&output" target="_blank">
-                    <%= contact.street %>
+                <span class="infoheader">Residence Address: </span>
+                <a href="http://maps.google.com/?z=14&q=<%= contact.residence_street %>,<%= contact.residence_city %>,<%= contact.residence_state %>,<%= contact.residence_zip %>(<%= contact.first_name%> <%= contact.last_name %>)&output" target="_blank">
+                    <%= contact.residence_street %>
                     <br />
-                    <%= contact.city %> <%= contact.state %>, <%= contact.zip %>
+                    <%= contact.residence_city %> <%= contact.residence_state %>, <%= contact.residence_zip %>
                 </a>
                 <%
-                    } else {
+                    }
                 %>
-                    <%= contact.street %>
-                    <br />
-                    <%= contact.city %> <%= contact.state %>, <%= contact.zip %>
+                <br />
+                <br />
+                <%
+                    if (contact.mailing_street !== '') {
+                %>
+                    <span class="infoheader">Mailing Address: </span>
+                    <a href="http://maps.google.com/?z=14&q=<%= contact.mailing_street %>,<%= contact.mailing_city %>,<%= contact.mailing_state %>,<%= contact.mailing_zip %>(<%= contact.first_name%> <%= contact.last_name %>)&output" target="_blank">
+                        <%= contact.mailing_street %>
+                        <br />
+                        <%= contact.mailing_city %> <%= contact.mailing_state %>, <%= contact.mailing_zip %>
+                    </a>
                 <%
                     }
                 %>
@@ -189,10 +223,11 @@
             <td>
                 <p>
                 <%
-                    if (contact.email !== "") {
+                    if (contact.email !== '') {
                 %>
                     <span class="infoheader">Email: </span>
-                    <a href="mailto:' + contact.email + '"><%= contact.email %> + '</a><br/>
+                    <a href="mailto:<%= contact.email %>"><%= contact.email %></a>
+                    <br />
                     <br />
                 <%
                     }
@@ -232,6 +267,27 @@
             </td>
             <td>
                 <button class='editcontact'>Edit</button>
+            </td>
+        </tr>
+    </script>
+
+    <script type="text/template" id="edit-contact-template">
+        <tr>
+            <td>
+                <label for="first-name">Name: </label>
+                <input id="first-name" type="text" placeholder="First Name" value="<%= contact.first_name %>"/>
+                <input id="last-name" type="text" placeholder="Last Name" value="<%= contact.last_name %>"/>
+                <br />
+                <label for="first-name">Priority: </label>
+                <select id="priority" type="text">
+                    <%
+                        for (var i; i < data.numOfContacts; i++) {
+                    %>
+                        <option value="<% i+1 %>"><% i+1 %></option>
+                    <%
+                        }
+                    %>
+                </select>
             </td>
         </tr>
     </script>
