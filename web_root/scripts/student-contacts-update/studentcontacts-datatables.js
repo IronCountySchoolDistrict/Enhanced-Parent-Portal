@@ -191,8 +191,7 @@ var $ = jQuery;
             if (row) {
                 var sourcerow = row;
                 var n = m_table.fnGetData(row)[m_keyindex];
-                $.get(m_requestURL, {"frn": psData.frn, "gidx": n, "action": "geteditor"}
-                )
+                $.get(m_requestURL, {"frn": psData.frn, "gidx": n, "action": "geteditor"})
                     .success(function (editform) {
                         var editrow = m_table.fnOpen(row, editform, "edit_row");
                         $('form', editrow).submit(function () {

@@ -9,9 +9,9 @@ require.config({
         actions: '/scripts/student-contacts-update/actions',
 
         // external dependencies
-        dataTables: '//cdn.datatables.net/1.10.2/js/jquery.dataTables',
-        tableTools: '//cdn.datatables.net/tabletools/2.2.3/js/dataTables.tableTools',
-        zeroClipboard: '//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.6/ZeroClipboard',
+        //dataTables: '//cdn.datatables.net/1.10.2/js/jquery.dataTables',
+        //tableTools: '//cdn.datatables.net/tabletools/2.2.3/js/dataTables.tableTools',
+        //zeroClipboard: '//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.6/ZeroClipboard',
         underscore: 'underscore/underscore'
     }
 });

@@ -1,12 +1,12 @@
 /*global define, $j*/
 
-define(['dataTables', 'tableTools'], function (dataTable, tableTools) {
+define(function () {
     return {
         main: function () {
-            var $dataTable = this.bindDatatables();
+            //var $dataTable = this.bindDatatables();
             this.addContactButton();
 
-            return $dataTable;
+            //return $dataTable;
         },
         bindDatatables: function () {
             var $table = $j('#holder').addClass('display').dataTable({
@@ -100,8 +100,8 @@ define(['dataTables', 'tableTools'], function (dataTable, tableTools) {
             /**
              * @see sDom option in dataTable() initialization.
              */
-            $j('.addcontact').append('<button>Add Contact</button>');
-            $j('.addcontact button').button({
+            $j('#maincontent').prepend('<button>Add Contact</button>');
+            $j('#maincontent button').button({
                 icons: {
                     primary: 'ui-icon-plus'
                 }

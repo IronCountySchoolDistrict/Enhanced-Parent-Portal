@@ -6,150 +6,234 @@
 [/if]
 
 <html>
-    <head>
+<head>
 
-        ~[SetPostValue:nextschool=~(f.table_info;table=students;dothisfor=all;field=Next_School;*id=~(curstudid);fn=value)]
-        ~[SetPostValue:Sched_AllowRequests=~(f.table_info;table=students;dothisfor=all;field=Sched_AllowRequests;*id=~(curstudid);fn=value)]
-        ~[SetPostValue:enabledemoupdate=~(f.table_info;table=students;dothisfor=all;field=enabledemoupdate;*id=~(curstudid);fn=value)]
+    ~[SetPostValue:nextschool=~(f.table_info;table=students;dothisfor=all;field=Next_School;*id=~(curstudid);fn=value)]
+    ~[SetPostValue:Sched_AllowRequests=~(f.table_info;table=students;dothisfor=all;field=Sched_AllowRequests;*id=~(curstudid);fn=value)]
+    ~[SetPostValue:enabledemoupdate=~(f.table_info;table=students;dothisfor=all;field=enabledemoupdate;*id=~(curstudid);fn=value)]
 
-        <title>Student Contacts Update</title>
+    <title>Student Contacts Update</title>
 
-        <script>
-            var psData = {};
+    <script>
+        var psData = {};
 
-            // Render these ids as strings so if there are leading 0s
-            // they don't get removed (as they are when parsed as Numbers).
-            psData.curstudid = "~(curstudid)";
-            psData.frn = "~(frn)";
-            psData.studentfrn = "~(studentfrn)";
-        </script>
-
-
-        ~[frame_type:none]
-
-        ~[wc:guardian_header]
-
-        <style type="text/css">
-            body, td, p, ul, div {
-                color: inherit;
-            }
-
-            #maincontent td, #maincontent tr, #maincontent th {
-                border: 1px solid;
-                font-size: 9pt;
-            }
-
-            #holder td, #holder p {
-                font-size: 9pt;
-            }
-
-            #holder tr.odd {
-                background-color: #EDF3FE;
-            }
-
-            #holder {
-                width: 750px !important;
-                margin: 0 !important;
-            }
-
-            .hidden {
-                display: none;
-            }
-
-            #successmsg {
-                font-size: 11pt;
-                background-color: lightblue;
-                text-align: center;
-            }
-
-            #maincontent table {
-                border-collapse: collapse;
-            }
-
-            #holder_wrapper {
-                width: 750px;
-                display: inline-table !important;
-            }
-
-            div.contactinfo {
-                margin-left: 20px;
-                margin-right: 20px;
-                border-bottom: 1px solid black;
-            }
-
-            .infoheader {
-                font-weight: bold;
-            }
-
-            .inforow {
-                background-image: url(/images/blue_grad.png);
-            }
-
-            .dataTable {
-                background-color: #edf3fe;
-            }
-
-            div.address {
-                float: left;
-                margin-left: 15px;
-            }
-
-            .mini {
-                color: #339900;
-                font-size: 7pt;
-            }
-
-            .mini .title {
-                color: #000000;
-                text-decoration: underline;
-            }
-
-            .mini .data {
-                color: #339900;
-            }
-
-            .editcontact, .deletecontact {
-                color: #ffffff !important;
-                margin-bottom: 10px !important;
-            }
-        </style>
-
-        <link rel="stylesheet" href="/scripts/student-contacts-update/tabletools/css/TableTools.css" type="text/css">
-        <link rel="stylesheet" href="/scripts/student-contacts-update/tabletools/css/TableTools_JUI.css"
-              type="text/css">
-        <link rel="stylesheet" href="/images/student-info/css/datatable_jui.css" type="text/css">
-        <link rel="stylesheet" href="/images/student-info/css/theme/crm-css/jquery-ui.custom.css" type="text/css">
-
-        <script src="/scripts/student-contacts-update/main.js"></script>
+        // Render these ids as strings so if there are leading 0s
+        // they don't get removed (as they are when parsed as Numbers).
+        psData.curstudid = "~(curstudid)";
+        psData.frn = "~(frn)";
+        psData.studentfrn = "~(studentfrn)";
+    </script>
 
 
-        <h1>Parent Contacts</h1>
+    ~[frame_type:none]
 
-        <div class="box-round">
+    ~[wc:guardian_header]
 
-            <!-- start of content and bounding box -->
+    <style type="text/css">
+        body, td, p, ul, div {
+            color: inherit;
+        }
 
-            <div id="maincontent" align="center">
-                <div id="error_container"></div>
+        #maincontent td, #maincontent tr, #maincontent th {
+            border: 1px solid;
+            font-size: 9pt;
+        }
 
-                <!--START Student Contacts list -->
-                <table id="holder" border="1" cellpadding="2" cellspacing="0" align="center">
-                    <thead>
-                    <tr class="inforow">
-                        <th>Contact</th>
-                        <th>Address</th>
-                        <th>Contact Info</th>
-                        <th>Options</th>
-                        <th>&nbsp;</th>
-                        <th>&nbsp;</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <!-- END Student Contacts Content list-->
-            </div>
-            ~[wc:guardian_footer]
+        #holder td, #holder p {
+            font-size: 9pt;
+        }
+
+        #holder tr.odd {
+            background-color: #EDF3FE;
+        }
+
+        #holder {
+            width: 750px !important;
+            margin: 0 !important;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #successmsg {
+            font-size: 11pt;
+            background-color: lightblue;
+            text-align: center;
+        }
+
+        #maincontent table {
+            border-collapse: collapse;
+        }
+
+        #holder_wrapper {
+            width: 750px;
+            display: inline-table !important;
+        }
+
+        div.contactinfo {
+            margin-left: 20px;
+            margin-right: 20px;
+            border-bottom: 1px solid black;
+        }
+
+        .infoheader {
+            font-weight: bold;
+        }
+
+        .inforow {
+            background-image: url(/images/blue_grad.png);
+        }
+
+        .dataTable {
+            background-color: #edf3fe;
+        }
+
+        div.address {
+            float: left;
+            margin-left: 15px;
+        }
+
+        .mini {
+            color: #339900;
+            font-size: 7pt;
+        }
+
+        .mini .title {
+            color: #000000;
+            text-decoration: underline;
+        }
+
+        .mini .data {
+            color: #339900;
+        }
+
+        .editcontact, .deletecontact {
+            color: #ffffff !important;
+            margin-bottom: 10px !important;
+        }
+    </style>
+
+    <!--
+    <link rel="stylesheet" href="/scripts/student-contacts-update/tabletools/css/TableTools.css" type="text/css">
+    <link rel="stylesheet" href="/scripts/student-contacts-update/tabletools/css/TableTools_JUI.css"
+          type="text/css">
+    <link rel="stylesheet" href="/images/student-info/css/datatable_jui.css" type="text/css">
+    <link rel="stylesheet" href="/images/student-info/css/theme/crm-css/jquery-ui.custom.css" type="text/css">
+    -->
+
+    <script src="/scripts/student-contacts-update/main.js"></script>
+
+
+    <h1>Parent Contacts</h1>
+
+    <div class="box-round">
+
+        <!-- start of content and bounding box -->
+
+        <div id="maincontent" align="center">
+            <div id="error_container"></div>
+
+            <!--START Student Contacts list -->
+            <table id="holder" border="1" cellpadding="2" cellspacing="0" align="center">
+                <thead>
+                <tr class="inforow">
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Contact Info</th>
+                    <th>Options</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <!-- END Student Contacts Content list-->
         </div>
-        </body>
+        ~[wc:guardian_footer]
+    </div>
+
+    <script type="text/template" id="contact-template">
+        <tr>
+            <td>
+                <p style="font-weight:bold;">
+                    <%= contact.first_name%> <%= contact.last_name %>
+                </p>
+                <%
+                    if (contact.priority != "") {
+                %>
+                    <span style="font-size:8pt;">(Contact Priority # <%= contact.priority %></span><br/>
+                <%
+                    }
+                %>
+                <span style="font-size:8pt;"><%= contact.relation %></span>
+            </td>
+            <td>
+                <%
+                    if (contact.street !== '') {
+                %>
+                <a href="http://maps.google.com/?z=14&q=<%= contact.street %>,<%= contact.city %>,<%= contact.state %>,<%= contact.zip %>(<%= contact.first_name%> <%= contact.last_name %>)&output" target="_blank">
+                    <%= contact.street %>
+                    <br />
+                    <%= contact.city %> <%= contact.state %>, <%= contact.zip %>
+                </a>
+                <%
+                    } else {
+                %>
+                    <%= contact.street %>
+                    <br />
+                    <%= contact.city %> <%= contact.state %>, <%= contact.zip %>
+                <%
+                    }
+                %>
+            </td>
+            <td>
+                <p>
+                <%
+                    if (contact.email !== "") {
+                %>
+                    <span class="infoheader">Email: </span>
+                    <a href="mailto:' + contact.email + '"><%= contact.email %> + '</a><br/>
+                    <br />
+                <%
+                    }
+                %>
+                <%
+                    if (contact.phone1 !== "") {
+                %>
+                    <span class="infoheader"><%= contact.phone1type %>: </span><%= contact.phone1 %><br />
+                <%
+                    }
+                %>
+
+                <%
+                    if (contact.phone2 !== "") {
+                %>
+                    <span class="infoheader"><%= contact.phone2type %>: </span><%= contact.phone2 %><br />
+                <%
+                    }
+                %>
+
+                <%
+                    if (contact.phone3 !== "") {
+                %>
+                    <span class="infoheader"><%= contact.phone3type %>: </span><%= contact.phone3 %><br />
+                <%
+                    }
+                %>
+
+                <%
+                    if (contact.employer !== "") {
+                %>
+                    <span class="infoheader">Employer: </span><%= contact.employer %><br />
+                <%
+                    }
+                %>
+                </p>
+            </td>
+            <td>
+                <button class='editcontact'>Edit</button>
+            </td>
+        </tr>
+    </script>
+    </body>
 </html>
