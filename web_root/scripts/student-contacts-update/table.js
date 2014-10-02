@@ -1,108 +1,20 @@
-/*global define, $j*/
+/*global define, $j, psData*/
 
 define(['actions'], function (actions) {
     'use strict';
     return {
         main: function () {
-            //var $dataTable = this.bindDatatables();
             this.addContactButton();
             this.bindEditContact();
-            //return $dataTable;
-        },
-        bindDatatables: function () {
-            var $table = $j('#holder').addClass('display').dataTable({
-                "bPaginate": false,
-                "bFilter": false,
-                "bJQueryUI": true,
-                "sDom": '<"H"lfr<"addcontact">>t<"F"ip>',
-                "aaSorting": [
-                    [4, 'asc'],
-                    [5, 'asc']
-                ],
-                "aoColumnDefs": [
-                    {"bSortable": false, "aTargets": ['_all']},
-                    {"bVisible": false, "aTargets": [4, 5]},
-                    {"sWidth": "100px", "aTargets": [3]},
-                    {
-                        "render": function (data, type, full) {
-                            var result = '';
-                            if ($j.isEmptyObject(full) || full == "") {
-                                return "";
-                            }
-                            result += '<p style="font-weight:bold;">' + full.firstname + ' ' + full.lastname + '</p>';
-                            if (full.priority.trim() != "") {
-                                result += '<span style="font-size:8pt;">(Contact Priority #' + full.priority + ')</span><br />';
-                            }
-                            result += '<span style="font-size:8pt;">(' + full.relation + ')</span>';
-                            return result;
-                        },
-                        "aTargets": [0]
-                    },
-                    {
-                        "render": function (data, type, full) {
-                            var result = '';
-                            if ($j.isEmptyObject(full) || full == "") {
-                                return '';
-                            }
-                            var address = full.street.trim() == '' ? '' : full.street + '<br />';
-                            address += full.city.trim() == '' ? '' : full.city + ',';
-                            address += full.state + ' ' + full.zip;
-                            if (full.street.trim() != '') {
-                                result += '<a href="http://maps.google.com/?z=14&q=' + full.street + ', ' + full.city + ', ' + full.state + ', ' + full.zip + ' (' + oObj.aData[0].firstname + ' ' + oObj.aData[0].lastname + ')&output" target="_blank">' + address + '</a><br />';
-                            }
-                            else {
-                                result += address;
-                            }
-                            if (full.mailto == "1") {
-                                result += "*Receives mailings";
-                            }
-                            return result;
-                        },
-                        "aTargets": [1]
-                    },
-                    {
-                        "mRender": function (data, type, full) {
-                            var result = '';
-                            if ($j.isEmptyObject(info) || full == "") {
-                                return "";
-                            }
-                            result += '<p>';
-                            if (full.email.trim() != "") {
-                                result += '<span class="infoheader">Email: </span><a href="mailto:' + full.email + '">' + full.email + '</a><br/><span class="button" onclick="copyEmail(\'' + full.email + '\');" >+Add to automated emails</span><br />';
-                            }
-                            if (full.homephone.trim() != "") {
-                                result += '<span class="infoheader">Home: </span>' + full.homephone + '<br />';
-                            }
-                            if (full.cellphone.trim() != "") {
-                                result += '<span class="infoheader">Cell: </span>' + full.cellphone + '<br />';
-                            }
-                            if (full.workphone.trim() != "") {
-                                result += '<span class="infoheader">Work: </span>' + full.workphone + '<br />';
-                            }
-                            if (full.employer.trim() != "") {
-                                result += '<span class="infoheader">Employer: </span>' + full.employer + '<br />';
-                            }
-                            result += '</p>';
-                            return result;
-                        },
-                        "aTargets": [2]
-                    }
-                ],
-                "fnDrawCallback": function () {
-                    $j('#holder td').removeClass('sorting_1 sorting_2 sorting_3');
-                }
-            });
-
-            return $table;
         },
 
-        addContactButton: function() {
+        addContactButton: function () {
             //create add contact button, and bind click event handler
             /**
              * @see sDom option in dataTable() initialization.
              */
-            $j('#maincontent').prepend('<button>Add Contact</button>');
-            $j('#maincontent button').button({
+            $j('#parents-guardians-content, #emergency-contacts-content').prepend('<button>Add Contact</button>');
+            $j('#parents-guardians-content button, #emergency-contacts-content button').button({
                 icons: {
                     primary: 'ui-icon-plus'
                 }
@@ -111,11 +23,41 @@ define(['actions'], function (actions) {
         },
 
         bindEditContact: function () {
-            $j('body').on('click', '.editcontact', function(event) {
-                var
-                actions.editContact();
+            var _this = this;
+            $j('body').on('click', '.editcontact', function (event) {
+                var $eventTarget = $j(event.target);
+                var $parentRow = $eventTarget.closest('tr');
+                var isParGuarContact = $parentRow.closest('#parents-guardians-table').length > 0;
+                var contactData = $parentRow.data('contactData');
+                actions.editContact(contactData, $parentRow);
+                _this.bindSaveButton(isParGuarContact);
+            });
+        },
+
+        bindSaveButton: function (isParGuarContact) {
+            $j('.savecontact').on('click', function (event) {
+                var $eventTarget = $j(event.target);
+                var $closestRow = $eventTarget.closest('tr');
+                var contactData = actions.deserializeContact($closestRow);
+
+                /* If the contactData object is not present in the current row,
+                 * this is a new contact, so add extra fields to the contactData object.
+                 * @see actions.renderContact
+                 */
+                var contactInitData = $closestRow.data().contactData;
+
+                var ajaxFunc;
+                if (!contactInitData) {
+                    contactData.legal_guardian = isParGuarContact;
+                    ajaxFunc = actions.saveNewContact(contactData, psData.studentsDcid);
+
+                } else {
+                    ajaxFunc = actions.saveUpdateContact(contactData, contactInitData.id);
+                }
+                ajaxFunc.done(function(resp) {
+                    actions.renderContact(contactData, $closestRow);
+                });
             });
         }
-
     };
 });

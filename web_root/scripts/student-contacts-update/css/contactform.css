@@ -1,0 +1,51 @@
+.street-label {
+    padding-right: 18px;
+}
+
+.city-label {
+    padding-right: 29px;
+}
+
+.state-label {
+    padding-right: 20px;
+}
+
+#email-label {
+    padding-right: 50px;
+}
+
+#phone1-label {
+    padding-left: 0;
+}
+
+#phone2-label {
+    padding-left: 0;
+}
+
+#phone3-label {
+    padding-left: 0;
+}
+
+#phone1,#phone2,#phone3 {
+    width: 102px;
+}
+
+#employer-label {
+    padding-right: 27px;
+}
+
+#priority-label {
+    margin-right: 30px;
+}
+
+#first-name-label{
+    padding-right: 12px;
+}
+
+#last-name-label{
+    padding-right: 13px;
+}
+
+.address-input, .contact-input, .info-input {
+    margin-bottom: 5px !important;
+}
