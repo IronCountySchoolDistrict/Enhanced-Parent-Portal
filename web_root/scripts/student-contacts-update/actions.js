@@ -6,6 +6,7 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
         main: function () {
             this.loadContacts();
         },
+
         loadContacts: function () {
             var options = {
                 studentsdcid: psData.studentfrn.slice(3)
@@ -24,16 +25,23 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
 
         /**
          * @param contactData {Object}
-         * @param row {jQuery} - Row that will have its content replaced with the contact template.
+         * @param [row] {jQuery} - Row that will have its content replaced with the contact template.
          * Leaving this param empty will insert the row at the end of the table.
+         * @param [showUpdateMsg] {Boolean} - If true, prepend the updated contact information.
          */
-        renderContact: function (contactData, row) {
+        renderContact: function (contactData, row, showUpdateMsg) {
             var contactTemplate = $j('#contact-template').html();
             var renderedTemplate = _.template(contactTemplate, {'contact': contactData});
             if (!row) {
                 $j('#parents-guardians-table tbody').append('<tr>' + renderedTemplate + '</tr>');
             } else {
                 row.html('').html(renderedTemplate);
+
+                var prevClass = row.prev().attr('class');
+                if (showUpdateMsg && prevClass !== 'contact-update-msg') {
+                    var updatedTemplate = $j($j('#contact-updated-template').html());
+                    updatedTemplate.insertBefore(row);
+                }
             }
             var newRow = $j('#parents-guardians-table tr').last();
             newRow.data({'contactData': contactData});
@@ -70,7 +78,7 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
                 }
             });
 
-            // Set the correct option in the residence state dropdown to be selected.
+            // Set the correct option in the residence state drop down to be selected.
             _.each($j('#residence-state option'), function (option) {
                 var $option = $j(option);
                 if ($option.val() === contactData.relationship) {
@@ -78,7 +86,7 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
                 }
             });
 
-            // Set the correct option in the mailing state dropdown to be selected.
+            // Set the correct option in the mailing state drop down to be selected.
             _.each($j('#mailing-state option'), function (option) {
                 var $option = $j(option);
                 if ($option.val() === contactData.relationship) {
@@ -117,27 +125,38 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
         },
 
         /**
-         *
+         * @param contactData {Object}
          * @param contactRecordId {Number} Back-end id of the contact that is being edited
          */
-        saveUpdateContact: function (contactData, contactRecordId) {
-            var studentContactsTable = config.studentContactsTable;
+        updateStagingContact: function (contactData, contactRecordId) {
+            var studentContactsStagingTable = config.studentContactsStagingTable;
             var requestObj = {
-                name: config.studentContactsTable,
+                name: config.studentContactsStagingTable,
                 tables: {}
             };
-            requestObj.tables[studentContactsTable] = contactData;
+            requestObj.tables[studentContactsStagingTable] = contactData;
             var jsonContactData = JSON.stringify(requestObj);
-            return service.saveUpdateContact(jsonContactData, contactRecordId);
+            return service.updateStagingContact(jsonContactData, contactRecordId);
         },
 
         /**
          *
          * @param contactData {Object}
          * @param studentsDcid {Number}
+         * @param legalGuardian {Boolean}
+         * @param contactId {String}
          */
-        saveNewContact: function (contactData, studentsDcid) {
-
+        newStagingContact: function (contactData, studentsDcid, legalGuardian, contactId) {
+            contactData.legal_guardian = legalGuardian ? "1" : "0";
+            contactData.studentsdcid = studentsDcid;
+            contactData.contact_id = contactId;
+            var studentContactsStagingTable = config.studentContactsStagingTable;
+            var requestObj = {
+                tables: {}
+            };
+            requestObj.tables[studentContactsStagingTable] = contactData;
+            var jsonContactData = JSON.stringify(requestObj);
+            return service.newStagingContact(jsonContactData);
         }
     };
 });

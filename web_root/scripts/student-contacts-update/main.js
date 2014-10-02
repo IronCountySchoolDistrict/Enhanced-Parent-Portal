@@ -17,6 +17,6 @@ require(['table', 'buttons', 'actions'],
     function (table, buttons, actions) {
         'use strict';
         var $dataTable = table.main();
-        buttons.main($dataTable);
+        //buttons.main($dataTable);
         actions.main($dataTable);
     });

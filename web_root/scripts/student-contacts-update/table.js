@@ -1,6 +1,6 @@
 /*global define, $j, psData*/
 
-define(['actions'], function (actions) {
+define(['actions', 'service', 'underscore'], function (actions, service, _) {
     'use strict';
     return {
         main: function () {
@@ -28,6 +28,7 @@ define(['actions'], function (actions) {
                 var $eventTarget = $j(event.target);
                 var $parentRow = $eventTarget.closest('tr');
                 var isParGuarContact = $parentRow.closest('#parents-guardians-table').length > 0;
+
                 var contactData = $parentRow.data('contactData');
                 actions.editContact(contactData, $parentRow);
                 _this.bindSaveButton(isParGuarContact);
@@ -40,22 +41,40 @@ define(['actions'], function (actions) {
                 var $closestRow = $eventTarget.closest('tr');
                 var contactData = actions.deserializeContact($closestRow);
 
-                /* If the contactData object is not present in the current row,
-                 * this is a new contact, so add extra fields to the contactData object.
-                 * @see actions.renderContact
-                 */
-                var contactInitData = $closestRow.data().contactData;
-
                 var ajaxFunc;
-                if (!contactInitData) {
-                    contactData.legal_guardian = isParGuarContact;
-                    ajaxFunc = actions.saveNewContact(contactData, psData.studentsDcid);
 
+                var stagingContactsAjax;
+                if (isParGuarContact) {
+                    stagingContactsAjax = service.getParGuarsStaging({studentsdcid: psData.studentsDcid});
                 } else {
-                    ajaxFunc = actions.saveUpdateContact(contactData, contactInitData.id);
+                    stagingContactsAjax = service.getEmergContsStaging({studentsdcid: psData.studentsDcid});
                 }
-                ajaxFunc.done(function(resp) {
-                    actions.renderContact(contactData, $closestRow);
+
+                stagingContactsAjax.done(function (stagingContacts) {
+                    /* If the contactData object is not present in the current row,
+                     * this is a new contact.
+                     * @see actions.renderContact
+                     */
+                    var contactInitData = $closestRow.data().contactData;
+                    var stagingRecordId;
+
+                    if (contactInitData) {
+                        var stagingTableName = stagingContacts.name.toLowerCase();
+                        _.each(stagingContacts.record, function (contact) {
+                            if (contactInitData.contact_id === contact.tables[stagingTableName].contact_id) {
+                                stagingRecordId = contactInitData.id;
+                            }
+                        });
+                    }
+
+                    if (stagingRecordId) {
+                        ajaxFunc = actions.updateStagingContact(contactData, stagingRecordId);
+                    } else {
+                        ajaxFunc = actions.newStagingContact(contactData, psData.studentsDcid, isParGuarContact, contactInitData.contact_id);
+                    }
+                    ajaxFunc.done(function (resp) {
+                        actions.renderContact(contactData, $closestRow, true);
+                    });
                 });
             });
         }

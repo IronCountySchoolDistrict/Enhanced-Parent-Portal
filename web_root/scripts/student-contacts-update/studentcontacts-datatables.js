@@ -5,7 +5,7 @@ String.prototype.trim = function () {
 };
 
 function copyEmail(email) {
-    if (email.trim().length == 0) {
+    if (email.trim().length === 0) {
         return;
     }
     var data = email.trim();
