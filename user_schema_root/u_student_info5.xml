@@ -18,7 +18,7 @@
         <field name="student_cell_phone" type="String" length="15"/>
     </extendedTable>
 
-    <extendedTable coreTable="Students" dbTableName="U_Student_Contacts_Staging3" childName="U_Student_Contacts_Staging3" comment="">
+    <extendedTable coreTable="Students" dbTableName="U_Student_Contacts_Staging4" childName="U_Student_Contacts_Staging4" comment="">
         <field name="PRIORITY" type="Integer"/>
         <field name="LEGAL_GUARDIAN" type="Boolean"/>
         <field name="LAST_NAME" type="String" length="40"/>
@@ -40,10 +40,10 @@
         <field name="PHONE3TYPE" type="String" length="10"/>
         <field name="EMPLOYER" type="String" length="40"/>
         <field name="EMAIL" type="String" length="60"/>
-        <field name="CONTACT_ID" type="Integer" description="Link between Contacts and Contacts Staging tables."/>
+        <field name="CONTACT_ID" type="Integer" description="Link between Contacts and Contacts Staging tables. Only needs to be unique for among this student's contacts."/>
     </extendedTable>
 
-    <extendedTable coreTable="Students" dbTableName="U_Student_Contacts3" childName="U_Student_Contacts3" comment="">
+    <extendedTable coreTable="Students" dbTableName="U_Student_Contacts4" childName="U_Student_Contacts4" comment="">
         <field name="PRIORITY" type="Integer"/>
         <field name="LEGAL_GUARDIAN" type="Boolean"/>
         <field name="LAST_NAME" type="String" length="40"/>
@@ -65,6 +65,6 @@
         <field name="PHONE3TYPE" type="String" length="10"/>
         <field name="EMPLOYER" type="String" length="40"/>
         <field name="EMAIL" type="String" length="60"/>
-        <field name="CONTACT_ID" type="Integer" description="Link between Contacts and Contacts Staging tables."/>
+        <field name="CONTACT_ID" type="Integer" description="Link between Contacts and Contacts Staging tables. Only needs to be unique for among this student's contacts."/>
     </extendedTable>
 </psExtension>
