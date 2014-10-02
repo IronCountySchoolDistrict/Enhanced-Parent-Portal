@@ -40,6 +40,7 @@
         <field name="PHONE3TYPE" type="String" length="10"/>
         <field name="EMPLOYER" type="String" length="40"/>
         <field name="EMAIL" type="String" length="60"/>
+        <field name="CONTACT_ID" type="Integer" description="Link between Contacts and Contacts Staging tables."/>
     </extendedTable>
 
     <extendedTable coreTable="Students" dbTableName="U_Student_Contacts3" childName="U_Student_Contacts3" comment="">
@@ -64,5 +65,6 @@
         <field name="PHONE3TYPE" type="String" length="10"/>
         <field name="EMPLOYER" type="String" length="40"/>
         <field name="EMAIL" type="String" length="60"/>
+        <field name="CONTACT_ID" type="Integer" description="Link between Contacts and Contacts Staging tables."/>
     </extendedTable>
 </psExtension>
