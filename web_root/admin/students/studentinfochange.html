@@ -93,11 +93,12 @@
         psData.psmStudentContactId = $j('#psm-student-contact-id-template').html().trim();
         psData.psmStudentId = $j('#psm-student-id-template').html().trim();
         psData.psmStudentContactTypeId = $j('#psm-student-contact-type-template').html().trim();
+        psData.parent_verify = "~([students.U_Students_Extension]parent_verify)";
 
     </script>
     <script src="/scripts/student-info/js/student-info.js"></script>
 </head>
-<body>
+<body data-validation="exclude">
 
 <form action="/admin/changesrecorded.white.html" method="POST" id="student-info-form">
     ~[DirectTable.Select:PSM_studentcontact;studentsdcid;~(rn)]
@@ -320,11 +321,12 @@
         </table>
     </div>
     <div class="button-row">
-        <input type="hidden" name="ac" value="prim">
         <input type="hidden" name="Students.dcid" value="~(rn)">
         [/tlist_sql]
-        Uncheck when done verifying information. -->
-        <input type="checkbox" name="[students.U_Students_Extension]parent_verify" value="1"/>
+        <input type="hidden" name="ac" value="prim">
+
+        <span id="uncheck-span">Uncheck when done verifying information. --></span>
+        <input type="checkbox" id="parent-verify" name="[students.U_Students_Extension]parent_verify"/>
 
         ~[tlist_sql;select s.dcid, sta.id
         from u_student_info_staging sta
@@ -339,6 +341,13 @@
     <!-- end of content of bounding box -->
 
     ~[wc:admin_footer_frame_css]
+
+<script type="text/template" id="parent-verify-msg-template">
+    <div style="text-align: center; font-weight: bold">
+        This student has Parent Verify checked but has no student information updates waiting to be verified.
+        Please uncheck the box below and click Submit to fix this issue.
+    </div>
+</script>
 </form>
 </body>
 </html><!-- end right frame -->
