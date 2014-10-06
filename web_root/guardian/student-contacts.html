@@ -8,502 +8,745 @@
 <html>
 <head>
 
-    ~[SetPostValue:nextschool=~(f.table_info;table=students;dothisfor=all;field=Next_School;*id=~(curstudid);fn=value)]
-    ~[SetPostValue:Sched_AllowRequests=~(f.table_info;table=students;dothisfor=all;field=Sched_AllowRequests;*id=~(curstudid);fn=value)]
-    ~[SetPostValue:enabledemoupdate=~(f.table_info;table=students;dothisfor=all;field=enabledemoupdate;*id=~(curstudid);fn=value)]
+~[SetPostValue:nextschool=~(f.table_info;table=students;dothisfor=all;field=Next_School;*id=~(curstudid);fn=value)]
+~[SetPostValue:Sched_AllowRequests=~(f.table_info;table=students;dothisfor=all;field=Sched_AllowRequests;*id=~(curstudid);fn=value)]
+~[SetPostValue:enabledemoupdate=~(f.table_info;table=students;dothisfor=all;field=enabledemoupdate;*id=~(curstudid);fn=value)]
 
-    <title>Student Contacts Update</title>
+<title>Student Contacts Update</title>
 
-    <script>
-        var psData = {};
+<script>
+    var psData = {};
 
-        // Render these IDs as strings so if there are leading 0s
-        // they don't get removed (as they are when parsed as Numbers).
-        psData.curstudid = "~(curstudid)";
-        psData.frn = "~(frn)";
-        psData.studentfrn = "~(studentfrn)";
-        psData.studentsDcid = psData.studentfrn.slice(3);
-    </script>
+    // Render these IDs as strings so if there are leading 0s
+    // they don't get removed (as they are when parsed as Numbers).
+    psData.curstudid = "~(curstudid)";
+    psData.frn = "~(frn)";
+    psData.studentfrn = "~(studentfrn)";
+    psData.studentsDcid = psData.studentfrn.slice(3);
+</script>
 
-    ~[frame_type:none]
+~[frame_type:none]
 
-    ~[wc:guardian_header]
+~[wc:guardian_header]
 
-    <style type="text/css">
-        body, td, p, ul, div {
-            color: inherit;
-        }
+<style type="text/css">
+    body, td, p, ul, div {
+        color: inherit;
+    }
 
-        table td, table tr, table th {
-            border: 1px solid;
-            font-size: 9pt;
-        }
+    table td, table tr, table th {
+        border: 1px solid;
+        font-size: 9pt;
+    }
 
-        #holder td, #holder p {
-            font-size: 9pt;
-        }
+    #holder td, #holder p {
+        font-size: 9pt;
+    }
 
-        #holder tr.odd {
-            background-color: #EDF3FE;
-        }
+    #holder tr.odd {
+        background-color: #EDF3FE;
+    }
 
-        #holder {
-            width: 750px !important;
-            margin: 0 !important;
-        }
+    #holder {
+        width: 750px !important;
+        margin: 0 !important;
+    }
 
-        .hidden {
-            display: none;
-        }
+    .hidden {
+        display: none;
+    }
 
-        #successmsg {
-            font-size: 11pt;
-            background-color: lightblue;
-            text-align: center;
-        }
+    #successmsg {
+        font-size: 11pt;
+        background-color: lightblue;
+        text-align: center;
+    }
 
-        #maincontent table {
-            border-collapse: collapse;
-        }
+    #maincontent table {
+        border-collapse: collapse;
+    }
 
-        #holder_wrapper {
-            width: 750px;
-            display: inline-table !important;
-        }
+    #holder_wrapper {
+        width: 750px;
+        display: inline-table !important;
+    }
 
-        div.contactinfo {
-            margin-left: 20px;
-            margin-right: 20px;
-            border-bottom: 1px solid black;
-        }
+    div.contactinfo {
+        margin-left: 20px;
+        margin-right: 20px;
+        border-bottom: 1px solid black;
+    }
 
-        .infoheader {
-            font-weight: bold;
-        }
+    .infoheader {
+        font-weight: bold;
+    }
 
-        .inforow {
-            background-image: url(/images/blue_grad.png);
-        }
+    .inforow {
+        background-image: url(/images/blue_grad.png);
+    }
 
-        .dataTable {
-            background-color: #edf3fe;
-        }
+    .dataTable {
+        background-color: #edf3fe;
+    }
 
-        div.address {
-            float: left;
-            margin-left: 15px;
-        }
+    div.address {
+        float: left;
+        margin-left: 15px;
+    }
 
-        .mini {
-            color: #339900;
-            font-size: 7pt;
-        }
+    .mini {
+        color: #339900;
+        font-size: 7pt;
+    }
 
-        .mini .title {
-            color: #000000;
-            text-decoration: underline;
-        }
+    .mini .title {
+        color: #000000;
+        text-decoration: underline;
+    }
 
-        .mini .data {
-            color: #339900;
-        }
+    .mini .data {
+        color: #339900;
+    }
 
-        .editcontact, .deletecontact {
-            color: #ffffff !important;
-            margin-bottom: 10px !important;
-        }
-    </style>
-    <link rel="stylesheet" href="/scripts/student-contacts-update/css/contactform.css" type="text/css">
+    .editcontact, .deletecontact {
+        color: #ffffff !important;
+        margin-bottom: 10px !important;
+    }
+</style>
+<link rel="stylesheet" href="/scripts/student-contacts-update/css/contactform.css" type="text/css">
 
-    <!--
-    <link rel="stylesheet" href="/scripts/student-contacts-update/tabletools/css/TableTools.css" type="text/css">
-    <link rel="stylesheet" href="/scripts/student-contacts-update/tabletools/css/TableTools_JUI.css"
-          type="text/css">
-    <link rel="stylesheet" href="/images/student-info/css/datatable_jui.css" type="text/css">
-    <link rel="stylesheet" href="/images/student-info/css/theme/crm-css/jquery-ui.custom.css" type="text/css">
-    -->
+<!--
+<link rel="stylesheet" href="/scripts/student-contacts-update/tabletools/css/TableTools.css" type="text/css">
+<link rel="stylesheet" href="/scripts/student-contacts-update/tabletools/css/TableTools_JUI.css"
+      type="text/css">
+<link rel="stylesheet" href="/images/student-info/css/datatable_jui.css" type="text/css">
+<link rel="stylesheet" href="/images/student-info/css/theme/crm-css/jquery-ui.custom.css" type="text/css">
+-->
 
-    <script src="/scripts/student-contacts-update/main.js"></script>
+<script src="/scripts/student-contacts-update/main.js"></script>
 
 
-    <h1>Legal Parents/Guardians</h1>
+<h1>Legal Parents/Guardians</h1>
 
-    <div class="box-round">
+<div class="box-round">
 
-        <!-- start of content and bounding box -->
+    <!-- start of content and bounding box -->
 
-        <div id="parents-guardians-content" align="center">
-            <div id="error_container"></div>
+    <div id="parents-guardians-content" align="center">
+        <div id="error_container"></div>
 
-            <!--START Student Contacts list -->
-            <table id="parents-guardians-table" style="width: 1000px;" border="1" cellpadding="2" cellspacing="0" align="center">
-                <thead>
-                <tr class="inforow">
-                    <th style="width: 313px;">Contact</th>
-                    <th style="width: 300px;">Address</th>
-                    <th style="width: 249px;">Contact Info</th>
-                    <th style="width: 74px;">Options</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-            <!-- END Student Contacts Content list-->
-        </div>
-
+        <!--START Student Contacts list -->
+        <table id="parents-guardians-table" style="width: 1000px;" border="1" cellpadding="2" cellspacing="0"
+               align="center">
+            <thead>
+            <tr class="inforow">
+                <th style="width: 313px;">Contact</th>
+                <th style="width: 300px;">Address</th>
+                <th style="width: 249px;">Contact Info</th>
+                <th style="width: 74px;">Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <!-- END Student Contacts Content list-->
     </div>
 
-    <h1>Emergency Contacts</h1>
+</div>
 
-    <div class="box-round">
+<h1>Emergency Contacts</h1>
 
-        <!-- start of content and bounding box -->
+<div class="box-round">
 
-        <div id="emergency-contacts-content" align="center">
-            <!--START Student Contacts list -->
-            <table id="emergency-contacts-table" style="width: 1000px;" border="1" cellpadding="2" cellspacing="0" align="center">
-                <thead>
-                <tr class="inforow">
-                    <th style="width: 313px;">Contact</th>
-                    <th style="width: 300px;">Address</th>
-                    <th style="width: 249px;">Contact Info</th>
-                    <th style="width: 74px;">Options</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-            <!-- END Student Contacts Content list-->
-        </div>
+    <!-- start of content and bounding box -->
+
+    <div id="emergency-contacts-content" align="center">
+        <!--START Student Contacts list -->
+        <table id="emergency-contacts-table" style="width: 1000px;" border="1" cellpadding="2" cellspacing="0"
+               align="center">
+            <thead>
+            <tr class="inforow">
+                <th style="width: 313px;">Contact</th>
+                <th style="width: 300px;">Address</th>
+                <th style="width: 249px;">Contact Info</th>
+                <th style="width: 74px;">Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <!-- END Student Contacts Content list-->
     </div>
-    ~[wc:guardian_footer]
+</div>
+~[wc:guardian_footer]
 
-    <script type="text/template" id="contact-template">
-            <td>
-                <p style="font-weight:bold;">
-                    <%= contact.first_name%> <%= contact.last_name %>
-                </p>
-                <%
-                    if (contact.priority != "") {
-                %>
-                    <span style="font-size:8pt;">(Contact Priority #<%= contact.priority %>)</span>
-                    <br/>
-                <%
-                    }
-                %>
-                <%
-                    if (contact.relationship != "") {
-                %>
-                <span style="font-size:8pt;">(<%= contact.relationship %>)</span>
-                <%
-                    }
-                %>
-            </td>
-            <td>
-                <%
-                    if (contact.residence_street !== '') {
-                %>
-                <span class="infoheader">Residence Address: </span>
-                <a href="http://maps.google.com/?z=14&q=<%= contact.residence_street %>,<%= contact.residence_city %>,<%= contact.residence_state %>,<%= contact.residence_zip %>(<%= contact.first_name%> <%= contact.last_name %>)&output" target="_blank">
-                    <%= contact.residence_street %>
-                    <br />
-                    <%= contact.residence_city %> <%= contact.residence_state %>, <%= contact.residence_zip %>
-                </a>
-                <%
-                    }
-                %>
-                <br />
-                <br />
-                <%
-                    if (contact.mailing_street !== '') {
-                %>
-                    <span class="infoheader">Mailing Address: </span>
-                    <a href="http://maps.google.com/?z=14&q=<%= contact.mailing_street %>,<%= contact.mailing_city %>,<%= contact.mailing_state %>,<%= contact.mailing_zip %>(<%= contact.first_name%> <%= contact.last_name %>)&output" target="_blank">
-                        <%= contact.mailing_street %>
-                        <br />
-                        <%= contact.mailing_city %> <%= contact.mailing_state %>, <%= contact.mailing_zip %>
-                    </a>
-                <%
-                    }
-                %>
-            </td>
-            <td>
-                <p>
-                <%
-                    if (contact.email !== '') {
-                %>
-                    <span class="infoheader">Email: </span>
-                    <a href="mailto:<%= contact.email %>"><%= contact.email %></a>
-                    <br />
-                    <br />
-                <%
-                    }
-                %>
-                <%
-                    if (contact.phone1 !== "") {
-                %>
-                    <span class="infoheader"><%= contact.phone1type %>: </span><%= contact.phone1 %><br />
-                <%
-                    }
-                %>
+<script type="text/template" id="contact-template">
+    <td>
+        <p style="font-weight:bold;">
+            <%= contact.first_name%> <%= contact.last_name %>
+        </p>
+        <%
+        if (contact.priority != "") {
+        %>
+        <span style="font-size:8pt;">(Contact Priority #<%= contact.priority %>)</span>
+        <br/>
+        <%
+        }
+        %>
+        <%
+        if (contact.relationship != "") {
+        %>
+        <span style="font-size:8pt;">(<%= contact.relationship %>)</span>
+        <%
+        }
+        %>
+    </td>
+    <td>
+        <%
+        if (contact.residence_street !== '') {
+        %>
+        <span class="infoheader">Residence Address: </span>
+        <a href="http://maps.google.com/?z=14&q=<%= contact.residence_street %>,<%= contact.residence_city %>,<%= contact.residence_state %>,<%= contact.residence_zip %>(<%= contact.first_name%> <%= contact.last_name %>)&output"
+           target="_blank">
+            <%= contact.residence_street %>
+            <br/>
+            <%= contact.residence_city %> <%= contact.residence_state %>, <%= contact.residence_zip %>
+        </a>
+        <%
+        }
+        %>
+        <br/>
+        <br/>
+        <%
+        if (contact.mailing_street !== '') {
+        %>
+        <span class="infoheader">Mailing Address: </span>
+        <a href="http://maps.google.com/?z=14&q=<%= contact.mailing_street %>,<%= contact.mailing_city %>,<%= contact.mailing_state %>,<%= contact.mailing_zip %>(<%= contact.first_name%> <%= contact.last_name %>)&output"
+           target="_blank">
+            <%= contact.mailing_street %>
+            <br/>
+            <%= contact.mailing_city %> <%= contact.mailing_state %>, <%= contact.mailing_zip %>
+        </a>
+        <%
+        }
+        %>
+    </td>
+    <td>
+        <p>
+            <%
+            if (contact.email !== '') {
+            %>
+            <span class="infoheader">Email: </span>
+            <a href="mailto:<%= contact.email %>"><%= contact.email %></a>
+            <br/>
+            <br/>
+            <%
+            }
+            %>
+            <%
+            if (contact.phone1 !== "") {
+            %>
+            <span class="infoheader"><%= contact.phone1type %>: </span><%= contact.phone1 %><br/>
+            <%
+            }
+            %>
 
-                <%
-                    if (contact.phone2 !== "") {
-                %>
-                    <span class="infoheader"><%= contact.phone2type %>: </span><%= contact.phone2 %><br />
-                <%
-                    }
-                %>
+            <%
+            if (contact.phone2 !== "") {
+            %>
+            <span class="infoheader"><%= contact.phone2type %>: </span><%= contact.phone2 %><br/>
+            <%
+            }
+            %>
 
-                <%
-                    if (contact.phone3 !== "") {
-                %>
-                    <span class="infoheader"><%= contact.phone3type %>: </span><%= contact.phone3 %><br />
-                <%
-                    }
-                %>
+            <%
+            if (contact.phone3 !== "") {
+            %>
+            <span class="infoheader"><%= contact.phone3type %>: </span><%= contact.phone3 %><br/>
+            <%
+            }
+            %>
 
-                <%
-                    if (contact.employer !== "") {
-                %>
-                    <span class="infoheader">Employer: </span><%= contact.employer %><br />
-                <%
-                    }
-                %>
-                </p>
-            </td>
-            <td>
-                <button class='editcontact'>Edit</button>
-            </td>
-    </script>
+            <%
+            if (contact.employer !== "") {
+            %>
+            <span class="infoheader">Employer: </span><%= contact.employer %><br/>
+            <%
+            }
+            %>
+        </p>
+    </td>
+    <td>
+        <button class='editcontact'>Edit</button>
+    </td>
+</script>
 
-    <script type="text/template" id="edit-contact-template">
-        <td>
-            <label>Name: </label>
-            <br />
-            <label id="first-name-label" for="first-name">First Name: </label>
-            <input id="first-name" class="contact-input" type="text" placeholder="First Name" value="<%= contact.first_name %>"/>
-            <br />
-            <label id="last-name-label" for="first-name">Last Name: </label>
-            <input id="last-name" class="contact-input" type="text" placeholder="Last Name" value="<%= contact.last_name %>"/>
-            <br />
-            <br />
-            <label id="priority-label" for="priority">Priority: </label>
-            <select id="priority">
-                <%
-                    for (var i = 0; i < numOfContacts; i++) {
-                        var nthIndex = i + 1;
-                %>
-                    <option value="<%= nthIndex %>"><%= nthIndex %></option>
-                <%
-                    }
-                %>
-            </select>
-            <br />
-            <br />
-            <label for="relationship">Relationship: </label>
-            <select id="relationship">
-                <option></option>
-                <option value="Father">Father</option>
-                <option value="Mother">Mother</option>
-                <option value="Mother">Step-Father</option>
-                <option value="Mother">Step-Mother</option>
-                <option value="Aunt">Aunt</option>
-                <option value="Brother">Brother</option>
-                <option value="Friend">Friend</option>
-                <option value="Grandfather">Grandfather</option>
-                <option value="Grandmother">Grandmother</option>
-                <option value="Neighbor">Neighbor</option>
-                <option value="Other">Other</option>
-                <option value="Sister">Sister</option>
-                <option value="Uncle">Uncle</option>
-            </select>
+<script type="text/template" id="edit-contact-template">
+<td>
+    <label>Name: </label>
+    <br/>
+    <label id="first-name-label" for="first-name">First Name: </label>
+    <input id="first-name" class="contact-input" type="text" placeholder="First Name"
+           value="<%= contact.first_name %>"/>
+    <br/>
+    <label id="last-name-label" for="first-name">Last Name: </label>
+    <input id="last-name" class="contact-input" type="text" placeholder="Last Name" value="<%= contact.last_name %>"/>
+    <br/>
+    <br/>
+    <label id="priority-label" for="priority">Priority: </label>
+    <select id="priority">
+        <%
+        for (var i = 0; i < numOfContacts; i++) {
+        var nthIndex = i + 1;
+        %>
+        <option value="<%= nthIndex %>"><%= nthIndex %></option>
+        <%
+        }
+        %>
+    </select>
+    <br/>
+    <br/>
+    <label for="relationship">Relationship: </label>
+    <select id="relationship">
+        <option></option>
+        <option value="Father">Father</option>
+        <option value="Mother">Mother</option>
+        <option value="Mother">Step-Father</option>
+        <option value="Mother">Step-Mother</option>
+        <option value="Aunt">Aunt</option>
+        <option value="Brother">Brother</option>
+        <option value="Friend">Friend</option>
+        <option value="Grandfather">Grandfather</option>
+        <option value="Grandmother">Grandmother</option>
+        <option value="Neighbor">Neighbor</option>
+        <option value="Other">Other</option>
+        <option value="Sister">Sister</option>
+        <option value="Uncle">Uncle</option>
+    </select>
+</td>
+<td>
+    <label>Residence Address: </label>
+    <br/>
+    <label class="street-label">Street: </label>
+    <input class="address-input" id="residence-street" type="text" placeholder="Residence Street"
+           value="<%= contact.residence_street %>"/>
+    <br/>
+    <label class="city-label">City: </label>
+    <input class="address-input" id="residence-city" type="text" placeholder="Residence City"
+           value="<%= contact.residence_city %>"/>
+    <br/>
+    <label class="state-label">State: </label>
+    <select class="address-input" id="residence-state">
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="DC">District Of Columbia</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="HI">Hawaii</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="ME">Maine</option>
+        <option value="MD">Maryland</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MI">Michigan</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NV">Nevada</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="ND">North Dakota</option>
+        <option value="OH">Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="UT">Utah</option>
+        <option value="VT">Vermont</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>
+    </select>
+    <br/>
+    <label class="zip-label">Zip Code: </label>
+    <input class="address-input" id="residence-zip" type="text" placeholder="Residence Zip"
+           value="<%= contact.residence_zip %>"/>
+    <br/>
+    <br/>
+
+    <label>Mailing Address: </label>
+    <br/>
+    <label class="street-label">Street: </label>
+    <input class="address-input" id="mailing-street" type="text" placeholder="Mailing Street"
+           value="<%= contact.mailing_street %>"/>
+    <br/>
+    <label class="city-label">City: </label>
+    <input class="address-input" id="mailing-city" type="text" placeholder="Mailing City"
+           value="<%= contact.mailing_city %>"/>
+    <br/>
+    <label class="state-label">State: </label>
+    <select class="address-input" id="mailing-state">
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="DC">District Of Columbia</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="HI">Hawaii</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="ME">Maine</option>
+        <option value="MD">Maryland</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MI">Michigan</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NV">Nevada</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="ND">North Dakota</option>
+        <option value="OH">Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="UT">Utah</option>
+        <option value="VT">Vermont</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>
+    </select>
+    <br/>
+    <label class="zip-label">Zip Code: </label>
+    <input class="address-input" id="mailing-zip" type="text" placeholder="Mailing Zip"
+           value="<%= contact.mailing_zip %>"/>
+</td>
+<td>
+    <label id="email-label">Email: </label>
+    <input class="info-input" id="email" type="text" placeholder="Email" value="<%= contact.email %>"/>
+    <br/>
+    <br/>
+    <select id="phone1type">
+        <option value="home">Home</option>
+        <option value="cell">Cell</option>
+        <option value="work">Work</option>
+    </select>
+    <label id="phone1-label">
+        Number:
+    </label>
+    <input class="info-input" id="phone1" type="text" placeholder="<%= contact.phone1type %> Number"
+           value="<%= contact.phone1 %>"/>
+    <br/>
+    <select id="phone2type">
+        <option value="home">Home</option>
+        <option value="cell">Cell</option>
+        <option value="work">Work</option>
+    </select>
+    <label id="phone2-label">
+        Number:
+    </label>
+    <input class="info-input" id="phone2" type="text" placeholder="<%= contact.phone2type %> Number"
+           value="<%= contact.phone2 %>"/>
+    <br/>
+    <select id="phone3type">
+        <option value="home">Home</option>
+        <option value="cell">Cell</option>
+        <option value="work">Work</option>
+    </select>
+    <label id="phone3-label">
+        Number:
+    </label>
+    <input class="info-input" id="phone3" type="text" placeholder="<%= contact.phone3type %> Number"
+           value="<%= contact.phone3 %>"/>
+    <br/>
+    <br/>
+    <label id="employer-label">Employer: </label>
+    <input class="info-input" id="employer" type="text" placeholder="<%= contact.employer %> Number"
+           value="<%= contact.employer %>"/>
+</td>
+<td>
+    <button class='savecontact'>Save</button>
+</td>
+</script>
+
+<script type="text/template" id="new-contact-template">
+<td>
+    <label>Name: </label>
+    <br/>
+    <label id="first-name-label" for="first-name">First Name: </label>
+    <input id="first-name" class="contact-input" type="text" placeholder="First Name"/>
+    <br/>
+    <label id="last-name-label" for="first-name">Last Name: </label>
+    <input id="last-name" class="contact-input" type="text" placeholder="Last Name"/>
+    <br/>
+    <br/>
+    <label id="priority-label" for="priority">Priority: </label>
+    <select id="priority">
+        <option></option>
+        <%
+            for (var i = 0; i < numOfContacts; i++) {
+            var nthIndex = i + 1;
+        %>
+            <option value="<%= nthIndex %>"><%= nthIndex %></option>
+        <%
+            }
+        %>
+    </select>
+    <br/>
+    <br/>
+    <label for="relationship">Relationship: </label>
+    <select id="relationship">
+        <option></option>
+        <option value="Father">Father</option>
+        <option value="Mother">Mother</option>
+        <option value="Mother">Step-Father</option>
+        <option value="Mother">Step-Mother</option>
+        <option value="Aunt">Aunt</option>
+        <option value="Brother">Brother</option>
+        <option value="Friend">Friend</option>
+        <option value="Grandfather">Grandfather</option>
+        <option value="Grandmother">Grandmother</option>
+        <option value="Neighbor">Neighbor</option>
+        <option value="Other">Other</option>
+        <option value="Sister">Sister</option>
+        <option value="Uncle">Uncle</option>
+    </select>
+</td>
+<td>
+    <label>Residence Address: </label>
+    <br/>
+    <label class="street-label">Street: </label>
+    <input class="address-input" id="residence-street" type="text" placeholder="Residence Street"/>
+    <br/>
+    <label class="city-label">City: </label>
+    <input class="address-input" id="residence-city" type="text" placeholder="Residence City"/>
+    <br/>
+    <label class="state-label">State: </label>
+    <select class="address-input" id="residence-state">
+        <option></option>
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="DC">District Of Columbia</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="HI">Hawaii</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="ME">Maine</option>
+        <option value="MD">Maryland</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MI">Michigan</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NV">Nevada</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="ND">North Dakota</option>
+        <option value="OH">Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="UT">Utah</option>
+        <option value="VT">Vermont</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>
+    </select>
+    <br/>
+    <label class="zip-label">Zip Code: </label>
+    <input class="address-input" id="residence-zip" type="text" placeholder="Residence Zip"/>
+    <br/>
+    <br/>
+
+    <label>Mailing Address: </label>
+    <br/>
+    <label class="street-label">Street: </label>
+    <input class="address-input" id="mailing-street" type="text" placeholder="Mailing Street"/>
+    <br/>
+    <label class="city-label">City: </label>
+    <input class="address-input" id="mailing-city" type="text" placeholder="Mailing City"/>
+    <br/>
+    <label class="state-label">State: </label>
+    <select class="address-input" id="mailing-state">
+        <option></option>
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="DC">District Of Columbia</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="HI">Hawaii</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="ME">Maine</option>
+        <option value="MD">Maryland</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MI">Michigan</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NV">Nevada</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="ND">North Dakota</option>
+        <option value="OH">Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="UT">Utah</option>
+        <option value="VT">Vermont</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>
+    </select>
+    <br/>
+    <label class="zip-label">Zip Code: </label>
+    <input class="address-input" id="mailing-zip" type="text"/>
+</td>
+<td>
+    <label id="email-label">Email: </label>
+    <input class="info-input" id="email" type="text"/>
+    <br/>
+    <br/>
+    <select id="phone1type">
+        <option></option>
+        <option value="home">Home</option>
+        <option value="cell">Cell</option>
+        <option value="work">Work</option>
+    </select>
+    <label id="phone1-label">
+        Number:
+    </label>
+    <input class="info-input" id="phone1" type="text"/>
+    <br/>
+    <select id="phone2type">
+        <option></option>
+        <option value="home">Home</option>
+        <option value="cell">Cell</option>
+        <option value="work">Work</option>
+    </select>
+    <label id="phone2-label">
+        Number:
+    </label>
+    <input class="info-input" id="phone2" type="text"/>
+    <br/>
+    <select id="phone3type">
+        <option></option>
+        <option value="home">Home</option>
+        <option value="cell">Cell</option>
+        <option value="work">Work</option>
+    </select>
+    <label id="phone3-label">
+        Number:
+    </label>
+    <input class="info-input" id="phone3" type="text"/>
+    <br/>
+    <br/>
+    <label id="employer-label">Employer: </label>
+    <input class="info-input" id="employer" type="text"/>
+</td>
+<td>
+    <button class='savecontact'>Save</button>
+</td>
+</script>
+
+<script type="text/template" id="contact-updated-template">
+    <tr class="contact-update-msg">
+        <td colspan="4" style="text-align: center;">
+            The updated information for this contact has been submitted, but still needs to be approved by our office
+            staff.
         </td>
-        <td>
-            <label>Residence Address: </label>
-            <br />
-            <label class="street-label">Street: </label>
-            <input class="address-input" id="residence-street" type="text" placeholder="Residence Street" value="<%= contact.residence_street %>"/>
-            <br />
-            <label class="city-label">City: </label>
-            <input class="address-input" id="residence-city" type="text" placeholder="Residence City" value="<%= contact.residence_city %>"/>
-            <br />
-            <label class="state-label">State: </label>
-            <select class="address-input" id="residence-state">
-                <option value="AL">Alabama</option>
-                <option value="AK">Alaska</option>
-                <option value="AZ">Arizona</option>
-                <option value="AR">Arkansas</option>
-                <option value="CA">California</option>
-                <option value="CO">Colorado</option>
-                <option value="CT">Connecticut</option>
-                <option value="DE">Delaware</option>
-                <option value="DC">District Of Columbia</option>
-                <option value="FL">Florida</option>
-                <option value="GA">Georgia</option>
-                <option value="HI">Hawaii</option>
-                <option value="ID">Idaho</option>
-                <option value="IL">Illinois</option>
-                <option value="IN">Indiana</option>
-                <option value="IA">Iowa</option>
-                <option value="KS">Kansas</option>
-                <option value="KY">Kentucky</option>
-                <option value="LA">Louisiana</option>
-                <option value="ME">Maine</option>
-                <option value="MD">Maryland</option>
-                <option value="MA">Massachusetts</option>
-                <option value="MI">Michigan</option>
-                <option value="MN">Minnesota</option>
-                <option value="MS">Mississippi</option>
-                <option value="MO">Missouri</option>
-                <option value="MT">Montana</option>
-                <option value="NE">Nebraska</option>
-                <option value="NV">Nevada</option>
-                <option value="NH">New Hampshire</option>
-                <option value="NJ">New Jersey</option>
-                <option value="NM">New Mexico</option>
-                <option value="NY">New York</option>
-                <option value="NC">North Carolina</option>
-                <option value="ND">North Dakota</option>
-                <option value="OH">Ohio</option>
-                <option value="OK">Oklahoma</option>
-                <option value="OR">Oregon</option>
-                <option value="PA">Pennsylvania</option>
-                <option value="RI">Rhode Island</option>
-                <option value="SC">South Carolina</option>
-                <option value="SD">South Dakota</option>
-                <option value="TN">Tennessee</option>
-                <option value="TX">Texas</option>
-                <option value="UT">Utah</option>
-                <option value="VT">Vermont</option>
-                <option value="VA">Virginia</option>
-                <option value="WA">Washington</option>
-                <option value="WV">West Virginia</option>
-                <option value="WI">Wisconsin</option>
-                <option value="WY">Wyoming</option>
-            </select>
-            <br />
-            <label class="zip-label">Zip Code: </label>
-            <input class="address-input" id="residence-zip" type="text" placeholder="Residence Zip" value="<%= contact.residence_zip %>"/>
-            <br />
-            <br />
-
-            <label>Mailing Address: </label>
-            <br />
-            <label class="street-label">Street: </label>
-            <input class="address-input" id="mailing-street" type="text" placeholder="Mailing Street" value="<%= contact.mailing_street %>"/>
-            <br />
-            <label class="city-label">City: </label>
-            <input class="address-input" id="mailing-city" type="text" placeholder="Mailing City" value="<%= contact.mailing_city %>"/>
-            <br />
-            <label class="state-label">State: </label>
-            <select class="address-input" id="mailing-state">
-                <option value="AL">Alabama</option>
-                <option value="AK">Alaska</option>
-                <option value="AZ">Arizona</option>
-                <option value="AR">Arkansas</option>
-                <option value="CA">California</option>
-                <option value="CO">Colorado</option>
-                <option value="CT">Connecticut</option>
-                <option value="DE">Delaware</option>
-                <option value="DC">District Of Columbia</option>
-                <option value="FL">Florida</option>
-                <option value="GA">Georgia</option>
-                <option value="HI">Hawaii</option>
-                <option value="ID">Idaho</option>
-                <option value="IL">Illinois</option>
-                <option value="IN">Indiana</option>
-                <option value="IA">Iowa</option>
-                <option value="KS">Kansas</option>
-                <option value="KY">Kentucky</option>
-                <option value="LA">Louisiana</option>
-                <option value="ME">Maine</option>
-                <option value="MD">Maryland</option>
-                <option value="MA">Massachusetts</option>
-                <option value="MI">Michigan</option>
-                <option value="MN">Minnesota</option>
-                <option value="MS">Mississippi</option>
-                <option value="MO">Missouri</option>
-                <option value="MT">Montana</option>
-                <option value="NE">Nebraska</option>
-                <option value="NV">Nevada</option>
-                <option value="NH">New Hampshire</option>
-                <option value="NJ">New Jersey</option>
-                <option value="NM">New Mexico</option>
-                <option value="NY">New York</option>
-                <option value="NC">North Carolina</option>
-                <option value="ND">North Dakota</option>
-                <option value="OH">Ohio</option>
-                <option value="OK">Oklahoma</option>
-                <option value="OR">Oregon</option>
-                <option value="PA">Pennsylvania</option>
-                <option value="RI">Rhode Island</option>
-                <option value="SC">South Carolina</option>
-                <option value="SD">South Dakota</option>
-                <option value="TN">Tennessee</option>
-                <option value="TX">Texas</option>
-                <option value="UT">Utah</option>
-                <option value="VT">Vermont</option>
-                <option value="VA">Virginia</option>
-                <option value="WA">Washington</option>
-                <option value="WV">West Virginia</option>
-                <option value="WI">Wisconsin</option>
-                <option value="WY">Wyoming</option>
-            </select>
-            <br />
-            <label class="zip-label">Zip Code: </label>
-            <input class="address-input" id="mailing-zip" type="text" placeholder="Mailing Zip" value="<%= contact.mailing_zip %>"/>
-        </td>
-        <td>
-            <label id="email-label">Email: </label>
-            <input class="info-input" id="email" type="text" placeholder="Email" value="<%= contact.email %>"/>
-            <br />
-            <br />
-            <select id="phone1type">
-                <option value="home">Home</option>
-                <option value="cell">Cell</option>
-                <option value="work">Work</option>
-            </select>
-            <label id="phone1-label">
-                Number:
-            </label>
-            <input class="info-input" id="phone1" type="text" placeholder="<%= contact.phone1type %> Number" value="<%= contact.phone1 %>"/>
-            <br />
-            <select id="phone2type">
-                <option value="home">Home</option>
-                <option value="cell">Cell</option>
-                <option value="work">Work</option>
-            </select>
-            <label id="phone2-label">
-                Number:
-            </label>
-            <input class="info-input" id="phone2" type="text" placeholder="<%= contact.phone2type %> Number" value="<%= contact.phone2 %>"/>
-            <br />
-            <select id="phone3type">
-                <option value="home">Home</option>
-                <option value="cell">Cell</option>
-                <option value="work">Work</option>
-            </select>
-            <label id="phone3-label">
-                Number:
-            </label>
-            <input class="info-input" id="phone3" type="text" placeholder="<%= contact.phone3type %> Number" value="<%= contact.phone3 %>"/>
-            <br />
-            <br />
-            <label id="employer-label">Employer: </label>
-            <input class="info-input" id="employer" type="text" placeholder="<%= contact.employer %> Number" value="<%= contact.employer %>"/>
-        </td>
-        <td>
-            <button class='savecontact'>Save</button>
-        </td>
-    </script>
-
-    <script type="text/template" id="contact-updated-template">
-        <tr class="contact-update-msg">
-            <td colspan="4" style="text-align: center;">
-                The updated information for this contact has been submitted, but still needs to be approved by our office staff.
-            </td>
-        </tr>
-    </script>
-    </body>
+    </tr>
+</script>
+</body>
 </html>
