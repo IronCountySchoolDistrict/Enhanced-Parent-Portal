@@ -10,7 +10,7 @@ define(['config'], function(config) {
          * @returns {*}
          */
         getParGuars: function (options) {
-            return $j.get(config.psApi + '/dbe/schema/search/' + config.studentContactsTable + '/studentsdcid==' + options.studentsdcid + '&legal_guardian==1',
+            return $j.get(config.psApi + '/dbe/schema/search/' + config.studentContactsTable + '/studentsdcid==' + options.studentsdcid + ';legal_guardian==1',
                 function() {},
                 'json'
             );
@@ -23,7 +23,7 @@ define(['config'], function(config) {
          * @returns {*}
          */
         getParGuarsStaging: function (options) {
-            return $j.get(config.psApi + '/dbe/schema/search/' + config.studentContactsStagingTable + '/studentsdcid==' + options.studentsdcid + '&legal_guardian==1',
+            return $j.get(config.psApi + '/dbe/schema/search/' + config.studentContactsStagingTable + '/studentsdcid==' + options.studentsdcid + ';legal_guardian==1',
                 function() {},
                 'json'
             );
@@ -36,7 +36,7 @@ define(['config'], function(config) {
          * @returns {*}
          */
         getEmergConts: function (options) {
-            return $j.get(config.psApi + '/dbe/schema/search/' + config.studentContactsTable + '/studentsdcid==' + options.studentsdcid + '&legal_guardian==0',
+            return $j.get(config.psApi + '/dbe/schema/search/' + config.studentContactsTable + '/studentsdcid==' + options.studentsdcid + ';legal_guardian==0',
                 function() {},
                 'json'
             );
@@ -49,7 +49,7 @@ define(['config'], function(config) {
          * @returns {*}
          */
         getEmergContsStaging: function (options) {
-            return $j.get(config.psApi + '/dbe/schema/search/' + config.studentContactsStagingTable + '/studentsdcid==' + options.studentsdcid + '&legal_guardian==0',
+            return $j.get(config.psApi + '/dbe/schema/search/' + config.studentContactsStagingTable + '/studentsdcid==' + options.studentsdcid + ';legal_guardian==0',
                 function() {},
                 'json'
             );
@@ -73,7 +73,6 @@ define(['config'], function(config) {
         /**
          *
          * @param contactData {Object}
-         * @param studentsDcid {Number}
          */
         newStagingContact: function (contactData) {
             return $j.ajax({

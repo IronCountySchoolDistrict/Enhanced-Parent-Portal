@@ -5,7 +5,8 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
     return {
         main: function () {
             this.addContactButton();
-            this.bindEditContact();
+            this.bindEditButton();
+            this.bindAddButton();
         },
 
         addContactButton: function () {
@@ -13,7 +14,9 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
             /**
              * @see sDom option in dataTable() initialization.
              */
-            $j('#parents-guardians-content, #emergency-contacts-content').prepend('<button>Add Contact</button>');
+            $j('#parents-guardians-content').prepend('<button id="add-par-guar-contact">Add Contact</button>');
+            $j('#emergency-contacts-content').prepend('<button id="add-emerg-contact">Add Contact</button>');
+
             $j('#parents-guardians-content button, #emergency-contacts-content button').button({
                 icons: {
                     primary: 'ui-icon-plus'
@@ -22,7 +25,7 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
             $j('.ui-button-text').css({'color': '#fff'});
         },
 
-        bindEditContact: function () {
+        bindEditButton: function () {
             var _this = this;
             $j('body').on('click', '.editcontact', function (event) {
                 var $eventTarget = $j(event.target);
@@ -30,11 +33,15 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
                 var isParGuarContact = $parentRow.closest('#parents-guardians-table').length > 0;
 
                 var contactData = $parentRow.data('contactData');
-                actions.editContact(contactData, $parentRow);
+                actions.editContact(contactData, $parentRow, isParGuarContact);
                 _this.bindSaveButton(isParGuarContact);
             });
         },
 
+        /**
+         *
+         * @param isParGuarContact {Boolean}
+         */
         bindSaveButton: function (isParGuarContact) {
             $j('.savecontact').on('click', function (event) {
                 var $eventTarget = $j(event.target);
@@ -69,13 +76,31 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
 
                     if (stagingRecordId) {
                         ajaxFunc = actions.updateStagingContact(contactData, stagingRecordId);
+                    } else if (contactInitData) {
+                        ajaxFunc = actions.newStagingContact(contactData, psData.studentsDcid, isParGuarContact, contactInitData.contact_id);
                     } else {
                         ajaxFunc = actions.newStagingContact(contactData, psData.studentsDcid, isParGuarContact, contactInitData.contact_id);
                     }
+
                     ajaxFunc.done(function (resp) {
+                        contactData.contact_id = contactInitData.contact_id;
+                        contactData.id = contactInitData.id;
                         actions.renderContact(contactData, $closestRow, true);
                     });
                 });
+            });
+        },
+        bindAddButton: function () {
+            var _this = this;
+            $j('#add-par-guar-contact, #add-emerg-contact').on('click', function(event) {
+                var $target = $j(event.target);
+                var addParGuar = $target.closest('button').attr('id') === 'add-par-guar-contact';
+                var buttonTable = addParGuar ? '#parents-guardians-table' : '#emergency-contacts-table';
+                var insertSelector = $j(buttonTable).find('tbody tr').last();
+                var newRow = $j('<tr></tr>');
+                newRow.insertAfter(insertSelector);
+                actions.addContact(newRow, addParGuar);
+                _this.bindSaveButton(addParGuar);
             });
         }
     };

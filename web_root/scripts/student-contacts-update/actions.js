@@ -7,18 +7,90 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
             this.loadContacts();
         },
 
+
+        /**
+         *
+         * @param contacts {Array}
+         * @param stagingContacts {Array}
+         */
+        getArrayOfContactIds: function (contacts, stagingContacts) {
+            var contactTableName = contacts.name.toLowerCase();
+            var stagingContactsTableName = stagingContacts.name.toLowerCase();
+            var allContacts = contacts;
+            allContacts.concat(stagingContacts);
+            var contactIds = [];
+            _.each(allContacts, function(contact) {
+
+            });
+        },
+
+        /**
+         * @param stagingContacts {Object}
+         * @param contactId {String}
+         * @private
+         * @returns {Object|Boolean}
+         */
+        _getStagingContactById: function (stagingContacts, contactId) {
+            var contactsStagingTableName = config.studentContactsStagingTable.toLowerCase();
+            var idMatches = _.filter(stagingContacts, function(contact) {
+                return contact.tables[contactsStagingTableName].contact_id === contactId;
+            });
+            if (idMatches.length === 1) {
+                return idMatches[0];
+            } else {
+                return false;
+            }
+        },
+
         loadContacts: function () {
             var options = {
                 studentsdcid: psData.studentfrn.slice(3)
             };
-            var contactsAjax = service.getParGuars(options);
+            var parGuarContactsAjax = service.getParGuars(options);
+            var parGuarContactsStagingAjax = service.getParGuarsStaging(options);
+
+            var emergContactsAjax = service.getEmergConts(options);
+            var emergContactsStagingAjax = service.getEmergContsStaging(options);
+
+            var deferredObjects = [];
+            deferredObjects.push(parGuarContactsAjax);
+            deferredObjects.push(parGuarContactsStagingAjax);
+            deferredObjects.push(emergContactsAjax);
+            deferredObjects.push(emergContactsStagingAjax);
             var _this = this;
-            contactsAjax.done(function (contacts) {
-                var contactsTableName = contacts.name.toLowerCase();
-                var contactRecords = contacts.record;
-                $j.each(contactRecords, function (index, contact) {
-                    var contactData = contact.tables[contactsTableName];
-                    _this.renderContact(contactData);
+            $j.when.apply($j, deferredObjects).done(function (parGuarContacts, parGuarContactsStaging, emergContacts, emergContactsStaging) {
+                var contactsTableName = parGuarContacts[0].name.toLowerCase();
+                var contactsStagingTableName = parGuarContactsStaging[0].name.toLowerCase();
+
+                var parGuarContactRecords = parGuarContacts[0].record;
+                var parGuarContactStagingRecords = parGuarContactsStaging[0].record;
+
+                var emergContactRecords = emergContacts[0].record;
+                var emergContactStagingRecords = emergContactsStaging[0].record;
+                $j.each(parGuarContactRecords, function (index, contact) {
+                    var contactId = contact.tables[contactsTableName].contact_id;
+                    var stagingContact = _this._getStagingContactById(parGuarContactStagingRecords, contactId);
+                    var contactData;
+                    if (stagingContact) {
+                        contactData = stagingContact.tables[contactsStagingTableName];
+                        _this.renderContact(contactData, null, true, true);
+                    } else {
+                        contactData = contact.tables[contactsTableName];
+                        _this.renderContact(contactData, null, false, false);
+                    }
+                });
+
+                $j.each(emergContactRecords, function (index, contact) {
+                    var contactId = contact.tables[contactsTableName].contact_id;
+                    var stagingContact = _this._getStagingContactById(emergContactStagingRecords, contactId);
+                    var contactData;
+                    if (stagingContact) {
+                        contactData = stagingContact.tables[contactsStagingTableName];
+                        _this.renderContact(contactData, null, true, false);
+                    } else {
+                        contactData = contact.tables[contactsTableName];
+                        _this.renderContact(contactData, null, false, false);
+                    }
                 });
             });
         },
@@ -28,23 +100,34 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
          * @param [row] {jQuery} - Row that will have its content replaced with the contact template.
          * Leaving this param empty will insert the row at the end of the table.
          * @param [showUpdateMsg] {Boolean} - If true, prepend the updated contact information.
+         * @param isParGuar {Boolean} - Which contacts table should this contact be rendered into?
          */
-        renderContact: function (contactData, row, showUpdateMsg) {
+        renderContact: function (contactData, row, showUpdateMsg, isParGuar) {
             var contactTemplate = $j('#contact-template').html();
             var renderedTemplate = _.template(contactTemplate, {'contact': contactData});
+            var rowSelector;
+
             if (!row) {
-                $j('#parents-guardians-table tbody').append('<tr>' + renderedTemplate + '</tr>');
+                row = $j('<tr>' + renderedTemplate + '</tr>');
+                if (isParGuar) {
+                    $j('#parents-guardians-table tbody').append(row);
+                } else {
+                    $j('#emergency-contacts-table tbody').append(row);
+                }
             } else {
                 row.html('').html(renderedTemplate);
-
-                var prevClass = row.prev().attr('class');
-                if (showUpdateMsg && prevClass !== 'contact-update-msg') {
-                    var updatedTemplate = $j($j('#contact-updated-template').html());
-                    updatedTemplate.insertBefore(row);
-                }
             }
-            var newRow = $j('#parents-guardians-table tr').last();
-            newRow.data({'contactData': contactData});
+
+            var prevElem = row.prev();
+            if (prevElem) {
+                var prevClass = prevElem.attr('class');
+            }
+            if (showUpdateMsg && prevClass !== 'contact-update-msg') {
+                var updatedTemplate = $j($j('#contact-updated-template').html());
+                updatedTemplate.insertBefore(row);
+            }
+            //var newRow = $j('#parents-guardians-table tr').last();
+            row.data({'contactData': contactData});
         },
 
         /**
@@ -52,8 +135,9 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
          * @param contactData {Object}
          * @param row {jQuery}
          */
-        editContact: function (contactData, row) {
-            var numOfContacts = $j('#parents-guardians-table tr').not('.inforow').length;
+        editContact: function (contactData, row, isParGuar) {
+            var numSelector = isParGuar ? '#parents-guardians-table' : '#emergency-contacts-table';
+            var numOfContacts = $j(numSelector).find('tr').not('.inforow').length;
             var editContactTemplate = $j('#edit-contact-template').html();
             var context = {
                 'numOfContacts': numOfContacts,
@@ -122,6 +206,14 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
                 residence_street: row.find('#residence-street').val(),
                 residence_zip: row.find('#residence-zip').val()
             };
+        },
+
+        addContact: function(row, isParGuar) {
+            var numSelector = isParGuar ? '#parents-guardians-table' : '#emergency-contacts-table';
+            var numOfContacts = $j(numSelector).find('tr').not('.inforow').length;
+            var newContactTemplate = $j('#new-contact-template').html();
+            var renderedTemplate = _.template(newContactTemplate, {numOfContacts: numOfContacts});
+            $j(row).html('').html(renderedTemplate);
         },
 
         /**
