@@ -528,10 +528,9 @@
     <select id="priority">
         <option></option>
         <%
-            for (var i = 0; i < numOfContacts; i++) {
-            var nthIndex = i + 1;
+            for (var i = 0; i < unusedPriorities.length; i++) {
         %>
-            <option value="<%= nthIndex %>"><%= nthIndex %></option>
+            <option value="<%= unusedPriorities[i] %>"><%= unusedPriorities[i] %></option>
         <%
             }
         %>
