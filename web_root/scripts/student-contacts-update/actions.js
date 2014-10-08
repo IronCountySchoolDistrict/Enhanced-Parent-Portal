@@ -7,23 +7,6 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
             this.loadContacts();
         },
 
-
-        /**
-         *
-         * @param contacts {Array}
-         * @param stagingContacts {Array}
-         */
-        getArrayOfContactIds: function (contacts, stagingContacts) {
-            var contactTableName = contacts.name.toLowerCase();
-            var stagingContactsTableName = stagingContacts.name.toLowerCase();
-            var allContacts = contacts;
-            allContacts.concat(stagingContacts);
-            var contactIds = [];
-            _.each(allContacts, function(contact) {
-
-            });
-        },
-
         /**
          * @param stagingContacts {Object}
          * @param contactId {String}
@@ -42,7 +25,25 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
             }
         },
 
+        _addRowColorClasses: function () {
+            var oddRows = $j('tr.contact:odd');
+            oddRows.addClass('oddRow');
+            _.each(oddRows, function (row) {
+                var $row = $j(row);
+                if ($row.prev().attr('class') === 'contact-update-msg') {
+                    $row.prev().addClass('oddRow');
+                }
+            });
+        },
+
+        /**
+         * @return {Array}
+         */
         loadContacts: function () {
+            this.contacts = {};
+            this.contacts.live = [];
+            this.contacts.staging = [];
+
             var options = {
                 studentsdcid: psData.studentfrn.slice(3)
             };
@@ -59,6 +60,9 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
             deferredObjects.push(emergContactsStagingAjax);
             var _this = this;
             $j.when.apply($j, deferredObjects).done(function (parGuarContacts, parGuarContactsStaging, emergContacts, emergContactsStaging) {
+
+                // This probably doesn't need to be separated by parGuar/emerg contact.
+                // In the future, separate this just by staging/live table.
                 var contactsTableName = parGuarContacts[0].name.toLowerCase();
                 var contactsStagingTableName = parGuarContactsStaging[0].name.toLowerCase();
 
@@ -67,8 +71,10 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
 
                 var emergContactRecords = emergContacts[0].record;
                 var emergContactStagingRecords = emergContactsStaging[0].record;
+
                 $j.each(parGuarContactRecords, function (index, contact) {
                     var contactId = contact.tables[contactsTableName].contact_id;
+                    _this.contacts.live.push(contact.tables[contactsTableName]);
                     var stagingContact = _this._getStagingContactById(parGuarContactStagingRecords, contactId);
                     var contactData;
                     if (stagingContact) {
@@ -76,12 +82,13 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
                         _this.renderContact(contactData, null, true, true);
                     } else {
                         contactData = contact.tables[contactsTableName];
-                        _this.renderContact(contactData, null, false, false);
+                        _this.renderContact(contactData, null, false, true);
                     }
                 });
 
                 $j.each(emergContactRecords, function (index, contact) {
                     var contactId = contact.tables[contactsTableName].contact_id;
+                    _this.contacts.live.push(contact.tables[contactsTableName]);
                     var stagingContact = _this._getStagingContactById(emergContactStagingRecords, contactId);
                     var contactData;
                     if (stagingContact) {
@@ -92,6 +99,32 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
                         _this.renderContact(contactData, null, false, false);
                     }
                 });
+
+                // Look for new staging records that have no corresponding live records
+                $j.each(emergContactStagingRecords, function (index, contact) {
+                    var contactId = contact.tables[contactsStagingTableName].contact_id;
+
+                    // Does this staging record have a corresponding live-table record?
+                    var stagingHasLive = _.filter(_this.contacts.live, function (liveContact) {
+                        return liveContact.contact_id === contactId;
+                    });
+
+                    // If there were no matches, this is a new contact that is still in the staging table
+                    if (stagingHasLive.length === 0) {
+                        var contactData = contact.tables[contactsStagingTableName];
+                        _this.renderContact(contactData, null, true, false);
+                    }
+                });
+
+                $j.each(parGuarContactStagingRecords, function (index, contact) {
+                    _this.contacts.staging.push(contact.tables[contactsStagingTableName]);
+                });
+
+                $j.each(emergContactStagingRecords, function (index, contact) {
+                    _this.contacts.staging.push(contact.tables[contactsStagingTableName]);
+                });
+
+                _this._addRowColorClasses();
             });
         },
 
@@ -105,10 +138,9 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
         renderContact: function (contactData, row, showUpdateMsg, isParGuar) {
             var contactTemplate = $j('#contact-template').html();
             var renderedTemplate = _.template(contactTemplate, {'contact': contactData});
-            var rowSelector;
 
             if (!row) {
-                row = $j('<tr>' + renderedTemplate + '</tr>');
+                row = $j('<tr class="contact">' + renderedTemplate + '</tr>');
                 if (isParGuar) {
                     $j('#parents-guardians-table tbody').append(row);
                 } else {
@@ -122,7 +154,7 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
             if (prevElem) {
                 var prevClass = prevElem.attr('class');
             }
-            if (showUpdateMsg && prevClass !== 'contact-update-msg') {
+            if (showUpdateMsg && prevClass.indexOf('contact-update-msg') === -1) {
                 var updatedTemplate = $j($j('#contact-updated-template').html());
                 updatedTemplate.insertBefore(row);
             }
@@ -208,11 +240,17 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
             };
         },
 
-        addContact: function(row, isParGuar) {
+        addContact: function(row, isParGuar, allPriorities) {
             var numSelector = isParGuar ? '#parents-guardians-table' : '#emergency-contacts-table';
-            var numOfContacts = $j(numSelector).find('tr').not('.inforow').length;
+
+            // Add 1 to the length to account for the new contact
+            var numOfContacts = $j(numSelector).find('tr').not('.inforow').length + 1;
+
+            // Add 1 to stop int so the last number is included in the array.
+            var numRange = _.range(1, numOfContacts + 1);
+            var unusedPriorities = _.difference(numRange, allPriorities);
             var newContactTemplate = $j('#new-contact-template').html();
-            var renderedTemplate = _.template(newContactTemplate, {numOfContacts: numOfContacts});
+            var renderedTemplate = _.template(newContactTemplate, {unusedPriorities: unusedPriorities});
             $j(row).html('').html(renderedTemplate);
         },
 
