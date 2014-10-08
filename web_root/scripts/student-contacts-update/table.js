@@ -9,6 +9,47 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
             this.bindAddButton();
         },
 
+        /**
+         * Extract all priorities from the DOM
+         * @param contactRows {jQuery}
+         * @returns {String[]}
+         * @private
+         */
+        _getAllContactPriorities: function (contactRows) {
+            var allPriorities = [];
+            _.each(contactRows, function(contactRow) {
+                var rowData = $j(contactRow).data();
+                var priorityInt = Number.parseInt(rowData.contactData.priority);
+                allPriorities.push(priorityInt);
+            });
+            return allPriorities.sort();
+        },
+
+        /**
+         * Extract all contact_ids from the DOM
+         * @param contactRows
+         * @returns {Array}
+         * @private
+         */
+        _getAllContactIds: function (contactRows) {
+            var allContactIds = [];
+            _.each(contactRows, function(contactRow) {
+                var rowData = $j(contactRow).data();
+                var priorityInt = Number.parseInt(rowData.contactData.contact_id);
+                allContactIds.push(priorityInt);
+            });
+            return allContactIds.sort();
+        },
+
+        /**
+         *
+         * @returns {jQuery}
+         * @private
+         */
+        _getAllContactRows: function () {
+            return $j('tr.contact:not(".inforow"):not(".contact-update-msg")');
+        },
+
         addContactButton: function () {
             //create add contact button, and bind click event handler
             /**
@@ -43,6 +84,7 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
          * @param isParGuarContact {Boolean}
          */
         bindSaveButton: function (isParGuarContact) {
+            var _this = this;
             $j('.savecontact').on('click', function (event) {
                 var $eventTarget = $j(event.target);
                 var $closestRow = $eventTarget.closest('tr');
@@ -79,27 +121,43 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
                     } else if (contactInitData) {
                         ajaxFunc = actions.newStagingContact(contactData, psData.studentsDcid, isParGuarContact, contactInitData.contact_id);
                     } else {
-                        ajaxFunc = actions.newStagingContact(contactData, psData.studentsDcid, isParGuarContact, contactInitData.contact_id);
+                        var largestContactId;
+                        if (window.allContactIds.length > 0) {
+                            largestContactId = window.allContactIds[window.allContactIds.length - 1];
+                        } else {
+                            largestContactId = 1;
+                        }
+                        var newContactId = largestContactId + 1;
+                        newContactId = newContactId.toString();
+                        ajaxFunc = actions.newStagingContact(contactData, psData.studentsDcid, isParGuarContact, newContactId);
                     }
 
                     ajaxFunc.done(function (resp) {
-                        contactData.contact_id = contactInitData.contact_id;
-                        contactData.id = contactInitData.id;
+                        if (contactInitData) {
+                            contactData.contact_id = contactInitData.contact_id;
+                            contactData.id = contactInitData.id;
+                        } else {
+                            contactData.contact_id = newContactId;
+                            contactData.id =  resp.result[0].success_message.id;
+                        }
+
                         actions.renderContact(contactData, $closestRow, true);
                     });
                 });
             });
         },
+
         bindAddButton: function () {
             var _this = this;
             $j('#add-par-guar-contact, #add-emerg-contact').on('click', function(event) {
+                var allPriorities = _this._getAllContactPriorities(_this._getAllContactRows());
                 var $target = $j(event.target);
                 var addParGuar = $target.closest('button').attr('id') === 'add-par-guar-contact';
                 var buttonTable = addParGuar ? '#parents-guardians-table' : '#emergency-contacts-table';
                 var insertSelector = $j(buttonTable).find('tbody tr').last();
                 var newRow = $j('<tr></tr>');
                 newRow.insertAfter(insertSelector);
-                actions.addContact(newRow, addParGuar);
+                actions.addContact(newRow, addParGuar, allPriorities);
                 _this.bindSaveButton(addParGuar);
             });
         }

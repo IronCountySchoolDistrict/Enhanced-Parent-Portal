@@ -4,7 +4,6 @@ require.config({
     paths: {
         // app modules
         table: '/scripts/student-contacts-update/table',
-        buttons: '/scripts/student-contacts-update/buttons',
         service: '/scripts/student-contacts-update/service',
         actions: '/scripts/student-contacts-update/actions',
         config: '/scripts/student-contacts-update/config',
@@ -13,10 +12,9 @@ require.config({
     }
 });
 
-require(['table', 'buttons', 'actions'],
-    function (table, buttons, actions) {
+require(['table', 'actions'],
+    function (table, actions) {
         'use strict';
-        var $dataTable = table.main();
-        //buttons.main($dataTable);
-        actions.main($dataTable);
+        table.main();
+        actions.main();
     });
