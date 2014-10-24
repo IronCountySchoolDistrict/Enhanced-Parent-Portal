@@ -86,7 +86,9 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
         bindSaveButton: function (isParGuarContact) {
             var _this = this;
             $j('.savecontact').on('click', function (event) {
+
                 var $eventTarget = $j(event.target);
+
                 var $closestRow = $eventTarget.closest('tr');
                 var contactData = actions.deserializeContact($closestRow);
 
@@ -152,7 +154,9 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
             $j('#add-par-guar-contact, #add-emerg-contact').on('click', function(event) {
                 var allPriorities = _this._getAllContactPriorities(_this._getAllContactRows());
                 var $target = $j(event.target);
-                var addParGuar = $target.closest('button').attr('id') === 'add-par-guar-contact';
+                var $targetButton =  $target.closest('button');
+                $targetButton.css({'display': 'none'});
+                var addParGuar = $targetButton.attr('id') === 'add-par-guar-contact';
                 var buttonTable = addParGuar ? '#parents-guardians-table' : '#emergency-contacts-table';
                 var insertSelector = $j(buttonTable).find('tbody tr').last();
                 var newRow = $j('<tr></tr>');

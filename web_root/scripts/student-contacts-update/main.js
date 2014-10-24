@@ -1,9 +1,9 @@
-/*global require*/
+/*global require,loadingDialogInstance*/
 require.config({
     baseUrl: '/scripts',
     paths: {
         // app modules
-        table: '/scripts/student-contacts-update/table',
+        tableModule: '/scripts/student-contacts-update/table-module',
         service: '/scripts/student-contacts-update/service',
         actions: '/scripts/student-contacts-update/actions',
         config: '/scripts/student-contacts-update/config',
@@ -12,9 +12,10 @@ require.config({
     }
 });
 
-require(['table', 'actions'],
-    function (table, actions) {
+require(['tableModule', 'actions'],
+    function (tableModule, actions) {
         'use strict';
-        table.main();
+        loadingDialogInstance.open();
+        tableModule.main();
         actions.main();
     });

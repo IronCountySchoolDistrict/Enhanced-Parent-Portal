@@ -1,6 +1,6 @@
-/*global define, $j, psData*/
+/*global define, $j, psData, loadingDialogInstance*/
 
-define(['service', 'underscore', 'config'], function (service, _, config) {
+define(['service', 'underscore', 'config', 'tableModule'], function (service, _, config, tableModule) {
     'use strict';
     return {
         main: function () {
@@ -124,6 +124,8 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
                     _this.contacts.staging.push(contact.tables[contactsStagingTableName]);
                 });
 
+                loadingDialogInstance.forceClose();
+
                 _this._addRowColorClasses();
             });
         },
@@ -169,7 +171,8 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
          */
         editContact: function (contactData, row, isParGuar) {
             var numSelector = isParGuar ? '#parents-guardians-table' : '#emergency-contacts-table';
-            var numOfContacts = $j(numSelector).find('tr').not('.inforow').length;
+            var allContacts = this.contacts.live.concat(this.contacts.staging);
+            var numOfContacts = _.uniq(_.pluck(allContacts, 'contact_id')).length;
             var editContactTemplate = $j('#edit-contact-template').html();
             var context = {
                 'numOfContacts': numOfContacts,
@@ -242,9 +245,9 @@ define(['service', 'underscore', 'config'], function (service, _, config) {
 
         addContact: function(row, isParGuar, allPriorities) {
             var numSelector = isParGuar ? '#parents-guardians-table' : '#emergency-contacts-table';
-
+            var allContacts = this.contacts.live.concat(this.contacts.staging);
             // Add 1 to the length to account for the new contact
-            var numOfContacts = $j(numSelector).find('tr').not('.inforow').length + 1;
+            var numOfContacts = _.uniq(_.pluck(allContacts, 'contact_id')).length + 1;
 
             // Add 1 to stop int so the last number is included in the array.
             var numRange = _.range(1, numOfContacts + 1);
