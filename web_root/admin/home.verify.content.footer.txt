@@ -1,18 +1,28 @@
 <style>
-    #parent-verify-link {
+    #student-info-link {
         font-weight: bold;
         color: #FF0000;
     }
 </style>
 
-<script type="text/template" id="parent-verify-template">
-    <a href="students/home.html?selectstudent=U_Students_Extension.parent_verify=1" id="parent-verify-link">
-        Parent Verify
+<script type="text/template" id="student-info-verify-template">
+    <a href="students/home.html?selectstudent=U_Students_Extension.parent_verify=1" id="student-info-verify-link">
+        Student Info Verify
     </a>
 </script>
 
-<script type="text/template" id="parent-loading-template">
-    <span>Loading Parent Verify...</span>
+<script type="text/template" id="student-contacts-verify-template">
+    <a href="students/home.html?selectstudent=U_Students_Extension.parent_verify=1" id="student-contacts-verify-link">
+        Student Contacts Verify
+    </a>
+</script>
+
+<script type="text/template" id="student-info-loading-template">
+    <span>Loading Student Info Verify...</span>
+</script>
+
+<script type="text/template" id="student-contacts-loading-template">
+    <span>Loading Student Contacts Verify...</span>
 </script>
 
 <script>
@@ -20,32 +30,43 @@
         var loadingTemplate = $j($j('#parent-loading-template').html());
         var loadingSelector = $j('[href^="/admin/storedselections"]');
         loadingTemplate.insertAfter(loadingSelector);
-        $j.get('/admin/has-verify.html', function (verifyLink) {
+
+        var deferredAjax = [];
+        deferredAjax.push($j.ajax({
+            type: 'GET',
+            url: '/admin/student-info-verify-count.html',
+            dataType: 'json'
+        }));
+        deferredAjax.push($j.ajax({
+            type: 'GET',
+            url: '/admin/student-contacts-verify-count.html',
+            dataType: 'json'
+        }));
+        $j.when.apply($j, deferredAjax).done(function (studentInfoCount, studentContactsCount) {
+
             var insertSelector = $j('[href^="/admin/storedselections"]');
 
-            if (verifyLink.hasVerify !== '0') {
-                var count = 0;
-                $j.get('/admin/verify-count.html', function (verifyCount) {
-                    if (verifyCount.count) {
-                        count = verifyCount.count;
-                    }
+            var stuInfoResp = studentInfoCount[0];
+            var stuContactsResp = studentContactsCount[0];
 
-                    var parentVerifyLink = $j($j('#parent-verify-template').html());
-                    parentVerifyLink.insertAfter(insertSelector);
+            if (stuInfoResp.studentInfoCount !== '0') {
+                var infoCount = stuInfoResp.studentInfoCount;
 
-                    var parentVerifyText = parentVerifyLink.text();
-                    parentVerifyLink.text(parentVerifyText + ' (' + count + ')');
+                var studentInfoVerifyLink = $j($j('#student-info-verify-template').html());
+                studentInfoVerifyLink.insertAfter(insertSelector);
 
-                    loadingTemplate.remove();
+                var parentVerifyText = studentInfoVerifyLink.text();
+                studentInfoVerifyLink.text(parentVerifyText + ' (' + infoCount + ')');
 
-                    $j('#parent-verify-link').on('click', function(event) {
-                        event.preventDefault();
-                        // Make sure the student info verify page is shown when parent verify link is clicked
-                        $j.get('/admin/students/studentinfochange.html?frn=~(studentfrn)', function(getEvent) {
-                            window.location.href = '/admin/students/home.html?selectstudent=U_Students_Extension.parent_verify=1';
-                        });
-                    })
-                }, 'json');
+                loadingTemplate.remove();
+
+                $j('#student-info-link').on('click', function(event) {
+                    event.preventDefault();
+                    // Make sure the student info verify page is shown when parent verify link is clicked
+                    $j.get('/admin/students/studentinfochange.html?frn=~(studentfrn)', function(getEvent) {
+                        window.location.href = '/admin/students/home.html?selectstudent=U_Students_Extension.parent_verify=1';
+                    });
+                })
             } else {
                 loadingTemplate.remove();
 
