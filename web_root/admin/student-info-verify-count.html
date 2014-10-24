@@ -5,11 +5,12 @@
         u_def_ext_students ext
     WHERE
         ext.studentsdcid in (
-            select
+            SELECT
                 dcid
-            from students
-            where schoolid=~(curschoolid)
-                AND parent_verify > 0)
+            FROM
+                students
+            WHERE schoolid=~(curschoolid)
+            AND parent_verify > 0)
     ]
-        {"count": "~(count)"}
+        {"studentInfoCount": "~(count)"}
 [/tlist_sql]
