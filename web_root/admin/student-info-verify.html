@@ -1,0 +1,10 @@
+~[tlist_sql;
+    SELECT
+        student_info_verify
+    FROM
+        u_def_ext_students ext
+    WHERE
+        studentsdcid=~[gpv:studentsdcid]
+]
+    {"studentInfoVerify": "~(student_info_verify;js)"}
+[/tlist_sql]
