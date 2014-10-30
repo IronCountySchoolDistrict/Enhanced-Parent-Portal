@@ -260,7 +260,7 @@ var config = {
                             var p = {};
                             $(deldata).find('input').each(function (idx, item) {
                                 var n = {};
-                                if ($(item).attr('name') != 'ac') {
+                                if ($(item).attr('name') !== 'ac') {
                                     n[$(item).attr('name')] = '';
                                 } else {
                                     n[$(item).attr('name')] = $(item).attr('value');

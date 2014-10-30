@@ -55,12 +55,36 @@
                 var studentInfoVerifyLink = $j($j('#student-info-verify-template').html());
                 studentInfoVerifyLink.insertAfter(insertSelector);
 
-                var parentVerifyText = studentInfoVerifyLink.text();
-                studentInfoVerifyLink.text(parentVerifyText + ' (' + infoCount + ')');
+                var studentInfoVerifyText = studentInfoVerifyLink.text();
+                studentInfoVerifyLink.text(studentInfoVerifyText + ' (' + infoCount + ')');
 
                 loadingTemplate.remove();
 
-                $j('#student-info-link').on('click', function(event) {
+                $j('#student-info-verify-link').on('click', function(event) {
+                    event.preventDefault();
+                    // Make sure the student info verify page is shown when parent verify link is clicked
+                    $j.get('/admin/students/studentinfochange.html?frn=~(studentfrn)', function(getEvent) {
+                        window.location.href = '/admin/students/home.html?selectstudent=U_Students_Extension.STUDENT_INFO_VERIFY=1';
+                    });
+                })
+            } else {
+                loadingTemplate.remove();
+
+                $j('<span>Student Info Verify (0)</span>').insertAfter(insertSelector);
+            }
+
+            if (stuContactsResp.studentContactsCount !== '0') {
+                var contactsCount = stuContactsResp.studentContactsCount;
+
+                var studentContactsVerifyLink = $j($j('#student-contacts-verify-template').html());
+                studentContactsVerifyLink.insertAfter(insertSelector);
+
+                var studentContactsVerifyText = studentContactsVerifyLink.text();
+                studentInfoVerifyLink.text(studentContactsVerifyText + ' (' + contactsCount + ')');
+
+                loadingTemplate.remove();
+
+                $j('#student-contacts-verify-link').on('click', function(event) {
                     event.preventDefault();
                     // Make sure the student info verify page is shown when parent verify link is clicked
                     $j.get('/admin/students/studentinfochange.html?frn=~(studentfrn)', function(getEvent) {
@@ -69,8 +93,7 @@
                 })
             } else {
                 loadingTemplate.remove();
-
-                $j('<span>Parent Verify (0)</span>').insertAfter(insertSelector);
+                $j('<span>Student Contacts Verify (0)</span>').insertAfter(insertSelector);
             }
         }, 'json');
     });

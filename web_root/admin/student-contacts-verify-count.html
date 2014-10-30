@@ -9,7 +9,7 @@
             dcid
         from students
         where schoolid=~(curschoolid)
-        AND student_contacts_verify > 0)
+        AND parent_verify > 0)
 ]
     {"studentContactsCount": "~(count)"}
 [/tlist_sql]
