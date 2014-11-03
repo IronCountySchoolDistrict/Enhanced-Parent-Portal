@@ -25,8 +25,6 @@
     psData.studentsDcid = psData.studentfrn.slice(3);
 </script>
 
-~[frame_type:none]
-
 ~[wc:guardian_header]
 
 <style type="text/css">
@@ -136,19 +134,21 @@
         <div id="error_container"></div>
 
         <!--START Student Contacts list -->
-        <table id="parents-guardians-table" style="width: 1000px;" border="1" cellpadding="2" cellspacing="0"
-               align="center">
-            <thead>
-            <tr class="inforow">
-                <th style="width: 313px;">Contact</th>
-                <th style="width: 300px;">Address</th>
-                <th style="width: 249px;">Contact Info</th>
-                <th style="width: 74px;">Options</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <form class="contact-form">
+            <table id="parents-guardians-table" style="width: 1000px;" border="1" cellpadding="2" cellspacing="0"
+                   align="center">
+                <thead>
+                <tr class="inforow">
+                    <th style="width: 313px;">Contact</th>
+                    <th style="width: 300px;">Address</th>
+                    <th style="width: 249px;">Contact Info</th>
+                    <th style="width: 74px;">Options</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </form>
         <!-- END Student Contacts Content list-->
     </div>
 
@@ -159,22 +159,23 @@
 <div class="box-round">
 
     <!-- start of content and bounding box -->
-
     <div id="emergency-contacts-content" align="center">
         <!--START Student Contacts list -->
-        <table id="emergency-contacts-table" style="width: 1000px;" border="1" cellpadding="2" cellspacing="0"
-               align="center">
-            <thead>
-            <tr class="inforow">
-                <th style="width: 313px;">Contact</th>
-                <th style="width: 300px;">Address</th>
-                <th style="width: 249px;">Contact Info</th>
-                <th style="width: 74px;">Options</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <form class="contact-form">
+            <table id="emergency-contacts-table" style="width: 1000px;" border="1" cellpadding="2" cellspacing="0"
+                   align="center">
+                <thead>
+                <tr class="inforow">
+                    <th style="width: 313px;">Contact</th>
+                    <th style="width: 300px;">Address</th>
+                    <th style="width: 249px;">Contact Info</th>
+                    <th style="width: 74px;">Options</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </form>
         <!-- END Student Contacts Content list-->
     </div>
 </div>
@@ -243,36 +244,63 @@
             <%
             }
             %>
+            <span class="infoheader">
+                <%
+                    if (contact.phone1type !== "" && contact.phone1type !== undefined) {
+                %>
+                    <%= contact.phone1type %>:
+                <%
+                    }
+                %>
+            </span>
             <%
-            if (contact.phone1 !== "") {
+                if (contact.phone1 !== "") {
             %>
-            <span class="infoheader"><%= contact.phone1type %>: </span><%= contact.phone1 %><br/>
+                <%= contact.phone1 %>
             <%
-            }
+                }
             %>
-
+            <br />
+            <span class="infoheader">
+                <%
+                    if (contact.phone2type !== "" && contact.phone2type !== undefined) {
+                %>
+                    <%= contact.phone2type %>:
+                <%
+                    }
+                %>
+            </span>
             <%
-            if (contact.phone2 !== "") {
+                if (contact.phone2 !== "") {
             %>
-            <span class="infoheader"><%= contact.phone2type %>: </span><%= contact.phone2 %><br/>
+                <%= contact.phone2 %>
             <%
-            }
+                }
             %>
-
+            <br />
+            <span class="infoheader">
+                <%
+                    if (contact.phone3type !== "" && contact.phone3type !== undefined) {
+                %>
+                    <%= contact.phone3type %>:
+                <%
+                    }
+                %>
+            </span>
             <%
-            if (contact.phone3 !== "") {
+                if (contact.phone3 !== "") {
             %>
-            <span class="infoheader"><%= contact.phone3type %>: </span><%= contact.phone3 %><br/>
+                <%= contact.phone3 %>
             <%
-            }
+                }
             %>
-
+            <br />
             <%
-            if (contact.employer !== "") {
+                if (contact.employer !== "" && contact.employer !== undefined) {
             %>
-            <span class="infoheader">Employer: </span><%= contact.employer %><br/>
+                <span class="infoheader">Employer: </span><%= contact.employer %><br/>
             <%
-            }
+                }
             %>
         </p>
     </td>
@@ -296,12 +324,12 @@
     <label id="priority-label" for="priority">Priority: </label>
     <select id="priority">
         <%
-        for (var i = 0; i < numOfContacts; i++) {
-        var nthIndex = i + 1;
+            for (var i = 0; i < numOfContacts; i++) {
+            var nthIndex = i + 1;
         %>
-        <option value="<%= nthIndex %>"><%= nthIndex %></option>
+            <option value="<%= nthIndex %>"><%= nthIndex %></option>
         <%
-        }
+            }
         %>
     </select>
     <br/>
