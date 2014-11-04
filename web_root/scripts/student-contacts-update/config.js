@@ -4,8 +4,8 @@ define(function() {
     return {
         'psApi': 'https://psapitest.irondistrict.org',
 
-        'studentContactsTable': 'U_STUDENT_CONTACTS4',
+        'studentContactsTable': 'U_STUDENT_CONTACTS5',
 
-        'studentContactsStagingTable': 'U_STUDENT_CONTACTS_STAGING4'
+        'studentContactsStagingTable': 'U_STUDENT_CONTACTS_STAGING5'
     };
 });

@@ -8,6 +8,7 @@ require.config({
         actions: '/scripts/student-contacts-update/actions',
         config: '/scripts/student-contacts-update/config',
 
+        parsley: '//cdnjs.cloudflare.com/ajax/libs/parsley.js/2.0.5/parsley.js',
         underscore: 'underscore/underscore'
     }
 });

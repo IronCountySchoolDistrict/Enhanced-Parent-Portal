@@ -51,6 +51,7 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
         },
 
         addContactButton: function () {
+            $j('.editcontact').hide();
             //create add contact button, and bind click event handler
             /**
              * @see sDom option in dataTable() initialization.
@@ -67,6 +68,7 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
         },
 
         bindEditButton: function () {
+            $j('.editcontact').hide();
             var _this = this;
             $j('body').on('click', '.editcontact', function (event) {
                 var $eventTarget = $j(event.target);
@@ -85,6 +87,7 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
          */
         bindSaveButton: function (isParGuarContact) {
             var _this = this;
+            $j('.editcontact').show();
             $j('.savecontact').on('click', function (event) {
 
                 var $eventTarget = $j(event.target);

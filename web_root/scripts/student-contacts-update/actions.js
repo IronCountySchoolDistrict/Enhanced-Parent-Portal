@@ -1,6 +1,6 @@
 /*global define, $j, psData, loadingDialogInstance*/
 
-define(['service', 'underscore', 'config', 'tableModule'], function (service, _, config, tableModule) {
+define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (service, _, config, tableModule, parsley) {
     'use strict';
     return {
         main: function () {
@@ -15,7 +15,7 @@ define(['service', 'underscore', 'config', 'tableModule'], function (service, _,
          */
         _getStagingContactById: function (stagingContacts, contactId) {
             var contactsStagingTableName = config.studentContactsStagingTable.toLowerCase();
-            var idMatches = _.filter(stagingContacts, function(contact) {
+            var idMatches = _.filter(stagingContacts, function (contact) {
                 return contact.tables[contactsStagingTableName].contact_id === contactId;
             });
             if (idMatches.length === 1) {
@@ -34,6 +34,16 @@ define(['service', 'underscore', 'config', 'tableModule'], function (service, _,
                     $row.prev().addClass('oddRow');
                 }
             });
+        },
+
+        /**
+         *
+         * @param {jQuery} row
+         * @private
+         */
+        _renderUpdateMessage: function (row) {
+            var updatedTemplate = $j($j('#contact-updated-template').html());
+            updatedTemplate.insertBefore(row);
         },
 
         /**
@@ -139,6 +149,16 @@ define(['service', 'underscore', 'config', 'tableModule'], function (service, _,
          */
         renderContact: function (contactData, row, showUpdateMsg, isParGuar) {
             var contactTemplate = $j('#contact-template').html();
+
+            if (contactData.phone1type) {
+                contactData.phone1type = contactData.phone1type.charAt(0).toUpperCase() + contactData.phone1type.slice(1);
+            }
+            if (contactData.phone2type) {
+                contactData.phone2type = contactData.phone2type.charAt(0).toUpperCase() + contactData.phone2type.slice(1);
+            }
+            if (contactData.phone3type) {
+                contactData.phone3type = contactData.phone3type.charAt(0).toUpperCase() + contactData.phone3type.slice(1);
+            }
             var renderedTemplate = _.template(contactTemplate, {'contact': contactData});
 
             if (!row) {
@@ -152,16 +172,178 @@ define(['service', 'underscore', 'config', 'tableModule'], function (service, _,
                 row.html('').html(renderedTemplate);
             }
 
+
             var prevElem = row.prev();
-            if (prevElem) {
+
+            if (prevElem.length) {
+                // If there is a previous element, this is not the first contact in the table.
                 var prevClass = prevElem.attr('class');
+
+                if (prevClass) {
+                    if (showUpdateMsg && prevClass.indexOf('contact-update-msg') === -1) {
+                        this._renderUpdateMessage(row);
+                    }
+                }
+
+            } else if (showUpdateMsg) {
+                // This is the first row without the update message before it, so only check if the update message needs to be shown
+                this._renderUpdateMessage(row);
             }
-            if (showUpdateMsg && prevClass.indexOf('contact-update-msg') === -1) {
-                var updatedTemplate = $j($j('#contact-updated-template').html());
-                updatedTemplate.insertBefore(row);
-            }
+
             //var newRow = $j('#parents-guardians-table tr').last();
             row.data({'contactData': contactData});
+        },
+
+        /**
+         *
+         * @param contactId {Number|String}
+         */
+        setupParsley: function () {
+            window.ParsleyValidator
+                .addValidator('resaddress', function (value) {
+                    /**
+                     *
+                     * @type {boolean}
+                     */
+                    var resFieldsEmpty = $j('#residence-street').val() === "" &&
+                        $j('#residence-city').val() === "" &&
+                        $j('#residence-state').val() === "" &&
+                        $j('#residence-zip').val() === "";
+                    if (resFieldsEmpty) {
+                        return true;
+                    } else {
+                        return !!value;
+                    }
+
+                }, 100)
+                .addMessage('en', 'resaddress', 'All address fields must be filled in');
+
+            window.ParsleyValidator
+                .addValidator('mailaddress', function (value) {
+                    /**
+                     *
+                     * @type {boolean}
+                     */
+                    var mailFieldsEmpty = $j('#mailing-street').val() === "" &&
+                        $j('#mailing-city').val() === "" &&
+                        $j('#mailing-state').val() === "" &&
+                        $j('#mailing-zip').val() === "";
+                    if (mailFieldsEmpty) {
+                        return true;
+                    } else {
+                        return !!value;
+                    }
+
+                }, 100)
+                .addMessage('en', 'mailaddress', 'All address fields must be filled in');
+
+            window.ParsleyValidator
+                .addValidator('onephonereq', function (value) {
+                    /**
+                     *
+                     * @type {boolean}
+                     */
+                    var allPhonesEmpty = $j('#phone1type').val() === "" &&
+                        $j('#phone1').val() === "" &&
+                        $j('#phone2type').val() === "" &&
+                        $j('#phone2').val() === "" &&
+                        $j('#phone3type').val() === "" &&
+                        $j('#phone3').val() === "";
+
+                    if (allPhonesEmpty) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+
+                }, 100)
+                .addMessage('en', 'onephonereq', 'At least one phone number is required.');
+
+            window.ParsleyValidator
+                .addValidator('phone1num', function (value) {
+                    if ($j('#phone1type').val() === "" && $j('#phone1').val() === "") {
+                        return true;
+                    } else if ($j('#phone1type').val() !== "" && $j('#phone1').val() === "") {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }, 100)
+                .addMessage('en', 'phone1num', 'Phone type was given, number is required.');
+
+            window.ParsleyValidator
+                .addValidator('phone1type', function (value) {
+                    if ($j('#phone1type').val() === "" && $j('#phone1').val() === "") {
+                        return true;
+                    } else if ($j('#phone1').val() !== "" && $j('#phone1type').val() === "") {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }, 100)
+                .addMessage('en', 'phone1type', 'Phone number was given, type is required.');
+
+            window.ParsleyValidator
+                .addValidator('phone2num', function (value) {
+                    if ($j('#phone2type').val() === "" && $j('#phone2').val() === "") {
+                        return true;
+                    } else if ($j('#phone2type').val() !== "" && $j('#phone2').val() === "") {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }, 100)
+                .addMessage('en', 'phone2num', 'Phone type was given, number is required.');
+
+            window.ParsleyValidator
+                .addValidator('phone2type', function (value) {
+                    if ($j('#phone2type').val() === "" && $j('#phone2').val() === "") {
+                        return true;
+                    } else if ($j('#phone2').val() !== "" && $j('#phone2type').val() === "") {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }, 100)
+                .addMessage('en', 'phone2type', 'Phone number was given, type is required.');
+
+            window.ParsleyValidator
+                .addValidator('phone3num', function (value) {
+                    if ($j('#phone3type').val() === "" && $j('#phone3').val() === "") {
+                        return true;
+                    } else if ($j('#phone3type').val() !== "" && $j('#phone3').val() === "") {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }, 100)
+                .addMessage('en', 'phone3num', 'Phone type was given, number is required.');
+
+            window.ParsleyValidator
+                .addValidator('phone3type', function (value) {
+                    if ($j('#phone3type').val() === "" && $j('#phone3').val() === "") {
+                        return true;
+                    } else if ($j('#phone3').val() !== "" && $j('#phone3type').val() === "") {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }, 100)
+                .addMessage('en', 'phone3type', 'Phone number was given, type is required.');
+
+            window.ParsleyValidator
+                .addValidator('phonelength', function (value) {
+                    var valLength = value.split("_").join("").length;
+                    return valLength === 12 || valLength === 0;
+                }, 100)
+                .addMessage('en', 'phonelength', 'Please completely fill in this phone number.');
+
+            $j('.contact-form').parsley({
+                // bootstrap form classes
+                errorsWrapper: '<span class=\"help-block\" style="display: block;white-space: normal;word-wrap: break-word;"></span>',
+                errorTemplate: '<span class="error-message"></span>',
+                excluded: ':hidden'
+            });
         },
 
         /**
@@ -180,6 +362,8 @@ define(['service', 'underscore', 'config', 'tableModule'], function (service, _,
             };
             var renderedTemplate = _.template(editContactTemplate, context);
             $j(row).html('').html(renderedTemplate);
+
+            this.setupParsley();
 
             // Set the correct option in the priority dropdown to be selected.
             _.each($j('#priority option'), function (option) {
@@ -243,7 +427,7 @@ define(['service', 'underscore', 'config', 'tableModule'], function (service, _,
             };
         },
 
-        addContact: function(row, isParGuar, allPriorities) {
+        addContact: function (row, isParGuar, allPriorities) {
             var numSelector = isParGuar ? '#parents-guardians-table' : '#emergency-contacts-table';
             var allContacts = this.contacts.live.concat(this.contacts.staging);
             // Add 1 to the length to account for the new contact
