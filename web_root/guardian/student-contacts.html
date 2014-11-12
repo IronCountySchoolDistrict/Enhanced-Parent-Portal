@@ -130,7 +130,7 @@
 
     <!-- start of content and bounding box -->
 
-    <div id="parents-guardians-content" align="center">
+    <div id="parents-guardians-content" class="contacts-content" align="center">
         <div id="error_container"></div>
 
         <!--START Student Contacts list -->
@@ -159,7 +159,7 @@
 <div class="box-round">
 
     <!-- start of content and bounding box -->
-    <div id="emergency-contacts-content" align="center">
+    <div id="emergency-contacts-content" class="contacts-content" align="center">
         <!--START Student Contacts list -->
         <form class="contact-form">
             <table id="emergency-contacts-table" style="width: 1000px;" border="1" cellpadding="2" cellspacing="0"
@@ -314,8 +314,12 @@
     <label>Name: </label>
     <br/>
     <label id="first-name-label" for="first-name">First Name: </label>
-    <input id="first-name" class="contact-input" type="text" placeholder="First Name"
-           value="<%= contact.first_name %>"/>
+    <input type="text"
+           id="first-name"
+           class="contact-input"
+           value="<%= contact.first_name %>"
+           placeholder="First Name"
+           data-parsley-required/>
     <br/>
     <label id="last-name-label" for="first-name">Last Name: </label>
     <input id="last-name" class="contact-input" type="text" placeholder="Last Name" value="<%= contact.last_name %>"/>
