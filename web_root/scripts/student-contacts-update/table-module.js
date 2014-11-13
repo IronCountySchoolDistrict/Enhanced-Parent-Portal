@@ -7,7 +7,7 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
             this.addContactButton();
             this.bindEditButton();
             this.bindAddButton();
-            this.setupParsley();
+            this.bindPreventDefault();
         },
 
         /**
@@ -68,6 +68,12 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
             $j('.ui-button-text').css({'color': '#fff'});
         },
 
+        bindPreventDefault: function () {
+            $j('.contact-form').on('submit', function(event) {
+                event.preventDefault();
+            });
+        },
+
         bindEditButton: function () {
             $j('.editcontact').hide();
             var _this = this;
@@ -93,9 +99,10 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
         bindSaveButton: function (isParGuarContact) {
             var _this = this;
             $j('.savecontact').on('click', function (event) {
+                var $eventTarget = $j(event.target);
+
                 $eventTarget.parents('.contacts-content').find('.editcontact').show();
                 $eventTarget.parents('.contacts-content').find('.add-cont-btn').show();
-                var $eventTarget = $j(event.target);
 
                 var $closestRow = $eventTarget.closest('tr');
                 var contactData = actions.deserializeContact($closestRow);
@@ -171,154 +178,6 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
                 newRow.insertAfter(insertSelector);
                 actions.addContact(newRow, addParGuar, allPriorities);
                 _this.bindSaveButton(addParGuar);
-            });
-        },
-
-        setupParsley: function () {
-            window.ParsleyValidator
-                .addValidator('resaddress', function (value) {
-                    /**
-                     *
-                     * @type {boolean}
-                     */
-                    var resFieldsEmpty = $('#residence-street').val() === "" &&
-                        $('#residence-city').val() === "" &&
-                        $('#residence-state').val() === "" &&
-                        $('#residence-zip').val() === "";
-                    if (resFieldsEmpty) {
-                        return true;
-                    } else {
-                        return !!value;
-                    }
-
-                }, 100)
-                .addMessage('en', 'resaddress', 'All address fields must be filled in');
-
-            window.ParsleyValidator
-                .addValidator('mailaddress', function (value) {
-                    /**
-                     *
-                     * @type {boolean}
-                     */
-                    var mailFieldsEmpty = $('#mailing-street').val() === "" &&
-                        $('#mailing-city').val() === "" &&
-                        $('#mailing-state').val() === "" &&
-                        $('#mailing-zip').val() === "";
-                    if (mailFieldsEmpty) {
-                        return true;
-                    } else {
-                        return !!value;
-                    }
-
-                }, 100)
-                .addMessage('en', 'mailaddress', 'All address fields must be filled in');
-
-            window.ParsleyValidator
-                .addValidator('onephonereq', function (value) {
-                    /**
-                     *
-                     * @type {boolean}
-                     */
-                    var allPhonesEmpty = $('#phone1type').val() === "" &&
-                        $('#phone1').val() === "" &&
-                        $('#phone2type').val() === "" &&
-                        $('#phone2').val() === "" &&
-                        $('#phone3type').val() === "" &&
-                        $('#phone3').val() === "";
-
-                    if (allPhonesEmpty) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-
-                }, 100)
-                .addMessage('en', 'onephonereq', 'At least one phone number is required.');
-
-            window.ParsleyValidator
-                .addValidator('phone1num', function (value) {
-                    if ($('#phone1type').val() === "" && $('#phone1').val() === "") {
-                        return true;
-                    } else if ($('#phone1type').val() !== "" && $('#phone1').val() === "") {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }, 100)
-                .addMessage('en', 'phone1num', 'Phone type was given, number is required.');
-
-            window.ParsleyValidator
-                .addValidator('phone1type', function (value) {
-                    if ($('#phone1type').val() === "" && $('#phone1').val() === "") {
-                        return true;
-                    } else if ($('#phone1').val() !== "" && $('#phone1type').val() === "") {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }, 100)
-                .addMessage('en', 'phone1type', 'Phone number was given, type is required.');
-
-            window.ParsleyValidator
-                .addValidator('phone2num', function (value) {
-                    if ($('#phone2type').val() === "" && $('#phone2').val() === "") {
-                        return true;
-                    } else if ($('#phone2type').val() !== "" && $('#phone2').val() === "") {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }, 100)
-                .addMessage('en', 'phone2num', 'Phone type was given, number is required.');
-
-            window.ParsleyValidator
-                .addValidator('phone2type', function (value) {
-                    if ($('#phone2type').val() === "" && $('#phone2').val() === "") {
-                        return true;
-                    } else if ($('#phone2').val() !== "" && $('#phone2type').val() === "") {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }, 100)
-                .addMessage('en', 'phone2type', 'Phone number was given, type is required.');
-
-            window.ParsleyValidator
-                .addValidator('phone3num', function (value) {
-                    if ($('#phone3type').val() === "" && $('#phone3').val() === "") {
-                        return true;
-                    } else if ($('#phone3type').val() !== "" && $('#phone3').val() === "") {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }, 100)
-                .addMessage('en', 'phone3num', 'Phone type was given, number is required.');
-
-            window.ParsleyValidator
-                .addValidator('phone3type', function (value) {
-                    if ($('#phone3type').val() === "" && $('#phone3').val() === "") {
-                        return true;
-                    } else if ($('#phone3').val() !== "" && $('#phone3type').val() === "") {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }, 100)
-                .addMessage('en', 'phone3type', 'Phone number was given, type is required.');
-
-            window.ParsleyValidator
-                .addValidator('phonelength', function (value) {
-                    var valLength = value.split("_").join("").length;
-                    return valLength === 12 || valLength === 0;
-                }, 100)
-                .addMessage('en', 'phonelength', 'Please completely fill in this phone number.');
-
-            $j('#contact-form').parsley({
-                // bootstrap form classes
-                errorsWrapper: '<span class=\"help-block\" style="display: block;white-space: normal;word-wrap: break-word;"></span>',
-                errorTemplate: '<span class="error-message"></span>',
-                excluded: ':hidden'
             });
         }
     };
