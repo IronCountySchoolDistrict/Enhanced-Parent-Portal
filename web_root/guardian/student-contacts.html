@@ -134,7 +134,7 @@
             <div id="error_container"></div>
 
             <!--START Student Contacts list -->
-            <form class="contact-form">
+            <form class="contact-form noSubmitLoading">
                 <table id="parents-guardians-table" style="width: 1000px;" border="1" cellpadding="2" cellspacing="0"
                        align="center">
                     <thead>
@@ -161,7 +161,7 @@
         <!-- start of content and bounding box -->
         <div id="emergency-contacts-content" class="contacts-content" align="center">
             <!--START Student Contacts list -->
-            <form class="contact-form">
+            <form class="contact-form noSubmitLoading">
                 <table id="emergency-contacts-table" style="width: 1000px;" border="1" cellpadding="2" cellspacing="0"
                        align="center">
                     <thead>
@@ -319,11 +319,15 @@
                    class="contact-input"
                    value="<%= contact.first_name %>"
                    placeholder="First Name"
-                   data-parsley-required/>
+                   required/>
             <br/>
             <label id="last-name-label" for="first-name">Last Name: </label>
-            <input id="last-name" class="contact-input" type="text" placeholder="Last Name"
-                   value="<%= contact.last_name %>"/>
+            <input type="text"
+                   id="last-name"
+                   class="contact-input"
+                   value="<%= contact.last_name %>"
+                   placeholder="Last Name"
+                   required/>
             <br/>
             <br/>
             <label id="priority-label" for="priority">Priority: </label>
@@ -340,7 +344,7 @@
             <br/>
             <br/>
             <label for="relationship">Relationship: </label>
-            <select id="relationship">
+            <select id="relationship" required>
                 <option></option>
                 <option value="Father">Father</option>
                 <option value="Mother">Mother</option>
@@ -361,15 +365,32 @@
             <label>Residence Address: </label>
             <br/>
             <label class="street-label">Street: </label>
-            <input class="address-input" id="residence-street" type="text" placeholder="Residence Street"
-                   value="<%= contact.residence_street %>"/>
+            <input type="text"
+                   id="residence-street"
+                   class="address-input"
+                   value="<%= contact.residence_street %>"
+                   placeholder="Residence Street"
+                   data-parsley-resaddress
+                   data-parsley-trigger="change"
+                   data-parsley-validate-if-empty/>
             <br/>
             <label class="city-label">City: </label>
-            <input class="address-input" id="residence-city" type="text" placeholder="Residence City"
-                   value="<%= contact.residence_city %>"/>
+            <input type="text"
+                   id="residence-city"
+                   class="address-input"
+                   value="<%= contact.residence_city %>"
+                   placeholder="Residence City"
+                   data-parsley-resaddress
+                   data-parsley-trigger="change"
+                   data-parsley-validate-if-empty/>
             <br/>
             <label class="state-label">State: </label>
-            <select class="address-input" id="residence-state">
+            <select class="address-input"
+                    id="residence-state"
+                    data-parsley-resaddress
+                    data-parsley-trigger="change"
+                    data-parsley-validate-if-empty>
+                <option></option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
                 <option value="AZ">Arizona</option>
@@ -424,23 +445,42 @@
             </select>
             <br/>
             <label class="zip-label">Zip Code: </label>
-            <input class="address-input" id="residence-zip" type="text" placeholder="Residence Zip"
-                   value="<%= contact.residence_zip %>"/>
+            <input type="text"
+                   id="residence-zip"
+                   class="address-input"
+                   value="<%= contact.residence_zip %>"
+                   placeholder="Residence Zip"
+                   data-parsley-resaddress
+                   data-parsley-trigger="change"
+                   data-parsley-validate-if-empty/>
             <br/>
             <br/>
 
             <label>Mailing Address: </label>
             <br/>
             <label class="street-label">Street: </label>
-            <input class="address-input" id="mailing-street" type="text" placeholder="Mailing Street"
-                   value="<%= contact.mailing_street %>"/>
+            <input type="text"
+                   id="mailing-street"
+                   class="address-input"
+                   value="<%= contact.mailing_street %>"
+                   placeholder="Mailing Street"
+                   data-parsley-mailaddress
+                   data-parsley-trigger="change"
+                   data-parsley-validate-if-empty/>
             <br/>
             <label class="city-label">City: </label>
             <input class="address-input" id="mailing-city" type="text" placeholder="Mailing City"
-                   value="<%= contact.mailing_city %>"/>
+                   value="<%= contact.mailing_city %>"
+                   data-parsley-mailaddress
+                   data-parsley-trigger="change"
+                   data-parsley-validate-if-empty/>
             <br/>
             <label class="state-label">State: </label>
-            <select class="address-input" id="mailing-state">
+            <select class="address-input" id="mailing-state"
+                    data-parsley-mailaddress
+                    data-parsley-trigger="change"
+                    data-parsley-validate-if-empty>
+                <option></option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
                 <option value="AZ">Arizona</option>
@@ -496,64 +536,95 @@
             <br/>
             <label class="zip-label">Zip Code: </label>
             <input class="address-input" id="mailing-zip" type="text" placeholder="Mailing Zip"
-                   value="<%= contact.mailing_zip %>"/>
+                   value="<%= contact.mailing_zip %>"
+                   data-parsley-mailaddress
+                   data-parsley-trigger="change"
+                   data-parsley-validate-if-empty/>
         </td>
         <td>
             <label id="email-label">Email: </label>
-            <input class="info-input" id="email" type="text" placeholder="Email" value="<%= contact.email %>"/>
+            <input class="info-input" id="email" type="text" placeholder="Email" value="<%= contact.email %>"
+                   data-parsley-type="email"/>
             <br/>
             <br/>
     <span>
         <span style="display: inline-block;">
-            <select id="phone1type">
-                <option value="home">Home</option>
-                <option value="cell">Cell</option>
-                <option value="work">Work</option>
+            <select id="phone1type"
+                    data-parsley-onephonereq
+                    data-parsley-phone1type
+                    data-parsley-validate-if-empty
+                    data-parsley-trigger="change">
+                <option></option>
+                <option value="Home">Home</option>
+                <option value="Cell">Cell</option>
+                <option value="Work">Work</option>
             </select>
         </span>
         <span style="display: inline-block;">
             <label id="phone1-label">
                 Number:
             </label>
-            <input class="info-input" id="phone1" type="text" placeholder="<%= contact.phone1type %> Number"
-                value="<%= contact.phone1 %>"/>
+            <input id="phone1"
+                   class="info-input"
+                   type="text"
+                   placeholder="<%= contact.phone1type %> Number"
+                   value="<%= contact.phone1 %>"
+                   data-parsley-onephonereq
+                   data-parsley-phone1num
+                   data-parsley-validate-if-empty
+                   data-parsley-trigger="change"/>
         </span>
     </span>
-    <br/>
-    <br/>
+            <br/>
+            <br/>
     <span>
         <span style="display: inline-block;">
-            <select id="phone2type">
-                <option value="home">Home</option>
-                <option value="cell">Cell</option>
-                <option value="work">Work</option>
+            <select id="phone2type"
+                    data-parsley-phone2type
+                    data-parsley-trigger="change">
+                <option></option>
+                <option value="Home">Home</option>
+                <option value="Cell">Cell</option>
+                <option value="Work">Work</option>
             </select>
         </span>
         <span style="display: inline-block;">
             <label id="phone2-label">
                 Number:
             </label>
-            <input class="info-input" id="phone2" type="text" placeholder="<%= contact.phone2type %> Number"
-                value="<%= contact.phone2 %>"/>
+            <input id="phone2"
+                   class="info-input"
+                   type="text"
+                   placeholder="<%= contact.phone2type %> Number"
+                   value="<%= contact.phone2 %>"
+                   data-parsley-phone2num/>
         </span>
     </span>
-    <br/>
-    <br/>
+            <br/>
+            <br/>
     <span>
         <span style="display: inline-block;">
-            <select id="phone3type">
-                <option value="home">Home</option>
-                <option value="cell">Cell</option>
-                <option value="work">Work</option>
+            <select id="phone3type"
+                    data-parsley-phone3type
+                    data-parsley-trigger="change">
+                <option></option>
+                <option value="Home">Home</option>
+                <option value="Cell">Cell</option>
+                <option value="Work">Work</option>
             </select>
             </span>
         <span style="display: inline-block;">
             <label id="phone3-label">
                 Number:
             </label>
-    <input class="info-input" id="phone3" type="text" placeholder="<%= contact.phone3type %> Number"
-           value="<%= contact.phone3 %>"/>
-            </span>
+            <input id="phone3"
+                   class="info-input"
+                   type="text"
+                   placeholder="<%= contact.phone3type %> Number"
+                   value="<%= contact.phone3 %>"
+                   data-parsley-phone3num
+                   data-parsley-trigger="change"/>
+        </span>
     </span>
 
 

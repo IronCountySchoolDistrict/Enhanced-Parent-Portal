@@ -8,6 +8,11 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
         },
 
         /**
+         * @type Object[]
+         */
+        _contactsCollection: [],
+
+        /**
          * @param stagingContacts {Object}
          * @param contactId {String}
          * @private
@@ -216,7 +221,7 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                     }
 
                 }, 100)
-                .addMessage('en', 'resaddress', 'All address fields must be filled in');
+                .addMessage('en', 'resaddress', 'Partial address not allowed, please complete residence address.');
 
             window.ParsleyValidator
                 .addValidator('mailaddress', function (value) {
@@ -235,7 +240,7 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                     }
 
                 }, 100)
-                .addMessage('en', 'mailaddress', 'All address fields must be filled in');
+                .addMessage('en', 'mailaddress', 'Partial address not allowed, please complete mailing address.');
 
             window.ParsleyValidator
                 .addValidator('onephonereq', function (value) {
@@ -338,11 +343,150 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                 }, 100)
                 .addMessage('en', 'phonelength', 'Please completely fill in this phone number.');
 
-            $j('.contact-form').parsley({
+            var parsley = $j('.contact-form').parsley({
                 // bootstrap form classes
                 errorsWrapper: '<span class=\"help-block\" style="display: block;white-space: normal;word-wrap: break-word;"></span>',
                 errorTemplate: '<span class="error-message"></span>',
                 excluded: ':hidden'
+            });
+
+            var _this = this;
+
+            _.each(parsley, function(parsleyElem) {
+                parsleyElem.subscribe('parsley:form:validated', function(ParsleyForm) {
+                    if (ParsleyForm.validationResult) {
+                        var $eventTarget = $j(event.target);
+
+                        $eventTarget.parents('.contacts-content').find('.editcontact').show();
+                        $eventTarget.parents('.contacts-content').find('.add-cont-btn').show();
+
+                        var $closestRow = $eventTarget.find('.savecontact').parents('tr');
+                        var isParGuarContact = $closestRow.closest('#parents-guardians-table').length > 0;
+                        var contactData = _this.deserializeContact($closestRow);
+
+                        var newPriority = parseInt($('#priority').val());
+                        var oldPriority = parseInt(contactsCollection[contactId][1].priority);
+                        if (newPriority !== oldPriority) {
+                            // First priority contact is getting changed.
+                            if (newPriority > oldPriority) {
+                                $.each(contactsCollection, function (index, contact) {
+                                    if (parseInt(contact[1].priority) > parseInt(oldPriority) && parseInt(contact[1].priority) <= parseInt(newPriority)) {
+                                        var postData = {
+                                            name: 'u_student_contacts6',
+                                            tables: {
+                                                'u_student_contacts6': {
+                                                    priority: (parseInt(contact[1].priority) - 1).toString()
+                                                }
+                                            }
+                                        };
+                                        saveContact(postData, contact[1].record_id).done(function () {
+                                            // Find the rows that were updated and refresh them
+                                            // Get all rows that contain a td with a p element (only contact rows have this)
+                                            var tableRows = $('tr:has("td p")');
+                                            var updatedRow;
+                                            $.each(tableRows, function (index, tableRow) {
+                                                var rowContactId = m_table.fnGetData(tableRow)[m_keyindex];
+                                                if (rowContactId === contact[0]) {
+                                                    updatedRow = tableRow;
+                                                }
+                                                if (updatedRow) {
+                                                    refreshContact(rowContactId, updatedRow);
+                                                }
+                                                updatedRow = null;
+                                            });
+                                        });
+                                    }
+
+
+                                });
+                            } else if (newPriority < oldPriority) {
+                                $.each(contactsCollection, function (index, contact) {
+                                    if (parseInt(contact[1].priority) < parseInt(oldPriority) && parseInt(contact[1].priority) >= parseInt(newPriority)) {
+                                        var postData = {
+                                            name: 'u_student_contacts6',
+                                            tables: {
+                                                'u_student_contacts6': {
+                                                    priority: (parseInt(contact[1].priority) + 1).toString()
+                                                }
+                                            }
+                                        };
+                                        saveContact(postData, contact[1].record_id).done(function () {
+                                            // Find the rows that were updated and refresh them
+                                            // Get all rows that contain a td with a p element (only contact rows have this)
+                                            var tableRows = $('tr:has("td p")');
+                                            var updatedRow;
+                                            $.each(tableRows, function (index, tableRow) {
+                                                var rowContactId = m_table.fnGetData(tableRow)[m_keyindex];
+                                                if (rowContactId === contact[0]) {
+                                                    updatedRow = tableRow;
+                                                }
+                                                if (updatedRow) {
+                                                    refreshContact(rowContactId, updatedRow);
+                                                }
+                                                updatedRow = null;
+                                            });
+                                        });
+                                    }
+                                });
+                            }
+                        }
+
+                        var ajaxFunc;
+
+                        var stagingContactsAjax;
+                        if (isParGuarContact) {
+                            stagingContactsAjax = service.getParGuarsStaging({studentsdcid: psData.studentsDcid});
+                        } else {
+                            stagingContactsAjax = service.getEmergContsStaging({studentsdcid: psData.studentsDcid});
+                        }
+
+                        stagingContactsAjax.done(function (stagingContacts) {
+                            /* If the contactData object is not present in the current row,
+                             * this is a new contact.
+                             * @see actions.renderContact
+                             */
+                            var contactInitData = $closestRow.data().contactData;
+                            var stagingRecordId;
+
+                            if (contactInitData) {
+                                var stagingTableName = stagingContacts.name.toLowerCase();
+                                _.each(stagingContacts.record, function (contact) {
+                                    if (contactInitData.contact_id === contact.tables[stagingTableName].contact_id) {
+                                        stagingRecordId = contactInitData.id;
+                                    }
+                                });
+                            }
+
+                            if (stagingRecordId) {
+                                ajaxFunc = _this.updateStagingContact(contactData, stagingRecordId);
+                            } else if (contactInitData) {
+                                ajaxFunc = _this.newStagingContact(contactData, psData.studentsDcid, isParGuarContact, contactInitData.contact_id);
+                            } else {
+                                var largestContactId;
+                                if (window.allContactIds.length > 0) {
+                                    largestContactId = window.allContactIds[window.allContactIds.length - 1];
+                                } else {
+                                    largestContactId = 1;
+                                }
+                                var newContactId = largestContactId + 1;
+                                newContactId = newContactId.toString();
+                                ajaxFunc = _this.newStagingContact(contactData, psData.studentsDcid, isParGuarContact, newContactId);
+                            }
+
+                            ajaxFunc.done(function (resp) {
+                                if (contactInitData) {
+                                    contactData.contact_id = contactInitData.contact_id;
+                                    contactData.id = contactInitData.id;
+                                } else {
+                                    contactData.contact_id = newContactId;
+                                    contactData.id = resp.result[0].success_message.id;
+                                }
+
+                                _this.renderContact(contactData, $closestRow, true);
+                            });
+                        });
+                    }
+                });
             });
         },
 
@@ -351,8 +495,7 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
          * @param contactData {Object}
          * @param row {jQuery}
          */
-        editContact: function (contactData, row, isParGuar) {
-            var numSelector = isParGuar ? '#parents-guardians-table' : '#emergency-contacts-table';
+        editContact: function (contactData, row) {
             var allContacts = this.contacts.live.concat(this.contacts.staging);
             var numOfContacts = _.uniq(_.pluck(allContacts, 'contact_id')).length;
             var editContactTemplate = $j('#edit-contact-template').html();
@@ -384,7 +527,7 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
             // Set the correct option in the residence state drop down to be selected.
             _.each($j('#residence-state option'), function (option) {
                 var $option = $j(option);
-                if ($option.val() === contactData.relationship) {
+                if ($option.val() === contactData.residence_state) {
                     $option.attr({'selected': 'selected'});
                 }
             });
@@ -392,7 +535,31 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
             // Set the correct option in the mailing state drop down to be selected.
             _.each($j('#mailing-state option'), function (option) {
                 var $option = $j(option);
-                if ($option.val() === contactData.relationship) {
+                if ($option.val() === contactData.mailing_state) {
+                    $option.attr({'selected': 'selected'});
+                }
+            });
+
+            // Set the correct option in the phone1type drop down to be selected.
+            _.each($j('#phone1type option'), function (option) {
+                var $option = $j(option);
+                if ($option.val() === contactData.phone1type) {
+                    $option.attr({'selected': 'selected'});
+                }
+            });
+
+            // Set the correct option in the phone2type drop down to be selected.
+            _.each($j('#phone2type option'), function (option) {
+                var $option = $j(option);
+                if ($option.val() === contactData.phone2type) {
+                    $option.attr({'selected': 'selected'});
+                }
+            });
+
+            // Set the correct option in the phone3type drop down to be selected.
+            _.each($j('#phone3type option'), function (option) {
+                var $option = $j(option);
+                if ($option.val() === contactData.phone3type) {
                     $option.attr({'selected': 'selected'});
                 }
             });

@@ -84,85 +84,12 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
                 $eventTarget.parents('.contacts-content').find('.editcontact').hide();
                 $eventTarget.parents('.contacts-content').find('.add-cont-btn').hide();
 
-                var isParGuarContact = $parentRow.closest('#parents-guardians-table').length > 0;
-
                 var contactData = $parentRow.data('contactData');
-                actions.editContact(contactData, $parentRow, isParGuarContact);
-                _this.bindSaveButton(isParGuarContact);
+                actions.editContact(contactData, $parentRow);
             });
         },
 
-        /**
-         *
-         * @param isParGuarContact {Boolean}
-         */
-        bindSaveButton: function (isParGuarContact) {
-            var _this = this;
-            $j('.savecontact').on('click', function (event) {
-                var $eventTarget = $j(event.target);
 
-                $eventTarget.parents('.contacts-content').find('.editcontact').show();
-                $eventTarget.parents('.contacts-content').find('.add-cont-btn').show();
-
-                var $closestRow = $eventTarget.closest('tr');
-                var contactData = actions.deserializeContact($closestRow);
-
-                var ajaxFunc;
-
-                var stagingContactsAjax;
-                if (isParGuarContact) {
-                    stagingContactsAjax = service.getParGuarsStaging({studentsdcid: psData.studentsDcid});
-                } else {
-                    stagingContactsAjax = service.getEmergContsStaging({studentsdcid: psData.studentsDcid});
-                }
-
-                stagingContactsAjax.done(function (stagingContacts) {
-                    /* If the contactData object is not present in the current row,
-                     * this is a new contact.
-                     * @see actions.renderContact
-                     */
-                    var contactInitData = $closestRow.data().contactData;
-                    var stagingRecordId;
-
-                    if (contactInitData) {
-                        var stagingTableName = stagingContacts.name.toLowerCase();
-                        _.each(stagingContacts.record, function (contact) {
-                            if (contactInitData.contact_id === contact.tables[stagingTableName].contact_id) {
-                                stagingRecordId = contactInitData.id;
-                            }
-                        });
-                    }
-
-                    if (stagingRecordId) {
-                        ajaxFunc = actions.updateStagingContact(contactData, stagingRecordId);
-                    } else if (contactInitData) {
-                        ajaxFunc = actions.newStagingContact(contactData, psData.studentsDcid, isParGuarContact, contactInitData.contact_id);
-                    } else {
-                        var largestContactId;
-                        if (window.allContactIds.length > 0) {
-                            largestContactId = window.allContactIds[window.allContactIds.length - 1];
-                        } else {
-                            largestContactId = 1;
-                        }
-                        var newContactId = largestContactId + 1;
-                        newContactId = newContactId.toString();
-                        ajaxFunc = actions.newStagingContact(contactData, psData.studentsDcid, isParGuarContact, newContactId);
-                    }
-
-                    ajaxFunc.done(function (resp) {
-                        if (contactInitData) {
-                            contactData.contact_id = contactInitData.contact_id;
-                            contactData.id = contactInitData.id;
-                        } else {
-                            contactData.contact_id = newContactId;
-                            contactData.id = resp.result[0].success_message.id;
-                        }
-
-                        actions.renderContact(contactData, $closestRow, true);
-                    });
-                });
-            });
-        },
 
         bindAddButton: function () {
             var _this = this;
@@ -177,7 +104,6 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
                 var newRow = $j('<tr></tr>');
                 newRow.insertAfter(insertSelector);
                 actions.addContact(newRow, addParGuar, allPriorities);
-                _this.bindSaveButton(addParGuar);
             });
         }
     };
