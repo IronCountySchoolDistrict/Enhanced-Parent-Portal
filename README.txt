@@ -1,1 +1,0 @@
-Thanks to Brian Andle, Jason Treadwell, Roger Sprik and Matt Freund for their work on this customization.

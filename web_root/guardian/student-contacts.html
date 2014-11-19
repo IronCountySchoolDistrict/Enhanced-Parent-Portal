@@ -469,7 +469,10 @@
                    data-parsley-validate-if-empty/>
             <br/>
             <label class="city-label">City: </label>
-            <input class="address-input" id="mailing-city" type="text" placeholder="Mailing City"
+            <input type="text"
+                   id="mailing-city"
+                   class="address-input"
+                   placeholder="Mailing City"
                    value="<%= contact.mailing_city %>"
                    data-parsley-mailaddress
                    data-parsley-trigger="change"
@@ -548,7 +551,11 @@
             <br/>
             <br/>
     <span>
-        <span style="display: inline-block;">
+        <span style="display: inline-block; float: left;">
+            <label id="phone1type-label">
+                Type:
+            </label>
+            <br>
             <select id="phone1type"
                     data-parsley-onephonereq
                     data-parsley-phone1type
@@ -560,10 +567,11 @@
                 <option value="Work">Work</option>
             </select>
         </span>
-        <span style="display: inline-block;">
+        <span style="display: inline-block; float: right;">
             <label id="phone1-label">
                 Number:
             </label>
+            <br>
             <input id="phone1"
                    class="info-input"
                    type="text"
@@ -577,8 +585,13 @@
     </span>
             <br/>
             <br/>
+            <br/>
     <span>
-        <span style="display: inline-block;">
+        <span style="display: inline-block; float: left;">
+            <label id="phone2type-label">
+                Type:
+            </label>
+            <br>
             <select id="phone2type"
                     data-parsley-phone2type
                     data-parsley-trigger="change">
@@ -588,10 +601,11 @@
                 <option value="Work">Work</option>
             </select>
         </span>
-        <span style="display: inline-block;">
+        <span style="display: inline-block; float: right;">
             <label id="phone2-label">
                 Number:
             </label>
+            <br>
             <input id="phone2"
                    class="info-input"
                    type="text"
@@ -602,8 +616,13 @@
     </span>
             <br/>
             <br/>
+            <br/>
     <span>
-        <span style="display: inline-block;">
+        <span style="display: inline-block; float: left;">
+            <label id="phone3type-label">
+                Type:
+            </label>
+            <br>
             <select id="phone3type"
                     data-parsley-phone3type
                     data-parsley-trigger="change">
@@ -613,10 +632,11 @@
                 <option value="Work">Work</option>
             </select>
             </span>
-        <span style="display: inline-block;">
+        <span style="display: inline-block; float: right;">
             <label id="phone3-label">
                 Number:
             </label>
+            <br>
             <input id="phone3"
                    class="info-input"
                    type="text"
@@ -626,8 +646,7 @@
                    data-parsley-trigger="change"/>
         </span>
     </span>
-
-
+            <br/>
             <br/>
             <br/>
             <label id="employer-label">Employer: </label>
@@ -635,7 +654,10 @@
                    value="<%= contact.employer %>"/>
         </td>
         <td>
-            <button class='savecontact'>Save</button>
+            <button class="savecontact" type="submit">Save</button>
+            <br>
+            <br>
+            <button class="cancelcontact" type="button">Cancel</button>
         </td>
     </script>
 
@@ -644,10 +666,18 @@
             <label>Name: </label>
             <br/>
             <label id="first-name-label" for="first-name">First Name: </label>
-            <input id="first-name" class="contact-input" type="text" placeholder="First Name"/>
+            <input type="text"
+                   id="first-name"
+                   class="contact-input"
+                   placeholder="First Name"
+                   required/>
             <br/>
             <label id="last-name-label" for="first-name">Last Name: </label>
-            <input id="last-name" class="contact-input" type="text" placeholder="Last Name"/>
+            <input type="text"
+                   id="last-name"
+                   class="contact-input"
+                   placeholder="Last Name"
+                   required/>
             <br/>
             <br/>
             <label id="priority-label" for="priority">Priority: </label>
@@ -664,7 +694,7 @@
             <br/>
             <br/>
             <label for="relationship">Relationship: </label>
-            <select id="relationship">
+            <select id="relationship" required>
                 <option></option>
                 <option value="Father">Father</option>
                 <option value="Mother">Mother</option>
@@ -685,13 +715,29 @@
             <label>Residence Address: </label>
             <br/>
             <label class="street-label">Street: </label>
-            <input class="address-input" id="residence-street" type="text" placeholder="Residence Street"/>
+            <input type="text"
+                   id="residence-street"
+                   class="address-input"
+                   placeholder="Residence Street"
+                   data-parsley-resaddress
+                   data-parsley-trigger="change"
+                   data-parsley-validate-if-empty/>
             <br/>
             <label class="city-label">City: </label>
-            <input class="address-input" id="residence-city" type="text" placeholder="Residence City"/>
+            <input type="text"
+                   id="residence-city"
+                   class="address-input"
+                   placeholder="Residence City"
+                   data-parsley-resaddress
+                   data-parsley-trigger="change"
+                   data-parsley-validate-if-empty/>
             <br/>
             <label class="state-label">State: </label>
-            <select class="address-input" id="residence-state">
+            <select class="address-input"
+                    id="residence-state"
+                    data-parsley-resaddress
+                    data-parsley-trigger="change"
+                    data-parsley-validate-if-empty>
                 <option></option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
@@ -747,20 +793,41 @@
             </select>
             <br/>
             <label class="zip-label">Zip Code: </label>
-            <input class="address-input" id="residence-zip" type="text" placeholder="Residence Zip"/>
+            <input type="text"
+                   id="residence-zip"
+                   class="address-input"
+                   placeholder="Residence Zip"
+                   data-parsley-resaddress
+                   data-parsley-trigger="change"
+                   data-parsley-validate-if-empty/>
             <br/>
             <br/>
 
             <label>Mailing Address: </label>
             <br/>
             <label class="street-label">Street: </label>
-            <input class="address-input" id="mailing-street" type="text" placeholder="Mailing Street"/>
+            <input type="text"
+                   id="mailing-street"
+                   class="address-input"
+                   placeholder="Mailing Street"
+                   data-parsley-mailaddress
+                   data-parsley-trigger="change"
+                   data-parsley-validate-if-empty/>
             <br/>
             <label class="city-label">City: </label>
-            <input class="address-input" id="mailing-city" type="text" placeholder="Mailing City"/>
+            <input type="text"
+                   id="mailing-city"
+                   class="address-input"
+                   placeholder="Mailing City"
+                   data-parsley-mailaddress
+                   data-parsley-trigger="change"
+                   data-parsley-validate-if-empty/>
             <br/>
             <label class="state-label">State: </label>
-            <select class="address-input" id="mailing-state">
+            <select class="address-input" id="mailing-state"
+                    data-parsley-mailaddress
+                    data-parsley-trigger="change"
+                    data-parsley-validate-if-empty>
                 <option></option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
@@ -816,45 +883,87 @@
             </select>
             <br/>
             <label class="zip-label">Zip Code: </label>
-            <input class="address-input" id="mailing-zip" type="text"/>
+            <input class="address-input" id="mailing-zip" type="text"
+                   data-parsley-mailaddress
+                   data-parsley-trigger="change"
+                   data-parsley-validate-if-empty/>
         </td>
         <td>
             <label id="email-label">Email: </label>
-            <input class="info-input" id="email" type="text"/>
+            <input class="info-input" id="email" type="text"
+                   data-parsley-type="email"/>
             <br/>
             <br/>
-            <select id="phone1type">
-                <option></option>
-                <option value="home">Home</option>
-                <option value="cell">Cell</option>
-                <option value="work">Work</option>
-            </select>
-            <label id="phone1-label">
-                Number:
-            </label>
-            <input class="info-input" id="phone1" type="text"/>
+        <span>
+            <span style="display: inline-block;">
+                <select id="phone1type"
+                        data-parsley-onephonereq
+                        data-parsley-phone1type
+                        data-parsley-validate-if-empty
+                        data-parsley-trigger="change">
+                    <option></option>
+                    <option value="Home">Home</option>
+                    <option value="Cell">Cell</option>
+                    <option value="Work">Work</option>
+                </select>
+            </span>
+            <span style="display: inline-block;">
+                <label id="phone1-label">
+                    Number:
+                </label>
+                <input type="text" class="info-input" id="phone1"
+                       data-parsley-onephonereq
+                       data-parsley-phone1num
+                       data-parsley-validate-if-empty
+                       data-parsley-trigger="change"/>
+            </span>
+        </span>
             <br/>
-            <select id="phone2type">
-                <option></option>
-                <option value="home">Home</option>
-                <option value="cell">Cell</option>
-                <option value="work">Work</option>
-            </select>
-            <label id="phone2-label">
-                Number:
-            </label>
-            <input class="info-input" id="phone2" type="text"/>
             <br/>
-            <select id="phone3type">
-                <option></option>
-                <option value="home">Home</option>
-                <option value="cell">Cell</option>
-                <option value="work">Work</option>
-            </select>
-            <label id="phone3-label">
-                Number:
-            </label>
-            <input class="info-input" id="phone3" type="text"/>
+        <span>
+            <span style="display: inline-block;">
+                <select id="phone2type"
+                        data-parsley-phone2type
+                        data-parsley-trigger="change">
+                    <option></option>
+                    <option value="Home">Home</option>
+                    <option value="Cell">Cell</option>
+                    <option value="Work">Work</option>
+                </select>
+            </span>
+            <span style="display: inline-block;">
+                <label id="phone2-label">
+                    Number:
+                </label>
+                <input class="info-input" id="phone2" type="text"
+                       data-parsley-phone2num
+                       data-parsley-trigger="change"
+                       data-parsley-validate-if-empty/>
+            </span>
+        </span>
+        <br/>
+        <br/>
+        <span>
+            <span style="display: inline-block;">
+                <select id="phone3type"
+                        data-parsley-phone3type
+                        data-parsley-trigger="change">
+                    <option></option>
+                    <option value="Home">Home</option>
+                    <option value="Cell">Cell</option>
+                    <option value="Work">Work</option>
+                </select>
+            </span>
+            <span style="display: inline-block;">
+                <label id="phone3-label">
+                    Number:
+                </label>
+                <input class="info-input" id="phone3" type="text"
+                       data-parsley-phone3num
+                       data-parsley-trigger="change"
+                       data-parsley-validate-if-empty/>
+            </span>
+        </span>
             <br/>
             <br/>
             <label id="employer-label">Employer: </label>
@@ -862,6 +971,9 @@
         </td>
         <td>
             <button class='savecontact'>Save</button>
+            <br>
+            <br>
+            <button class="cancelcontact" type="button">Cancel</button>
         </td>
     </script>
 

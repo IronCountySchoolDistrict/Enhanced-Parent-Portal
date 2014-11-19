@@ -352,8 +352,8 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
 
             var _this = this;
 
-            _.each(parsley, function(parsleyElem) {
-                parsleyElem.subscribe('parsley:form:validated', function(ParsleyForm) {
+            _.each(parsley, function (parsleyElem) {
+                parsleyElem.subscribe('parsley:form:validated', function (ParsleyForm) {
                     if (ParsleyForm.validationResult) {
                         var $eventTarget = $j(event.target);
 
@@ -508,6 +508,15 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
 
             this.setupParsley();
 
+            var _this = this;
+            $j('button.cancelcontact').on('click', function (event) {
+                var $eventTarget = $j(event.target);
+                var isParGuar = !!$eventTarget.parents('#parents-guardians-table').length;
+                $eventTarget.parents('.contacts-content').find('.editcontact').show();
+                $eventTarget.parents('.contacts-content').find('.add-cont-btn').show();
+                _this.renderContact(contactData, row, false, isParGuar);
+            });
+
             // Set the correct option in the priority dropdown to be selected.
             _.each($j('#priority option'), function (option) {
                 var $option = $j(option);
@@ -606,6 +615,17 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
             var newContactTemplate = $j('#new-contact-template').html();
             var renderedTemplate = _.template(newContactTemplate, {unusedPriorities: unusedPriorities});
             $j(row).html('').html(renderedTemplate);
+
+            this.setupParsley();
+
+            var _this = this;
+            $j('button.cancelcontact').on('click', function (event) {
+                var $eventTarget = $j(event.target);
+                var isParGuar = !!$eventTarget.parents('#parents-guardians-table').length;
+                $eventTarget.parents('.contacts-content').find('.editcontact').show();
+                $eventTarget.parents('.contacts-content').find('.add-cont-btn').show();
+                $eventTarget.parents('tr').remove();
+            });
         },
 
         /**

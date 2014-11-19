@@ -52,7 +52,6 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
         },
 
         addContactButton: function () {
-            $j('.editcontact').hide();
             //create add contact button, and bind click event handler
             /**
              * @see sDom option in dataTable() initialization.
@@ -75,7 +74,6 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
         },
 
         bindEditButton: function () {
-            $j('.editcontact').hide();
             var _this = this;
             $j('body').on('click', '.editcontact', function (event) {
                 var $eventTarget = $j(event.target);
@@ -89,8 +87,6 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
             });
         },
 
-
-
         bindAddButton: function () {
             var _this = this;
             $j('#add-par-guar-contact, #add-emerg-contact').on('click', function (event) {
@@ -103,6 +99,10 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
                 var insertSelector = $j(buttonTable).find('tbody tr').last();
                 var newRow = $j('<tr></tr>');
                 newRow.insertAfter(insertSelector);
+
+                $target.parents('.contacts-content').find('.editcontact').hide();
+                $target.parents('.contacts-content').find('.add-cont-btn').hide();
+
                 actions.addContact(newRow, addParGuar, allPriorities);
             });
         }
