@@ -27,6 +27,10 @@
     #btn-test-scores a {background: url(/guardian/images/iconTestScores.png) no-repeat;}
     #btn-web-based-cal a {background: url(/guardian/images/iconWebBasedCal.png) no-repeat;}
     #btn-next-year-sched a {background: url(/images/img/iconClassReg.png) no-repeat;}
+    #btn-student-contacts a {
+        background: url(/guardian/images/iconStudentContacts.png) no-repeat;
+        background-size: 35px;
+    }
 </style>
 
 ~[SetPostValue:nextschool=~(f.table_info;table=students;dothisfor=all;field=Next_School;*id=~(curstudid);fn=value)]
@@ -62,6 +66,12 @@
                 [/if#2]
             [/if#3]
         [/if#1]
+    [/if#isstudent]
+    ~[if#isstudent.isstudent]
+        [else#isstudent]
+        <li id="btn-student-contacts">
+            <a href="student-contacts.html">Student Contacts</a>
+        </li>
     [/if#isstudent]
     ~[if#1.pref.discipline~(curschoolid)=1][else#1]<li id="btn-discipline-log"><a href="discipline.html" >Discipline</a></li>[/if#1]
     ~[if#1.pref.graduation~(curschoolid)=1][else#1]<li id="btn-graduation-progress"><a href="~[if#gradplan.pref.graduationver~(curschoolid)=1]planselect.html[else#gradplan]graduation.html[/if#gradplan]" >Graduation Progress</a></li>[/if#1]

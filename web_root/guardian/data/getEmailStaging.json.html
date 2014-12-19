@@ -1,0 +1,22 @@
+~[tlist_sql;
+    SELECT
+        id,
+        contactdcid,
+        email_address,
+        opts_high_priority,
+        opts_general,
+        opts_attendance,
+        opts_survey
+        FROM u_sc_email_staging5
+        WHERE contactdcid=~[gpv:cdcid]
+        AND studentsdcid=~[gpv:sdcid];nonemessage={}]
+            {
+                "id": "~(id)",
+                "contactdcid": "~(contactdcid)",
+                "email_address": "~(email_address)",
+                "opts_high_priority": "~(opts_high_priority)",
+                "opts_general": "~(opts_general)",
+                "opts_attendance": "~(opts_attendance)",
+                "opts_survey": "~(opts_survey)"
+            }
+[/tlist_sql]

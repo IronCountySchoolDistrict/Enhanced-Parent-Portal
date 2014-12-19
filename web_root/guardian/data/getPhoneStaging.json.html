@@ -1,0 +1,36 @@
+[
+    ~[tlist_sql;
+        SELECT
+        id,
+        contactdcid,
+        phone_number,
+        phone_type,
+        phone_priority,
+        opts_voice_high_priority,
+        opts_voice_general,
+        opts_voice_attendance,
+        opts_voice_survey,
+        opts_text_high_priority,
+        opts_text_general,
+        opts_text_attendance,
+        opts_text_survey
+        FROM u_sc_phone5
+        WHERE contactdcid=~[gpv:cdcid]
+        AND studentsdcid=~[gpv:sdcid]]
+            {
+                "id": "~(id)",
+                "contactdcid": "~(contactdcid)",
+                "phone_number": "~(phone_number)",
+                "phone_type": "~(phone_type)",
+                "phone_priority": "~(phone_priority)",
+                "opts_voice_high_priority": "~(opts_voice_high_priority)",
+                "opts_voice_general": "~(opts_voice_general)",
+                "opts_voice_attendance": "~(opts_voice_attendance)",
+                "opts_voice_survey": "~(opts_voice_survey)",
+                "opts_text_high_priority": "~(opts_text_high_priority)",
+                "opts_text_general": "~(opts_text_general)",
+                "opts_text_attendance": "~(opts_text_attendance)",
+                "opts_text_survey": "~(opts_text_survey)"
+            },
+    [/tlist_sql]{}
+]

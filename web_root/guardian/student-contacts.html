@@ -181,6 +181,85 @@
     </div>
     ~[wc:guardian_footer]
 
+    <!--
+            <p>
+                <%
+                if (contact.email.email_address !== '') {
+                %>
+                <span class="infoheader">Email: </span>
+                <a href="mailto:<%= contact.email.email_address %>"><%= contact.email.email_address %></a>
+                <br/>
+                <br/>
+                <%
+                }
+                %>
+            <span class="infoheader">
+                <%
+                    if(contact.phone.length > 0){
+                        if (contact.phone[0].phone_type !== "" && contact.phone[0].phone_type !== undefined) {
+                %>
+                        <%= contact.phone[0].phone_type %>:
+                <%
+                        }
+                    }
+                %>
+            </span>
+                <%
+                if(contact.phone.length > 0){
+                    if (contact.phone[0].phone_number !== "") {
+                %>
+                    <%= contact.phone[0].phone_number %>
+                <%
+                    }
+                }
+                %>
+                <br/>
+            <span class="infoheader">
+                <%
+                    if(contact.phone.length > 1){
+                        if (contact.phone[1].phone_type !== "" && contact.phone[1].phone_type !== undefined) {
+                %>
+                            <%= contact.phone[1].phone_type %>:
+                <%
+                        }
+                    }
+                %>
+            </span>
+                <%
+                    if(contact.phone.length > 1){
+                        if (contact.phone[1].phone_number !== "") {
+                %>
+                        <%= contact.phone[1].phone_number %>
+                <%
+                        }
+                    }
+                %>
+                <br/>
+            <span class="infoheader">
+                <%
+                if(contact.phone.length > 2){
+                    if (contact.phone[2].phone_type !== "" && contact.phone[2].phone_type !== undefined) {
+                %>
+                    <%= contact.phone[2].phone_type %>:
+                <%
+                    }
+                }
+                %>
+            </span>
+                <%
+                if(contact.phone.length > 2){
+                    if (contact.phone[2].phone_number !== "") {
+                %>
+                    <%= contact.phone[2].phone_number %>
+                <%
+                    }
+                }
+                %>
+
+                <br/>
+
+            -->
+
     <script type="text/template" id="contact-template">
         <td>
             <p style="font-weight:bold;">
@@ -232,69 +311,8 @@
             }
             %>
         </td>
+
         <td>
-            <p>
-                <%
-                if (contact.email !== '') {
-                %>
-                <span class="infoheader">Email: </span>
-                <a href="mailto:<%= contact.email %>"><%= contact.email %></a>
-                <br/>
-                <br/>
-                <%
-                }
-                %>
-            <span class="infoheader">
-                <%
-                    if (contact.phone1type !== "" && contact.phone1type !== undefined) {
-                %>
-                    <%= contact.phone1type %>:
-                <%
-                    }
-                %>
-            </span>
-                <%
-                if (contact.phone1 !== "") {
-                %>
-                <%= contact.phone1 %>
-                <%
-                }
-                %>
-                <br/>
-            <span class="infoheader">
-                <%
-                    if (contact.phone2type !== "" && contact.phone2type !== undefined) {
-                %>
-                    <%= contact.phone2type %>:
-                <%
-                    }
-                %>
-            </span>
-                <%
-                if (contact.phone2 !== "") {
-                %>
-                <%= contact.phone2 %>
-                <%
-                }
-                %>
-                <br/>
-            <span class="infoheader">
-                <%
-                    if (contact.phone3type !== "" && contact.phone3type !== undefined) {
-                %>
-                    <%= contact.phone3type %>:
-                <%
-                    }
-                %>
-            </span>
-                <%
-                if (contact.phone3 !== "") {
-                %>
-                <%= contact.phone3 %>
-                <%
-                }
-                %>
-                <br/>
                 <%
                 if (contact.employer !== "" && contact.employer !== undefined) {
                 %>
