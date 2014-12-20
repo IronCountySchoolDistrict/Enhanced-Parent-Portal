@@ -145,6 +145,11 @@
     #btn-next-year-sched a {
         background: url(/images/img/iconClassReg.png) no-repeat;
     }
+
+    #btn-student-contacts a {
+        background: url(/guardian/images/iconStudentContacts.png) no-repeat;
+        background-size: 35px;
+    }
 </style>
 
 <style type="text/css">
@@ -374,6 +379,12 @@
         [/if#2]
         [/if#3]
         [/if#1]
+        [/if#isstudent]
+        ~[if#isstudent.isstudent]
+            [else#isstudent]
+            <li id="btn-student-contacts">
+                <a href="student-contacts.html">Student Contacts</a>
+            </li>
         [/if#isstudent]
         ~[if#1.pref.discipline~(curschoolid)=1][else#1]
         <li id="btn-discipline-log"><a href="discipline.html">Discipline</a></li>

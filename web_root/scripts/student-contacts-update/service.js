@@ -132,12 +132,80 @@ define(['config'], function(config) {
 
         /**
          *
+         * @param contactData {Object} - JSON-encoded contact data
+         * @param contactRecordId {Number} Back-end id of the contact that is being edited
+         */
+        updateEmailStagingContact: function (contactData, contactRecordId) {
+            return $j.ajax({
+                type: 'PUT',
+                url: config.psApi + '/dbe/schema/' + config.studentContactsEmailStagingTable + '/' + contactRecordId,
+                contentType: "application/json",
+                data: contactData,
+                dataType: 'json'
+            });
+        },
+
+        /**
+         *
+         * @param contactData {Object} - JSON-encoded contact data
+         * @param contactRecordId {Number} Back-end id of the contact that is being edited
+         */
+        updatePhoneStagingContact: function (contactData, contactRecordId) {
+            return $j.ajax({
+                type: 'PUT',
+                url: config.psApi + '/dbe/schema/' + config.studentContactsPhoneStagingTable + '/' + contactRecordId,
+                contentType: "application/json",
+                data: contactData,
+                dataType: 'json'
+            });
+        },
+
+        /**
+         *
          * @param contactData {Object}
          */
         newStagingContact: function (contactData) {
             return $j.ajax({
                 type: 'POST',
                 url: config.psApi + '/dbe/schema/' + config.studentContactsStagingTable,
+                contentType: "application/json",
+                data: contactData,
+                dataType: 'json'
+            });
+        },
+
+        setStagingContactDcid: function(contactData, contactId) {
+            return $j.ajax({
+                type: 'PUT',
+                url: config.psApi + '/dbe/schema/' + config.studentContactsStagingTable + '/' + contactId,
+                contentType: "application/json",
+                data: contactData,
+                dataType: 'json'
+            });
+        },
+
+        /**
+         *
+         * @param contactData {Object}
+         */
+        newEmailStagingContact: function (contactData) {
+            return $j.ajax({
+                type: 'POST',
+                url: config.psApi + '/dbe/schema/' + config.studentContactsEmailStagingTable,
+                contentType: "application/json",
+                data: contactData,
+                dataType: 'json'
+            });
+        },
+
+        /**
+         *
+         * @param contactData {Object}
+         */
+        newPhoneStagingContact: function (contactData) {
+            return $j.ajax({
+                type: 'POST',
+                url: config.psApi + '/dbe/schema/' + config.studentContactsPhoneStagingTable,
                 contentType: "application/json",
                 data: contactData,
                 dataType: 'json'

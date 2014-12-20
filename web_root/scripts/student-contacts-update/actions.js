@@ -8,11 +8,6 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
         },
 
         /**
-         * @type Object[]
-         */
-        _contactsCollection: [],
-
-        /**
          * @param stagingContacts {Object}
          * @param contactId {String}
          * @private
@@ -95,9 +90,11 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                     var contactData;
                     if (stagingContact) {
                         contactData = stagingContact.tables[contactsStagingTableName];
+                        contactData.contactIsStaging = true;
                         _this.renderContact(contactData, null, true, true);
                     } else {
                         contactData = contact.tables[contactsTableName];
+                        contactData.contactIsStaging = false;
                         _this.renderContact(contactData, null, false, true);
                     }
                 });
@@ -109,9 +106,11 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                     var contactData;
                     if (stagingContact) {
                         contactData = stagingContact.tables[contactsStagingTableName];
+                        contactData.contactIsStaging = true;
                         _this.renderContact(contactData, null, true, false);
                     } else {
                         contactData = contact.tables[contactsTableName];
+                        contactData.contactIsStaging = false;
                         _this.renderContact(contactData, null, false, false);
                     }
                 });
@@ -128,6 +127,7 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                     // If there were no matches, this is a new contact that is still in the staging table
                     if (stagingHasLive.length === 0) {
                         var contactData = contact.tables[contactsStagingTableName];
+                        contactData.contactIsStaging = true;
                         _this.renderContact(contactData, null, true, false);
                     }
                 });
@@ -196,7 +196,6 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                 this._renderUpdateMessage(row);
             }
 
-            //var newRow = $j('#parents-guardians-table tr').last();
             row.data({'contactData': contactData});
         },
 
@@ -363,105 +362,68 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
 
                         var $closestRow = $eventTarget.find('.savecontact').parents('tr');
                         var isParGuarContact = $closestRow.closest('#parents-guardians-table').length > 0;
-                        var contactData = _this.deserializeContact($closestRow);
+                        var contactCoreData = _this.deserializeCoreContact($closestRow);
+                        var contactEmailData = _this.deserializeEmailContact($closestRow);
+                        var contactPhone1Data = _this.deserializePhone1Contact($closestRow);
+                        var contactPhone2Data = _this.deserializePhone2Contact($closestRow);
+                        var contactPhone3Data = _this.deserializePhone3Contact($closestRow);
 
-                        var newPriority = parseInt($('#priority').val());
-                        var oldPriority = parseInt(contactsCollection[contactId][1].priority);
-                        if (newPriority !== oldPriority) {
-                            // First priority contact is getting changed.
-                            if (newPriority > oldPriority) {
-                                $.each(contactsCollection, function (index, contact) {
-                                    if (parseInt(contact[1].priority) > parseInt(oldPriority) && parseInt(contact[1].priority) <= parseInt(newPriority)) {
-                                        var postData = {
-                                            name: 'u_student_contacts6',
-                                            tables: {
-                                                'u_student_contacts6': {
-                                                    priority: (parseInt(contact[1].priority) - 1).toString()
-                                                }
-                                            }
-                                        };
-                                        saveContact(postData, contact[1].record_id).done(function () {
-                                            // Find the rows that were updated and refresh them
-                                            // Get all rows that contain a td with a p element (only contact rows have this)
-                                            var tableRows = $('tr:has("td p")');
-                                            var updatedRow;
-                                            $.each(tableRows, function (index, tableRow) {
-                                                var rowContactId = m_table.fnGetData(tableRow)[m_keyindex];
-                                                if (rowContactId === contact[0]) {
-                                                    updatedRow = tableRow;
-                                                }
-                                                if (updatedRow) {
-                                                    refreshContact(rowContactId, updatedRow);
-                                                }
-                                                updatedRow = null;
-                                            });
-                                        });
-                                    }
+                        var ajaxFunc = [];
+
+                        var stagingContactsAjax = [];
+                        if (isParGuarContact) {
+                            stagingContactsAjax.push(service.getParGuarsStaging({studentsdcid: psData.studentsDcid}));
+                            stagingContactsAjax.push($j.getJSON('data/getEmailStaging.json.html?cdcid=' + contactCoreData.contactdcid + '&sdcid=' + contactCoreData.studentsdcid));
+                            stagingContactsAjax.push($j.getJSON('data/getPhoneStaging.json.html?cdcid=' + contactCoreData.contactdcid + '&sdcid=' + contactCoreData.studentsdcid));
+                        } else {
+                            stagingContactsAjax.push(service.getEmergContsStaging({studentsdcid: psData.studentsDcid}));
+                            stagingContactsAjax.push($j.getJSON('data/getEmailStaging.json.html?cdcid=' + contactCoreData.contactdcid + '&sdcid=' + contactCoreData.studentsdcid));
+                            stagingContactsAjax.push($j.getJSON('data/getPhoneStaging.json.html?cdcid=' + contactCoreData.contactdcid + '&sdcid=' + contactCoreData.studentsdcid));
+                        }
+
+                        // Get all staging contacts for this student
+                        $j.when.apply($j, stagingContactsAjax).done(function (stagingContacts, emailStaging, phoneStaging) {
+
+                            var contactInitData = $closestRow.data().contactData;
+                            var stagingRecordId;
+                            var stagingEmailRecordId;
+                            var stagingPhone1RecordId;
+                            var stagingPhone2RecordId;
+                            var stagingPhone3RecordId;
 
 
-                                });
-                            } else if (newPriority < oldPriority) {
-                                $.each(contactsCollection, function (index, contact) {
-                                    if (parseInt(contact[1].priority) < parseInt(oldPriority) && parseInt(contact[1].priority) >= parseInt(newPriority)) {
-                                        var postData = {
-                                            name: 'u_student_contacts6',
-                                            tables: {
-                                                'u_student_contacts6': {
-                                                    priority: (parseInt(contact[1].priority) + 1).toString()
-                                                }
-                                            }
-                                        };
-                                        saveContact(postData, contact[1].record_id).done(function () {
-                                            // Find the rows that were updated and refresh them
-                                            // Get all rows that contain a td with a p element (only contact rows have this)
-                                            var tableRows = $('tr:has("td p")');
-                                            var updatedRow;
-                                            $.each(tableRows, function (index, tableRow) {
-                                                var rowContactId = m_table.fnGetData(tableRow)[m_keyindex];
-                                                if (rowContactId === contact[0]) {
-                                                    updatedRow = tableRow;
-                                                }
-                                                if (updatedRow) {
-                                                    refreshContact(rowContactId, updatedRow);
-                                                }
-                                                updatedRow = null;
-                                            });
-                                        });
+                            if (contactInitData) {
+                                var stagingTableName = stagingContacts[0].name.toLowerCase();
+                                _.each(stagingContacts[0].record, function (contact) {
+                                    if (contactInitData.contact_id === contact.tables[stagingTableName].contact_id) {
+                                        stagingRecordId = contactInitData.id;
+                                        stagingEmailRecordId = emailStaging.id;
+                                        stagingPhone1RecordId = phoneStaging[0].id;
+                                        stagingPhone2RecordId = phoneStaging[1].id;
+                                        stagingPhone3RecordId = phoneStaging[2].id;
                                     }
                                 });
                             }
-                        }
 
-                        var ajaxFunc;
-
-                        var stagingContactsAjax;
-                        if (isParGuarContact) {
-                            stagingContactsAjax = service.getParGuarsStaging({studentsdcid: psData.studentsDcid});
-                        } else {
-                            stagingContactsAjax = service.getEmergContsStaging({studentsdcid: psData.studentsDcid});
-                        }
-
-                        stagingContactsAjax.done(function (stagingContacts) {
-                            /* If the contactData object is not present in the current row,
+                            /* If the contactCoreData object is not present in the current row,
                              * this is a new contact.
                              * @see actions.renderContact
                              */
-                            var contactInitData = $closestRow.data().contactData;
-                            var stagingRecordId;
-
-                            if (contactInitData) {
-                                var stagingTableName = stagingContacts.name.toLowerCase();
-                                _.each(stagingContacts.record, function (contact) {
-                                    if (contactInitData.contact_id === contact.tables[stagingTableName].contact_id) {
-                                        stagingRecordId = contactInitData.id;
-                                    }
-                                });
-                            }
-
+                            // If the parent is updating an existing staging record
                             if (stagingRecordId) {
-                                ajaxFunc = _this.updateStagingContact(contactData, stagingRecordId);
+                                ajaxFunc.push(_this.updateStagingContact(contactCoreData, stagingRecordId));
+                                ajaxFunc.push(_this.updateEmailStagingContact(contactEmailData, stagingEmailRecordId));
+                                ajaxFunc.push(_this.updatePhoneStagingContact(contactPhone1Data, stagingPhone1RecordId));
+                                ajaxFunc.push(_this.updatePhoneStagingContact(contactPhone2Data, stagingPhone2RecordId));
+                                ajaxFunc.push(_this.updatePhoneStagingContact(contactPhone3Data, stagingPhone3RecordId));
+                                // If the parent is creating a new staging record for an existing contact
                             } else if (contactInitData) {
-                                ajaxFunc = _this.newStagingContact(contactData, psData.studentsDcid, isParGuarContact, contactInitData.contact_id);
+                                ajaxFunc.push(_this.newStagingContact(contactCoreData, psData.studentsDcid, isParGuarContact, contactInitData.contact_id));
+                                ajaxFunc.push(_this.newEmailStagingContact(contactEmailData, psData.studentsDcid, isParGuarContact, contactInitData.contact_id));
+                                ajaxFunc.push(_this.newPhoneStagingContact(contactPhone1Data, psData.studentsDcid, isParGuarContact, contactInitData.contact_id));
+                                ajaxFunc.push(_this.newPhoneStagingContact(contactPhone2Data, psData.studentsDcid, isParGuarContact, contactInitData.contact_id));
+                                ajaxFunc.push(_this.newPhoneStagingContact(contactPhone3Data, psData.studentsDcid, isParGuarContact, contactInitData.contact_id));
+                                // If the parent is creating a new staging record for a new contact, so new contact id has to be calculated
                             } else {
                                 var largestContactId;
                                 if (window.allContactIds.length > 0) {
@@ -471,19 +433,19 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                                 }
                                 var newContactId = largestContactId + 1;
                                 newContactId = newContactId.toString();
-                                ajaxFunc = _this.newStagingContact(contactData, psData.studentsDcid, isParGuarContact, newContactId);
+                                ajaxFunc.push(_this.newStagingContact(contactCoreData, psData.studentsDcid, isParGuarContact, newContactId));
                             }
 
-                            ajaxFunc.done(function (resp) {
+                            $j.when.apply(ajaxFunc).done(function (contactCoreDataResp, contactEmailDataResp, contactPhoneDataResp) {
                                 if (contactInitData) {
-                                    contactData.contact_id = contactInitData.contact_id;
-                                    contactData.id = contactInitData.id;
+                                    contactCoreData.contact_id = contactInitData.contact_id;
+                                    contactCoreData.id = contactInitData.id;
                                 } else {
-                                    contactData.contact_id = newContactId;
-                                    contactData.id = resp.result[0].success_message.id;
+                                    contactCoreData.contact_id = newContactId;
+                                    contactCoreData.id = contactCoreDataResp.result[0].success_message.id;
                                 }
 
-                                _this.renderContact(contactData, $closestRow, true);
+                                _this.renderContact(contactCoreData, $closestRow, true);
                             });
                         });
                     }
@@ -493,95 +455,119 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
 
         /**
          *
-         * @param contactData {Object}
+         * @param contactData {Object} - passed in from table-module by accessing the row.data() object
          * @param row {jQuery}
          */
         editContact: function (contactData, row) {
             var allContacts = this.contacts.live.concat(this.contacts.staging);
             var numOfContacts = _.uniq(_.pluck(allContacts, 'contact_id')).length;
             var editContactTemplate = $j('#edit-contact-template').html();
-            var context = {
-                'numOfContacts': numOfContacts,
-                'contact': contactData
-            };
-            var renderedTemplate = _.template(editContactTemplate, context);
-            $j(row).html('').html(renderedTemplate);
-
-            this.setupParsley();
-
             var _this = this;
-            $j('button.cancelcontact').on('click', function (event) {
-                var $eventTarget = $j(event.target);
-                var isParGuar = !!$eventTarget.parents('#parents-guardians-table').length;
-                $eventTarget.parents('.contacts-content').find('.editcontact').show();
-                $eventTarget.parents('.contacts-content').find('.add-cont-btn').show();
-                _this.renderContact(contactData, row, false, isParGuar);
+
+            var emailJsonUrl;
+            var phoneJsonUrl;
+
+            if (contactData.contactIsStaging) {
+                emailJsonUrl = 'data/getEmailStaging.json.html?cdcid=' + contactData.contactdcid + '&sdcid=' + contactData.studentsdcid;
+                phoneJsonUrl = 'data/getEmailPhone.json.html?cdcid=' + contactData.contactdcid + '&sdcid=' + contactData.studentsdcid;
+            } else {
+                emailJsonUrl = 'data/getEmail.json.html?cdcid=' + contactData.contactdcid + '&sdcid=' + contactData.studentsdcid;
+                phoneJsonUrl = 'data/getPhone.json.html?cdcid=' + contactData.contactdcid + '&sdcid=' + contactData.studentsdcid;
+            }
+
+            $j.getJSON(emailJsonUrl, function(email) {
+                $j.getJSON(phoneJsonUrl, function(phone) {
+                    phone.pop();
+                    var context = {
+                        'numOfContacts': numOfContacts,
+                        'contact': contactData,
+                        'email': email,
+                        'phone': phone
+                    };
+                    var renderedTemplate = _.template(editContactTemplate, context);
+                    $j(row).html('').html(renderedTemplate);
+
+                    $j(row).data({'email': email});
+                    $j(row).data({'phone': phone});
+
+
+                    $j('button.cancelcontact').on('click', function (event) {
+                        var $eventTarget = $j(event.target);
+                        var isParGuar = !!$eventTarget.parents('#parents-guardians-table').length;
+                        $eventTarget.parents('.contacts-content').find('.editcontact').show();
+                        $eventTarget.parents('.contacts-content').find('.add-cont-btn').show();
+                        $eventTarget.parents('form').parsley().destroy();
+                        _this.renderContact(contactData, row, false, isParGuar);
+                    });
+
+                    // Set the correct option in the priority dropdown to be selected.
+                    _.each($j('#priority option'), function (option) {
+                        var $option = $j(option);
+                        if ($option.val() === contactData.priority) {
+                            $option.attr({'selected': 'selected'});
+                        }
+                    });
+
+                    // Set the correct option in the relationship dropdown to be selected.
+                    _.each($j('#relationship option'), function (option) {
+                        var $option = $j(option);
+                        if ($option.val() === contactData.relationship) {
+                            $option.attr({'selected': 'selected'});
+                        }
+                    });
+
+                    // Set the correct option in the residence state drop down to be selected.
+                    _.each($j('#residence-state option'), function (option) {
+                        var $option = $j(option);
+                        if ($option.val() === contactData.residence_state) {
+                            $option.attr({'selected': 'selected'});
+                        }
+                    });
+
+                    // Set the correct option in the mailing state drop down to be selected.
+                    _.each($j('#mailing-state option'), function (option) {
+                        var $option = $j(option);
+                        if ($option.val() === contactData.mailing_state) {
+                            $option.attr({'selected': 'selected'});
+                        }
+                    });
+
+                    // Set the correct option in the phone1type drop down to be selected.
+                    _.each($j('#phone1type option'), function (option) {
+                        var $option = $j(option);
+                        if ($option.val() === phone[0].phone_type) {
+                            $option.attr({'selected': 'selected'});
+                        }
+                    });
+
+                    // Set the correct option in the phone2type drop down to be selected.
+                    _.each($j('#phone2type option'), function (option) {
+                        var $option = $j(option);
+                        if ($option.val() === phone[1].phone_type) {
+                            $option.attr({'selected': 'selected'});
+                        }
+                    });
+
+                    // Set the correct option in the phone3type drop down to be selected.
+                    _.each($j('#phone3type option'), function (option) {
+                        var $option = $j(option);
+                        if ($option.val() === phone[2].phone_type) {
+                            $option.attr({'selected': 'selected'});
+                        }
+                    });
+                    _this.setupParsley();
+
+                });
             });
 
-            // Set the correct option in the priority dropdown to be selected.
-            _.each($j('#priority option'), function (option) {
-                var $option = $j(option);
-                if ($option.val() === contactData.priority) {
-                    $option.attr({'selected': 'selected'});
-                }
-            });
-
-            // Set the correct option in the relationship dropdown to be selected.
-            _.each($j('#relationship option'), function (option) {
-                var $option = $j(option);
-                if ($option.val() === contactData.relationship) {
-                    $option.attr({'selected': 'selected'});
-                }
-            });
-
-            // Set the correct option in the residence state drop down to be selected.
-            _.each($j('#residence-state option'), function (option) {
-                var $option = $j(option);
-                if ($option.val() === contactData.residence_state) {
-                    $option.attr({'selected': 'selected'});
-                }
-            });
-
-            // Set the correct option in the mailing state drop down to be selected.
-            _.each($j('#mailing-state option'), function (option) {
-                var $option = $j(option);
-                if ($option.val() === contactData.mailing_state) {
-                    $option.attr({'selected': 'selected'});
-                }
-            });
-
-            // Set the correct option in the phone1type drop down to be selected.
-            _.each($j('#phone1type option'), function (option) {
-                var $option = $j(option);
-                if ($option.val() === contactData.phone1type) {
-                    $option.attr({'selected': 'selected'});
-                }
-            });
-
-            // Set the correct option in the phone2type drop down to be selected.
-            _.each($j('#phone2type option'), function (option) {
-                var $option = $j(option);
-                if ($option.val() === contactData.phone2type) {
-                    $option.attr({'selected': 'selected'});
-                }
-            });
-
-            // Set the correct option in the phone3type drop down to be selected.
-            _.each($j('#phone3type option'), function (option) {
-                var $option = $j(option);
-                if ($option.val() === contactData.phone3type) {
-                    $option.attr({'selected': 'selected'});
-                }
-            });
         },
 
         /**
          * Create an object with the data in the edit contact form
          * @param row {jQuery}
          */
-        deserializeContact: function (row) {
+        deserializeCoreContact: function (row) {
             return {
-                email: row.find('#email').val(),
                 employer: row.find('#employer').val(),
                 first_name: row.find('#first-name').val(),
                 last_name: row.find('#last-name').val(),
@@ -589,18 +575,86 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                 mailing_state: row.find('#mailing-state').val(),
                 mailing_street: row.find('#mailing-street').val(),
                 mailing_zip: row.find('#mailing-zip').val(),
-                phone1: row.find('#phone1').val(),
-                phone1type: row.find('#phone1type').val(),
-                phone2: row.find('#phone2').val(),
-                phone2type: row.find('#phone2type').val(),
-                phone3: row.find('#phone1').val(),
-                phone3type: row.find('#phone3type').val(),
                 priority: row.find('#priority').val(),
                 relationship: row.find('#relationship').val(),
                 residence_city: row.find('#residence-city').val(),
                 residence_state: row.find('#residence-state').val(),
                 residence_street: row.find('#residence-street').val(),
                 residence_zip: row.find('#residence-zip').val()
+            };
+        },
+
+        /**
+         * Create an object with the data in the edit contact form
+         * @param row {jQuery}
+         */
+        deserializeEmailContact: function (row) {
+            return {
+                email_address: row.find('#email').val(),
+                opts_high_priority: row.find('#email-opts-high-priority').is(':checked') ? "1" : "0",
+                opts_general: row.find('#email-opts-general').is(':checked') ? "1" : "0",
+                opts_attendance: row.find('#email-opts-attendance').is(':checked') ? "1" : "0",
+                opts_survey: row.find('#email-opts-survey').is(':checked') ? "1" : "0"
+            };
+        },
+
+        /**
+         * Create an object with the data in the edit contact form
+         * @param row {jQuery}
+         */
+        deserializePhone1Contact: function (row) {
+            return {
+                phone_number: row.find('#phone1').val(),
+                phone_type: row.find('#phone1type').val(),
+                phone_priority: "1",
+                opts_voice_high_priority: row.find('#phone1-opts-voice-high-priority').is(':checked') ? "1" : "0",
+                opts_voice_general: row.find('#phone1-opts-voice-general').is(':checked') ? "1" : "0",
+                opts_voice_attendance: row.find('#phone1-opts-voice-attendance').is(':checked') ? "1" : "0",
+                opts_voice_survey: row.find('#phone1-opts-voice-high-survey').is(':checked') ? "1" : "0",
+                opts_text_high_priority: row.find('#phone1-opts-text-high-priority').is(':checked') ? "1" : "0",
+                opts_text_general: row.find('#phone1-opts-text-general').is(':checked') ? "1" : "0",
+                opts_text_attendance: row.find('#phone1-opts-text-attendance').is(':checked') ? "1" : "0",
+                opts_text_survey: row.find('#phone1-opts-text-high-survey').is(':checked') ? "1" : "0"
+            };
+        },
+
+        /**
+         * Create an object with the data in the edit contact form
+         * @param row {jQuery}
+         */
+        deserializePhone2Contact: function (row) {
+            return {
+                phone_number: row.find('#phone2').val(),
+                phone_type: row.find('#phone2type').val(),
+                phone_priority: "1",
+                opts_voice_high_priority: row.find('#phone2-opts-voice-high-priority').is(':checked') ? "1" : "0",
+                opts_voice_general: row.find('#phone2-opts-voice-general').is(':checked') ? "1" : "0",
+                opts_voice_attendance: row.find('#phone2-opts-voice-attendance').is(':checked') ? "1" : "0",
+                opts_voice_survey: row.find('#phone2-opts-voice-high-survey').is(':checked') ? "1" : "0",
+                opts_text_high_priority: row.find('#phone2-opts-text-high-priority').is(':checked') ? "1" : "0",
+                opts_text_general: row.find('#phone2-opts-text-general').is(':checked') ? "1" : "0",
+                opts_text_attendance: row.find('#phone2-opts-text-attendance').is(':checked') ? "1" : "0",
+                opts_text_survey: row.find('#phone2-opts-text-high-survey').is(':checked') ? "1" : "0"
+            };
+        },
+
+        /**
+         * Create an object with the data in the edit contact form
+         * @param row {jQuery}
+         */
+        deserializePhone3Contact: function (row) {
+            return {
+                phone_number: row.find('#phone3').val(),
+                phone_type: row.find('#phone3type').val(),
+                phone_priority: "1",
+                opts_voice_high_priority: row.find('#phone3-opts-voice-high-priority').is(':checked') ? "1" : "0",
+                opts_voice_general: row.find('#phone3-opts-voice-general').is(':checked') ? "1" : "0",
+                opts_voice_attendance: row.find('#phone3-opts-voice-attendance').is(':checked') ? "1" : "0",
+                opts_voice_survey: row.find('#phone3-opts-voice-high-survey').is(':checked') ? "1" : "0",
+                opts_text_high_priority: row.find('#phone3-opts-text-high-priority').is(':checked') ? "1" : "0",
+                opts_text_general: row.find('#phone3-opts-text-general').is(':checked') ? "1" : "0",
+                opts_text_attendance: row.find('#phone3-opts-text-attendance').is(':checked') ? "1" : "0",
+                opts_text_survey: row.find('#phone3-opts-text-high-survey').is(':checked') ? "1" : "0"
             };
         },
 
@@ -645,6 +699,36 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
         },
 
         /**
+         * @param contactData {Object}
+         * @param contactRecordId {Number} Back-end id of the contact that is being edited
+         */
+        updateEmailStagingContact: function (contactData, contactRecordId) {
+            var studentContactsStagingTable = config.studentContactsEmailStagingTable;
+            var requestObj = {
+                name: config.studentContactsStagingTable,
+                tables: {}
+            };
+            requestObj.tables[studentContactsStagingTable] = contactData;
+            var jsonContactData = JSON.stringify(requestObj);
+            return service.updateStagingContact(jsonContactData, contactRecordId);
+        },
+
+        /**
+         * @param contactData {Object}
+         * @param contactRecordId {Number} Back-end id of the contact that is being edited
+         */
+        updatePhoneStagingContact: function (contactData, contactRecordId) {
+            var studentContactsStagingTable = config.studentContactsPhoneStagingTable;
+            var requestObj = {
+                name: config.studentContactsStagingTable,
+                tables: {}
+            };
+            requestObj.tables[studentContactsStagingTable] = contactData;
+            var jsonContactData = JSON.stringify(requestObj);
+            return service.updateStagingContact(jsonContactData, contactRecordId);
+        },
+
+        /**
          *
          * @param contactData {Object}
          * @param studentsDcid {Number}
@@ -661,7 +745,68 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
             };
             requestObj.tables[studentContactsStagingTable] = contactData;
             var jsonContactData = JSON.stringify(requestObj);
-            return service.newStagingContact(jsonContactData);
+
+            var _this = this;
+
+            // Set the new staging contact's contactdcid to the id of the record.
+            return service.newStagingContact(jsonContactData).then(function(newContactResp) {
+                var contactDcidData = {
+                    contactdcid: newContactResp.result[0].success_message.id
+                };
+                var studentContactsStagingTable = config.studentContactsStagingTable.toLowerCase();
+                var requestObj = {
+                    tables: {}
+                };
+                requestObj.tables[studentContactsStagingTable] = contactDcidData;
+                var jsonContactData = JSON.stringify(requestObj);
+                return _this.service.setStagingContactDcid(jsonContactData, newContactResp.result.success_message.id).then(function(resp) {
+                    $j.noop();
+                });
+            });
+        },
+
+        setStagingContactDcid: function (contactData, contactId) {
+            var studentContactsStagingTable = config.studentContactsStagingTable;
+            var requestObj = {
+                tables: {}
+            };
+            requestObj.tables[studentContactsStagingTable] = contactData;
+            var jsonContactData = JSON.stringify(requestObj);
+            return service.setStagingContactDcid(jsonContactData);
+        },
+
+        /**
+         *
+         * @param contactData {Object}
+         * @param studentsDcid {Number}
+         * @param legalGuardian {Boolean}
+         * @param contactId {String}
+         */
+        newEmailStagingContact: function (contactData) {
+            var studentContactsStagingTable = config.studentContactsEmailStagingTable;
+            var requestObj = {
+                tables: {}
+            };
+            requestObj.tables[studentContactsStagingTable] = contactData;
+            var jsonContactData = JSON.stringify(requestObj);
+            return service.newEmailStagingContact(jsonContactData);
+        },
+
+        /**
+         *
+         * @param contactData {Object}
+         * @param studentsDcid {Number}
+         * @param legalGuardian {Boolean}
+         * @param contactId {String}
+         */
+        newPhoneStagingContact: function (contactData) {
+            var studentContactsStagingTable = config.studentContactsPhoneStagingTable;
+            var requestObj = {
+                tables: {}
+            };
+            requestObj.tables[studentContactsStagingTable] = contactData;
+            var jsonContactData = JSON.stringify(requestObj);
+            return service.newPhoneStagingContact(jsonContactData);
         }
     };
 });
