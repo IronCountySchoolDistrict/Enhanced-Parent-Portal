@@ -468,11 +468,11 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
             var phoneJsonUrl;
 
             if (contactData.contactIsStaging) {
-                emailJsonUrl = 'data/getEmailStaging.json.html?cdcid=' + contactData.contactdcid + '&sdcid=' + contactData.studentsdcid;
-                phoneJsonUrl = 'data/getEmailPhone.json.html?cdcid=' + contactData.contactdcid + '&sdcid=' + contactData.studentsdcid;
+                emailJsonUrl = 'data/getEmailStaging.json.html?cdcid=' + contactData.id + '&sdcid=' + contactData.studentsdcid;
+                phoneJsonUrl = 'data/getPhoneStaging.json.html?cdcid=' + contactData.id + '&sdcid=' + contactData.studentsdcid;
             } else {
-                emailJsonUrl = 'data/getEmail.json.html?cdcid=' + contactData.contactdcid + '&sdcid=' + contactData.studentsdcid;
-                phoneJsonUrl = 'data/getPhone.json.html?cdcid=' + contactData.contactdcid + '&sdcid=' + contactData.studentsdcid;
+                emailJsonUrl = 'data/getEmail.json.html?cdcid=' + contactData.id + '&sdcid=' + contactData.studentsdcid;
+                phoneJsonUrl = 'data/getPhone.json.html?cdcid=' + contactData.id + '&sdcid=' + contactData.studentsdcid;
             }
 
             $j.getJSON(emailJsonUrl, function(email) {
@@ -535,24 +535,30 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                     // Set the correct option in the phone1type drop down to be selected.
                     _.each($j('#phone1type option'), function (option) {
                         var $option = $j(option);
-                        if ($option.val() === phone[0].phone_type) {
-                            $option.attr({'selected': 'selected'});
+                        if (phone.length > 0) {
+                            if ($option.val() === phone[0].phone_type) {
+                                $option.attr({'selected': 'selected'});
+                            }
                         }
                     });
 
                     // Set the correct option in the phone2type drop down to be selected.
                     _.each($j('#phone2type option'), function (option) {
                         var $option = $j(option);
-                        if ($option.val() === phone[1].phone_type) {
-                            $option.attr({'selected': 'selected'});
+                        if (phone.length > 1) {
+                            if ($option.val() === phone[1].phone_type) {
+                                $option.attr({'selected': 'selected'});
+                            }
                         }
                     });
 
                     // Set the correct option in the phone3type drop down to be selected.
                     _.each($j('#phone3type option'), function (option) {
                         var $option = $j(option);
-                        if ($option.val() === phone[2].phone_type) {
-                            $option.attr({'selected': 'selected'});
+                        if (phone.length > 2) {
+                            if ($option.val() === phone[2].phone_type) {
+                                $option.attr({'selected': 'selected'});
+                            }
                         }
                     });
                     _this.setupParsley();
@@ -626,7 +632,7 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
             return {
                 phone_number: row.find('#phone2').val(),
                 phone_type: row.find('#phone2type').val(),
-                phone_priority: "1",
+                phone_priority: "2",
                 opts_voice_high_priority: row.find('#phone2-opts-voice-high-priority').is(':checked') ? "1" : "0",
                 opts_voice_general: row.find('#phone2-opts-voice-general').is(':checked') ? "1" : "0",
                 opts_voice_attendance: row.find('#phone2-opts-voice-attendance').is(':checked') ? "1" : "0",
@@ -646,7 +652,7 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
             return {
                 phone_number: row.find('#phone3').val(),
                 phone_type: row.find('#phone3type').val(),
-                phone_priority: "1",
+                phone_priority: "3",
                 opts_voice_high_priority: row.find('#phone3-opts-voice-high-priority').is(':checked') ? "1" : "0",
                 opts_voice_general: row.find('#phone3-opts-voice-general').is(':checked') ? "1" : "0",
                 opts_voice_attendance: row.find('#phone3-opts-voice-attendance').is(':checked') ? "1" : "0",
@@ -765,7 +771,8 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
             });
         },
 
-        setStagingContactDcid: function (contactData, contactId) {
+        setStagingContactDcid: function (contactData) {
+
             var studentContactsStagingTable = config.studentContactsStagingTable;
             var requestObj = {
                 tables: {}
@@ -783,6 +790,7 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
          * @param contactId {String}
          */
         newEmailStagingContact: function (contactData) {
+            contactData.contactdcid = contactData.id;
             var studentContactsStagingTable = config.studentContactsEmailStagingTable;
             var requestObj = {
                 tables: {}

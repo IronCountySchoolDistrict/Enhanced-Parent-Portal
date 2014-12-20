@@ -598,10 +598,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                                 <%
-                                if (email.opts_high_priority === "1") {
+                                if (Object.keys(email).length > 0) {
+                                    if (email.opts_high_priority === "1") {
                                 %>
-                                checked
+                                    checked
                                 <%
+                                    }
                                 }
                                 %>
                             >
@@ -615,10 +617,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                                 <%
-                                if (email.opts_general === "1") {
+                                if (Object.keys(email).length > 0) {
+                                    if (email.opts_high_priority === "1") {
                                 %>
-                                checked
+                                    checked
                                 <%
+                                    }
                                 }
                                 %>
                             >
@@ -631,10 +635,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (email.opts_attendance === "1") {
+                            if (Object.keys(email).length > 0) {
+                                if (email.opts_attendance === "1") {
                             %>
                             checked
                             <%
+                                }
                             }
                             %>
                             >
@@ -647,10 +653,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (email.opts_survey === "1") {
+                            if (Object.keys(email).length > 0) {
+                                if (email.opts_survey === "1") {
                             %>
-                            checked
+                                checked
                             <%
+                                }
                             }
                             %>
                             >
@@ -685,7 +693,13 @@
                     </label>
                     <br>
                     <input id="phone1"
+                           <%
+                           if (phone.length > 0) {
+                           %>
                            value="<%= phone[0].phone_number %>"
+                           <%
+                           }
+                           %>
                            class="info-input"
                            type="text"
                            placeholder="Phone Number"
@@ -710,12 +724,14 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                                    <%
-                                   if (phone[0].opts_voice_high_priority === "1") {
+                                   if (phone.length > 0) {
+                                        if (phone[0].opts_voice_high_priority === "1") {
                                    %>
-                                    checked
-                                    <%
-                                    }
-                                    %>
+                                   checked
+                                   <%
+                                        }
+                                      }
+                                   %>
                             >
                         </td>
                         <td>
@@ -724,10 +740,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                                     <%
-                                    if (phone[0].opts_text_high_priority === "1") {
+                                    if (phone.length > 0) {
+                                        if (phone[0].opts_text_high_priority === "1") {
                                     %>
                                     checked
                                     <%
+                                        }
                                     }
                                     %>
                         </td>
@@ -740,10 +758,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                                     <%
-                                    if (phone[0].opts_voice_general === "1") {
+                                    if (phone.length > 0) {
+                                        if (phone[0].opts_voice_general === "1") {
                                     %>
                                     checked
                                     <%
+                                        }
                                     }
                                     %>
                             >
@@ -754,10 +774,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                                     <%
-                                    if (phone[0].opts_text_general === "1") {
+                                    if (phone.length > 0) {
+                                        if (phone[0].opts_text_general === "1") {
                                     %>
                                     checked
                                     <%
+                                        }
                                     }
                                     %>
                             >
@@ -771,10 +793,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                                     <%
-                                    if (phone[0].opts_voice_attendance === "1") {
+                                    if (phone.length > 0) {
+                                        if (phone[0].opts_voice_attendance === "1") {
                                     %>
-                                    checked
+                                        checked
                                     <%
+                                        }
                                     }
                                     %>
                             >
@@ -785,10 +809,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                                     <%
-                                    if (phone[0].opts_text_attendance === "1") {
+                                    if (phone.length > 0) {
+                                        if (phone[0].opts_text_attendance === "1") {
                                     %>
                                     checked
                                     <%
+                                        }
                                     }
                                     %>
                             >
@@ -802,10 +828,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                                     <%
-                                    if (phone[0].opts_voice_survey === "1") {
+                                    if (phone.length > 0) {
+                                        if (phone[0].opts_voice_survey === "1") {
                                     %>
                                     checked
                                     <%
+                                        }
                                     }
                                     %>
                             >
@@ -816,10 +844,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                                     <%
-                                    if (phone[0].opts_text_survey === "1") {
+                                    if (phone.length > 0) {
+                                        if (phone[0].opts_text_survey === "1") {
                                     %>
                                     checked
                                     <%
+                                        }
                                     }
                                     %>
                             >
@@ -852,7 +882,13 @@
                            class="info-input"
                            type="text"
                            placeholder="Phone Number"
-                           value="<%= phone[0].phone_number %>"
+                            <%
+                            if (phone.length > 1) {
+                            %>
+                           value="<%= phone[1].phone_number %>"
+                            <%
+                            }
+                            %>
                            data-parsley-phone2num/>
                 </span>
             </span>
@@ -871,10 +907,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (phone[1].opts_voice_high_priority === "1") {
+                            if (phone.length > 1) {
+                                if (phone[1].opts_voice_high_priority === "1") {
                             %>
                             checked
                             <%
+                                }
                             }
                             %>
                             >
@@ -885,10 +923,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (phone[1].opts_text_high_priority === "1") {
+                            if (phone.length > 1) {
+                                if (phone[1].opts_text_high_priority === "1") {
                             %>
                             checked
                             <%
+                                }
                             }
                             %>
                         </td>
@@ -901,10 +941,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (phone[1].opts_voice_general === "1") {
+                            if (phone.length > 1) {
+                                if (phone[1].opts_voice_general === "1") {
                             %>
                             checked
                             <%
+                                }
                             }
                             %>
                             >
@@ -915,10 +957,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (phone[1].opts_text_general === "1") {
+                            if (phone.length > 1) {
+                                if (phone[1].opts_text_general === "1") {
                             %>
                             checked
                             <%
+                                }
                             }
                             %>
                             >
@@ -932,10 +976,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (phone[1].opts_voice_attendance === "1") {
+                            if (phone.length > 1) {
+                                if (phone[1].opts_voice_attendance === "1") {
                             %>
                             checked
                             <%
+                                }
                             }
                             %>
                             >
@@ -946,10 +992,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (phone[1].opts_text_attendance === "1") {
+                            if (phone.length > 1) {
+                                if (phone[1].opts_text_attendance === "1") {
                             %>
                             checked
                             <%
+                                }
                             }
                             %>
                             >
@@ -963,10 +1011,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (phone[1].opts_voice_survey === "1") {
+                            if (phone.length > 1) {
+                                if (phone[1].opts_voice_survey === "1") {
                             %>
                             checked
                             <%
+                                }
                             }
                             %>
                             >
@@ -977,10 +1027,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (phone[1].opts_text_survey === "1") {
+                            if (phone.length > 1) {
+                                if (phone[1].opts_text_survey === "1") {
                             %>
                             checked
                             <%
+                                }
                             }
                             %>
                             >
@@ -1013,7 +1065,13 @@
                            class="info-input"
                            type="text"
                            placeholder="Phone Number"
-                           value="<%= phone[0].phone_number %>"
+                            <%
+                            if (phone.length > 2) {
+                            %>
+                           value="<%= phone[2].phone_number %>"
+                            <%
+                            }
+                            %>
                            data-parsley-phone3num
                            data-parsley-trigger="change"/>
                 </span>
@@ -1033,10 +1091,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (phone[2].opts_voice_high_priority === "1") {
+                            if (phone.length > 2) {
+                                if (phone[2].opts_voice_high_priority === "1") {
                             %>
                             checked
                             <%
+                            }
                             }
                             %>
                             >
@@ -1047,10 +1107,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (phone[2].opts_text_high_priority === "1") {
+                            if (phone.length > 2) {
+                                if (phone[2].opts_text_high_priority === "1") {
                             %>
                             checked
                             <%
+                                }
                             }
                             %>
                         </td>
@@ -1063,10 +1125,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (phone[2].opts_voice_general === "1") {
+                            if (phone.length > 2) {
+                                if (phone[2].opts_voice_general === "1") {
                             %>
-                            checked
+                                checked
                             <%
+                                }
                             }
                             %>
                             >
@@ -1077,10 +1141,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (phone[2].opts_text_general === "1") {
+                            if (phone.length > 2) {
+                                if (phone[2].opts_text_general === "1") {
                             %>
                             checked
                             <%
+                                }
                             }
                             %>
                             >
@@ -1094,10 +1160,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (phone[2].opts_voice_attendance === "1") {
+                            if (phone.length > 2) {
+                                if (phone[2].opts_voice_attendance === "1") {
                             %>
                             checked
                             <%
+                                }
                             }
                             %>
                             >
@@ -1108,10 +1176,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (phone[2].opts_text_attendance === "1") {
+                            if (phone.length > 2) {
+                                if (phone[2].opts_text_attendance === "1") {
                             %>
                             checked
                             <%
+                                }
                             }
                             %>
                             >
@@ -1125,10 +1195,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (phone[2].opts_voice_survey === "1") {
+                            if (phone.length > 2) {
+                                if (phone[2].opts_voice_survey === "1") {
                             %>
                             checked
                             <%
+                                }
                             }
                             %>
                             >
@@ -1139,10 +1211,12 @@
                                    data-parsley-excluded
                                    data-parsley-ui-enabled="false"
                             <%
-                            if (phone[2].opts_text_survey === "1") {
+                            if (phone.length > 2) {
+                                if (phone[2].opts_text_survey === "1") {
                             %>
                             checked
                             <%
+                                }
                             }
                             %>
                             >
