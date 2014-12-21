@@ -96,9 +96,9 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
                 $targetButton.css({'display': 'none'});
                 var addParGuar = $targetButton.attr('id') === 'add-par-guar-contact';
                 var buttonTable = addParGuar ? '#parents-guardians-table' : '#emergency-contacts-table';
-                var insertSelector = $j(buttonTable).find('tbody tr').last();
+
                 var newRow = $j('<tr></tr>');
-                newRow.insertAfter(insertSelector);
+                $j(buttonTable).find('tbody').prepend(newRow);
 
                 $target.parents('.contacts-content').find('.editcontact').hide();
                 $target.parents('.contacts-content').find('.add-cont-btn').hide();

@@ -1,0 +1,20 @@
+~[tlist_sql;
+    SELECT
+        CASE
+        WHEN MAX(contact_id) is null
+        THEN 1
+        ELSE MAX(contact_id) + 1
+        END AS newcontactid
+
+        from (
+
+            select contact_id from u_student_contacts7
+            where studentsdcid=~[gpv:sdcid]
+            union all
+            select contact_id from u_student_contacts_staging7
+            where studentsdcid=~[gpv:sdcid]
+
+        )
+    ]
+        {"contactnumber":~(n;l)}
+[/tlist_sql]

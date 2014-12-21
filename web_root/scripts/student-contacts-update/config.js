@@ -4,12 +4,12 @@ define(function() {
     return {
         'psApi': 'https://psapitest.irondistrict.org',
 
-        'studentContactsTable': 'U_STUDENT_CONTACTS6',
-        'studentContactsEmailTable': 'U_SC_EMAIL6',
-        'studentContactsPhoneTable': 'U_SC_PHONE6',
+        'studentContactsTable': 'u_student_contacts7',
+        'studentContactsEmailTable': 'u_sc_email7',
+        'studentContactsPhoneTable': 'u_sc_phone7',
 
-        'studentContactsStagingTable': 'U_STUDENT_CONTACTS_STAGING6',
-        'studentContactsEmailStagingTable': 'U_SC_EMAIL_STAGING6',
-        'studentContactsPhoneStagingTable': 'U_SC_PHONE_STAGING6'
+        'studentContactsStagingTable': 'u_student_contacts_staging7',
+        'studentContactsEmailStagingTable': 'u_sc_email_staging7',
+        'studentContactsPhoneStagingTable': 'u_sc_phone_staging7'
     };
 });

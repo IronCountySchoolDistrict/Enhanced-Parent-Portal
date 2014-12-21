@@ -99,6 +99,23 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                     }
                 });
 
+                // Look for new parent/guardian staging records that have no corresponding live records
+                $j.each(parGuarContactStagingRecords, function (index, contact) {
+                    var contactId = contact.tables[contactsStagingTableName].contact_id;
+
+                    // Does this staging record have a corresponding live-table record?
+                    var stagingHasLive = _.filter(_this.contacts.live, function (liveContact) {
+                        return liveContact.contact_id === contactId;
+                    });
+
+                    // If there were no matches, this is a new contact that is still in the staging table
+                    if (stagingHasLive.length === 0) {
+                        var contactData = contact.tables[contactsStagingTableName];
+                        contactData.contactIsStaging = true;
+                        _this.renderContact(contactData, null, true, true);
+                    }
+                });
+
                 $j.each(emergContactRecords, function (index, contact) {
                     var contactId = contact.tables[contactsTableName].contact_id;
                     _this.contacts.live.push(contact.tables[contactsTableName]);
@@ -154,6 +171,7 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
          * @param isParGuar {Boolean} - Which contacts table should this contact be rendered into?
          */
         renderContact: function (contactData, row, showUpdateMsg, isParGuar) {
+            loadingDialogInstance.closeDialog();
             var contactTemplate = $j('#contact-template').html();
 
             if (contactData.phone1type) {
@@ -354,8 +372,9 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
 
             _.each(parsley, function (parsleyElem) {
                 parsleyElem.subscribe('parsley:form:validated', function (ParsleyForm) {
+                    loadingDialogInstance.open();
                     if (ParsleyForm.validationResult) {
-                        var $eventTarget = $j(event.target);
+                        var $eventTarget = $j(ParsleyForm.$element);
 
                         $eventTarget.parents('.contacts-content').find('.editcontact').show();
                         $eventTarget.parents('.contacts-content').find('.add-cont-btn').show();
@@ -371,83 +390,116 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                         var ajaxFunc = [];
 
                         var stagingContactsAjax = [];
-                        if (isParGuarContact) {
-                            stagingContactsAjax.push(service.getParGuarsStaging({studentsdcid: psData.studentsDcid}));
-                            stagingContactsAjax.push($j.getJSON('data/getEmailStaging.json.html?cdcid=' + contactCoreData.contactdcid + '&sdcid=' + contactCoreData.studentsdcid));
-                            stagingContactsAjax.push($j.getJSON('data/getPhoneStaging.json.html?cdcid=' + contactCoreData.contactdcid + '&sdcid=' + contactCoreData.studentsdcid));
-                        } else {
-                            stagingContactsAjax.push(service.getEmergContsStaging({studentsdcid: psData.studentsDcid}));
-                            stagingContactsAjax.push($j.getJSON('data/getEmailStaging.json.html?cdcid=' + contactCoreData.contactdcid + '&sdcid=' + contactCoreData.studentsdcid));
-                            stagingContactsAjax.push($j.getJSON('data/getPhoneStaging.json.html?cdcid=' + contactCoreData.contactdcid + '&sdcid=' + contactCoreData.studentsdcid));
-                        }
 
-                        // Get all staging contacts for this student
-                        $j.when.apply($j, stagingContactsAjax).done(function (stagingContacts, emailStaging, phoneStaging) {
-
-                            var contactInitData = $closestRow.data().contactData;
-                            var stagingRecordId;
-                            var stagingEmailRecordId;
-                            var stagingPhone1RecordId;
-                            var stagingPhone2RecordId;
-                            var stagingPhone3RecordId;
-
-
-                            if (contactInitData) {
-                                var stagingTableName = stagingContacts[0].name.toLowerCase();
-                                _.each(stagingContacts[0].record, function (contact) {
-                                    if (contactInitData.contact_id === contact.tables[stagingTableName].contact_id) {
-                                        stagingRecordId = contactInitData.id;
-                                        stagingEmailRecordId = emailStaging.id;
-                                        stagingPhone1RecordId = phoneStaging[0].id;
-                                        stagingPhone2RecordId = phoneStaging[1].id;
-                                        stagingPhone3RecordId = phoneStaging[2].id;
-                                    }
-                                });
-                            }
-
-                            /* If the contactCoreData object is not present in the current row,
-                             * this is a new contact.
-                             * @see actions.renderContact
-                             */
-                            // If the parent is updating an existing staging record
-                            if (stagingRecordId) {
-                                ajaxFunc.push(_this.updateStagingContact(contactCoreData, stagingRecordId));
-                                ajaxFunc.push(_this.updateEmailStagingContact(contactEmailData, stagingEmailRecordId));
-                                ajaxFunc.push(_this.updatePhoneStagingContact(contactPhone1Data, stagingPhone1RecordId));
-                                ajaxFunc.push(_this.updatePhoneStagingContact(contactPhone2Data, stagingPhone2RecordId));
-                                ajaxFunc.push(_this.updatePhoneStagingContact(contactPhone3Data, stagingPhone3RecordId));
-                                // If the parent is creating a new staging record for an existing contact
-                            } else if (contactInitData) {
-                                ajaxFunc.push(_this.newStagingContact(contactCoreData, psData.studentsDcid, isParGuarContact, contactInitData.contact_id));
-                                ajaxFunc.push(_this.newEmailStagingContact(contactEmailData, psData.studentsDcid, isParGuarContact, contactInitData.contact_id));
-                                ajaxFunc.push(_this.newPhoneStagingContact(contactPhone1Data, psData.studentsDcid, isParGuarContact, contactInitData.contact_id));
-                                ajaxFunc.push(_this.newPhoneStagingContact(contactPhone2Data, psData.studentsDcid, isParGuarContact, contactInitData.contact_id));
-                                ajaxFunc.push(_this.newPhoneStagingContact(contactPhone3Data, psData.studentsDcid, isParGuarContact, contactInitData.contact_id));
-                                // If the parent is creating a new staging record for a new contact, so new contact id has to be calculated
+                        // If the row .data() object is not empty, create or update the staging record for the existing live-side contact
+                        // If object is empty, this is a new contact (no live side contact, create new staging)
+                        if (Object.keys($closestRow.data()).length !== 0) {
+                            if (isParGuarContact) {
+                                stagingContactsAjax.push(service.getParGuarsStaging({studentsdcid: psData.studentsDcid}));
+                                stagingContactsAjax.push($j.getJSON('data/getEmailStaging.json.html?cdcid=' + $closestRow.data().contactData.contactdcid + '&sdcid=' + $closestRow.data().contactData.studentsdcid));
+                                stagingContactsAjax.push($j.getJSON('data/getPhoneStaging.json.html?cdcid=' + $closestRow.data().contactData.contactdcid + '&sdcid=' + $closestRow.data().contactData.studentsdcid));
                             } else {
-                                var largestContactId;
-                                if (window.allContactIds.length > 0) {
-                                    largestContactId = window.allContactIds[window.allContactIds.length - 1];
-                                } else {
-                                    largestContactId = 1;
-                                }
-                                var newContactId = largestContactId + 1;
-                                newContactId = newContactId.toString();
-                                ajaxFunc.push(_this.newStagingContact(contactCoreData, psData.studentsDcid, isParGuarContact, newContactId));
+                                stagingContactsAjax.push(service.getEmergContsStaging({studentsdcid: psData.studentsDcid}));
+                                stagingContactsAjax.push($j.getJSON('data/getEmailStaging.json.html?cdcid=' + $closestRow.data().contactData.contactdcid + '&sdcid=' + $closestRow.data().contactData.studentsdcid));
+                                stagingContactsAjax.push($j.getJSON('data/getPhoneStaging.json.html?cdcid=' + $closestRow.data().contactData.contactdcid + '&sdcid=' + $closestRow.data().contactData.studentsdcid));
                             }
 
-                            $j.when.apply(ajaxFunc).done(function (contactCoreDataResp, contactEmailDataResp, contactPhoneDataResp) {
+                            // Get all staging contacts for this student
+                            $j.when.apply($j, stagingContactsAjax).done(function (stagingContacts, emailStaging, phoneStaging) {
+
+                                var contactInitData = $closestRow.data().contactData;
+                                var stagingRecordId;
+                                var stagingEmailRecordId;
+                                var stagingPhone1RecordId;
+                                var stagingPhone2RecordId;
+                                var stagingPhone3RecordId;
+
+                                phoneStaging[0].pop();
+
+
                                 if (contactInitData) {
-                                    contactCoreData.contact_id = contactInitData.contact_id;
-                                    contactCoreData.id = contactInitData.id;
-                                } else {
-                                    contactCoreData.contact_id = newContactId;
-                                    contactCoreData.id = contactCoreDataResp.result[0].success_message.id;
+                                    var stagingTableName = stagingContacts[0].name.toLowerCase();
+                                    _.each(stagingContacts[0].record, function (contact) {
+                                        if (contactInitData.contact_id === contact.tables[stagingTableName].contact_id) {
+                                            stagingRecordId = contactInitData.id;
+                                            stagingEmailRecordId = emailStaging[0].id;
+                                            stagingPhone1RecordId = phoneStaging[0][0].id;
+                                            stagingPhone2RecordId = phoneStaging[0][1].id;
+                                            stagingPhone3RecordId = phoneStaging[0][2].id;
+                                        }
+                                    });
                                 }
 
-                                _this.renderContact(contactCoreData, $closestRow, true);
+                                /* If the contactCoreData object is not present in the current row,
+                                 * this is a new contact.
+                                 * @see actions.renderContact
+                                 */
+                                // If the parent is updating an existing staging record
+                                if (stagingRecordId) {
+                                    // since the staging record is already created, we already know the stagingcontactDcid, so all update requests
+                                    // can be sent simultaneously
+                                    ajaxFunc.push(_this.updateStagingContact(contactCoreData, stagingRecordId));
+                                    ajaxFunc.push(_this.updateEmailStagingContact(contactEmailData, stagingEmailRecordId));
+                                    ajaxFunc.push(_this.updatePhoneStagingContact(contactPhone1Data, stagingPhone1RecordId));
+                                    ajaxFunc.push(_this.updatePhoneStagingContact(contactPhone2Data, stagingPhone2RecordId));
+                                    ajaxFunc.push(_this.updatePhoneStagingContact(contactPhone3Data, stagingPhone3RecordId));
+
+                                    $j.when.apply(ajaxFunc).done(function (contactCoreDataResp, contactEmailDataResp, contactPhoneDataResp) {
+                                        if (contactInitData) {
+                                            contactCoreData.contact_id = contactInitData.contact_id;
+                                            contactCoreData.id = contactInitData.id;
+                                        } else {
+                                            contactCoreData.contact_id = newContactId;
+                                            contactCoreData.id = contactCoreDataResp.result[0].success_message.id;
+                                        }
+
+                                        _this.renderContact(contactCoreData, $closestRow, true);
+                                    });
+
+                                    // If the contact exists, but there is no staging contact to update,
+                                    // so create new staging records for the existing (live side) contact
+                                } else if (contactInitData) {
+                                    // Since the contact staging record is not yet created, create the main staging record before creating the email/phone records after the contact
+                                    // because we don't yet know the new contact record's id/contactdcid
+                                    _this.newStagingContact(contactCoreData, psData.studentsDcid, isParGuarContact, contactInitData.contact_id).done(function (newContactStagingResp) {
+                                        var newStagingContactDcid = newContactStagingResp.newContactStagingDcid;
+                                        ajaxFunc.push(_this.newEmailStagingContact(contactEmailData, psData.studentsDcid, newStagingContactDcid));
+                                        ajaxFunc.push(_this.newPhoneStagingContact(contactPhone1Data, psData.studentsDcid, newStagingContactDcid));
+                                        ajaxFunc.push(_this.newPhoneStagingContact(contactPhone2Data, psData.studentsDcid, newStagingContactDcid));
+                                        ajaxFunc.push(_this.newPhoneStagingContact(contactPhone3Data, psData.studentsDcid, newStagingContactDcid));
+
+                                        $j.when.apply($j, ajaxFunc).done(function (contactCoreDataResp, contactEmailDataResp, contactPhoneDataResp) {
+                                            if (contactInitData) {
+                                                contactCoreData.contact_id = contactInitData.contact_id;
+                                                contactCoreData.id = contactInitData.id;
+                                            } else {
+                                                contactCoreData.contact_id = newContactId;
+                                                contactCoreData.id = contactCoreDataResp.result[0].success_message.id;
+                                            }
+
+                                            _this.renderContact(contactCoreData, $closestRow, true);
+                                        });
+                                    });
+                                }
                             });
-                        });
+                        } else {
+                            // Create a new staging record for a new live-side contact
+                            // newContactId.json.html finds the highest, unused contact_id for the new staging contact
+                            $j.getJSON('data/newContactId.json.html?sdcid=' + psData.studentsDcid, function(newContactIdResp) {
+                                _this.newStagingContact(contactCoreData, psData.studentsDcid, isParGuarContact, newContactIdResp.contactnumber).done(function (newContactStagingResp) {
+                                    var newStagingContactDcid = newContactStagingResp.newContactStagingDcid;
+                                    ajaxFunc.push(_this.newEmailStagingContact(contactEmailData, psData.studentsDcid , newStagingContactDcid));
+                                    ajaxFunc.push(_this.newPhoneStagingContact(contactPhone1Data, psData.studentsDcid, newStagingContactDcid));
+                                    ajaxFunc.push(_this.newPhoneStagingContact(contactPhone2Data, psData.studentsDcid, newStagingContactDcid));
+                                    ajaxFunc.push(_this.newPhoneStagingContact(contactPhone3Data, psData.studentsDcid, newStagingContactDcid));
+
+                                    $j.when.apply($j, ajaxFunc).done(function (contactCoreDataResp, contactEmailDataResp, contactPhoneDataResp) {
+                                        contactCoreData.id = contactCoreDataResp[0].result[0].success_message.id;
+                                        _this.renderContact(contactCoreData, $closestRow, true);
+                                    });
+                                });
+                            });
+                        }
                     }
                 });
             });
@@ -711,12 +763,12 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
         updateEmailStagingContact: function (contactData, contactRecordId) {
             var studentContactsStagingTable = config.studentContactsEmailStagingTable;
             var requestObj = {
-                name: config.studentContactsStagingTable,
+                name: config.studentContactsEmailStagingTable,
                 tables: {}
             };
             requestObj.tables[studentContactsStagingTable] = contactData;
             var jsonContactData = JSON.stringify(requestObj);
-            return service.updateStagingContact(jsonContactData, contactRecordId);
+            return service.updateEmailStagingContact(jsonContactData, contactRecordId);
         },
 
         /**
@@ -726,12 +778,12 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
         updatePhoneStagingContact: function (contactData, contactRecordId) {
             var studentContactsStagingTable = config.studentContactsPhoneStagingTable;
             var requestObj = {
-                name: config.studentContactsStagingTable,
+                name: config.studentContactsPhoneStagingTable,
                 tables: {}
             };
             requestObj.tables[studentContactsStagingTable] = contactData;
             var jsonContactData = JSON.stringify(requestObj);
-            return service.updateStagingContact(jsonContactData, contactRecordId);
+            return service.updatePhoneStagingContact(jsonContactData, contactRecordId);
         },
 
         /**
@@ -744,7 +796,8 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
         newStagingContact: function (contactData, studentsDcid, legalGuardian, contactId) {
             contactData.legal_guardian = legalGuardian ? "1" : "0";
             contactData.studentsdcid = studentsDcid;
-            contactData.contact_id = contactId;
+            contactData.contact_id = contactId.toString();
+            contactData.status = "0";
             var studentContactsStagingTable = config.studentContactsStagingTable;
             var requestObj = {
                 tables: {}
@@ -752,12 +805,10 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
             requestObj.tables[studentContactsStagingTable] = contactData;
             var jsonContactData = JSON.stringify(requestObj);
 
-            var _this = this;
-
             // Set the new staging contact's contactdcid to the id of the record.
             return service.newStagingContact(jsonContactData).then(function(newContactResp) {
                 var contactDcidData = {
-                    contactdcid: newContactResp.result[0].success_message.id
+                    contactdcid: newContactResp.result[0].success_message.id.toString()
                 };
                 var studentContactsStagingTable = config.studentContactsStagingTable.toLowerCase();
                 var requestObj = {
@@ -765,8 +816,10 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                 };
                 requestObj.tables[studentContactsStagingTable] = contactDcidData;
                 var jsonContactData = JSON.stringify(requestObj);
-                return _this.service.setStagingContactDcid(jsonContactData, newContactResp.result.success_message.id).then(function(resp) {
-                    $j.noop();
+                return service.setStagingContactDcid(jsonContactData, newContactResp.result[0].success_message.id).then(function(resp) {
+                    return {
+                        'newContactStagingDcid': resp.result[0].success_message.id.toString()
+                    }
                 });
             });
         },
@@ -786,11 +839,11 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
          *
          * @param contactData {Object}
          * @param studentsDcid {Number}
-         * @param legalGuardian {Boolean}
-         * @param contactId {String}
+         * @param contactDcid {String} - contactdcid of the new contact staging record
          */
-        newEmailStagingContact: function (contactData) {
-            contactData.contactdcid = contactData.id;
+        newEmailStagingContact: function (contactData, studentsDcid, contactDcid) {
+            contactData.contactdcid = contactDcid;
+            contactData.studentsdcid = studentsDcid;
             var studentContactsStagingTable = config.studentContactsEmailStagingTable;
             var requestObj = {
                 tables: {}
@@ -804,10 +857,11 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
          *
          * @param contactData {Object}
          * @param studentsDcid {Number}
-         * @param legalGuardian {Boolean}
-         * @param contactId {String}
+         * @param contactDcid {String} - contactdcid of the new contact staging record
          */
-        newPhoneStagingContact: function (contactData) {
+        newPhoneStagingContact: function (contactData, studentsDcid, contactDcid) {
+            contactData.contactdcid = contactDcid;
+            contactData.studentsdcid = studentsDcid;
             var studentContactsStagingTable = config.studentContactsPhoneStagingTable;
             var requestObj = {
                 tables: {}

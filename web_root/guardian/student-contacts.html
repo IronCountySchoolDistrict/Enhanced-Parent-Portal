@@ -1242,14 +1242,14 @@
             <input type="text"
                    id="first-name"
                    class="contact-input"
-                   placeholder="First Name"
+                   placeholder="Contact's First Name"
                    required/>
             <br/>
             <label id="last-name-label" for="first-name">Last Name: </label>
             <input type="text"
                    id="last-name"
                    class="contact-input"
-                   placeholder="Last Name"
+                   placeholder="Contact's Last Name"
                    required/>
             <br/>
             <br/>
@@ -1557,7 +1557,7 @@
                            data-parsley-trigger="change"/>
                 </span>
             </span>
-            <span>
+            <span style="display: inline-block">
                 <table>
                     <tr>
                         <th>Contact Options:</th>
@@ -1566,24 +1566,62 @@
                     </tr>
                     <tr>
                         <td>High Priority</td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td>Survey</td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td>Attendance</td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
+                        <td><input type="checkbox"
+                                   id="phone1-opts-voice-high-priority"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false"></td>
+                        <td><input type="checkbox"
+                                   id="phone1-opts-text-high-priority"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false"></td>
                     </tr>
                     <tr>
                         <td>General</td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone1-opts-voice-general"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone1-opts-text-general"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
                     </tr>
+                    <tr>
+                        <td>Attendance</td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone1-opts-voice-attendance"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone1-opts-text-attendance"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Survey</td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone1-opts-voice-survey"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone1-opts-text-survey"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
+                    </tr>
+
+
                 </table>
             </span>
             <hr/>
@@ -1613,7 +1651,7 @@
                            data-parsley-validate-if-empty/>
                 </span>
             </span>
-            <span>
+            <span style="display: inline-block">
                 <table>
                     <tr>
                         <th>Contact Options:</th>
@@ -1622,23 +1660,59 @@
                     </tr>
                     <tr>
                         <td>High Priority</td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td>Survey</td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td>Attendance</td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
+                        <td><input type="checkbox"
+                                   id="phone2-opts-voice-high-priority"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false"></td>
+                        <td><input type="checkbox"
+                                   id="phone2-opts-text-high-priority"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false"></td>
                     </tr>
                     <tr>
                         <td>General</td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone2-opts-voice-general"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone2-opts-text-general"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Attendance</td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone2-opts-voice-attendance"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone2-opts-text-attendance"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Survey</td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone2-opts-voice-survey"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone2-opts-text-survey"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
                     </tr>
                 </table>
             </span>
@@ -1669,7 +1743,7 @@
                            data-parsley-validate-if-empty/>
                 </span>
             </span>
-            <span>
+            <span style="display: inline-block">
                 <table>
                     <tr>
                         <th>Contact Options:</th>
@@ -1678,23 +1752,59 @@
                     </tr>
                     <tr>
                         <td>High Priority</td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td>Survey</td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td>Attendance</td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
+                        <td><input type="checkbox"
+                                   id="phone3-opts-voice-high-priority"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false"></td>
+                        <td><input type="checkbox"
+                                   id="phone3-opts-text-high-priority"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false"></td>
                     </tr>
                     <tr>
                         <td>General</td>
-                        <td><input type="checkbox"></td>
-                        <td><input type="checkbox"></td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone3-opts-voice-general"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone3-opts-text-general"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Attendance</td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone3-opts-voice-attendance"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone3-opts-text-attendance"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Survey</td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone3-opts-voice-survey"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
+                        <td>
+                            <input type="checkbox"
+                                   id="phone3-opts-text-survey"
+                                   data-parsley-excluded
+                                   data-parsley-ui-enabled="false">
+                        </td>
                     </tr>
                 </table>
             </span>
