@@ -373,13 +373,17 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
             _.each(parsley, function (parsleyElem) {
                 parsleyElem.subscribe('parsley:form:validated', function (ParsleyForm) {
                     loadingDialogInstance.open();
-                    if (ParsleyForm.validationResult) {
-                        var $eventTarget = $j(ParsleyForm.$element);
+                    var $eventTarget = $j(ParsleyForm.$element);
+                    // Check for closest row to avoid the bug where this event would fire when the edit/add contact form is rendered
+                    // TODO: get rid of the need for this check, fix the bug
+                    // possible fix: instead of binding parsley to both forms in one call, assign ids to both forms and individually bind parsley with separate .parsley() calls.
+                    var $closestRow = $eventTarget.find('.savecontact').parents('tr');
+                    if (ParsleyForm.validationResult && $closestRow.length > 0) {
+
 
                         $eventTarget.parents('.contacts-content').find('.editcontact').show();
                         $eventTarget.parents('.contacts-content').find('.add-cont-btn').show();
 
-                        var $closestRow = $eventTarget.find('.savecontact').parents('tr');
                         var isParGuarContact = $closestRow.closest('#parents-guardians-table').length > 0;
                         var contactCoreData = _this.deserializeCoreContact($closestRow);
                         var contactEmailData = _this.deserializeEmailContact($closestRow);
@@ -396,12 +400,12 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                         if (Object.keys($closestRow.data()).length !== 0) {
                             if (isParGuarContact) {
                                 stagingContactsAjax.push(service.getParGuarsStaging({studentsdcid: psData.studentsDcid}));
-                                stagingContactsAjax.push($j.getJSON('data/getEmailStaging.json.html?cdcid=' + $closestRow.data().contactData.contactdcid + '&sdcid=' + $closestRow.data().contactData.studentsdcid));
-                                stagingContactsAjax.push($j.getJSON('data/getPhoneStaging.json.html?cdcid=' + $closestRow.data().contactData.contactdcid + '&sdcid=' + $closestRow.data().contactData.studentsdcid));
+                                stagingContactsAjax.push($j.getJSON('data/getEmailStaging.json.html?cdcid=' + $closestRow.data().contactData.id + '&sdcid=' + psData.studentsDcid));
+                                stagingContactsAjax.push($j.getJSON('data/getPhoneStaging.json.html?cdcid=' + $closestRow.data().contactData.id + '&sdcid=' + psData.studentsDcid));
                             } else {
                                 stagingContactsAjax.push(service.getEmergContsStaging({studentsdcid: psData.studentsDcid}));
-                                stagingContactsAjax.push($j.getJSON('data/getEmailStaging.json.html?cdcid=' + $closestRow.data().contactData.contactdcid + '&sdcid=' + $closestRow.data().contactData.studentsdcid));
-                                stagingContactsAjax.push($j.getJSON('data/getPhoneStaging.json.html?cdcid=' + $closestRow.data().contactData.contactdcid + '&sdcid=' + $closestRow.data().contactData.studentsdcid));
+                                stagingContactsAjax.push($j.getJSON('data/getEmailStaging.json.html?cdcid=' + $closestRow.data().contactData.id + '&sdcid=' + psData.studentsDcid));
+                                stagingContactsAjax.push($j.getJSON('data/getPhoneStaging.json.html?cdcid=' + $closestRow.data().contactData.id + '&sdcid=' + psData.studentsDcid));
                             }
 
                             // Get all staging contacts for this student
@@ -453,7 +457,8 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                                             contactCoreData.id = contactCoreDataResp.result[0].success_message.id;
                                         }
 
-                                        _this.renderContact(contactCoreData, $closestRow, true);
+                                        // Refresh the page to avoid any contact creation bugs
+                                        window.location = window.location;
                                     });
 
                                     // If the contact exists, but there is no staging contact to update,
@@ -477,7 +482,8 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                                                 contactCoreData.id = contactCoreDataResp.result[0].success_message.id;
                                             }
 
-                                            _this.renderContact(contactCoreData, $closestRow, true);
+                                            // Refresh the page to avoid any contact creation bugs
+                                            window.location = window.location;
                                         });
                                     });
                                 }
@@ -495,11 +501,14 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
 
                                     $j.when.apply($j, ajaxFunc).done(function (contactCoreDataResp, contactEmailDataResp, contactPhoneDataResp) {
                                         contactCoreData.id = contactCoreDataResp[0].result[0].success_message.id;
-                                        _this.renderContact(contactCoreData, $closestRow, true);
+                                        // Refresh the page to avoid any contact creation bugs
+                                        window.location = window.location;
                                     });
                                 });
                             });
                         }
+                    } else {
+                        loadingDialogInstance.closeDialog();
                     }
                 });
             });
@@ -520,11 +529,11 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
             var phoneJsonUrl;
 
             if (contactData.contactIsStaging) {
-                emailJsonUrl = 'data/getEmailStaging.json.html?cdcid=' + contactData.id + '&sdcid=' + contactData.studentsdcid;
-                phoneJsonUrl = 'data/getPhoneStaging.json.html?cdcid=' + contactData.id + '&sdcid=' + contactData.studentsdcid;
+                emailJsonUrl = 'data/getEmailStaging.json.html?cdcid=' + contactData.id + '&sdcid=' + psData.studentsDcid;
+                phoneJsonUrl = 'data/getPhoneStaging.json.html?cdcid=' + contactData.id + '&sdcid=' + psData.studentsDcid;
             } else {
-                emailJsonUrl = 'data/getEmail.json.html?cdcid=' + contactData.id + '&sdcid=' + contactData.studentsdcid;
-                phoneJsonUrl = 'data/getPhone.json.html?cdcid=' + contactData.id + '&sdcid=' + contactData.studentsdcid;
+                emailJsonUrl = 'data/getEmail.json.html?cdcid=' + contactData.id + '&sdcid=' + psData.studentsDcid;
+                phoneJsonUrl = 'data/getPhone.json.html?cdcid=' + contactData.id + '&sdcid=' + psData.studentsDcid;
             }
 
             $j.getJSON(emailJsonUrl, function(email) {

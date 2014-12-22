@@ -8,10 +8,10 @@
 
         from (
 
-            select contact_id from u_student_contacts7
+            select contact_id from u_student_contacts
             where studentsdcid=~[gpv:sdcid]
             union all
-            select contact_id from u_student_contacts_staging7
+            select contact_id from u_student_contacts_staging
             where studentsdcid=~[gpv:sdcid]
 
         )
