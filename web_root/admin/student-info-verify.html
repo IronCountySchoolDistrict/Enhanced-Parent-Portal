@@ -4,7 +4,7 @@
     FROM
         u_def_ext_students ext
     WHERE
-        studentsdcid=~[gpv:studentsdcid]
+        studentsdcid=~[gpv:studentsdcid];nonemessage={}
 ]
     {"studentInfoVerify": "~(student_info_verify;js)"}
 [/tlist_sql]
