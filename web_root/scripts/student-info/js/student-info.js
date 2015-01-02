@@ -21,7 +21,7 @@ $j(function () {
             loadingDialogInstance.open();
 
             var studentInInfoStaging;
-            $j.get(config.psPoc + '/dbe/schema/search/u_def_ext_students/studentsdcid==' + psData.studentDcid, function (resp) {
+            $j.get(config.psPoc + '/dbe/schema/search/u_def_ext_students/studentsdcid==' + psData.studentDcid + '&student_info_verify==1', function (resp) {
 
                 // Check if student has staging record
                 studentInInfoStaging = resp.record.length !== 0;
@@ -48,7 +48,7 @@ $j(function () {
 
                 // Load staging data into form.
                 function loadStagingData() {
-                    $j.get(config.psPoc + '/dbe/schema/search/u_def_ext_students/studentsdcid==' + psData.studentDcid, function (resp) {
+                    $j.get(config.psPoc + '/dbe/schema/search/' + config.stuInfoStagingDbe + '/studentsdcid==' + psData.studentDcid, function (resp) {
                         loadingDialogInstance.forceClose();
 
                         var studentInfo = resp.record[0].tables[config.stuInfoStagingDbe];
