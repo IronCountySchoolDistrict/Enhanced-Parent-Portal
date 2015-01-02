@@ -448,7 +448,7 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                                     ajaxFunc.push(_this.updatePhoneStagingContact(contactPhone2Data, stagingPhone2RecordId));
                                     ajaxFunc.push(_this.updatePhoneStagingContact(contactPhone3Data, stagingPhone3RecordId));
 
-                                    $j.when.apply(ajaxFunc).done(function (contactCoreDataResp, contactEmailDataResp, contactPhoneDataResp) {
+                                    $j.when.apply($j, ajaxFunc).done(function (contactCoreDataResp, contactEmailDataResp, contactPhone1DataResp, contactPhone2DataResp, contactPhone3DataResp) {
                                         if (contactInitData) {
                                             contactCoreData.contact_id = contactInitData.contact_id;
                                             contactCoreData.id = contactInitData.id;
@@ -677,11 +677,11 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                 opts_voice_high_priority: row.find('#phone1-opts-voice-high-priority').is(':checked') ? "1" : "0",
                 opts_voice_general: row.find('#phone1-opts-voice-general').is(':checked') ? "1" : "0",
                 opts_voice_attendance: row.find('#phone1-opts-voice-attendance').is(':checked') ? "1" : "0",
-                opts_voice_survey: row.find('#phone1-opts-voice-high-survey').is(':checked') ? "1" : "0",
+                opts_voice_survey: row.find('#phone1-opts-voice-survey').is(':checked') ? "1" : "0",
                 opts_text_high_priority: row.find('#phone1-opts-text-high-priority').is(':checked') ? "1" : "0",
                 opts_text_general: row.find('#phone1-opts-text-general').is(':checked') ? "1" : "0",
                 opts_text_attendance: row.find('#phone1-opts-text-attendance').is(':checked') ? "1" : "0",
-                opts_text_survey: row.find('#phone1-opts-text-high-survey').is(':checked') ? "1" : "0"
+                opts_text_survey: row.find('#phone1-opts-text-survey').is(':checked') ? "1" : "0"
             };
         },
 
@@ -697,11 +697,11 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                 opts_voice_high_priority: row.find('#phone2-opts-voice-high-priority').is(':checked') ? "1" : "0",
                 opts_voice_general: row.find('#phone2-opts-voice-general').is(':checked') ? "1" : "0",
                 opts_voice_attendance: row.find('#phone2-opts-voice-attendance').is(':checked') ? "1" : "0",
-                opts_voice_survey: row.find('#phone2-opts-voice-high-survey').is(':checked') ? "1" : "0",
+                opts_voice_survey: row.find('#phone2-opts-voice-survey').is(':checked') ? "1" : "0",
                 opts_text_high_priority: row.find('#phone2-opts-text-high-priority').is(':checked') ? "1" : "0",
                 opts_text_general: row.find('#phone2-opts-text-general').is(':checked') ? "1" : "0",
                 opts_text_attendance: row.find('#phone2-opts-text-attendance').is(':checked') ? "1" : "0",
-                opts_text_survey: row.find('#phone2-opts-text-high-survey').is(':checked') ? "1" : "0"
+                opts_text_survey: row.find('#phone2-opts-text-survey').is(':checked') ? "1" : "0"
             };
         },
 
@@ -717,11 +717,11 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                 opts_voice_high_priority: row.find('#phone3-opts-voice-high-priority').is(':checked') ? "1" : "0",
                 opts_voice_general: row.find('#phone3-opts-voice-general').is(':checked') ? "1" : "0",
                 opts_voice_attendance: row.find('#phone3-opts-voice-attendance').is(':checked') ? "1" : "0",
-                opts_voice_survey: row.find('#phone3-opts-voice-high-survey').is(':checked') ? "1" : "0",
+                opts_voice_survey: row.find('#phone3-opts-voice-survey').is(':checked') ? "1" : "0",
                 opts_text_high_priority: row.find('#phone3-opts-text-high-priority').is(':checked') ? "1" : "0",
                 opts_text_general: row.find('#phone3-opts-text-general').is(':checked') ? "1" : "0",
                 opts_text_attendance: row.find('#phone3-opts-text-attendance').is(':checked') ? "1" : "0",
-                opts_text_survey: row.find('#phone3-opts-text-high-survey').is(':checked') ? "1" : "0"
+                opts_text_survey: row.find('#phone3-opts-text-survey').is(':checked') ? "1" : "0"
             };
         },
 
