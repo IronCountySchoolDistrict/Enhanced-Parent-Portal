@@ -38,14 +38,22 @@
     margin-right: 30px;
 }
 
-#first-name-label{
+#first-name-qmark{
     padding-right: 12px;
 }
 
-#last-name-label{
+#last-name-qmark{
     padding-right: 13px;
 }
 
 .address-input, .contact-input, .info-input {
     margin-bottom: 5px !important;
+}
+
+.qmark {
+    height: 15px;
+}
+
+table {
+    line-height: 1.5em;
 }
