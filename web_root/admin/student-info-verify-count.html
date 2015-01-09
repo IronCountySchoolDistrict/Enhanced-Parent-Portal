@@ -10,7 +10,7 @@
             FROM
                 students
             WHERE schoolid=~(curschoolid)
-            AND parent_verify > 0)
+            AND student_info_verify > 0)
     ]
         {"studentInfoCount": "~(count)"}
 [/tlist_sql]
