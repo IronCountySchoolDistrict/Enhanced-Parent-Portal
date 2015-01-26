@@ -70,7 +70,6 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
             deferredObjects.push(emergContactsStagingAjax);
             var _this = this;
             $j.when.apply($j, deferredObjects).then(function (parGuarContacts, parGuarContactsStaging, emergContacts, emergContactsStaging) {
-            //$j.when.apply($j, deferredObjects).then(function (parGuarContacts) {
 
                 // This probably doesn't need to be separated by parGuar/emerg contact.
                 // In the future, separate this just by staging/live table.
