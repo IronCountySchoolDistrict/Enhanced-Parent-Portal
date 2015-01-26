@@ -622,6 +622,9 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                             }
                         }
                     });
+
+                    // Set the correct option in the corres_lang drop down to be selected.
+                    $j('#corres-lang').val(contactData.corres_lang);
                     _this.setupParsley();
 
                 });

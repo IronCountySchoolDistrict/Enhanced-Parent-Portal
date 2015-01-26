@@ -190,85 +190,6 @@
         </div>
         ~[wc:guardian_footer]
 
-        <!--
-                <p>
-                    <%
-                    if (contact.email.email_address !== '') {
-                    %>
-                    <span class="infoheader">Email: </span>
-                    <a href="mailto:<%= contact.email.email_address %>"><%= contact.email.email_address %></a>
-                    <br/>
-                    <br/>
-                    <%
-                    }
-                    %>
-                <span class="infoheader">
-                    <%
-                        if(contact.phone.length > 0){
-                            if (contact.phone[0].phone_type !== "" && contact.phone[0].phone_type !== undefined) {
-                    %>
-                            <%= contact.phone[0].phone_type %>:
-                    <%
-                            }
-                        }
-                    %>
-                </span>
-                    <%
-                    if(contact.phone.length > 0){
-                        if (contact.phone[0].phone_number !== "") {
-                    %>
-                        <%= contact.phone[0].phone_number %>
-                    <%
-                        }
-                    }
-                    %>
-                    <br/>
-                <span class="infoheader">
-                    <%
-                        if(contact.phone.length > 1){
-                            if (contact.phone[1].phone_type !== "" && contact.phone[1].phone_type !== undefined) {
-                    %>
-                                <%= contact.phone[1].phone_type %>:
-                    <%
-                            }
-                        }
-                    %>
-                </span>
-                    <%
-                        if(contact.phone.length > 1){
-                            if (contact.phone[1].phone_number !== "") {
-                    %>
-                            <%= contact.phone[1].phone_number %>
-                    <%
-                            }
-                        }
-                    %>
-                    <br/>
-                <span class="infoheader">
-                    <%
-                    if(contact.phone.length > 2){
-                        if (contact.phone[2].phone_type !== "" && contact.phone[2].phone_type !== undefined) {
-                    %>
-                        <%= contact.phone[2].phone_type %>:
-                    <%
-                        }
-                    }
-                    %>
-                </span>
-                    <%
-                    if(contact.phone.length > 2){
-                        if (contact.phone[2].phone_number !== "") {
-                    %>
-                        <%= contact.phone[2].phone_number %>
-                    <%
-                        }
-                    }
-                    %>
-
-                    <br/>
-
-                -->
-
         <script type="text/template" id="contact-template">
             <td>
                 <p style="font-weight:bold;">
@@ -403,6 +324,15 @@
                                                           title="Name of the contact's place of employment. Please note that this is NOT the title/position of this contact's job."></label>
                 <input class="info-input" id="employer" type="text" placeholder="<%= contact.employer %>"
                        value="<%= contact.employer %>"/>
+                <br/>
+                <br/>
+                <label id="corres-lang-label">Language of Correspondence: <img src="/guardian/images/qmark.png"
+                                                          class="qmark"
+                                                          title="In what language would you like to receive correspondence?"></label>
+                <select class="info-input" id="corres-lang">
+                    <option value="ENG">English</option>
+                    <option value="SPA">Spanish</option>
+                </select>
             </td>
             <td>
                 <label>Residence Address: <img src="/guardian/images/qmark.png" class="qmark" title="Contact's address of residence"></label>

@@ -16,7 +16,8 @@
         opts_text_survey
         FROM u_sc_phone_staging
         WHERE contactdcid=~[gpv:cdcid]
-        AND studentsdcid=~[gpv:sdcid]]
+        AND studentsdcid=~[gpv:sdcid]
+        ORDER BY phone_priority]
             {
                 "id": "~(id)",
                 "contactdcid": "~(contactdcid)",

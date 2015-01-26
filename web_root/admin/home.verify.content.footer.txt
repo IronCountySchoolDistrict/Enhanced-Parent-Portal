@@ -11,18 +11,8 @@
     </a>
 </script>
 
-<script type="text/template" id="student-contacts-verify-template">
-    <a href="students/home.html?selectstudent=U_Students_Extension.parent_verify=1" id="student-contacts-verify-link">
-        Student Contacts Verify
-    </a>
-</script>
-
 <script type="text/template" id="student-info-loading-template">
     <span>Loading Student Info Verify...</span>
 </script>
 
-<script type="text/template" id="student-contacts-loading-template">
-    <span>Loading Student Contacts Verify...</span>
-</script>
-
-<script src="/admin/javascript/home-verify.js"></script>
+<script src="/admin/javascript/home-verify.js?234234"></script>

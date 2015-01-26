@@ -21,4 +21,5 @@ require(['tableModule', 'actions', 'tooltip'],
         tableModule.main();
         actions.main();
         tooltip.main();
+        $j('#btn-student-contacts').attr({'class': 'selected'});
     });
