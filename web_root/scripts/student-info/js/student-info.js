@@ -30,7 +30,7 @@ $j(function () {
 
     var config = {
         // PowerSchool Point of Contact server, which will talk with the PS REST API.
-        "psPoc": "https://psapi.irondistrict.org",
+        "psPoc": "https://psapitest.irondistrict.org",
 
         // Student Contacts Database Extension Table Name
         "stuInfoStagingDbe": "u_student_info_staging"
@@ -48,7 +48,7 @@ $j(function () {
             loadingDialogInstance.open();
 
             var studentInInfoStaging;
-            $j.get(config.psPoc + '/dbe/schema/search/u_def_ext_students/studentsdcid==' + psData.studentDcid + '&student_info_verify==1', function (resp) {
+            $j.get(config.psPoc + '/dbe/schema/search/u_def_ext_students/studentsdcid==' + psData.studentDcid + ';student_info_verify==1', function (resp) {
 
                 // Check if student has staging record
                 studentInInfoStaging = resp.record.length !== 0;

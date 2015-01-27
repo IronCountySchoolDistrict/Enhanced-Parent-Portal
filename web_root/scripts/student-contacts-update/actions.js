@@ -218,19 +218,19 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
 
         /**
          *
-         * @param contactId {Number|String}
+         * @param row {jQuery}
          */
-        setupParsley: function () {
+        setupParsley: function (row) {
             window.ParsleyValidator
                 .addValidator('resaddress', function (value) {
                     /**
                      *
                      * @type {boolean}
                      */
-                    var resFieldsEmpty = $j('#residence-street').val() === "" &&
-                        $j('#residence-city').val() === "" &&
-                        $j('#residence-state').val() === "" &&
-                        $j('#residence-zip').val() === "";
+                    var resFieldsEmpty = row.find('#residence-street').val() === "" &&
+                        row.find('#residence-city').val() === "" &&
+                        row.find('#residence-state').val() === "" &&
+                        row.find('#residence-zip').val() === "";
                     if (resFieldsEmpty) {
                         return true;
                     } else {
@@ -246,10 +246,10 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                      *
                      * @type {boolean}
                      */
-                    var mailFieldsEmpty = $j('#mailing-street').val() === "" &&
-                        $j('#mailing-city').val() === "" &&
-                        $j('#mailing-state').val() === "" &&
-                        $j('#mailing-zip').val() === "";
+                    var mailFieldsEmpty = row.find('#mailing-street').val() === "" &&
+                        row.find('#mailing-city').val() === "" &&
+                        row.find('#mailing-state').val() === "" &&
+                        row.find('#mailing-zip').val() === "";
                     if (mailFieldsEmpty) {
                         return true;
                     } else {
@@ -265,12 +265,12 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                      *
                      * @type {boolean}
                      */
-                    var allPhonesEmpty = $j('#phone1type').val() === "" &&
-                        $j('#phone1').val() === "" &&
-                        $j('#phone2type').val() === "" &&
-                        $j('#phone2').val() === "" &&
-                        $j('#phone3type').val() === "" &&
-                        $j('#phone3').val() === "";
+                    var allPhonesEmpty = row.find('#phone1type').val() === "" &&
+                        row.find('#phone1').val() === "" &&
+                        row.find('#phone2type').val() === "" &&
+                        row.find('#phone2').val() === "" &&
+                        row.find('#phone3type').val() === "" &&
+                        row.find('#phone3').val() === "";
 
                     if (allPhonesEmpty) {
                         return false;
@@ -283,9 +283,9 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
 
             window.ParsleyValidator
                 .addValidator('phone1num', function (value) {
-                    if ($j('#phone1type').val() === "" && $j('#phone1').val() === "") {
+                    if (row.find('#phone1type').val() === "" && row.find('#phone1').val() === "") {
                         return true;
-                    } else if ($j('#phone1type').val() !== "" && $j('#phone1').val() === "") {
+                    } else if (row.find('#phone1type').val() !== "" && row.find('#phone1').val() === "") {
                         return false;
                     } else {
                         return true;
@@ -295,9 +295,9 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
 
             window.ParsleyValidator
                 .addValidator('phone1type', function (value) {
-                    if ($j('#phone1type').val() === "" && $j('#phone1').val() === "") {
+                    if (row.find('#phone1type').val() === "" && row.find('#phone1').val() === "") {
                         return true;
-                    } else if ($j('#phone1').val() !== "" && $j('#phone1type').val() === "") {
+                    } else if (row.find('#phone1').val() !== "" && row.find('#phone1type').val() === "") {
                         return false;
                     } else {
                         return true;
@@ -307,9 +307,9 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
 
             window.ParsleyValidator
                 .addValidator('phone2num', function (value) {
-                    if ($j('#phone2type').val() === "" && $j('#phone2').val() === "") {
+                    if (row.find('#phone2type').val() === "" && row.find('#phone2').val() === "") {
                         return true;
-                    } else if ($j('#phone2type').val() !== "" && $j('#phone2').val() === "") {
+                    } else if (row.find('#phone2type').val() !== "" && row.find('#phone2').val() === "") {
                         return false;
                     } else {
                         return true;
@@ -319,9 +319,9 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
 
             window.ParsleyValidator
                 .addValidator('phone2type', function (value) {
-                    if ($j('#phone2type').val() === "" && $j('#phone2').val() === "") {
+                    if (row.find('#phone2type').val() === "" && row.find('#phone2').val() === "") {
                         return true;
-                    } else if ($j('#phone2').val() !== "" && $j('#phone2type').val() === "") {
+                    } else if (row.find('#phone2').val() !== "" && row.find('#phone2type').val() === "") {
                         return false;
                     } else {
                         return true;
@@ -331,9 +331,9 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
 
             window.ParsleyValidator
                 .addValidator('phone3num', function (value) {
-                    if ($j('#phone3type').val() === "" && $j('#phone3').val() === "") {
+                    if (row.find('#phone3type').val() === "" && row.find('#phone3').val() === "") {
                         return true;
-                    } else if ($j('#phone3type').val() !== "" && $j('#phone3').val() === "") {
+                    } else if (row.find('#phone3type').val() !== "" && row.find('#phone3').val() === "") {
                         return false;
                     } else {
                         return true;
@@ -343,9 +343,9 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
 
             window.ParsleyValidator
                 .addValidator('phone3type', function (value) {
-                    if ($j('#phone3type').val() === "" && $j('#phone3').val() === "") {
+                    if (row.find('#phone3type').val() === "" && row.find('#phone3').val() === "") {
                         return true;
-                    } else if ($j('#phone3').val() !== "" && $j('#phone3type').val() === "") {
+                    } else if (row.find('#phone3').val() !== "" && row.find('#phone3type').val() === "") {
                         return false;
                     } else {
                         return true;
@@ -624,7 +624,7 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
 
                     // Set the correct option in the corres_lang drop down to be selected.
                     $j('#corres-lang').val(contactData.corres_lang);
-                    _this.setupParsley();
+                    _this.setupParsley(row);
 
                 });
             });
@@ -649,7 +649,8 @@ define(['service', 'underscore', 'config', 'tableModule', 'parsley'], function (
                 residence_city: row.find('#residence-city').val(),
                 residence_state: row.find('#residence-state').val(),
                 residence_street: row.find('#residence-street').val(),
-                residence_zip: row.find('#residence-zip').val()
+                residence_zip: row.find('#residence-zip').val(),
+                corres_lang: row.find('#corres-lang').val()
             };
         },
 
