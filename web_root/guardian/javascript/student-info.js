@@ -3,7 +3,7 @@
 $(function () {
     var config = {
         // PowerSchool Point of Contact server, which will talk with the PS REST API.
-        "psApiRoot": "https://psapitest.irondistrict.org"
+        "psApiRoot": "https://psapi.irondistrict.org"
     };
 
     var studentInInfoStaging;

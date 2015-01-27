@@ -2,7 +2,7 @@
 define(function() {
     'use strict';
     return {
-        'psApi': 'https://psapitest.irondistrict.org',
+        'psApi': 'https://psapi.irondistrict.org',
 
         'studentContactsTable': 'u_student_contacts',
         'studentContactsEmailTable': 'u_sc_email',
