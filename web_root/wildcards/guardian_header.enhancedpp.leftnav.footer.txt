@@ -46,19 +46,9 @@
     ~[if#1.pref.accesslog~(curschoolid)=1][else#1]<li id="btn-access-log"><a href="accesslog.html" >Access Logs</a></li>[/if#1]
     ~[if#isstudent.isstudent]
       [else#isstudent]
-      ~[if#1.~[gpv:enabledemoupdate]=1]
-        ~[if#3.pref.demographic~(curschoolid)=2]
-            <li id="btn-demographic-update">
-                <a href="student-info.html">Student Info</a>
-            </li>
-        [else#3]
-            ~[if#2.pref.demographic~(curschoolid)#1]
-                <li id="btn-demographic-update">
-                    <a href="parentdemographics.html">Demographic Change</a>
-                </li>
-            [/if#2]
-        [/if#3]
-      [/if#1]
+        <li id="btn-demographic-update">
+            <a href="student-info.html">Student Info</a>
+        </li>
     [/if#isstudent]
     ~[if#isstudent.isstudent]
       [else#isstudent]

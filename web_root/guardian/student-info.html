@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-~[if#1.pref.demographic~(curschoolid)=1]~[redirect:/guardian/home_not_available.html]
-[else#1]
-~[if#1a.isguardianAndSSOEnabled]
-~[if#2.~([Students]allowwebaccess)=0]
-~[redirect:/guardian/home_not_available.html]
-[/if#2]
-[/if#1a]
-[/if#1]
-
-~[if.~([Students]enabledemoupdate)=1]
-[else]
-~[redirect:/guardian/home_not_available.html]
-[/if]
 
 ~[SetPostValue:nextschool=~(f.table_info;table=students;dothisfor=all;field=Next_School;*id=~(curstudid);fn=value)]
 ~[SetPostValue:Sched_AllowRequests=~(f.table_info;table=students;dothisfor=all;field=Sched_AllowRequests;*id=~(curstudid);fn=value)]

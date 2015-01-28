@@ -9,11 +9,6 @@
     </html>
     <!DOCTYPE html>
 [else#isstudent]
-    ~[if.~([Students]enabledemoupdate)=1]
-    [else]
-    ~[redirect:/guardian/sc-not-available.html]
-    [/if]
-
     <html>
     <head>
 
@@ -548,6 +543,27 @@
                         </thead>
                         <tbody>
                         <tr>
+                            <td>Emergency <img src="/guardian/images/qmark.png"
+                                                   class="qmark"
+                                                   title=""></td>
+                            <td>
+                                <input type="checkbox"
+                                       id="email-opts-emergency"
+                                       data-parsley-excluded
+                                       data-parsley-ui-enabled="false"
+                                <%
+                                if (Object.keys(email).length > 0) {
+                                    if (email.opts_emergency === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                }
+                                %>
+                                />
+                            </td>
+                        </tr>
+                        <tr>
                             <td>High Priority <img src="/guardian/images/qmark.png"
                                                    class="qmark"
                                                    title="Notifications that are NOT emergency but are higher in priority"></td>
@@ -686,6 +702,43 @@
                             <th>Notification Type</th>
                             <th>Voice</th>
                             <th>Text</th>
+                        </tr>
+                        <tr>
+                            <td>Emergency <img src="/guardian/images/qmark.png"
+                                                   class="qmark"
+                                                   title="Notifications that are NOT emergency but are higher in priority"></td>
+                            <td>
+                                <input type="checkbox"
+                                       id="phone1-opts-voice-emergency"
+                                       data-parsley-excluded
+                                       data-parsley-ui-enabled="false"
+                                <%
+                                if (phone.length > 0) {
+                                    if (phone[0].opts_voice_emergency === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                }
+                                %>
+                                />
+                            </td>
+                            <td>
+                                <input type="checkbox"
+                                       id="phone1-opts-text-emergency"
+                                       data-parsley-excluded
+                                       data-parsley-ui-enabled="false"
+                                <%
+                                if (phone.length > 0) {
+                                    if (phone[0].opts_text_emergency === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                }
+                                %>
+                                />
+                            </td>
                         </tr>
                         <tr>
                             <td>High Priority <img src="/guardian/images/qmark.png"
@@ -885,6 +938,43 @@
                             <th>Text</th>
                         </tr>
                         <tr>
+                            <td>Emergency <img src="/guardian/images/qmark.png"
+                                                   class="qmark"
+                                                   title="Notifications that are NOT emergency but are higher in priority"></td>
+                            <td>
+                                <input type="checkbox"
+                                       id="phone2-opts-voice-emergency"
+                                       data-parsley-excluded
+                                       data-parsley-ui-enabled="false"
+                                <%
+                                if (phone.length > 1) {
+                                if (phone[1].opts_voice_emergency === "1") {
+                                %>
+                                checked
+                                <%
+                                }
+                                }
+                                %>
+                                />
+                            </td>
+                            <td>
+                                <input type="checkbox"
+                                       id="phone2-opts-text-emergency"
+                                       data-parsley-excluded
+                                       data-parsley-ui-enabled="false"
+                                <%
+                                if (phone.length > 1) {
+                                if (phone[1].opts_text_emergency === "1") {
+                                %>
+                                checked
+                                <%
+                                }
+                                }
+                                %>
+                                />
+                            </td>
+                        </tr>
+                        <tr>
                             <td>High Priority <img src="/guardian/images/qmark.png"
                                                   class="qmark"
                                                   title="Notifications that are NOT emergency but are higher in priority"></td>
@@ -897,12 +987,12 @@
                                 if (phone.length > 1) {
                                     if (phone[1].opts_voice_high_priority === "1") {
                                 %>
-                                checked
+                                    checked
                                 <%
                                     }
                                 }
                                 %>
-                                >
+                                />
                             </td>
                             <td>
                                 <input type="checkbox"
@@ -1081,6 +1171,42 @@
                             <th>Notification Type</th>
                             <th>Voice</th>
                             <th>Text</th>
+                        </tr>
+                        <tr>
+                            <td>Emergency <img src="/guardian/images/qmark.png"
+                                                   class="qmark"
+                                                   title="Notifications that are NOT emergency but are higher in priority"></td>
+                            <td>
+                                <input type="checkbox"
+                                       id="phone3-opts-voice-emergency"
+                                       data-parsley-excluded
+                                       data-parsley-ui-enabled="false"
+                                <%
+                                if (phone.length > 2) {
+                                    if (phone[2].opts_voice_emergency === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                }
+                                %>
+                                >
+                            </td>
+                            <td>
+                                <input type="checkbox"
+                                       id="phone3-opts-text-emergency"
+                                       data-parsley-excluded
+                                       data-parsley-ui-enabled="false"
+                                <%
+                                if (phone.length > 2) {
+                                    if (phone[2].opts_text_emergency === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                }
+                                %>
+                            </td>
                         </tr>
                         <tr>
                             <td>High Priority <img src="/guardian/images/qmark.png"
@@ -1496,6 +1622,16 @@
                         </thead>
                         <tbody>
                         <tr>
+                            <td>Emergency</td>
+                            <td>
+                                <input type="checkbox"
+                                       id="email-opts-emergency"
+                                       checked
+                                       data-parsley-excluded
+                                       data-parsley-ui-enabled="false">
+                            </td>
+                        </tr>
+                        <tr>
                             <td>High Priority</td>
                             <td>
                                 <input type="checkbox"
@@ -1570,6 +1706,19 @@
                             <th>Notification Type</th>
                             <th>Voice</th>
                             <th>Text</th>
+                        </tr>
+                        <tr>
+                            <td>Emergency</td>
+                            <td><input type="checkbox"
+                                       id="phone1-opts-voice-emergency"
+                                       checked
+                                       data-parsley-excluded
+                                       data-parsley-ui-enabled="false"></td>
+                            <td><input type="checkbox"
+                                       id="phone1-opts-text-emergency"
+                                       checked
+                                       data-parsley-excluded
+                                       data-parsley-ui-enabled="false"></td>
                         </tr>
                         <tr>
                             <td>High Priority</td>
@@ -1666,6 +1815,19 @@
                             <th>Text</th>
                         </tr>
                         <tr>
+                            <td>Emergency</td>
+                            <td><input type="checkbox"
+                                       id="phone2-opts-voice-emergency"
+                                       checked
+                                       data-parsley-excluded
+                                       data-parsley-ui-enabled="false"></td>
+                            <td><input type="checkbox"
+                                       id="phone2-opts-text-emergency"
+                                       checked
+                                       data-parsley-excluded
+                                       data-parsley-ui-enabled="false"></td>
+                        </tr>
+                        <tr>
                             <td>High Priority</td>
                             <td><input type="checkbox"
                                        id="phone2-opts-voice-high-priority"
@@ -1756,6 +1918,17 @@
                             <th>Notification Type</th>
                             <th>Voice</th>
                             <th>Text</th>
+                        </tr>
+                        <tr>
+                            <td>Emergency</td>
+                            <td><input type="checkbox"
+                                       id="phone3-opts-voice-emergency"
+                                       data-parsley-excluded
+                                       data-parsley-ui-enabled="false"></td>
+                            <td><input type="checkbox"
+                                       id="phone3-opts-text-emergency"
+                                       data-parsley-excluded
+                                       data-parsley-ui-enabled="false"></td>
                         </tr>
                         <tr>
                             <td>High Priority</td>

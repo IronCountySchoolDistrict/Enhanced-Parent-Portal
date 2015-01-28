@@ -17,7 +17,7 @@
         FROM u_sc_phone_staging
         WHERE contactdcid=~[gpv:cdcid]
         AND studentsdcid=~[gpv:sdcid]
-        ORDER BY phone_priority]
+        ORDER BY phone_priority;nonemessage={}]
             {
                 "id": "~(id)",
                 "contactdcid": "~(contactdcid)",

@@ -2,31 +2,6 @@
 
 $j(function () {
     'use strict';
-    function setEnableDemoUpdate() {
-        var enableDemoUpdateName = $j('#enable-demo-update').attr('name');
-        var postData = {
-            ac: 'prim'
-        };
-        // Since the parent portal settings are set up a bit counter-intuitively (1 is disabled, 0 or null is enabled),
-        // set this value to 1 (on) if the dropdown option selected was 1 (true/disabled), and set it to 0 (off) if dropdown selected was 0 (false/enabled)
-        postData[enableDemoUpdateName] = $j('#enable-demo-update').val() ? 'on': 'off';
-        return $j.ajax({
-            type: 'POST',
-            data: postData,
-            url: '/admin/changesrecorded.white.html'
-        });
-    }
-
-    function setEnableDemoUpdateFormVal() {
-        var enableDemoUpdate = $j('#enable-demo-update');
-        var enableDemoUpdateVal = enableDemoUpdate.data().value;
-        if (enableDemoUpdateVal === 1) {
-            enableDemoUpdate.val(enableDemoUpdateVal);
-            // If enableDemoUpdateVal is not 1, it could either be 0 or null.
-        } else {
-            enableDemoUpdate.val('0');
-        }
-    }
 
     var config = {
         // PowerSchool Point of Contact server, which will talk with the PS REST API.
@@ -38,8 +13,7 @@ $j(function () {
 
     // Populate student email address on page load
     $j.get('/admin/students/brij_renderform.html?frn=001' + psData.studentFrn, function (studentEmailHtml) {
-        $j.get('/admin/students/studentinfochange.html?frn=001' + psData.studentDcid, function() {
-            setEnableDemoUpdateFormVal();
+        $j.get('/admin/students/studentinfochange.html?frn=001' + psData.studentDcid, function () {
             var parsedHtml = $j.parseHTML(studentEmailHtml);
             var $html = $j(parsedHtml);
             var studentEmailValue = $html.find('#studEmail_0').val();
@@ -158,12 +132,10 @@ $j(function () {
                     approveFieldChange(fieldName, 'staging-dentist-phone');
                 });
 
-                if (stagingFormIsEmpty() && studentInInfoStaging) {
-                    $j('#student-info-form').one('submit', function (event) {
-                        event.preventDefault();
-                        setEnableDemoUpdate().done(function() {
+                $j('#student-info-form').one('submit', function (event) {
+                    event.preventDefault();
+                    if (stagingFormIsEmpty() && studentInInfoStaging) {
 
-                        });
                         $j('.staging').attr({'disabled': 'disabled'});
                         var deleteFieldName = 'DC-Students:' + psData.studentDcid + '.U_STUDENT_INFO.U_STUDENT_INFO_STAGING:' + psData.studentInfoStagingId;
                         var deleteData = {
@@ -194,13 +166,13 @@ $j(function () {
                                 async: false,
                                 url: "/admin/students/emailconfig.html"
                             }).done(function (resp) {
-                                $j.get('/admin/students/studentinfochange.html', function() {
+                                $j.get('/admin/students/studentinfochange.html', function () {
                                     return true;
                                 });
                             });
                         });
-                    });
-                }
+                    }
+                });
             }, 'json');
         });
     });
