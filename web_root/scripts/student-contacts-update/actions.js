@@ -403,6 +403,7 @@ define(['service', 'underscore', 'config', 'parsley'], function (service, _, con
                     $eventTarget.parents('.contacts-content').find('.add-cont-btn').show();
 
                     var isParGuarContact = $closestRow.closest('#parents-guardians-table').length > 0;
+                    var contactInitData = $closestRow.data().contactData;
                     var contactCoreData = _this.deserializeCoreContact($closestRow);
                     var contactEmailData = _this.deserializeEmailContact($closestRow);
                     var contactPhone1Data = _this.deserializePhone1Contact($closestRow);
@@ -421,7 +422,6 @@ define(['service', 'underscore', 'config', 'parsley'], function (service, _, con
                         } else {
                             stagingContactMatchingId = _this._getStagingContactById(_this._contactsData.emergStagingContacts, $closestRow.data().contactData.contact_id);
                         }
-                        var stagingContactMatchingIdData = stagingContactMatchingId.tables[config.studentContactsStagingTable];
 
 
                         /* If the contactCoreData object is not present in the current row,
@@ -430,6 +430,7 @@ define(['service', 'underscore', 'config', 'parsley'], function (service, _, con
                          */
                         // If the parent is updating an existing staging record
                         if (stagingContactMatchingId) {
+                            var stagingContactMatchingIdData = stagingContactMatchingId.tables[config.studentContactsStagingTable];
                             var stagingContactsAjax = [];
                             // TODO: Does this need to pass in the studentsDcid? I think that just the contactdcid is all that's needed.
                             stagingContactsAjax.push($j.getJSON('data/getEmailStaging.json.html?cdcid=' + stagingContactMatchingIdData.id + '&sdcid=' + psData.studentsDcid));
@@ -441,12 +442,12 @@ define(['service', 'underscore', 'config', 'parsley'], function (service, _, con
                                 var phoneStagingData = phoneStaging[0];
                                 phoneStagingData.pop();
 
-                                var contactInitData = $closestRow.data().contactData;
+
                                 var stagingRecordId = stagingContactMatchingIdData.id;
                                 var stagingEmailRecordId = emailStagingData.id;
                                 var stagingPhone1RecordId = phoneStagingData[0].id;
                                 var stagingPhone2RecordId = phoneStagingData[1].id;
-                                var stagingPhone3RecordId =phoneStagingData[2].id;
+                                var stagingPhone3RecordId = phoneStagingData[2].id;
 
 
                                 // since the staging record is already created, we already know the stagingcontactDcid, so all update requests
@@ -465,8 +466,8 @@ define(['service', 'underscore', 'config', 'parsley'], function (service, _, con
                             });
 
 
-                            // If the contact exists, but there is no staging contact to update,
-                            // so create new staging records for the existing (live side) contact
+                        // If the contact exists, but there is no staging contact to update,
+                        // so create new staging records for the existing (live side) contact
                         } else if (contactInitData) {
                             // Since the contact staging record is not yet created, create the main staging record before creating the email/phone records after the contact
                             // because we don't yet know the new contact record's id/contactdcid
