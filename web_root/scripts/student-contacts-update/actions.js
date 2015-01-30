@@ -1,4 +1,4 @@
-/*global define, $j, psData, loadingDialogInstance*/
+/*global define, $j, psData, loadingDialogInstance, jQuery*/
 
 define(['service', 'underscore', 'config', 'parsley'], function (service, _, config, parsley) {
     'use strict';
@@ -50,6 +50,25 @@ define(['service', 'underscore', 'config', 'parsley'], function (service, _, con
         _renderUpdateMessage: function (row) {
             var updatedTemplate = $j($j('#contact-updated-template').html());
             updatedTemplate.insertBefore(row);
+        },
+
+        /**
+         *
+         * @private
+         * @param row {jQuery}
+         */
+        _setupInputMasks: function (row) {
+            // Set up input masks
+            row.find('#phone1').inputmask('999-999-9999');
+            row.find('#phone2').inputmask('999-999-9999');
+            row.find('#phone3').inputmask('999-999-9999');
+            row.find('#residence-zip').inputmask('99999');
+            row.find('#mailing-zip').inputmask('99999');
+            // Only bind input mask to email field if the guardian email doesn't have commas
+            var guardianEmail = row.find('#email').text();
+            if (guardianEmail.indexOf(',') === -1) {
+                row.find('#email').inputmask({'alias': 'email'});
+            }
         },
 
         /**
@@ -546,6 +565,7 @@ define(['service', 'underscore', 'config', 'parsley'], function (service, _, con
                     $j(row).data({'email': email});
                     $j(row).data({'phone': phone});
 
+                    _this._setupInputMasks($j(row));
 
                     $j('button.cancelcontact').on('click', function (event) {
                         var $eventTarget = $j(event.target);
@@ -745,8 +765,8 @@ define(['service', 'underscore', 'config', 'parsley'], function (service, _, con
             $j(row).html('').html(renderedTemplate);
 
             this.setupParsley($j(row));
+            this._setupInputMasks($j(row));
 
-            var _this = this;
             $j('button.cancelcontact').on('click', function (event) {
                 var $eventTarget = $j(event.target);
                 var isParGuar = !!$eventTarget.parents('#parents-guardians-table').length;
