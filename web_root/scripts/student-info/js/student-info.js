@@ -11,9 +11,36 @@ $j(function () {
         "stuInfoStagingDbe": "u_student_info_staging"
     };
 
+    function setEnableDemoUpdate() {
+        var enableDemoUpdateName = $j('#enable-demo-update').attr('name');
+        var postData = {
+            ac: 'prim'
+        };
+        // Since the parent portal settings are set up a bit counter-intuitively (1 is disabled, 0 or null is enabled),
+        // set this value to 1 (on) if the dropdown option selected was 1 (true/disabled), and set it to 0 (off) if dropdown selected was 0 (false/enabled)
+        postData[enableDemoUpdateName] = $j('#enable-demo-update').val() ? 'on': 'off';
+        return $j.ajax({
+            type: 'POST',
+            data: postData,
+            url: '/admin/changesrecorded.white.html'
+        });
+    }
+
+    function setEnableDemoUpdateFormVal() {
+        var enableDemoUpdate = $j('#enable-demo-update');
+        var enableDemoUpdateVal = enableDemoUpdate.data().value;
+        if (enableDemoUpdateVal === 1) {
+            enableDemoUpdate.val(enableDemoUpdateVal);
+            // If enableDemoUpdateVal is not 1, it could either be 0 or null.
+        } else {
+            enableDemoUpdate.val('0');
+        }
+    }
+
     // Populate student email address on page load
     $j.get('/admin/students/brij_renderform.html?frn=001' + psData.studentFrn, function (studentEmailHtml) {
         $j.get('/admin/students/studentinfochange.html?frn=001' + psData.studentDcid, function () {
+            setEnableDemoUpdateFormVal();
             var parsedHtml = $j.parseHTML(studentEmailHtml);
             var $html = $j(parsedHtml);
             var studentEmailValue = $html.find('#studEmail_0').val();
@@ -135,39 +162,40 @@ $j(function () {
                 $j('#student-info-form').one('submit', function (event) {
                     event.preventDefault();
                     if (stagingFormIsEmpty() && studentInInfoStaging) {
-
-                        $j('.staging').attr({'disabled': 'disabled'});
-                        var deleteFieldName = 'DC-Students:' + psData.studentDcid + '.U_STUDENT_INFO.U_STUDENT_INFO_STAGING:' + psData.studentInfoStagingId;
-                        var deleteData = {
-                            'ac': 'prim'
-                        };
-                        deleteData[deleteFieldName] = 'on';
-                        $j.ajax({
-                            type: "POST",
-                            data: deleteData,
-                            async: false,
-                            url: "/admin/changesrecorded.white.html"
-                        }).done(function () {
-                            var postData = {
-                                'userSentContact.email': $j('#on-file-student-email').val(),
-                                'userSentContact.id': psData.psmStudentContactId,
-                                'userSentContact.studentID': psData.psmStudentId,
-                                'userSentContact.studentContactTypeID': psData.psmStudentContactTypeId,
-                                'deleteFlag_0': 'deleteFlag_0',
-                                'ac': 'brij:studentemail/StoreStudentEmails',
-                                'doc': '/admin/students/emailconfig.html',
-                                'render_in_java': 'true',
-                                'frn': psData.studentFrn
+                        setEnableDemoUpdate().done(function() {
+                            $j('.staging').attr({'disabled': 'disabled'});
+                            var deleteFieldName = 'DC-Students:' + psData.studentDcid + '.U_STUDENT_INFO.U_STUDENT_INFO_STAGING:' + psData.studentInfoStagingId;
+                            var deleteData = {
+                                'ac': 'prim'
                             };
-
+                            deleteData[deleteFieldName] = 'on';
                             $j.ajax({
                                 type: "POST",
-                                data: postData,
+                                data: deleteData,
                                 async: false,
-                                url: "/admin/students/emailconfig.html"
-                            }).done(function (resp) {
-                                $j.get('/admin/students/studentinfochange.html', function () {
-                                    return true;
+                                url: "/admin/changesrecorded.white.html"
+                            }).done(function () {
+                                var postData = {
+                                    'userSentContact.email': $j('#on-file-student-email').val(),
+                                    'userSentContact.id': psData.psmStudentContactId,
+                                    'userSentContact.studentID': psData.psmStudentId,
+                                    'userSentContact.studentContactTypeID': psData.psmStudentContactTypeId,
+                                    'deleteFlag_0': 'deleteFlag_0',
+                                    'ac': 'brij:studentemail/StoreStudentEmails',
+                                    'doc': '/admin/students/emailconfig.html',
+                                    'render_in_java': 'true',
+                                    'frn': psData.studentFrn
+                                };
+
+                                $j.ajax({
+                                    type: "POST",
+                                    data: postData,
+                                    async: false,
+                                    url: "/admin/students/emailconfig.html"
+                                }).done(function (resp) {
+                                    $j.get('/admin/students/studentinfochange.html', function () {
+                                        return true;
+                                    });
                                 });
                             });
                         });

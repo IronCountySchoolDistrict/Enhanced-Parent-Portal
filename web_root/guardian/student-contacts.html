@@ -9,6 +9,9 @@
     </html>
     <!DOCTYPE html>
 [else#isstudent]
+    ~[if.~([Students]enabledemoupdate)=1]
+        ~[redirect:/guardian/home_not_available.html]
+    [/if]
     <html>
     <head>
 
