@@ -238,13 +238,13 @@
             </td>
 
             <td>
-                    <%
-                    if (contact.employer !== "" && contact.employer !== undefined) {
-                    %>
-                    <span class="infoheader">Employer: </span><%= contact.employer %><br/>
-                    <%
-                    }
-                    %>
+                <%
+                if (contact.employer !== "" && contact.employer !== undefined) {
+                %>
+                <span class="infoheader">Employer: </span><%= contact.employer %><br/>
+                <%
+                }
+                %>
                 </p>
             </td>
             <td>
@@ -256,7 +256,9 @@
             <td>
                 <label>Name: </label>
                 <br/>
-                <label id="first-name-label" for="first-name">First Name: </label><img id="first-name-qmark" class="qmark" src="/guardian/images/qmark.png" title="Contact's First Name">
+                <label id="first-name-label" for="first-name">First Name: </label><img id="first-name-qmark" class="qmark"
+                                                                                       src="/guardian/images/qmark.png"
+                                                                                       title="Contact's First Name">
                 <input type="text"
                        id="first-name"
                        class="contact-input"
@@ -264,7 +266,9 @@
                        placeholder="First Name"
                        required/>
                 <br/>
-                <label id="last-name-label" for="last-name">Last Name: </label><img id="last-name-qmark" class="qmark" src="/guardian/images/qmark.png" title="Contact's Last Name">
+                <label id="last-name-label" for="last-name">Last Name: </label><img id="last-name-qmark" class="qmark"
+                                                                                    src="/guardian/images/qmark.png"
+                                                                                    title="Contact's Last Name">
                 <input type="text"
                        id="last-name"
                        class="contact-input"
@@ -273,7 +277,8 @@
                        required/>
                 <br/>
                 <br/>
-                <label id="priority-label" for="priority">Priority: <img src="/guardian/images/qmark.png" class="qmark" title="In what order do you want us to try to contact this student's parents/legal guardians?"></label>
+                <label id="priority-label" for="priority">Priority: <img src="/guardian/images/qmark.png" class="qmark"
+                                                                         title="In what order do you want us to try to contact this student's parents/legal guardians?"></label>
                 <select id="priority">
                     <%
                     for (var i = 0; i < numOfContacts; i++) {
@@ -286,7 +291,8 @@
                 </select>
                 <br/>
                 <br/>
-                <label for="relationship">Relationship: <img src="/guardian/images/qmark.png" class="qmark" title="How is this contact related to the student?"></label>
+                <label for="relationship">Relationship: <img src="/guardian/images/qmark.png" class="qmark"
+                                                             title="How is this contact related to the student?"></label>
                 <select id="relationship" required>
                     <option></option>
                     <option value="Mother">Mother</option>
@@ -322,15 +328,16 @@
                 <br/>
                 <br/>
                 <label id="corres-lang-label">Language of Correspondence: <img src="/guardian/images/qmark.png"
-                                                          class="qmark"
-                                                          title="In what language would you like to receive correspondence?"></label>
+                                                                               class="qmark"
+                                                                               title="In what language would you like to receive correspondence?"></label>
                 <select class="info-input" id="corres-lang">
                     <option value="ENG">English</option>
                     <option value="SPA">Spanish</option>
                 </select>
             </td>
             <td>
-                <label>Residence Address: <img src="/guardian/images/qmark.png" class="qmark" title="Contact's address of residence"></label>
+                <label>Residence Address: <img src="/guardian/images/qmark.png" class="qmark"
+                                               title="Contact's address of residence"></label>
                 <br/>
                 <label class="street-label">Street: </label>
                 <input type="text"
@@ -427,10 +434,10 @@
                 <label>Mailing Address: <img src="/guardian/images/qmark.png"
                                              class="qmark"
                                              title="Contact's mailing address.
-                                             Please fill out the mailing address fields only if this contact
-                                             would like to receive mail through an address that is different
-                                             from their residence address.
-                                             For example, if this contact uses a P.O. Box to receive mail by, please list it here.">
+                                                 Please fill out the mailing address fields only if this contact
+                                                 would like to receive mail through an address that is different
+                                                 from their residence address.
+                                                 For example, if this contact uses a P.O. Box to receive mail, please list it here.">
                 </label>
                 <br/>
                 <label class="street-label">Street: </label>
@@ -523,840 +530,864 @@
                 <label id="email-label">Email:
                     <img src="/guardian/images/qmark.png"
                          class="qmark"
-                         title="Contact's email address.">
+                         title="Email address of contact for this student; if specifying for a Parent or Legal Guardian, Report Cards will be sent to this email address for this specific student.">
                 </label>
                 <input class="info-input" id="email" type="text" placeholder="Email" value="<%= email.email_address %>"
                        data-parsley-type="email"/>
-                <span>
-                    <label style="display: block; padding-bottom: 5px;">Contact Options: <img src="/guardian/images/qmark.png"
-                                                                                              class="qmark"
-                                                                                              title="This email address will automatically be enrolled in our parent notification
-                                                                                              system and will receive report cards and emergency alerts, which include notifications of school lock-downs and medical emergencies.
-                                                                                              Please select any addition notification types you would like to receive in the table below.">
-                    </label>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Notification Type</th>
-                            <th>Enable</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Emergency <img src="/guardian/images/qmark.png"
+                    <span>
+                        <label style="display: block; padding-bottom: 5px;">Contact Options: <img
+                                src="/guardian/images/qmark.png"
+                                class="qmark"
+                                title="This email address will automatically be enrolled in our parent notification
+                                system with the options you provide below. We strongly recommend that you enable Emergency alerts and
+                                any addition notification types you would like to receive in the table below.">
+                        </label>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Notification Type</th>
+                                <th>Enable</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Emergency <img src="/guardian/images/qmark.png"
                                                    class="qmark"
-                                                   title=""></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="email-opts-emergency"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (Object.keys(email).length > 0) {
+                                                   title="Emergency notifications are considered most urgent and are often associated with a potential threat, a school lockdown, or a disaster with possible student safety concerns">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="email-opts-emergency"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (Object.keys(email).length > 0) {
                                     if (email.opts_emergency === "1") {
                                     %>
                                     checked
                                     <%
                                     }
-                                }
-                                %>
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>High Priority <img src="/guardian/images/qmark.png"
-                                                   class="qmark"
-                                                   title="Notifications that are NOT emergency but are higher in priority"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="email-opts-high-priority"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
+                                    }
+                                    %>
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>High Priority <img src="/guardian/images/qmark.png"
+                                                       class="qmark"
+                                                       title="Notifications that are NOT emergency but are higher in priority">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="email-opts-high-priority"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
                                     <%
                                     if (Object.keys(email).length > 0) {
-                                        if (email.opts_high_priority === "1") {
+                                    if (email.opts_high_priority === "1") {
                                     %>
-                                        checked
-                                    <%
-                                        }
-                                    }
-                                    %>
-                                >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>General <img src="/guardian/images/qmark.png"
-                                             class="qmark"
-                                             title="Notifications about events and activities occurring at school/district"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="email-opts-general"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                    <%
-                                    if (Object.keys(email).length > 0) {
-                                        if (email.opts_high_priority === "1") {
-                                    %>
-                                        checked
-                                    <%
-                                        }
-                                    }
-                                    %>
-                                >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Attendance <img src="/guardian/images/qmark.png"
-                                                class="qmark"
-                                                title="Notifications for when a student is absent or tardy but is not excused"></td>
-                            <td><input type="checkbox"
-                                       id="email-opts-attendance"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (Object.keys(email).length > 0) {
-                                    if (email.opts_attendance === "1") {
-                                %>
-                                checked
-                                <%
-                                    }
-                                }
-                                %>
-                                >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Survey <img src="/guardian/images/qmark.png"
-                                            class="qmark"
-                                            title="Notifications used by school/district for parent feedback and surveys"></td>
-                            <td><input type="checkbox"
-                                       id="email-opts-survey"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (Object.keys(email).length > 0) {
-                                    if (email.opts_survey === "1") {
-                                %>
                                     checked
-                                <%
+                                    <%
                                     }
-                                }
-                                %>
-                                >
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </span>
+                                    }
+                                    %>
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>General <img src="/guardian/images/qmark.png"
+                                                 class="qmark"
+                                                 title="Notifications about events and activities occurring at school/district">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="email-opts-general"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (Object.keys(email).length > 0) {
+                                    if (email.opts_high_priority === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Attendance <img src="/guardian/images/qmark.png"
+                                                    class="qmark"
+                                                    title="Notifications for when a student is absent or tardy but is not excused">
+                                </td>
+                                <td><input type="checkbox"
+                                           id="email-opts-attendance"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (Object.keys(email).length > 0) {
+                                    if (email.opts_attendance === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Survey <img src="/guardian/images/qmark.png"
+                                                class="qmark"
+                                                title="Notifications used by school/district for parent feedback and surveys">
+                                </td>
+                                <td><input type="checkbox"
+                                           id="email-opts-survey"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (Object.keys(email).length > 0) {
+                                    if (email.opts_survey === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    >
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </span>
                 <br/>
                 <hr/>
-                <span>
-                    <span style="display: inline-block; float: left;">
-                        <label id="phone1type-label">
-                            Type:
-                        </label>
-                        <br>
-                        <select id="phone1type"
+                    <span>
+                        <span style="display: inline-block; float: left;">
+                            <label id="phone1type-label">
+                                Type:
+                            </label>
+                            <br>
+                            <select id="phone1type"
 
-                                data-parsley-onephonereq
-                                data-parsley-phone1type
-                                data-parsley-validate-if-empty
-                                data-parsley-trigger="change">
-                            <option></option>
-                            <option value="Home">Home</option>
-                            <option value="Cell">Cell</option>
-                            <option value="Work">Work</option>
-                        </select>
+                                    data-parsley-onephonereq
+                                    data-parsley-phone1type
+                                    data-parsley-validate-if-empty
+                                    data-parsley-trigger="change">
+                                <option></option>
+                                <option value="Home">Home</option>
+                                <option value="Cell">Cell</option>
+                                <option value="Work">Work</option>
+                            </select>
+                        </span>
+                        <span style="display: inline-block; float: right;">
+                            <label id="phone1-label">
+                                Number:
+                            </label>
+                            <br>
+                            <input id="phone1"
+                                   <%
+                                   if (phone.length > 0) {
+                                   %>
+                                   value="<%= phone[0].phone_number %>"
+                                   <%
+                                   }
+                                   %>
+                                   class="info-input"
+                                   type="text"
+                                   placeholder="Phone Number"
+                                   data-parsley-onephonereq
+                                   data-parsley-phone1num
+                                   data-parsley-validate-if-empty
+                                   data-parsley-trigger="change"/>
+                        </span>
                     </span>
-                    <span style="display: inline-block; float: right;">
-                        <label id="phone1-label">
-                            Number:
+                    <span style="display: inline-block;">
+                        <label style="display: block; padding-bottom: 5px;">Contact Options: <img
+                                src="/guardian/images/qmark.png"
+                                class="qmark"
+                                title="The phone number you fill in here will automatically be enrolled in our parent notification
+                                          system with the options you provide below. We strongly recommend that you enable Emergency alerts and
+                                          any addition notification types you would like to receive in the table below.">
                         </label>
-                        <br>
-                        <input id="phone1"
-                               <%
-                               if (phone.length > 0) {
-                               %>
-                               value="<%= phone[0].phone_number %>"
-                               <%
-                               }
-                               %>
-                               class="info-input"
-                               type="text"
-                               placeholder="Phone Number"
-                               data-parsley-onephonereq
-                               data-parsley-phone1num
-                               data-parsley-validate-if-empty
-                               data-parsley-trigger="change"/>
-                    </span>
-                </span>
-                <span style="display: inline-block;">
-                    <label style="display: block; padding-bottom: 5px;">Contact Options: <img src="/guardian/images/qmark.png"
-                                                                                              class="qmark"
-                                                                                              title="The phone number you fill in here will automatically be enrolled in our parent notification
-                                                                                              system and will receive Emergency alerts, which include notifications of school lock-downs and medical emergencies.
-                                                                                              Please select any addition notification types you would like to receive in the table below.">
-                    </label>
-                    <table>
-                        <tr>
-                            <th>Notification Type</th>
-                            <th>Voice</th>
-                            <th>Text</th>
-                        </tr>
-                        <tr>
-                            <td>Emergency <img src="/guardian/images/qmark.png"
+                        <table>
+                            <tr>
+                                <th>Notification Type</th>
+                                <th>Voice</th>
+                                <th>Text</th>
+                            </tr>
+                            <tr>
+                                <td>Emergency <img src="/guardian/images/qmark.png"
                                                    class="qmark"
-                                                   title="Notifications that are NOT emergency but are higher in priority"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone1-opts-voice-emergency"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 0) {
+                                                   title="Emergency notifications are considered most urgent and are often associated with a potential threat, a school lockdown, or a disaster with possible student safety concerns">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone1-opts-voice-emergency"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 0) {
                                     if (phone[0].opts_voice_emergency === "1") {
                                     %>
                                     checked
                                     <%
                                     }
-                                }
-                                %>
-                                />
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone1-opts-text-emergency"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 0) {
+                                    }
+                                    %>
+                                    />
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone1-opts-text-emergency"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 0) {
                                     if (phone[0].opts_text_emergency === "1") {
                                     %>
                                     checked
                                     <%
                                     }
-                                }
-                                %>
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>High Priority <img src="/guardian/images/qmark.png"
-                                                  class="qmark"
-                                                  title="Notifications that are NOT emergency but are higher in priority"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone1-opts-voice-high-priority"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                       <%
-                                       if (phone.length > 0) {
-                                            if (phone[0].opts_voice_high_priority === "1") {
-                                       %>
-                                       checked
-                                       <%
-                                            }
-                                          }
-                                       %>
-                                >
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone1-opts-text-high-priority"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                        <%
-                                        if (phone.length > 0) {
-                                            if (phone[0].opts_text_high_priority === "1") {
-                                        %>
-                                        checked
-                                        <%
-                                            }
-                                        }
-                                        %>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>General <img src="/guardian/images/qmark.png"
-                                            class="qmark"
-                                            title="Notifications about events and activities occurring at school/district"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone1-opts-voice-general"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                        <%
-                                        if (phone.length > 0) {
-                                            if (phone[0].opts_voice_general === "1") {
-                                        %>
-                                        checked
-                                        <%
-                                            }
-                                        }
-                                        %>
-                                >
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone1-opts-text-general"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                        <%
-                                        if (phone.length > 0) {
-                                            if (phone[0].opts_text_general === "1") {
-                                        %>
-                                        checked
-                                        <%
-                                            }
-                                        }
-                                        %>
-                                >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Attendance <img src="/guardian/images/qmark.png"
-                                                 class="qmark"
-                                                 title="Notifications for when a student is absent or tardy but is not excused"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone1-opts-voice-attendance"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                        <%
-                                        if (phone.length > 0) {
-                                            if (phone[0].opts_voice_attendance === "1") {
-                                        %>
-                                            checked
-                                        <%
-                                            }
-                                        }
-                                        %>
-                                >
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone1-opts-text-attendance"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                        <%
-                                        if (phone.length > 0) {
-                                            if (phone[0].opts_text_attendance === "1") {
-                                        %>
-                                        checked
-                                        <%
-                                            }
-                                        }
-                                        %>
-                                >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Survey <img src="/guardian/images/qmark.png"
-                                            class="qmark"
-                                            title="Notifications used by school/district for parent feedback and surveys"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone1-opts-voice-survey"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                        <%
-                                        if (phone.length > 0) {
-                                            if (phone[0].opts_voice_survey === "1") {
-                                        %>
-                                        checked
-                                        <%
-                                            }
-                                        }
-                                        %>
-                                >
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone1-opts-text-survey"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                        <%
-                                        if (phone.length > 0) {
-                                            if (phone[0].opts_text_survey === "1") {
-                                        %>
-                                        checked
-                                        <%
-                                            }
-                                        }
-                                        %>
-                                >
-                            </td>
-                        </tr>
-                    </table>
-                </span>
-                <hr>
-                <span>
-                    <span style="display: inline-block; float: left;">
-                        <label id="phone2type-label">
-                            Type:
-                        </label>
-                        <br>
-                        <select id="phone2type"
-                                data-parsley-phone2type
-                                data-parsley-trigger="change">
-                            <option></option>
-                            <option value="Home">Home</option>
-                            <option value="Cell">Cell</option>
-                            <option value="Work">Work</option>
-                        </select>
-                    </span>
-                    <span style="display: inline-block; float: right;">
-                        <label id="phone2-label">
-                            Number:
-                        </label>
-                        <br>
-                        <input id="phone2"
-                               class="info-input"
-                               type="text"
-                               placeholder="Phone Number"
-                                <%
-                                if (phone.length > 1) {
-                                %>
-                               value="<%= phone[1].phone_number %>"
-                                <%
-                                }
-                                %>
-                               data-parsley-phone2num/>
-                    </span>
-                </span>
-                <span style="display: inline-block;">
-                    <label style="display: block; padding-bottom: 5px;">Contact Options: <img src="/guardian/images/qmark.png"
-                                                                                              class="qmark"
-                                                                                              title="The phone number you fill in here will automatically be enrolled in our parent notification
-                                                                                              system and will receive Emergency alerts, which include notifications of school lock-downs and medical emergencies.
-                                                                                              Please select any addition notification types you would like to receive in the table below.">
-                    </label>
-                    <table>
-                        <tr>
-                            <th>Notification Type</th>
-                            <th>Voice</th>
-                            <th>Text</th>
-                        </tr>
-                        <tr>
-                            <td>Emergency <img src="/guardian/images/qmark.png"
-                                                   class="qmark"
-                                                   title="Notifications that are NOT emergency but are higher in priority"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone2-opts-voice-emergency"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 1) {
-                                if (phone[1].opts_voice_emergency === "1") {
-                                %>
-                                checked
-                                <%
-                                }
-                                }
-                                %>
-                                />
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone2-opts-text-emergency"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 1) {
-                                if (phone[1].opts_text_emergency === "1") {
-                                %>
-                                checked
-                                <%
-                                }
-                                }
-                                %>
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>High Priority <img src="/guardian/images/qmark.png"
-                                                  class="qmark"
-                                                  title="Notifications that are NOT emergency but are higher in priority"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone2-opts-voice-high-priority"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 1) {
-                                    if (phone[1].opts_voice_high_priority === "1") {
-                                %>
+                                    }
+                                    %>
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>High Priority <img src="/guardian/images/qmark.png"
+                                                       class="qmark"
+                                                       title="Notifications that are NOT emergency but are higher in priority">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone1-opts-voice-high-priority"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 0) {
+                                    if (phone[0].opts_voice_high_priority === "1") {
+                                    %>
                                     checked
-                                <%
+                                    <%
                                     }
-                                }
-                                %>
-                                />
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone2-opts-text-high-priority"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 1) {
-                                    if (phone[1].opts_text_high_priority === "1") {
-                                %>
-                                checked
-                                <%
                                     }
-                                }
-                                %>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>General <img src="/guardian/images/qmark.png"
-                                             class="qmark"
-                                             title="Notifications about events and activities occurring at school/district"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone2-opts-voice-general"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 1) {
-                                    if (phone[1].opts_voice_general === "1") {
-                                %>
-                                checked
-                                <%
+                                    %>
+                                    >
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone1-opts-text-high-priority"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 0) {
+                                    if (phone[0].opts_text_high_priority === "1") {
+                                    %>
+                                    checked
+                                    <%
                                     }
-                                }
-                                %>
-                                >
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone2-opts-text-general"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 1) {
-                                    if (phone[1].opts_text_general === "1") {
-                                %>
-                                checked
-                                <%
                                     }
-                                }
-                                %>
-                                >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Attendance <img src="/guardian/images/qmark.png"
+                                    %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>General <img src="/guardian/images/qmark.png"
                                                  class="qmark"
-                                                 title="Notifications for when a student is absent or tardy but is not excused"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone2-opts-voice-attendance"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 1) {
-                                    if (phone[1].opts_voice_attendance === "1") {
-                                %>
-                                checked
-                                <%
+                                                 title="Notifications about events and activities occurring at school/district">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone1-opts-voice-general"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 0) {
+                                    if (phone[0].opts_voice_general === "1") {
+                                    %>
+                                    checked
+                                    <%
                                     }
-                                }
-                                %>
-                                >
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone2-opts-text-attendance"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 1) {
-                                    if (phone[1].opts_text_attendance === "1") {
-                                %>
-                                checked
-                                <%
                                     }
-                                }
-                                %>
-                                >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Survey <img src="/guardian/images/qmark.png"
-                                            class="qmark"
-                                            title="Notifications used by school/district for parent feedback and surveys"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone2-opts-voice-survey"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 1) {
-                                    if (phone[1].opts_voice_survey === "1") {
-                                %>
-                                checked
-                                <%
+                                    %>
+                                    >
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone1-opts-text-general"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 0) {
+                                    if (phone[0].opts_text_general === "1") {
+                                    %>
+                                    checked
+                                    <%
                                     }
-                                }
-                                %>
-                                >
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone2-opts-text-survey"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 1) {
-                                    if (phone[1].opts_text_survey === "1") {
-                                %>
-                                checked
-                                <%
                                     }
-                                }
-                                %>
-                                >
-                            </td>
-                        </tr>
-                    </table>
-                </span>
-                <hr>
-                <span>
-                    <span style="display: inline-block; float: left;">
-                        <label id="phone3type-label">
-                            Type:
-                        </label>
-                        <br>
-                        <select id="phone3type"
-                                data-parsley-phone3type
-                                data-parsley-trigger="change">
-                            <option></option>
-                            <option value="Home">Home</option>
-                            <option value="Cell">Cell</option>
-                            <option value="Work">Work</option>
-                        </select>
-                        </span>
-                    <span style="display: inline-block; float: right;">
-                        <label id="phone3-label">
-                            Number:
-                        </label>
-                        <br>
-                        <input id="phone3"
-                               class="info-input"
-                               type="text"
-                               placeholder="Phone Number"
-                                <%
-                                if (phone.length > 2) {
-                                %>
-                               value="<%= phone[2].phone_number %>"
-                                <%
-                                }
-                                %>
-                               data-parsley-phone3num
-                               data-parsley-trigger="change"/>
+                                    %>
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Attendance <img src="/guardian/images/qmark.png"
+                                                    class="qmark"
+                                                    title="Notifications for when a student is absent or tardy but is not excused">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone1-opts-voice-attendance"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 0) {
+                                    if (phone[0].opts_voice_attendance === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    >
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone1-opts-text-attendance"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 0) {
+                                    if (phone[0].opts_text_attendance === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Survey <img src="/guardian/images/qmark.png"
+                                                class="qmark"
+                                                title="Notifications used by school/district for parent feedback and surveys">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone1-opts-voice-survey"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 0) {
+                                    if (phone[0].opts_voice_survey === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    >
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone1-opts-text-survey"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 0) {
+                                    if (phone[0].opts_text_survey === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    >
+                                </td>
+                            </tr>
+                        </table>
                     </span>
-                </span>
-                <span style="display: inline-block;">
-                    <label style="display: block; padding-bottom: 5px;">Contact Options: <img src="/guardian/images/qmark.png"
-                                                                                              class="qmark"
-                                                                                              title="The phone number you fill in here will automatically be enrolled in our parent notification
-                                                                                              system and will receive Emergency alerts, which include notifications of school lock-downs and medical emergencies.
-                                                                                              Please select any addition notification types you would like to receive in the table below.">
-                    </label>
-                    <table>
-                        <tr>
-                            <th>Notification Type</th>
-                            <th>Voice</th>
-                            <th>Text</th>
-                        </tr>
-                        <tr>
-                            <td>Emergency <img src="/guardian/images/qmark.png"
+                <hr>
+                    <span>
+                        <span style="display: inline-block; float: left;">
+                            <label id="phone2type-label">
+                                Type:
+                            </label>
+                            <br>
+                            <select id="phone2type"
+                                    data-parsley-phone2type
+                                    data-parsley-trigger="change">
+                                <option></option>
+                                <option value="Home">Home</option>
+                                <option value="Cell">Cell</option>
+                                <option value="Work">Work</option>
+                            </select>
+                        </span>
+                        <span style="display: inline-block; float: right;">
+                            <label id="phone2-label">
+                                Number:
+                            </label>
+                            <br>
+                            <input id="phone2"
+                                   class="info-input"
+                                   type="text"
+                                   placeholder="Phone Number"
+                                    <%
+                                    if (phone.length > 1) {
+                                    %>
+                                   value="<%= phone[1].phone_number %>"
+                                    <%
+                                    }
+                                    %>
+                                   data-parsley-phone2num/>
+                        </span>
+                    </span>
+                    <span style="display: inline-block;">
+                        <label style="display: block; padding-bottom: 5px;">Contact Options:
+                            <img src="/guardian/images/qmark.png"
+                                class="qmark"
+                                title="The phone number you fill in here will automatically be enrolled in our parent notification
+                                          system with the options you provide below. We strongly recommend that you enable Emergency alerts and
+                                          any addition notification types you would like to receive in the table below.">
+                        </label>
+                        <table>
+                            <tr>
+                                <th>Notification Type</th>
+                                <th>Voice</th>
+                                <th>Text</th>
+                            </tr>
+                            <tr>
+                                <td>Emergency <img src="/guardian/images/qmark.png"
                                                    class="qmark"
-                                                   title="Notifications that are NOT emergency but are higher in priority"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone3-opts-voice-emergency"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 2) {
+                                                   title="Emergency notifications are considered most urgent and are often associated with a potential threat, a school lockdown, or a disaster with possible student safety concerns">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone2-opts-voice-emergency"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 1) {
+                                    if (phone[1].opts_voice_emergency === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    />
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone2-opts-text-emergency"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 1) {
+                                    if (phone[1].opts_text_emergency === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>High Priority <img src="/guardian/images/qmark.png"
+                                                       class="qmark"
+                                                       title="Notifications that are NOT emergency but are higher in priority">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone2-opts-voice-high-priority"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 1) {
+                                    if (phone[1].opts_voice_high_priority === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    />
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone2-opts-text-high-priority"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 1) {
+                                    if (phone[1].opts_text_high_priority === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>General <img src="/guardian/images/qmark.png"
+                                                 class="qmark"
+                                                 title="Notifications about events and activities occurring at school/district">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone2-opts-voice-general"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 1) {
+                                    if (phone[1].opts_voice_general === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    >
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone2-opts-text-general"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 1) {
+                                    if (phone[1].opts_text_general === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Attendance <img src="/guardian/images/qmark.png"
+                                                    class="qmark"
+                                                    title="Notifications for when a student is absent or tardy but is not excused">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone2-opts-voice-attendance"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 1) {
+                                    if (phone[1].opts_voice_attendance === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    >
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone2-opts-text-attendance"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 1) {
+                                    if (phone[1].opts_text_attendance === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Survey <img src="/guardian/images/qmark.png"
+                                                class="qmark"
+                                                title="Notifications used by school/district for parent feedback and surveys">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone2-opts-voice-survey"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 1) {
+                                    if (phone[1].opts_voice_survey === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    >
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone2-opts-text-survey"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 1) {
+                                    if (phone[1].opts_text_survey === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    >
+                                </td>
+                            </tr>
+                        </table>
+                    </span>
+                <hr>
+                    <span>
+                        <span style="display: inline-block; float: left;">
+                            <label id="phone3type-label">
+                                Type:
+                            </label>
+                            <br>
+                            <select id="phone3type"
+                                    data-parsley-phone3type
+                                    data-parsley-trigger="change">
+                                <option></option>
+                                <option value="Home">Home</option>
+                                <option value="Cell">Cell</option>
+                                <option value="Work">Work</option>
+                            </select>
+                            </span>
+                        <span style="display: inline-block; float: right;">
+                            <label id="phone3-label">
+                                Number:
+                            </label>
+                            <br>
+                            <input id="phone3"
+                                   class="info-input"
+                                   type="text"
+                                   placeholder="Phone Number"
+                                    <%
+                                    if (phone.length > 2) {
+                                    %>
+                                   value="<%= phone[2].phone_number %>"
+                                    <%
+                                    }
+                                    %>
+                                   data-parsley-phone3num
+                                   data-parsley-trigger="change"/>
+                        </span>
+                    </span>
+                    <span style="display: inline-block;">
+                        <label style="display: block; padding-bottom: 5px;">Contact Options:
+                            <img src="/guardian/images/qmark.png"
+                                class="qmark"
+                                title="The phone number you fill in here will automatically be enrolled in our parent notification
+                                system with the options you provide below. We strongly recommend that you enable Emergency alerts and
+                                any addition notification types you would like to receive in the table below.">
+                        </label>
+                        <table>
+                            <tr>
+                                <th>Notification Type</th>
+                                <th>Voice</th>
+                                <th>Text</th>
+                            </tr>
+                            <tr>
+                                <td>Emergency <img src="/guardian/images/qmark.png"
+                                                   class="qmark"
+                                                   title="Emergency notifications are considered most urgent and are often associated with a potential threat, a school lockdown, or a disaster with possible student safety concerns">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone3-opts-voice-emergency"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 2) {
                                     if (phone[2].opts_voice_emergency === "1") {
                                     %>
                                     checked
                                     <%
                                     }
-                                }
-                                %>
-                                >
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone3-opts-text-emergency"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 2) {
+                                    }
+                                    %>
+                                    >
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone3-opts-text-emergency"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 2) {
                                     if (phone[2].opts_text_emergency === "1") {
                                     %>
                                     checked
                                     <%
                                     }
-                                }
-                                %>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>High Priority <img src="/guardian/images/qmark.png"
-                                                  class="qmark"
-                                                  title="Notifications that are NOT emergency but are higher in priority"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone3-opts-voice-high-priority"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 2) {
+                                    }
+                                    %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>High Priority <img src="/guardian/images/qmark.png"
+                                                       class="qmark"
+                                                       title="Notifications that are NOT emergency but are higher in priority">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone3-opts-voice-high-priority"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 2) {
                                     if (phone[2].opts_voice_high_priority === "1") {
-                                %>
-                                checked
-                                <%
-                                }
-                                }
-                                %>
-                                >
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone3-opts-text-high-priority"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 2) {
-                                    if (phone[2].opts_text_high_priority === "1") {
-                                %>
-                                checked
-                                <%
-                                    }
-                                }
-                                %>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>General <img src="/guardian/images/qmark.png"
-                                             class="qmark"
-                                             title="Notifications about events and activities occurring at school/district"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone3-opts-voice-general"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 2) {
-                                    if (phone[2].opts_voice_general === "1") {
-                                %>
+                                    %>
                                     checked
-                                <%
+                                    <%
                                     }
-                                }
-                                %>
-                                >
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone3-opts-text-general"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 2) {
+                                    }
+                                    %>
+                                    >
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone3-opts-text-high-priority"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 2) {
+                                    if (phone[2].opts_text_high_priority === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>General <img src="/guardian/images/qmark.png"
+                                                 class="qmark"
+                                                 title="Notifications about events and activities occurring at school/district">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone3-opts-voice-general"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 2) {
+                                    if (phone[2].opts_voice_general === "1") {
+                                    %>
+                                    checked
+                                    <%
+                                    }
+                                    }
+                                    %>
+                                    >
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone3-opts-text-general"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 2) {
                                     if (phone[2].opts_text_general === "1") {
-                                %>
-                                checked
-                                <%
+                                    %>
+                                    checked
+                                    <%
                                     }
-                                }
-                                %>
-                                >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Attendance <img src="/guardian/images/qmark.png"
-                                                class="qmark"
-                                                title="Notifications for when a student is absent or tardy but is not excused"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone3-opts-voice-attendance"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 2) {
+                                    }
+                                    %>
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Attendance <img src="/guardian/images/qmark.png"
+                                                    class="qmark"
+                                                    title="Notifications for when a student is absent or tardy but is not excused">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone3-opts-voice-attendance"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 2) {
                                     if (phone[2].opts_voice_attendance === "1") {
-                                %>
-                                checked
-                                <%
+                                    %>
+                                    checked
+                                    <%
                                     }
-                                }
-                                %>
-                                >
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone3-opts-text-attendance"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 2) {
+                                    }
+                                    %>
+                                    >
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone3-opts-text-attendance"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 2) {
                                     if (phone[2].opts_text_attendance === "1") {
-                                %>
-                                checked
-                                <%
+                                    %>
+                                    checked
+                                    <%
                                     }
-                                }
-                                %>
-                                >
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Survey <img src="/guardian/images/qmark.png"
-                                            class="qmark"
-                                            title="Notifications used by school/district for parent feedback and surveys"></td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone3-opts-voice-survey"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 2) {
+                                    }
+                                    %>
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Survey <img src="/guardian/images/qmark.png"
+                                                class="qmark"
+                                                title="Notifications used by school/district for parent feedback and surveys">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone3-opts-voice-survey"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 2) {
                                     if (phone[2].opts_voice_survey === "1") {
-                                %>
-                                checked
-                                <%
+                                    %>
+                                    checked
+                                    <%
                                     }
-                                }
-                                %>
-                                >
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone3-opts-text-survey"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"
-                                <%
-                                if (phone.length > 2) {
+                                    }
+                                    %>
+                                    >
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone3-opts-text-survey"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"
+                                    <%
+                                    if (phone.length > 2) {
                                     if (phone[2].opts_text_survey === "1") {
-                                %>
-                                checked
-                                <%
+                                    %>
+                                    checked
+                                    <%
                                     }
-                                }
-                                %>
-                                >
-                            </td>
-                        </tr>
-                    </table>
-                </span>
+                                    }
+                                    %>
+                                    >
+                                </td>
+                            </tr>
+                        </table>
+                    </span>
                 <hr>
             </td>
             <td>
@@ -1371,14 +1402,18 @@
             <td>
                 <label>Name: </label>
                 <br/>
-                <label id="first-name-label" for="first-name">First Name: </label>
+                <label id="first-name-label" for="first-name">First Name: </label> <img id="first-name-qmark" class="qmark"
+                                                                                        src="/guardian/images/qmark.png"
+                                                                                        title="Contact's First Name">
                 <input type="text"
                        id="first-name"
                        class="contact-input"
                        placeholder="Contact's First Name"
                        required/>
                 <br/>
-                <label id="last-name-label" for="first-name">Last Name: </label>
+                <label id="last-name-label" for="first-name">Last Name: </label> <img id="first-name-qmark" class="qmark"
+                                                                                      src="/guardian/images/qmark.png"
+                                                                                      title="Contact's Last Name">
                 <input type="text"
                        id="last-name"
                        class="contact-input"
@@ -1386,7 +1421,8 @@
                        required/>
                 <br/>
                 <br/>
-                <label id="priority-label" for="priority">Priority: </label>
+                <label id="priority-label" for="priority">Priority: <img src="/guardian/images/qmark.png" class="qmark"
+                                                                         title="In what order do you want us to try to contact this student's parents/legal guardians?"></label>
                 <select id="priority">
                     <option></option>
                     <%
@@ -1399,7 +1435,8 @@
                 </select>
                 <br/>
                 <br/>
-                <label for="relationship">Relationship: </label>
+                <label for="relationship">Relationship: <img src="/guardian/images/qmark.png" class="qmark"
+                                                             title="How is this contact related to the student?"></label>
                 <select id="relationship" required>
                     <option></option>
                     <option value="Mother">Mother</option>
@@ -1427,11 +1464,23 @@
                 </select>
                 <br/>
                 <br/>
-                <label id="employer-label">Employer: </label>
+                <label id="employer-label">Employer: <img src="/guardian/images/qmark.png"
+                                                          class="qmark"
+                                                          title="Name of the contact's place of employment. Please note that this is NOT the title/position of this contact's job."></label>
                 <input class="info-input" id="employer" type="text"/>
+                <br/>
+                <br/>
+                <label id="corres-lang-label">Language of Correspondence: <img src="/guardian/images/qmark.png"
+                                                                               class="qmark"
+                                                                               title="In what language would you like to receive correspondence?"></label>
+                <select class="info-input" id="corres-lang">
+                    <option value="ENG">English</option>
+                    <option value="SPA">Spanish</option>
+                </select>
             </td>
             <td>
-                <label>Residence Address: </label>
+                <label>Residence Address: <img src="/guardian/images/qmark.png" class="qmark"
+                                               title="Contact's address of residence"></label>
                 <br/>
                 <label class="street-label">Street: </label>
                 <input type="text"
@@ -1522,7 +1571,14 @@
                 <br/>
                 <br/>
 
-                <label>Mailing Address: </label>
+                <label>Mailing Address: <img src="/guardian/images/qmark.png"
+                                             class="qmark"
+                                             title="Contact's mailing address.
+                                                 Please fill out the mailing address fields only if this contact
+                                                 would like to receive mail through an address that is different
+                                                 from their residence address.
+                                                 For example, if this contact uses a P.O. Box to receive mail, please list it here.">
+                </label>
                 <br/>
                 <label class="street-label">Street: </label>
                 <input type="text"
@@ -1608,386 +1664,444 @@
                        data-parsley-validate-if-empty/>
             </td>
             <td>
-                <label id="email-label">Email: </label>
+                <label id="email-label">Email:
+                    <img src="/guardian/images/qmark.png"
+                         class="qmark"
+                         title="Email address of contact for this student; if specifying for a Parent or Legal Guardian, Report Cards will be sent to this email address for this specific student.">
+                </label>
                 <input class="info-input" id="email" type="text" placeholder="Email"
                        data-parsley-type="email"/>
-                <span>
-                    <label style="display: block; padding-bottom: 5px;">Contact Options:</label>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Notification Type</th>
-                            <th>Enable</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Emergency</td>
-                            <td>
-                                <input type="checkbox"
-                                       id="email-opts-emergency"
-                                       checked
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>High Priority</td>
-                            <td>
-                                <input type="checkbox"
-                                       id="email-opts-high-priority"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>General</td>
-                            <td>
-                                <input type="checkbox"
-                                       id="email-opts-general"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Attendance</td>
-                            <td><input type="checkbox"
-                                       id="email-opts-attendance"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Survey</td>
-                            <td><input type="checkbox"
-                                       id="email-opts-survey"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <span>
+                        <label style="display: block; padding-bottom: 5px;">Contact Options:
+                            <img src="/guardian/images/qmark.png"
+                                 class="qmark"
+                                 title="This email address will automatically be enrolled in our parent notification
+                                system with the options you provide below. We strongly recommend that you enable Emergency alerts and
+                                any addition notification types you would like to receive in the table below.">
+                        </label>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Notification Type</th>
+                                <th>Enable</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Emergency <img src="/guardian/images/qmark.png"
+                                                   class="qmark"
+                                                   title="Emergency notifications are considered most urgent and are often associated with a potential threat, a school lockdown, or a disaster with possible student safety concerns">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="email-opts-emergency"
+                                           checked
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>High Priority <img src="/guardian/images/qmark.png"
+                                                       class="qmark"
+                                                       title="Notifications that are NOT emergency but are higher in priority"></td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="email-opts-high-priority"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>General <img src="/guardian/images/qmark.png"
+                                                 class="qmark"
+                                                 title="Notifications about events and activities occurring at school/district"></td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="email-opts-general"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Attendance <img src="/guardian/images/qmark.png"
+                                                    class="qmark"
+                                                    title="Notifications for when a student is absent or tardy but is not excused"></td>
+                                <td><input type="checkbox"
+                                           id="email-opts-attendance"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Survey <img src="/guardian/images/qmark.png"
+                                                class="qmark"
+                                                title="Notifications used by school/district for parent feedback and surveys"></td>
+                                <td><input type="checkbox"
+                                           id="email-opts-survey"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
 
-                </span>
+                    </span>
                 <br/>
                 <hr/>
-                <span>
-                    <span style="display: inline-block; float: left;">
-                        <label id="phone1type-label">
-                            Type:
-                        </label>
-                        <br>
-                        <select id="phone1type"
-                                data-parsley-onephonereq
-                                data-parsley-phone1type
-                                data-parsley-validate-if-empty
-                                data-parsley-trigger="change">
-                            <option></option>
-                            <option value="Home">Home</option>
-                            <option value="Cell">Cell</option>
-                            <option value="Work">Work</option>
-                        </select>
+                    <span>
+                        <span style="display: inline-block; float: left;">
+                            <label id="phone1type-label">
+                                Type:
+                            </label>
+                            <br>
+                            <select id="phone1type"
+                                    data-parsley-onephonereq
+                                    data-parsley-phone1type
+                                    data-parsley-validate-if-empty
+                                    data-parsley-trigger="change">
+                                <option></option>
+                                <option value="Home">Home</option>
+                                <option value="Cell">Cell</option>
+                                <option value="Work">Work</option>
+                            </select>
+                        </span>
+                        <span style="display: inline-block; float: right;">
+                            <label id="phone1-label">
+                                Number:
+                            </label>
+                            <br>
+                            <input type="text" class="info-input" id="phone1"
+                                   data-parsley-onephonereq
+                                   data-parsley-phone1num
+                                   data-parsley-validate-if-empty
+                                   data-parsley-trigger="change"/>
+                        </span>
                     </span>
-                    <span style="display: inline-block; float: right;">
-                        <label id="phone1-label">
-                            Number:
-                        </label>
-                        <br>
-                        <input type="text" class="info-input" id="phone1"
-                               data-parsley-onephonereq
-                               data-parsley-phone1num
-                               data-parsley-validate-if-empty
-                               data-parsley-trigger="change"/>
-                    </span>
-                </span>
-                <span style="display: inline-block">
-                    <table>
-                        <tr>
-                            <th>Notification Type</th>
-                            <th>Voice</th>
-                            <th>Text</th>
-                        </tr>
-                        <tr>
-                            <td>Emergency</td>
-                            <td><input type="checkbox"
-                                       id="phone1-opts-voice-emergency"
-                                       checked
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"></td>
-                            <td><input type="checkbox"
-                                       id="phone1-opts-text-emergency"
-                                       checked
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"></td>
-                        </tr>
-                        <tr>
-                            <td>High Priority</td>
-                            <td><input type="checkbox"
-                                       id="phone1-opts-voice-high-priority"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"></td>
-                            <td><input type="checkbox"
-                                       id="phone1-opts-text-high-priority"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"></td>
-                        </tr>
-                        <tr>
-                            <td>General</td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone1-opts-voice-general"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone1-opts-text-general"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Attendance</td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone1-opts-voice-attendance"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone1-opts-text-attendance"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Survey</td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone1-opts-voice-survey"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone1-opts-text-survey"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                        </tr>
+                    <span style="display: inline-block">
+                        <table>
+                            <tr>
+                                <th>Notification Type</th>
+                                <th>Voice</th>
+                                <th>Text</th>
+                            </tr>
+                            <tr>
+                                <td>Emergency <img src="/guardian/images/qmark.png"
+                                                   class="qmark"
+                                                   title="Emergency notifications are considered most urgent and are often associated with a potential threat, a school lockdown, or a disaster with possible student safety concerns"></td>
+                                <td><input type="checkbox"
+                                           id="phone1-opts-voice-emergency"
+                                           checked
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"></td>
+                                <td><input type="checkbox"
+                                           id="phone1-opts-text-emergency"
+                                           checked
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"></td>
+                            </tr>
+                            <tr>
+                                <td>High Priority <img src="/guardian/images/qmark.png"
+                                                       class="qmark"
+                                                       title="Notifications that are NOT emergency but are higher in priority"></td>
+                                <td><input type="checkbox"
+                                           id="phone1-opts-voice-high-priority"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"></td>
+                                <td><input type="checkbox"
+                                           id="phone1-opts-text-high-priority"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"></td>
+                            </tr>
+                            <tr>
+                                <td>General <img src="/guardian/images/qmark.png"
+                                                 class="qmark"
+                                                 title="Notifications about events and activities occurring at school/district"></td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone1-opts-voice-general"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone1-opts-text-general"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Attendance <img src="/guardian/images/qmark.png"
+                                                    class="qmark"
+                                                    title="Notifications for when a student is absent or tardy but is not excused"></td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone1-opts-voice-attendance"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone1-opts-text-attendance"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Survey <img src="/guardian/images/qmark.png"
+                                                class="qmark"
+                                                title="Notifications used by school/district for parent feedback and surveys"></td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone1-opts-voice-survey"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone1-opts-text-survey"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                            </tr>
 
 
-                    </table>
-                </span>
+                        </table>
+                    </span>
                 <hr/>
-                <span>
-                    <span style="display: inline-block; float: left;">
-                        <label id="phone2type-label">
-                            Type:
-                        </label>
-                        <br>
-                        <select id="phone2type"
-                                data-parsley-phone2type
-                                data-parsley-trigger="change">
-                            <option></option>
-                            <option value="Home">Home</option>
-                            <option value="Cell">Cell</option>
-                            <option value="Work">Work</option>
-                        </select>
+                    <span>
+                        <span style="display: inline-block; float: left;">
+                            <label id="phone2type-label">
+                                Type:
+                            </label>
+                            <br>
+                            <select id="phone2type"
+                                    data-parsley-phone2type
+                                    data-parsley-trigger="change">
+                                <option></option>
+                                <option value="Home">Home</option>
+                                <option value="Cell">Cell</option>
+                                <option value="Work">Work</option>
+                            </select>
+                        </span>
+                        <span style="display: inline-block; float: right;">
+                            <label id="phone2-label">
+                                Number:
+                            </label>
+                            <br>
+                            <input class="info-input" id="phone2" type="text"
+                                   data-parsley-phone2num
+                                   data-parsley-trigger="change"
+                                   data-parsley-validate-if-empty/>
+                        </span>
                     </span>
-                    <span style="display: inline-block; float: right;">
-                        <label id="phone2-label">
-                            Number:
-                        </label>
-                        <br>
-                        <input class="info-input" id="phone2" type="text"
-                               data-parsley-phone2num
-                               data-parsley-trigger="change"
-                               data-parsley-validate-if-empty/>
+                    <span style="display: inline-block">
+                        <table>
+                            <tr>
+                                <th>Notification Type</th>
+                                <th>Voice</th>
+                                <th>Text</th>
+                            </tr>
+                            <tr>
+                                <td>Emergency <img src="/guardian/images/qmark.png"
+                                                   class="qmark"
+                                                   title="Emergency notifications are considered most urgent and are often associated with a potential threat, a school lockdown, or a disaster with possible student safety concerns">
+                                </td>
+                                <td><input type="checkbox"
+                                           id="phone2-opts-voice-emergency"
+                                           checked
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"></td>
+                                <td><input type="checkbox"
+                                           id="phone2-opts-text-emergency"
+                                           checked
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"></td>
+                            </tr>
+                            <tr>
+                                <td>High Priority <img src="/guardian/images/qmark.png"
+                                                       class="qmark"
+                                                       title="Notifications that are NOT emergency but are higher in priority">
+                                </td>
+                                <td><input type="checkbox"
+                                           id="phone2-opts-voice-high-priority"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"></td>
+                                <td><input type="checkbox"
+                                           id="phone2-opts-text-high-priority"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"></td>
+                            </tr>
+                            <tr>
+                                <td>General <img src="/guardian/images/qmark.png"
+                                                 class="qmark"
+                                                 title="Notifications about events and activities occurring at school/district">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone2-opts-voice-general"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone2-opts-text-general"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Attendance <img src="/guardian/images/qmark.png"
+                                                    class="qmark"
+                                                    title="Notifications for when a student is absent or tardy but is not excused">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone2-opts-voice-attendance"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone2-opts-text-attendance"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Survey <img src="/guardian/images/qmark.png"
+                                                class="qmark"
+                                                title="Notifications used by school/district for parent feedback and surveys">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone2-opts-voice-survey"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone2-opts-text-survey"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                            </tr>
+                        </table>
                     </span>
-                </span>
-                <span style="display: inline-block">
-                    <table>
-                        <tr>
-                            <th>Notification Type</th>
-                            <th>Voice</th>
-                            <th>Text</th>
-                        </tr>
-                        <tr>
-                            <td>Emergency</td>
-                            <td><input type="checkbox"
-                                       id="phone2-opts-voice-emergency"
-                                       checked
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"></td>
-                            <td><input type="checkbox"
-                                       id="phone2-opts-text-emergency"
-                                       checked
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"></td>
-                        </tr>
-                        <tr>
-                            <td>High Priority</td>
-                            <td><input type="checkbox"
-                                       id="phone2-opts-voice-high-priority"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"></td>
-                            <td><input type="checkbox"
-                                       id="phone2-opts-text-high-priority"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"></td>
-                        </tr>
-                        <tr>
-                            <td>General</td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone2-opts-voice-general"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone2-opts-text-general"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Attendance</td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone2-opts-voice-attendance"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone2-opts-text-attendance"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Survey</td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone2-opts-voice-survey"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone2-opts-text-survey"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                        </tr>
-                    </table>
-                </span>
                 <hr>
-                <span>
-                    <span style="display: inline-block; float: left;">
-                        <label id="phone3type-label">
-                            Type:
-                        </label>
-                        <br>
-                        <select id="phone3type"
-                                data-parsley-phone3type
-                                data-parsley-trigger="change">
-                            <option></option>
-                            <option value="Home">Home</option>
-                            <option value="Cell">Cell</option>
-                            <option value="Work">Work</option>
-                        </select>
+                    <span>
+                        <span style="display: inline-block; float: left;">
+                            <label id="phone3type-label">
+                                Type:
+                            </label>
+                            <br>
+                            <select id="phone3type"
+                                    data-parsley-phone3type
+                                    data-parsley-trigger="change">
+                                <option></option>
+                                <option value="Home">Home</option>
+                                <option value="Cell">Cell</option>
+                                <option value="Work">Work</option>
+                            </select>
+                        </span>
+                        <span style="display: inline-block; float: right;">
+                            <label id="phone3-label">
+                                Number:
+                            </label>
+                            <br>
+                            <input class="info-input" id="phone3" type="text"
+                                   data-parsley-phone3num
+                                   data-parsley-trigger="change"
+                                   data-parsley-validate-if-empty/>
+                        </span>
                     </span>
-                    <span style="display: inline-block; float: right;">
-                        <label id="phone3-label">
-                            Number:
-                        </label>
-                        <br>
-                        <input class="info-input" id="phone3" type="text"
-                               data-parsley-phone3num
-                               data-parsley-trigger="change"
-                               data-parsley-validate-if-empty/>
+                    <span style="display: inline-block">
+                        <table>
+                            <tr>
+                                <th>Notification Type</th>
+                                <th>Voice</th>
+                                <th>Text</th>
+                            </tr>
+                            <tr>
+                                <td>Emergency <img src="/guardian/images/qmark.png"
+                                                   class="qmark"
+                                                   title="Emergency notifications are considered most urgent and are often associated with a potential threat, a school lockdown, or a disaster with possible student safety concerns"></td>
+                                <td><input type="checkbox"
+                                           id="phone3-opts-voice-emergency"
+                                           checked
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"></td>
+                                <td><input type="checkbox"
+                                           id="phone3-opts-text-emergency"
+                                           checked
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"></td>
+                            </tr>
+                            <tr>
+                                <td>High Priority <img src="/guardian/images/qmark.png"
+                                                       class="qmark"
+                                                       title="Notifications that are NOT emergency but are higher in priority"></td>
+                                <td><input type="checkbox"
+                                           id="phone3-opts-voice-high-priority"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"></td>
+                                <td><input type="checkbox"
+                                           id="phone3-opts-text-high-priority"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false"></td>
+                            </tr>
+                            <tr>
+                                <td>General <img src="/guardian/images/qmark.png"
+                                                 class="qmark"
+                                                 title="Notifications about events and activities occurring at school/district"></td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone3-opts-voice-general"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone3-opts-text-general"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Attendance <img src="/guardian/images/qmark.png"
+                                                    class="qmark"
+                                                    title="Notifications for when a student is absent or tardy but is not excused"></td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone3-opts-voice-attendance"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone3-opts-text-attendance"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Survey <img src="/guardian/images/qmark.png"
+                                                class="qmark"
+                                                title="Notifications used by school/district for parent feedback and surveys"></td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone3-opts-voice-survey"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           id="phone3-opts-text-survey"
+                                           data-parsley-excluded
+                                           data-parsley-ui-enabled="false">
+                                </td>
+                            </tr>
+                        </table>
                     </span>
-                </span>
-                <span style="display: inline-block">
-                    <table>
-                        <tr>
-                            <th>Notification Type</th>
-                            <th>Voice</th>
-                            <th>Text</th>
-                        </tr>
-                        <tr>
-                            <td>Emergency</td>
-                            <td><input type="checkbox"
-                                       id="phone3-opts-voice-emergency"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"></td>
-                            <td><input type="checkbox"
-                                       id="phone3-opts-text-emergency"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"></td>
-                        </tr>
-                        <tr>
-                            <td>High Priority</td>
-                            <td><input type="checkbox"
-                                       id="phone3-opts-voice-high-priority"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"></td>
-                            <td><input type="checkbox"
-                                       id="phone3-opts-text-high-priority"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false"></td>
-                        </tr>
-                        <tr>
-                            <td>General</td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone3-opts-voice-general"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone3-opts-text-general"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Attendance</td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone3-opts-voice-attendance"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone3-opts-text-attendance"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Survey</td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone3-opts-voice-survey"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                            <td>
-                                <input type="checkbox"
-                                       id="phone3-opts-text-survey"
-                                       data-parsley-excluded
-                                       data-parsley-ui-enabled="false">
-                            </td>
-                        </tr>
-                    </table>
-                </span>
             </td>
             <td>
                 <button class='savecontact'>Save</button>
