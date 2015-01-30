@@ -1,12 +1,12 @@
 <style>
-    #student-info-link {
+    .verify-link {
         font-weight: bold;
         color: #FF0000;
     }
 </style>
 
 <script type="text/template" id="student-info-verify-template">
-    <a href="students/home.html?selectstudent=U_Students_Extension.student_info_verify=1" id="student-info-verify-link">
+    <a class="verify-link" href="students/home.html?selectstudent=U_Students_Extension.student_info_verify=1" id="student-info-verify-link">
         Student Info Verify
     </a>
 </script>
@@ -15,4 +15,4 @@
     <span>Loading Student Info Verify...</span>
 </script>
 
-<script src="/admin/javascript/home-verify.js?234234"></script>
+<script src="/admin/javascript/home-verify.js"></script>

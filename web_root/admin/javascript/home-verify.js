@@ -1,5 +1,6 @@
-/*global $j*/
+/*global $j, document*/
 $j(function () {
+    'use strict';
     var loadingTemplate = $j($j('#parent-loading-template').html());
     var loadingSelector = $j('[href^="/admin/storedselections"]');
     loadingTemplate.insertAfter(loadingSelector);
@@ -28,10 +29,7 @@ $j(function () {
             })
         } else {
             loadingTemplate.remove();
-
-            $j('<span>Student Info Verify (0)</span>').insertAfter(insertSelector);
+            $j(document.createTextNode('Student Info Verify (0)')).insertAfter(insertSelector);
         }
-
-
     });
 });
