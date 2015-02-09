@@ -89,7 +89,7 @@
     psData.showGradesAttendance = ~[if.~[displaypref:gradesattendance~(curschoolid)]=1]false[else]true[/if];
     psData.showHistoricalGrades = ~[if.~[displaypref:historicalgrades~(curschoolid)]=1]false[else]true[/if];
     psData.showAttendance = ~[if.~[displaypref:attendance~(curschoolid)]=1]false[else]true[/if];
-    psData.showEmail = ~[if#isguardian.isguardian]~[if#2.~[displaypref:email~(curschoolid)]=1]false[else#2]true[/if#2][/if#isguardian];
+    psData.showEmail = ~[if#2.~[displaypref:email~(curschoolid)]=1]false[else#2]true[/if#2];
     psData.showComments = ~[if.~[displaypref:comments~(curschoolid)]=1]false[else]true[/if];
     psData.showBulletin = ~[if.~[displaypref:bulletin~(curschoolid)]=1]false[else]true[/if];
     psData.showSchedule = ~[if.~[displaypref:studentsched~(curschoolid)]=1]false[else]true[/if];

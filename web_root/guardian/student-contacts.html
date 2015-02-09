@@ -9,7 +9,7 @@
     </html>
     <!DOCTYPE html>
 [else#isstudent]
-    ~[if.~([Students]enabledemoupdate)=1]
+    ~[if.~([Students]enabledemoupdate)=0]
         ~[redirect:/guardian/home_not_available.html]
     [/if]
     <html>
@@ -121,14 +121,6 @@
             }
         </style>
         <link rel="stylesheet" href="/scripts/student-contacts-update/css/contactform.css" type="text/css">
-
-        <!--
-        <link rel="stylesheet" href="/scripts/student-contacts-update/tabletools/css/TableTools.css" type="text/css">
-        <link rel="stylesheet" href="/scripts/student-contacts-update/tabletools/css/TableTools_JUI.css"
-              type="text/css">
-        <link rel="stylesheet" href="/images/student-info/css/datatable_jui.css" type="text/css">
-        <link rel="stylesheet" href="/images/student-info/css/theme/crm-css/jquery-ui.custom.css" type="text/css">
-        -->
 
         <script src="/scripts/student-contacts-update/main.js"></script>
 
