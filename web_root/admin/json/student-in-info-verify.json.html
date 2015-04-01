@@ -1,0 +1,19 @@
+
+~[tlist_sql;
+SELECT
+	CASE 
+		WHEN student_info_verify=0 
+		THEN 'false' 
+		WHEN student_info_verify IS NULL 
+		THEN 'false' 
+		ELSE 'true' 
+	END 
+FROM
+	u_def_ext_students
+WHERE 
+	studentsdcid=~[gpv:studentsdcid]
+;nonemessage={}]
+	{
+		"student_info_verify": ~(student_info_verify)
+	}
+[/tlist_sql]
