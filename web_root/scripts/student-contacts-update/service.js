@@ -4,16 +4,16 @@ define(['config'], function(config) {
     'use strict';
     return {
         getParGuars: function (options) {
-            return $j.getJSON(config.psApi + '/dbe/schema/search/' + config.studentContactsTable + '/studentsdcid==' + options.studentsdcid + ';legal_guardian==1');
+            return $j.getJSON(config.psApi + '/api/schema/search/' + config.studentContactsTable + '/studentsdcid==' + options.studentsdcid + ';legal_guardian==1');
         },
         getParGuarsStaging: function (options) {
-            return $j.getJSON(config.psApi + '/dbe/schema/search/' + config.studentContactsStagingTable + '/studentsdcid==' + options.studentsdcid + ';legal_guardian==1');
+            return $j.getJSON(config.psApi + '/api/schema/search/' + config.studentContactsStagingTable + '/studentsdcid==' + options.studentsdcid + ';legal_guardian==1');
         },
         getEmergConts: function (options) {
-            return $j.getJSON(config.psApi + '/dbe/schema/search/' + config.studentContactsTable + '/studentsdcid==' + options.studentsdcid + ';legal_guardian==0');
+            return $j.getJSON(config.psApi + '/api/schema/search/' + config.studentContactsTable + '/studentsdcid==' + options.studentsdcid + ';legal_guardian==0');
         },
         getEmergContsStaging: function (options) {
-            return $j.getJSON(config.psApi + '/dbe/schema/search/' + config.studentContactsStagingTable + '/studentsdcid==' + options.studentsdcid + ';legal_guardian==0');
+            return $j.getJSON(config.psApi + '/api/schema/search/' + config.studentContactsStagingTable + '/studentsdcid==' + options.studentsdcid + ';legal_guardian==0');
         },
 
         /**
@@ -24,7 +24,7 @@ define(['config'], function(config) {
         updateStagingContact: function (contactData, contactRecordId) {
             return $j.ajax({
                 type: 'PUT',
-                url: config.psApi + '/dbe/schema/' + config.studentContactsStagingTable + '/' + contactRecordId,
+                url: config.psApi + '/api/schema/' + config.studentContactsStagingTable + '/' + contactRecordId,
                 contentType: "application/json",
                 data: contactData,
                 dataType: 'json'
@@ -39,7 +39,7 @@ define(['config'], function(config) {
         updateEmailStagingContact: function (contactData, contactRecordId) {
             return $j.ajax({
                 type: 'PUT',
-                url: config.psApi + '/dbe/schema/' + config.studentContactsEmailStagingTable + '/' + contactRecordId,
+                url: config.psApi + '/api/schema/' + config.studentContactsEmailStagingTable + '/' + contactRecordId,
                 contentType: "application/json",
                 data: contactData,
                 dataType: 'json'
@@ -54,7 +54,7 @@ define(['config'], function(config) {
         updatePhoneStagingContact: function (contactData, contactRecordId) {
             return $j.ajax({
                 type: 'PUT',
-                url: config.psApi + '/dbe/schema/' + config.studentContactsPhoneStagingTable + '/' + contactRecordId,
+                url: config.psApi + '/api/schema/' + config.studentContactsPhoneStagingTable + '/' + contactRecordId,
                 contentType: "application/json",
                 data: contactData,
                 dataType: 'json'
@@ -68,7 +68,7 @@ define(['config'], function(config) {
         newStagingContact: function (contactData) {
             return $j.ajax({
                 type: 'POST',
-                url: config.psApi + '/dbe/schema/' + config.studentContactsStagingTable,
+                url: config.psApi + '/api/schema/' + config.studentContactsStagingTable,
                 contentType: "application/json",
                 data: contactData,
                 dataType: 'json'
@@ -78,7 +78,7 @@ define(['config'], function(config) {
         setStagingContactDcid: function(contactData, contactId) {
             return $j.ajax({
                 type: 'PUT',
-                url: config.psApi + '/dbe/schema/' + config.studentContactsStagingTable + '/' + contactId,
+                url: config.psApi + '/api/schema/' + config.studentContactsStagingTable + '/' + contactId,
                 contentType: "application/json",
                 data: contactData,
                 dataType: 'json'
@@ -92,7 +92,7 @@ define(['config'], function(config) {
         newEmailStagingContact: function (contactData) {
             return $j.ajax({
                 type: 'POST',
-                url: config.psApi + '/dbe/schema/' + config.studentContactsEmailStagingTable,
+                url: config.psApi + '/api/schema/' + config.studentContactsEmailStagingTable,
                 contentType: "application/json",
                 data: contactData,
                 dataType: 'json'
@@ -106,7 +106,7 @@ define(['config'], function(config) {
         newPhoneStagingContact: function (contactData) {
             return $j.ajax({
                 type: 'POST',
-                url: config.psApi + '/dbe/schema/' + config.studentContactsPhoneStagingTable,
+                url: config.psApi + '/api/schema/' + config.studentContactsPhoneStagingTable,
                 contentType: "application/json",
                 data: contactData,
                 dataType: 'json'
