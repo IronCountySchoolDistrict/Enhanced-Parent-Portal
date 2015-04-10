@@ -83,7 +83,7 @@ $j(function () {
 
                 // Load staging data into form.
                 function loadStagingData() {
-                    $j.get(config.psPoc + '/dbe/schema/search/' + config.stuInfoStagingDbe + '/studentsdcid==' + psData.studentDcid, function (resp) {
+                    $j.get(config.psPoc + '/api/schema/search/' + config.stuInfoStagingDbe + '/studentsdcid==' + psData.studentDcid, function (resp) {
                         loadingDialogInstance.forceClose();
 
                         var studentInfo = resp.record[0].tables[config.stuInfoStagingDbe];
