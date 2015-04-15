@@ -9,7 +9,7 @@
 </html>
 <!DOCTYPE html>
 [else#isstudent]
-    ~[if.~([Students]enabledemoupdate)=1]
+    ~[if.~([Students]enabledemoupdate)=0]
         ~[redirect:/guardian/home_not_available.html]
     [/if]
     <!DOCTYPE html>
@@ -766,7 +766,7 @@
         }
 
         // Set student email to result of tlist_sql
-        $('#on-file-student-email').text(psData.psmStudentContactEmail)
+        $('#on-file-student-email').text(psData.psmStudentContactEmail);
 
     </script>
 

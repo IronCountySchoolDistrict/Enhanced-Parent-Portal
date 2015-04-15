@@ -9,7 +9,7 @@
     </html>
     <!DOCTYPE html>
 [else#isstudent]
-    ~[if.~([Students]enabledemoupdate)=1]
+    ~[if.~([Students]enabledemoupdate)=0]
         ~[redirect:/guardian/home_not_available.html]
     [/if]
     <html>
@@ -121,14 +121,6 @@
             }
         </style>
         <link rel="stylesheet" href="/scripts/student-contacts-update/css/contactform.css" type="text/css">
-
-        <!--
-        <link rel="stylesheet" href="/scripts/student-contacts-update/tabletools/css/TableTools.css" type="text/css">
-        <link rel="stylesheet" href="/scripts/student-contacts-update/tabletools/css/TableTools_JUI.css"
-              type="text/css">
-        <link rel="stylesheet" href="/images/student-info/css/datatable_jui.css" type="text/css">
-        <link rel="stylesheet" href="/images/student-info/css/theme/crm-css/jquery-ui.custom.css" type="text/css">
-        -->
 
         <script src="/scripts/student-contacts-update/main.js"></script>
 
@@ -562,18 +554,11 @@
                                 </td>
                                 <td>
                                     <input type="checkbox"
+                                           disabled="disabled"
                                            id="email-opts-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
-                                    <%
-                                    if (Object.keys(email).length > 0) {
-                                    if (email.opts_emergency === "1") {
-                                    %>
-                                    checked
-                                    <%
-                                    }
-                                    }
-                                    %>
+                                           checked
                                     />
                                 </td>
                             </tr>
@@ -732,15 +717,8 @@
                                            id="phone1-opts-voice-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
-                                    <%
-                                    if (phone.length > 0) {
-                                    if (phone[0].opts_voice_emergency === "1") {
-                                    %>
-                                    checked
-                                    <%
-                                    }
-                                    }
-                                    %>
+                                           disabled="disabled" 
+                                           checked
                                     />
                                 </td>
                                 <td>
@@ -748,15 +726,8 @@
                                            id="phone1-opts-text-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
-                                    <%
-                                    if (phone.length > 0) {
-                                    if (phone[0].opts_text_emergency === "1") {
-                                    %>
-                                    checked
-                                    <%
-                                    }
-                                    }
-                                    %>
+                                           checked
+                                           disabled="disabled"
                                     />
                                 </td>
                             </tr>
@@ -972,15 +943,8 @@
                                            id="phone2-opts-voice-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
-                                    <%
-                                    if (phone.length > 1) {
-                                    if (phone[1].opts_voice_emergency === "1") {
-                                    %>
-                                    checked
-                                    <%
-                                    }
-                                    }
-                                    %>
+                                           disabled="disabled" 
+                                           checked
                                     />
                                 </td>
                                 <td>
@@ -988,15 +952,8 @@
                                            id="phone2-opts-text-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
-                                    <%
-                                    if (phone.length > 1) {
-                                    if (phone[1].opts_text_emergency === "1") {
-                                    %>
-                                    checked
-                                    <%
-                                    }
-                                    }
-                                    %>
+                                           disabled="disabled" 
+                                           checked
                                     />
                                 </td>
                             </tr>
@@ -1213,15 +1170,9 @@
                                            id="phone3-opts-voice-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
-                                    <%
-                                    if (phone.length > 2) {
-                                    if (phone[2].opts_voice_emergency === "1") {
-                                    %>
-                                    checked
-                                    <%
-                                    }
-                                    }
-                                    %>
+                                           onclick="this.checked=!this.checked;"
+                                           style="opacity: 0.5; box-shadow: none;"
+                                           checked
                                     >
                                 </td>
                                 <td>

@@ -20,7 +20,7 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
             var allPriorities = [];
             _.each(contactRows, function (contactRow) {
                 var rowData = $j(contactRow).data();
-                var priorityInt = Number.parseInt(rowData.contactData.priority);
+                var priorityInt = parseInt(rowData.contactData.priority);
                 allPriorities.push(priorityInt);
             });
             return allPriorities.sort();
@@ -36,7 +36,7 @@ define(['actions', 'service', 'underscore'], function (actions, service, _) {
             var allContactIds = [];
             _.each(contactRows, function (contactRow) {
                 var rowData = $j(contactRow).data();
-                var priorityInt = Number.parseInt(rowData.contactData.contact_id);
+                var priorityInt = parseInt(rowData.contactData.contact_id);
                 allContactIds.push(priorityInt);
             });
             return allContactIds.sort();

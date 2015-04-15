@@ -49,10 +49,17 @@ $j(function () {
             loadingDialogInstance.open();
 
             var studentInInfoStaging;
-            $j.get(config.psPoc + '/api/schema/search/u_def_ext_students/studentsdcid==' + psData.studentDcid + ';student_info_verify==1', function (resp) {
+            $j.get('/admin/json/student-in-info-verify.json.html?studentsdcid=' + psData.studentDcid, function (resp) {
 
                 // Check if student has staging record
-                studentInInfoStaging = resp.record.length !== 0;
+                // If this student doesn't have a record in the U_DEF_EXT_STUDENTS table,
+                // a blank object ({}) is returned, so this check will be false.
+                // If it's blank, the second expression will not give an exception because of short-circuit evaluation.
+                if (resp.hasOwnProperty('student_info_verify') && resp.student_info_verify === 1) {
+                    student_info_verify = true;
+                } else {
+                    studentInInfoStaging = false;
+                }
 
                 if (psData.parent_verify.trim() === "1") {
                     $j('#parent-verify').attr('checked', 'checked');

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <psExtension xmlns="http://www.powerschool.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.powerschool.com psextension.xsd">
-    <extensionname>U_STUDENT_INFO2</extensionname>
-    <extendedTable coreTable="Students" dbTableName="U_student_info_staging2" childName="U_student_info_staging2" comment="">
+    <extensionname>U_STUDENT_INFO</extensionname>
+    <extendedTable coreTable="Students" dbTableName="U_student_info_staging" childName="U_student_info_staging" comment="">
         <field name="Residence_State" type="String" length="2"/>
         <field name="doctor_name" type="String" length="60"/>
         <field name="Mailing_Zip" type="String" length="10"/>
