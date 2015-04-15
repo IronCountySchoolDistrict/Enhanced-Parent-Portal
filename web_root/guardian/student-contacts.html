@@ -554,18 +554,11 @@
                                 </td>
                                 <td>
                                     <input type="checkbox"
+                                           disabled="disabled"
                                            id="email-opts-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
-                                    <%
-                                    if (Object.keys(email).length > 0) {
-                                    if (email.opts_emergency === "1") {
-                                    %>
-                                    checked
-                                    <%
-                                    }
-                                    }
-                                    %>
+                                           checked
                                     />
                                 </td>
                             </tr>
@@ -724,15 +717,8 @@
                                            id="phone1-opts-voice-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
-                                    <%
-                                    if (phone.length > 0) {
-                                    if (phone[0].opts_voice_emergency === "1") {
-                                    %>
-                                    checked
-                                    <%
-                                    }
-                                    }
-                                    %>
+                                           disabled="disabled" 
+                                           checked
                                     />
                                 </td>
                                 <td>
@@ -740,15 +726,8 @@
                                            id="phone1-opts-text-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
-                                    <%
-                                    if (phone.length > 0) {
-                                    if (phone[0].opts_text_emergency === "1") {
-                                    %>
-                                    checked
-                                    <%
-                                    }
-                                    }
-                                    %>
+                                           checked
+                                           disabled="disabled"
                                     />
                                 </td>
                             </tr>
@@ -964,15 +943,8 @@
                                            id="phone2-opts-voice-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
-                                    <%
-                                    if (phone.length > 1) {
-                                    if (phone[1].opts_voice_emergency === "1") {
-                                    %>
-                                    checked
-                                    <%
-                                    }
-                                    }
-                                    %>
+                                           disabled="disabled" 
+                                           checked
                                     />
                                 </td>
                                 <td>
@@ -980,15 +952,8 @@
                                            id="phone2-opts-text-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
-                                    <%
-                                    if (phone.length > 1) {
-                                    if (phone[1].opts_text_emergency === "1") {
-                                    %>
-                                    checked
-                                    <%
-                                    }
-                                    }
-                                    %>
+                                           disabled="disabled" 
+                                           checked
                                     />
                                 </td>
                             </tr>
@@ -1205,15 +1170,9 @@
                                            id="phone3-opts-voice-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
-                                    <%
-                                    if (phone.length > 2) {
-                                    if (phone[2].opts_voice_emergency === "1") {
-                                    %>
-                                    checked
-                                    <%
-                                    }
-                                    }
-                                    %>
+                                           onclick="this.checked=!this.checked;"
+                                           style="opacity: 0.5; box-shadow: none;"
+                                           checked
                                     >
                                 </td>
                                 <td>
