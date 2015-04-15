@@ -554,11 +554,13 @@
                                 </td>
                                 <td>
                                     <input type="checkbox"
-                                           disabled="disabled"
+                                           
                                            id="email-opts-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
                                            checked
+                                           onclick="this.checked=!this.checked;"
+                                           style="opacity: 0.5; box-shadow: none;"
                                     />
                                 </td>
                             </tr>
@@ -717,8 +719,10 @@
                                            id="phone1-opts-voice-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
-                                           disabled="disabled" 
+                                            
                                            checked
+                                           onclick="this.checked=!this.checked;"
+                                           style="opacity: 0.5; box-shadow: none;"
                                     />
                                 </td>
                                 <td>
@@ -727,7 +731,9 @@
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
                                            checked
-                                           disabled="disabled"
+                                           
+                                           onclick="this.checked=!this.checked;"
+                                           style="opacity: 0.5; box-shadow: none;"
                                     />
                                 </td>
                             </tr>
@@ -943,8 +949,9 @@
                                            id="phone2-opts-voice-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
-                                           disabled="disabled" 
                                            checked
+                                           onclick="this.checked=!this.checked;"
+                                           style="opacity: 0.5; box-shadow: none;"
                                     />
                                 </td>
                                 <td>
@@ -952,8 +959,9 @@
                                            id="phone2-opts-text-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
-                                           disabled="disabled" 
                                            checked
+                                           onclick="this.checked=!this.checked;"
+                                           style="opacity: 0.5; box-shadow: none;"
                                     />
                                 </td>
                             </tr>
@@ -1177,18 +1185,12 @@
                                 </td>
                                 <td>
                                     <input type="checkbox"
+                                           checked
                                            id="phone3-opts-text-emergency"
                                            data-parsley-excluded
                                            data-parsley-ui-enabled="false"
-                                    <%
-                                    if (phone.length > 2) {
-                                    if (phone[2].opts_text_emergency === "1") {
-                                    %>
-                                    checked
-                                    <%
-                                    }
-                                    }
-                                    %>
+                                           onclick="this.checked=!this.checked;"
+                                           style="opacity: 0.5; box-shadow: none;"
                                 </td>
                             </tr>
                             <tr>
@@ -1653,7 +1655,10 @@
                                            id="email-opts-emergency"
                                            checked
                                            data-parsley-excluded
-                                           data-parsley-ui-enabled="false">
+                                           data-parsley-ui-enabled="false"
+                                           onclick="this.checked=!this.checked;"
+                                           style="opacity: 0.5; box-shadow: none;"
+                                    >
                                 </td>
                             </tr>
                             <tr>
@@ -1748,12 +1753,18 @@
                                            id="phone1-opts-voice-emergency"
                                            checked
                                            data-parsley-excluded
-                                           data-parsley-ui-enabled="false"></td>
+                                           data-parsley-ui-enabled="false"
+                                           onclick="this.checked=!this.checked;"
+                                           style="opacity: 0.5; box-shadow: none;">
+                                </td>
                                 <td><input type="checkbox"
                                            id="phone1-opts-text-emergency"
                                            checked
                                            data-parsley-excluded
-                                           data-parsley-ui-enabled="false"></td>
+                                           data-parsley-ui-enabled="false"
+                                           onclick="this.checked=!this.checked;"
+                                           style="opacity: 0.5; box-shadow: none;">
+                                </td>
                             </tr>
                             <tr>
                                 <td>High Priority <img src="/guardian/images/qmark.png"
@@ -1866,12 +1877,18 @@
                                            id="phone2-opts-voice-emergency"
                                            checked
                                            data-parsley-excluded
-                                           data-parsley-ui-enabled="false"></td>
+                                           data-parsley-ui-enabled="false"
+                                           onclick="this.checked=!this.checked;"
+                                           style="opacity: 0.5; box-shadow: none;">
+                                </td>
                                 <td><input type="checkbox"
                                            id="phone2-opts-text-emergency"
                                            checked
                                            data-parsley-excluded
-                                           data-parsley-ui-enabled="false"></td>
+                                           data-parsley-ui-enabled="false"
+                                           onclick="this.checked=!this.checked;"
+                                           style="opacity: 0.5; box-shadow: none;">
+                                </td>
                             </tr>
                             <tr>
                                 <td>High Priority <img src="/guardian/images/qmark.png"
@@ -1985,12 +2002,18 @@
                                            id="phone3-opts-voice-emergency"
                                            checked
                                            data-parsley-excluded
-                                           data-parsley-ui-enabled="false"></td>
+                                           data-parsley-ui-enabled="false"
+                                           onclick="this.checked=!this.checked;"
+                                           style="opacity: 0.5; box-shadow: none;">
+                                </td>
                                 <td><input type="checkbox"
                                            id="phone3-opts-text-emergency"
                                            checked
                                            data-parsley-excluded
-                                           data-parsley-ui-enabled="false"></td>
+                                           data-parsley-ui-enabled="false"
+                                           onclick="this.checked=!this.checked;"
+                                           style="opacity: 0.5; box-shadow: none;">
+                                </td>
                             </tr>
                             <tr>
                                 <td>High Priority <img src="/guardian/images/qmark.png"
