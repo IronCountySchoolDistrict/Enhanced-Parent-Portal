@@ -1,5 +1,5 @@
 <script type="text/javascript">
-	$j('a[href*="mobilesettings.html"]').closest('tr').after(
+	$j('a[href*="misc-district.html"]').closest('tr').after(
 		'<!-- BEGIN link for Parent Portal Settings -->\
 		<tr>\
 			<td><a href="/admin/schoolsetup/portals.html">Parent Portal Settings</a></td>\

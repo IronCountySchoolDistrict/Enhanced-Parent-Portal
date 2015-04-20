@@ -9,4 +9,6 @@
     psData.studentDcid = "~(studentfrn)".slice(3);
 </script>
 
+<!--
 <script src="/scripts/student-info/js/student-info-link.js"></script>
+-->

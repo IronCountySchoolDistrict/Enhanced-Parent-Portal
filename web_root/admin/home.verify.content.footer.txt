@@ -15,4 +15,6 @@
     <span>Loading Student Info Verify...</span>
 </script>
 
+<!--
 <script src="/admin/javascript/home-verify.js"></script>
+-->
