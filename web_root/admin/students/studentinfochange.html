@@ -10,59 +10,44 @@
     <script src="/admin/javascript/parentdemo.js"></script>
     <script type="text/template" id="psm-student-contact-id-template">
         ~[tlist_sql;
-        SELECT
-        id
-        FROM
-        PSM_studentcontact
-        WHERE
-        studentid=(
-        SELECT
-        id
-        FROM
-        PSM_student
-        WHERE
-        studentidentifier=~(student_number)) AND
-        studentcontacttypeid=(
-        SELECT
-        id
-        FROM
-        PSM_studentcontacttype
-        WHERE
-        name='Self')]
+            SELECT id
+            FROM PSM_studentcontact
+            WHERE studentid=
+                (SELECT id
+                 FROM PSM_student
+                 WHERE studentidentifier=~(student_number))
+              AND studentcontacttypeid=
+                (SELECT id
+                 FROM PSM_studentcontacttype
+                 WHERE name='Self')]
         ~(studentContactId)
         [/tlist_sql]
     </script>
     <script type="text/template" id="psm-student-id-template">
         ~[tlist_sql;
-        SELECT
-        id
-        FROM
-        PSM_student
-        WHERE
-        studentidentifier=~(student_number)]
+            SELECT id
+            FROM PSM_student
+            WHERE studentidentifier=~(student_number)
+        ]
         ~(id)
         [/tlist_sql]
     </script>
     <script type="text/template" id="psm-student-contact-type-template">
         ~[tlist_sql;
-        SELECT
-        id
-        FROM
-        PSM_studentcontacttype
-        WHERE
-        name='Self']
+            SELECT id
+            FROM PSM_studentcontacttype
+            WHERE name='Self'
+        ]
         ~(id)
         [/tlist_sql]
     </script>
 
     <script type="text/template" id="student-info-template">
         ~[tlist_sql;
-        SELECT
-        id
-        FROM
-        u_student_info_staging
-        WHERE
-        studentsdcid=~(rn)]
+            SELECT id
+            FROM u_student_info_staging
+            WHERE studentsdcid=~(rn)
+        ]
         ~(id)
         [/tlist_sql]
     </script>
