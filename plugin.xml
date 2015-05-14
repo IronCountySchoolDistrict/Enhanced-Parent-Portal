@@ -6,17 +6,6 @@
         version="4.0.5"
         xsi:schemaLocation="http://plugin.powerschool.pearson.com plugin.xsd">
 
-        <access_request>
-			<field table="U_DEF_EXT_STUDENTS" field="PARENT_VERIFY" access="FullAccess" />
-			<field table="U_DEF_EXT_STUDENTS" field="STUDENT_INFO_VERIFY" access="FullAccess" />
-			<field table="U_DEF_EXT_STUDENTS" field="BOUNDARY_HS" access="FullAccess" />
-			<field table="U_DEF_EXT_STUDENTS" field="STUDENTSDCID" access="FullAccess" />
-        </access_request>
-
-	<autoinstall required="true">
-    		<autoenable required="true" />
-    		<autoredeploy />
-  	</autoinstall>
     <publisher name="Iron County School District Data Team">
         <contact email="data@ironmail.org"/>
     </publisher>
