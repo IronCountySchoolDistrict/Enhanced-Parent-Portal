@@ -8,29 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/IronCountySchoolDistrict/Enhanced-Parent-Portal.git"
+    "url": "git+https://github.com/IronCountySchoolDistrict/enhanced-parent-portal.git"
   },
   "author": "IronCountySchoolDistrict",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/IronCountySchoolDistrict/Enhanced-Parent-Portal/issues"
+    "url": "https://github.com/IronCountySchoolDistrict/enhanced-parent-portal/issues"
   },
-  "homepage": "https://github.com/IronCountySchoolDistrict/Enhanced-Parent-Portal#readme",
-  "devDependencies": {
-    "casper-chai": "^0.2.1",
-    "casperjs": "^1.1.0-beta3",
-    "chai": "^2.3.0",
-    "del": "^1.2.0",
-    "gulp": "^3.8.11",
-    "gulp-debug": "^2.0.1",
-    "gulp-jshint": "^1.11.0",
-    "gulp-load-plugins": "^0.10.0",
-    "gulp-sftp": "^0.1.4",
-    "gulp-watch": "^4.2.4",
-    "gulp-zip": "^3.0.2",
-    "mocha": "^2.2.5",
-    "mocha-casperjs": "^0.5.3",
-    "phantomjs": "^1.9.16",
-    "require-dir": "^0.3.0"
-  }
+  "homepage": "https://github.com/IronCountySchoolDistrict/enhanced-parent-portal#readme"
 }
