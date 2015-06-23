@@ -1,7 +1,7 @@
 <div id="bellschedule" parentid="home" title="Bell Schedule" class="panel">
     <fieldset>
         <div class="row" style="text-align:left;min-height:35px;padding:5px;"><label>
-            <img src="/images/clocksmall.gif" width="30" height="30" alt="" border="0">
+            <img src="<td>Emergency <img src="<!-- @echo IMAGE_SERVER_URL -->/images/clocksmall.gif" width="30" height="30" alt="" border="0">
             ~[tlist_sql; SELECT bs.Name FROM Bell_Schedule bs WHERE bs.id = ~[gpv:schedid]]~(Name;t)[/tlist_sql]
             &nbsp;~[eaodate;dayabbr]</label>
         </div>

@@ -189,4 +189,4 @@
 </script>
 
 <!-- SCRIPT INCLUDES -->
-<script src="/guardian/javascript/termgrades.js"></script>
+<script src="<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/js/termgrades.js"></script>

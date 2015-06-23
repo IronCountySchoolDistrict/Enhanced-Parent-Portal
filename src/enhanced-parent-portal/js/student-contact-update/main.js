@@ -1,13 +1,13 @@
 /*global require,loadingDialogInstance*/
 require.config({
-    baseUrl: '/scripts',
+    baseUrl: '<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/js',
     paths: {
         // app modules
-        tableModule: '/scripts/student-contacts-update/table-module',
-        service: '/scripts/student-contacts-update/service',
-        actions: '/scripts/student-contacts-update/actions',
-        config: '/scripts/student-contacts-update/config',
-        tooltip: '/scripts/student-contacts-update/tooltip',
+        tableModule: '/student-contacts-update/table-module',
+        service: '/student-contacts-update/service',
+        actions: '/student-contacts-update/actions',
+        config: '/student-contacts-update/config',
+        tooltip: '/student-contacts-update/tooltip',
 
         parsley: '//cdnjs.cloudflare.com/ajax/libs/parsley.js/2.0.5/parsley',
         underscore: 'underscore/underscore'

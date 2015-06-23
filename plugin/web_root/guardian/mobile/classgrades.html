@@ -1,7 +1,7 @@
 <ul id="classgrades" parentid="home" title="Grades">
 <li class="group">~(current.final.grade.name) Classes<br />
-	<img class="indicator" src="/images/icon_late.gif"> = Late Assignments<br />
-	<img class="indicator" src="/images/icon_missing.gif"> = Missing Assignments
+	<img class="indicator" src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_late.gif"> = Late Assignments<br />
+	<img class="indicator" src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_missing.gif"> = Missing Assignments
 </li>
 ~[tlist_sql;
 SELECT
@@ -44,11 +44,11 @@ GROUP by cc.dcid,sync_cc.sectionenrollmentid, c.course_name, sec.expression
 		<li class="hindent">
 		~[if.pref.ppscores~(schoolid)=1]
 		<!-- ~(cc.dcid) ~(fg) ~(psmseid) ~(c.course_name;t)-->~(sec.expression;t;externalexpression) ~(c.course_name;t)
-			<img class="indicator" style="display:~(MISSINGICON;t)" align="right" src="/images/icon_missing.gif">
-			<img class="indicator" style="display:~(LATEICON;t)" align="right" src="/images/icon_late.gif">
+			<img class="indicator" style="display:~(MISSINGICON;t)" align="right" src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_missing.gif">
+			<img class="indicator" style="display:~(LATEICON;t)" align="right" src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_late.gif">
 		[else]<a href="#scores.html?frn=004~(cc.dcid)&fg=~(fg)&psmseid=~(psmseid)&coursetitle=~(c.course_name;t)">~(sec.expression;t;externalexpression) ~(c.course_name;t)
-			<img class="indicator" style="display:~(MISSINGICON;t)" align="right" src="/images/icon_missing.gif">
-			<img class="indicator" style="display:~(LATEICON;t)" align="right" src="/images/icon_late.gif">
+			<img class="indicator" style="display:~(MISSINGICON;t)" align="right" src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_missing.gif">
+			<img class="indicator" style="display:~(LATEICON;t)" align="right" src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_late.gif">
 			</a>
 		[/if]
 		</li>

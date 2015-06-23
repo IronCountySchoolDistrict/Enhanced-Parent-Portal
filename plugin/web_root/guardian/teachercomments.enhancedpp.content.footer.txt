@@ -31,4 +31,4 @@
 </script>
 
 <!-- SCRIPT INCLUDES -->
-<script src="/guardian/javascript/teachercomments.js"></script>
+<script src="<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/js/teachercomments.js"></script>

@@ -6,7 +6,7 @@
     ~[if.prefschool.sgshowpa=1]
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr>
-        <td background="/images/transparent.gif">
+        <td background="<!-- @echo IMAGE_SERVER_URL -->/images/transparent.gif">
         <br>
         <!-- title -->
         &nbsp;&nbsp;<span class="header">Grade History</span><br><br>
@@ -28,7 +28,7 @@
 <h1>Score Information Not Available</h1>
 
 <p> This information is not available for the current student at this time.</p>
-<a href="javascript:history.go(-1)"><img src="/images/btn_back_on.gif" alt="" width="63" height="26" border="0"></a>
+<a href="javascript:history.go(-1)"><img src="<!-- @echo IMAGE_SERVER_URL -->/images/btn_back_on.gif" alt="" width="63" height="26" border="0"></a>
 [else#score]
 <style>
     .psparent #content-main .box-round {
@@ -134,12 +134,12 @@ case when a=1 then
     <td align="center">'||F||'</td>
     <td align="center">'||G||'</td>
     <td align="center">'||H||'</td>
-    <td width="19"><img class="indicator" style="display'||chr(58)||I||'" src="'||'/images/icon_check.gif"></td>
-    <td width="19"><img class="indicator" style="display'||chr(58)||J||'" src="'||'/images/icon_late.gif"></td>
+    <td width="19"><img class="indicator" style="display'||chr(58)||I||'" src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_check.gif"></td>
+    <td width="19"><img class="indicator" style="display'||chr(58)||J||'" src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_late.gif"></td>
 
-    <td width="19"><img class="indicator" style="display'||chr(58)||K||'" src="'||'/images/icon_missing.gif"></td>
-    <td width="19"><img class="indicator" style="display'||chr(58)||L||'" src="'||'/images/icon_exempt.gif"></td>
-    <td width="19"><img class="indicator" style="display'||chr(58)||M||'" src="'||'/images/icon_excluded.gif"></td>
+    <td width="19"><img class="indicator" style="display'||chr(58)||K||'" src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_missing.gif"></td>
+    <td width="19"><img class="indicator" style="display'||chr(58)||L||'" src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_exempt.gif"></td>
+    <td width="19"><img class="indicator" style="display'||chr(58)||M||'" src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_excluded.gif"></td>
 </tr>
 '
 when a=2 then
@@ -149,15 +149,15 @@ when a=2 then
     <td colspan="3" bgcolor="#F0F0F0">'||E||'</td>
     <td align="center" bgcolor="#F0F0F0">'||H||'</td>
     <td width="19" bgcolor="#F0F0F0"><img class="indicator" style="display'||chr(58)||I||'"
-                                          src="'||'/images/icon_check.gif"></td>
+                                          src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_check.gif"></td>
     <td width="19" bgcolor="#F0F0F0"><img class="indicator" style="display'||chr(58)||J||'"
-                                          src="'||'/images/icon_late.gif"></td>
+                                          src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_late.gif"></td>
     <td width="19" bgcolor="#F0F0F0"><img class="indicator" style="display'||chr(58)||K||'"
-                                          src="'||'/images/icon_missing.gif"></td>
+                                          src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_missing.gif"></td>
     <td width="19" bgcolor="#F0F0F0"><img class="indicator" style="display'||chr(58)||L||'"
-                                          src="'||'/images/icon_exempt.gif"></td>
+                                          src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_exempt.gif"></td>
     <td width="19" bgcolor="#F0F0F0"><img class="indicator" style="display'||chr(58)||M||'"
-                                          src="'||'/images/icon_excluded.gif"></td>
+                                          src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_excluded.gif"></td>
 </tr>
 '
 end asmt_output
@@ -331,11 +331,11 @@ order by datedue, pga.name;alternatecolor]
     <td>~(duedate;d)</td>
     <td>~(category;t)</td>
     <td>~(assignment;t)</td>
-    <td width="14"><img class="indicator" style="display:~(turnedin;t)" src="/images/icon_check.gif"></td>
-    <td width="14"><img class="indicator" style="display:~(late;t)" src="/images/icon_late.gif"></td>
-    <td width="14"><img class="indicator" style="display:~(missing;t)" src="/images/icon_missing.gif"></td>
-    <td width="14"><img class="indicator" style="display:~(exempt;t)" src="/images/icon_exempt.gif"></td>
-    <td width="19"><img class="indicator" style="display:~(notcalc;t)" src="/images/icon_excluded.gif"></td>
+    <td width="14"><img class="indicator" style="display:~(turnedin;t)" src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_check.gif"></td>
+    <td width="14"><img class="indicator" style="display:~(late;t)" src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_late.gif"></td>
+    <td width="14"><img class="indicator" style="display:~(missing;t)" src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_missing.gif"></td>
+    <td width="14"><img class="indicator" style="display:~(exempt;t)" src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_exempt.gif"></td>
+    <td width="19"><img class="indicator" style="display:~(notcalc;t)" src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_excluded.gif"></td>
     <td align="center"><span class="bold-underline">~(earnposs;t)</span></td>
     <td align="center">~(percent;t)</td>
     <td align="center">~(ltrgrade;t)</td>
@@ -343,11 +343,11 @@ order by datedue, pga.name;alternatecolor]
 [/tlist_sql]
 [/if#stdscore]
 <tr>
-    <td colspan="11" align="center"><img src="/images/icon_check.gif" alt="Collected">~[text:psx.html.guardian.scores._collected]<img
-            src="/images/icon_late.gif" alt="Late">~[text:psx.html.guardian.scores._late]<img
-            src="/images/icon_missing.gif" alt="Missing">~[text:psx.html.guardian.scores._missing]<img
-            src="/images/icon_exempt.gif" alt="Exempt">~[text:psx.html.guardian.scores._score_is_exempt_from_final_grade]<img
-            src="/images/icon_excluded.gif" alt="Excluded">~[text:psx.html.guardian.scores._assignment_is_not_included_in_final_grade]
+    <td colspan="11" align="center"><img src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_check.gif" alt="Collected">~[text:psx.html.guardian.scores._collected]<img
+            src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_late.gif" alt="Late">~[text:psx.html.guardian.scores._late]<img
+            src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_missing.gif" alt="Missing">~[text:psx.html.guardian.scores._missing]<img
+            src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_exempt.gif" alt="Exempt">~[text:psx.html.guardian.scores._score_is_exempt_from_final_grade]<img
+            src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_excluded.gif" alt="Excluded">~[text:psx.html.guardian.scores._assignment_is_not_included_in_final_grade]
     </td>
 </tr>
 </table>

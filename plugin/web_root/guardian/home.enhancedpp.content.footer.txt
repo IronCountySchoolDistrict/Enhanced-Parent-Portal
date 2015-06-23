@@ -22,7 +22,7 @@ which uses on-by-default (1=false, 0=true) boolean values.-->
 </script>
 [/if]
 ~[if.prefschool.mobiledisable_guardian=1][else]
-<script language="JavaScript" src="/scripts/mobile/detectMobileWebkit.js"></script>
+<script language="JavaScript" src="<!-- @echo IMAGE_SERVER_URL -->/scripts/mobile/detectMobileWebkit.js"></script>
 [/if]
 
 <script type="text/template" id="header-template">
@@ -42,4 +42,4 @@ which uses on-by-default (1=false, 0=true) boolean values.-->
     ~[wc:epp_version]
 </script>
 
-<script src="/guardian/javascript/home.js"></script>
+<script src="<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/js/home.js"></script>

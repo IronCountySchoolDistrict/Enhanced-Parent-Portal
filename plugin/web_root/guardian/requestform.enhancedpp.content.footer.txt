@@ -29,4 +29,4 @@
     ~[wc:epp_version]
 </script>
 
-<script src="/guardian/javascript/requestform.js"></script>
+<script src="<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/js/requestform.js"></script>
