@@ -1,13 +1,16 @@
 /*global require,loadingDialogInstance*/
+
+// Use app-specific base URL here so other dependency import paths don't get affected
+var appBaseUrl = "/* @echo IMAGE_SERVER_URL *//enhanced-parent-portal/js";
+
 require.config({
-    baseUrl: '<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/js',
     paths: {
         // app modules
-        tableModule: '/student-contacts-update/table-module',
-        service: '/student-contacts-update/service',
-        actions: '/student-contacts-update/actions',
-        config: '/student-contacts-update/config',
-        tooltip: '/student-contacts-update/tooltip',
+        tableModule: appBaseUrl + '/student-contact-update/table-module',
+        service: appBaseUrl + '/student-contact-update/service',
+        actions: appBaseUrl + '/student-contact-update/actions',
+        config: appBaseUrl + '/student-contact-update/config',
+        tooltip: appBaseUrl + '/student-contact-update/tooltip',
 
         parsley: '//cdnjs.cloudflare.com/ajax/libs/parsley.js/2.0.5/parsley',
         underscore: 'underscore/underscore'

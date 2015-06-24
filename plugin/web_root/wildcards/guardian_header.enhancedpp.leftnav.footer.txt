@@ -23,7 +23,7 @@
     <script>
         var guardianFirstScreen = "~[displaypref:guardian1stscreen~(curschoolid)]";
     </script>
-    <script src="<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/js/eppdailyredirect.js"></script>
+    <script src="<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/js/eppdailyredirect.js?v=4.0.5"></script>
 [/if]
 
 ~[SetPostValue:nextschool=~(f.table_info;table=students;dothisfor=all;field=Next_School;*id=~(curstudid);fn=value)]
@@ -46,12 +46,6 @@
     ~[if#1.pref.accesslog~(curschoolid)=1][else#1]<li id="btn-access-log"><a href="accesslog.html" >Access Logs</a></li>[/if#1]
     ~[if#isstudent.isstudent]
       [else#isstudent]
-        <li id="btn-demographic-update">
-            <a href="student-info.html">Student Info</a>
-        </li>
-    [/if#isstudent]
-    ~[if#isstudent.isstudent]
-      [else#isstudent]
       <li id="btn-student-contacts">
           <a href="student-contacts.html">Student Contacts</a>
       </li>
@@ -59,7 +53,6 @@
     ~[if#1.pref.discipline~(curschoolid)=1][else#1]<li id="btn-discipline-log"><a href="discipline.html" >Discipline</a></li>[/if#1]
     ~[if#1.pref.graduation~(curschoolid)=1][else#1]<li id="btn-graduation-progress"><a href="~[if#gradplan.pref.graduationver~(curschoolid)=1]planselect.html[else#gradplan]graduation.html[/if#gradplan]" >Graduation Progress</a></li>[/if#1]
     ~[if#1.pref.honorroll~(curschoolid)=1][else#1]<li id="btn-honor-roll"><a href="honorroll.html" >Honor Roll</a></li>[/if#1]
-    ~[if#1.pref.studentsched~(curschoolid)=1][else#1]<li id="btn-print-transcript"><a href="studentsched.html" >My Schedule</a></li>[/if#1]
     ~[if#gs.~[f.in;value=~[gpv:nextschool];in=0,999999]=0]
         ~[if#A.pref.nextschedule~[gpv:nextschool]=1][else#A]
             ~[if#1.~(curyearid)00#~(schedule.yearidfuture)]

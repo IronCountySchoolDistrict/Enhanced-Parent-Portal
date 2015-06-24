@@ -5,7 +5,6 @@
 if (!psData.historicalGrades ||
     (!(psData.guardianSSO) && !(psData.allowWebAccess))) {
     window.location.href = '/guardian/home_not_available.html';
-    return;
 }
 
 
