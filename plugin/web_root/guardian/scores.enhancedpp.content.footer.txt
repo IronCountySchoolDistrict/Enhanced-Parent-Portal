@@ -135,14 +135,14 @@
                 <td align="center">'||F||'</td>
                 <td align="center">'||G||'</td>
                 <td align="center">'||H||'</td>
-                <td width="19"><img class="indicator" style="display'||chr(58)||I||'" src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_check.gif"></td>
-                <td width="19"><img class="indicator" style="display'||chr(58)||J||'" src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_late.gif"></td>
+                <td width="19"><img class="indicator" style="display'||chr(58)||I||'" src="'||'/images/icon_check.gif"></td>
+                <td width="19"><img class="indicator" style="display'||chr(58)||J||'" src="'||'/images/icon_late.gif"></td>
 
-                <td width="19"><img class="indicator" style="display'||chr(58)||K||'" src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_missing.gif">
+                <td width="19"><img class="indicator" style="display'||chr(58)||K||'" src="'||'/images/icon_missing.gif">
                 </td>
-                <td width="19"><img class="indicator" style="display'||chr(58)||L||'" src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_exempt.gif">
+                <td width="19"><img class="indicator" style="display'||chr(58)||L||'" src="'||'/images/icon_exempt.gif">
                 </td>
-                <td width="19"><img class="indicator" style="display'||chr(58)||M||'" src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_excluded.gif">
+                <td width="19"><img class="indicator" style="display'||chr(58)||M||'" src="'||'/images/icon_excluded.gif">
                 </td>
             </tr>
             '
@@ -153,15 +153,15 @@
                 <td colspan="3" bgcolor="#F0F0F0">'||E||'</td>
                 <td align="center" bgcolor="#F0F0F0">'||H||'</td>
                 <td width="19" bgcolor="#F0F0F0"><img class="indicator" style="display'||chr(58)||I||'"
-                                                      src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_check.gif"></td>
+                                                      src="'||'/images/icon_check.gif"></td>
                 <td width="19" bgcolor="#F0F0F0"><img class="indicator" style="display'||chr(58)||J||'"
-                                                      src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_late.gif"></td>
+                                                      src="'||'/images/icon_late.gif"></td>
                 <td width="19" bgcolor="#F0F0F0"><img class="indicator" style="display'||chr(58)||K||'"
-                                                      src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_missing.gif"></td>
+                                                      src="'||'/images/icon_missing.gif"></td>
                 <td width="19" bgcolor="#F0F0F0"><img class="indicator" style="display'||chr(58)||L||'"
-                                                      src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_exempt.gif"></td>
+                                                      src="'||'/images/icon_exempt.gif"></td>
                 <td width="19" bgcolor="#F0F0F0"><img class="indicator" style="display'||chr(58)||M||'"
-                                                      src="'||'<!-- @echo IMAGE_SERVER_URL -->/images/icon_excluded.gif"></td>
+                                                      src="'||'/images/icon_excluded.gif"></td>
             </tr>
             '
             end asmt_output
@@ -305,11 +305,11 @@
             [/if#stdscore]
 
             <tr>
-                <td colspan="11" align="center"><img src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_check.gif" alt="Collected">~[text:psx.html.guardian.scores._collected]<img
-                        src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_late.gif" alt="Late">~[text:psx.html.guardian.scores._late]<img
-                        src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_missing.gif" alt="Missing">~[text:psx.html.guardian.scores._missing]<img
-                        src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_exempt.gif" alt="Exempt">~[text:psx.html.guardian.scores._score_is_exempt_from_final_grade]<img
-                        src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_excluded.gif" alt="Excluded">~[text:psx.html.guardian.scores._assignment_is_not_included_in_final_grade]
+                <td colspan="11" align="center"><img src="/images/icon_check.gif" alt="Collected">~[text:psx.html.guardian.scores._collected]<img
+                        src="/images/icon_late.gif" alt="Late">~[text:psx.html.guardian.scores._late]<img
+                        src="/images/icon_missing.gif" alt="Missing">~[text:psx.html.guardian.scores._missing]<img
+                        src="/images/icon_exempt.gif" alt="Exempt">~[text:psx.html.guardian.scores._score_is_exempt_from_final_grade]<img
+                        src="/images/icon_excluded.gif" alt="Excluded">~[text:psx.html.guardian.scores._assignment_is_not_included_in_final_grade]
                 </td>
             </tr>
 
@@ -418,4 +418,4 @@
 </script>
 
 <!-- SCRIPT INCLUDES -->
-<script src="<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/js/scores.js"></script>
+<script src="/scripts/enhanced-parent-portal/js/scores.js"></script>
