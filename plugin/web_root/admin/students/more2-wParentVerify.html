@@ -5,8 +5,8 @@
 <title>~[text:psx.html.admin_students.more2.students_menu]</title>
 ~[wc:commonscripts]
 <script language="JavaScript">function newstudent() { us=prompt(pss_text('psx.jshtml.admin_students.more2.student_name'),""); if(us!=null){ window.document.forms[0].selectstudent.value=us; window.document.forms[0].submit(); }} </script>
-<link href="<!-- @echo IMAGE_SERVER_URL -->/images/css/screen.css" rel="stylesheet" media="screen">
-<link href="<!-- @echo IMAGE_SERVER_URL -->/images/css/print.css" rel="stylesheet" media="print">
+<link href="/images/css/screen.css" rel="stylesheet" media="screen">
+<link href="/images/css/print.css" rel="stylesheet" media="print">
 </head>
 
 <body class="frameMenu">
@@ -24,7 +24,7 @@
 <a href="quicklookup.html?frn=~(studentfrn)">~[text:psx.html.admin_students.more2.quick_lookup]</a><br>
 ~[if.~(studentscreenaccess;printformletter.html)=1]<a href="printformletter.html?frn=~(studentfrn)&dothisfor=single">~[text:psx.html.admin_students.more2.print_a_report]</a><br />[/if]
 <a href="javascript:newstudent()" target="_self">~[text:psx.html.admin_students.more2.switch_student]</a><br>
-<a href="home.html?ac=jumpstudent-1&amp;rn=~(rn)" target="_top"><img src="<!-- @echo IMAGE_SERVER_URL -->/images/btn_left_arrow.gif" width="13" height="11" alt="" border="0"></a> <a href="home.html?selectstudent=nosearch" target="_top">~[text:psx.html.admin_students.more2.list,param:(~[x:studsinset])]</a> <a href="home.html?ac=jumpstudent1&amp;rn=~(rn)" target="_top"><img src="<!-- @echo IMAGE_SERVER_URL -->/images/btn_right_arrow.gif" width="13" height="11" alt="" border="0"></a>
+<a href="home.html?ac=jumpstudent-1&amp;rn=~(rn)" target="_top"><img src="/images/btn_left_arrow.gif" width="13" height="11" alt="" border="0"></a> <a href="home.html?selectstudent=nosearch" target="_top">~[text:psx.html.admin_students.more2.list,param:(~[x:studsinset])]</a> <a href="home.html?ac=jumpstudent1&amp;rn=~(rn)" target="_top"><img src="/images/btn_right_arrow.gif" width="13" height="11" alt="" border="0"></a>
 </div>
 <table border=0 cellpadding=0 cellspacing=0 width="157">
 <tr>

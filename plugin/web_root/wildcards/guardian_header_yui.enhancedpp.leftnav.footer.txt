@@ -4,7 +4,7 @@
     <script>
         var guardianFirstScreen = "~[displaypref:guardian1stscreen~(curschoolid)]";
     </script>
-    <script src="<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/js/eppdailyredirect.js?v=4.0.5"></script>
+    <script src="/scripts/enhanced-parent-portal/js/eppdailyredirect.js?v=4.0.5"></script>
 [/if]
 
 ~[if.pref.eppdisabledl~(curschoolid)=1]
@@ -16,19 +16,19 @@
 [/if]
 
 <style type="text/css">
-    #btn-access-log a {background: url(<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/img/iconAccessLog.png) no-repeat;}
-    #btn-demographic-update a {background: url(<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/img/iconDemographicUpdate.png) no-repeat;}
-    #btn-discipline-log a {background: url(<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/img/iconDisciplineLog.png) no-repeat;}
-    #btn-graduation-progress a {background: url(<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/img/iconGraduationProgress.png) no-repeat;}
-    #btn-honor-roll a {background: url(<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/img/iconHonorRoll.png) no-repeat;}
-    #btn-password-reset a {background: url(<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/img/iconPasswordReset.png) no-repeat;}
-    #btn-print-transcript a {background: url(<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/img/iconPrintTranscript.png) no-repeat;}
-    #btn-school-info a {background: url(<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/img/iconSchoolInfo.png) no-repeat;}
-    #btn-test-scores a {background: url(<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/img/iconTestScores.png) no-repeat;}
-    #btn-web-based-cal a {background: url(<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/img/iconWebBasedCal.png) no-repeat;}
-    #btn-next-year-sched a {background: url(<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/img/iconClassReg.png) no-repeat;}
+    #btn-access-log a {background: url(/images/enhanced-parent-portal/iconAccessLog.png) no-repeat;}
+    #btn-demographic-update a {background: url(/images/enhanced-parent-portal/iconDemographicUpdate.png) no-repeat;}
+    #btn-discipline-log a {background: url(/images/enhanced-parent-portal/iconDisciplineLog.png) no-repeat;}
+    #btn-graduation-progress a {background: url(/images/enhanced-parent-portal/iconGraduationProgress.png) no-repeat;}
+    #btn-honor-roll a {background: url(/images/enhanced-parent-portal/iconHonorRoll.png) no-repeat;}
+    #btn-password-reset a {background: url(/images/enhanced-parent-portal/iconPasswordReset.png) no-repeat;}
+    #btn-print-transcript a {background: url(/images/enhanced-parent-portal/iconPrintTranscript.png) no-repeat;}
+    #btn-school-info a {background: url(/images/enhanced-parent-portal/iconSchoolInfo.png) no-repeat;}
+    #btn-test-scores a {background: url(/images/enhanced-parent-portal/iconTestScores.png) no-repeat;}
+    #btn-web-based-cal a {background: url(/images/enhanced-parent-portal/iconWebBasedCal.png) no-repeat;}
+    #btn-next-year-sched a {background: url(/images/enhanced-parent-portal/iconClassReg.png) no-repeat;}
     #btn-student-contacts a {
-        background: url(<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/img/iconStudentContacts.png) no-repeat;
+        background: url(/images/enhanced-parent-portal/iconStudentContacts.png) no-repeat;
         background-size: 35px;
     }
 </style>
@@ -93,4 +93,4 @@
 </div>
 <!--PDS Versioning/Contibutor Information End-->
 
-<script src="<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/js/guardian-header-yui.js"></script>
+<script src="/scripts/enhanced-parent-portal/js/guardian-header-yui.js"></script>

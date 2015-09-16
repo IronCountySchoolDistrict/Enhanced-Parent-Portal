@@ -5,21 +5,21 @@
 <head>
 <title>PowerSchool</title>
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=5.0; user-scalable=1;"/>
-<link rel="apple-touch-icon" href="<!-- @echo IMAGE_SERVER_URL -->/images/mobile/ps6-logo-touch-icon.png" />
+<link rel="apple-touch-icon" href="/images/mobile/ps6-logo-touch-icon.png" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
-<link href="<!-- @echo IMAGE_SERVER_URL -->/scripts/mobile/ps-iui.css" rel="stylesheet">
-<link rel="stylesheet" title="default" href="<!-- @echo IMAGE_SERVER_URL -->/scripts/mobile/ps-iui.css" type="text/css" />
-<link rel="alternate stylesheet" title="android" href="<!-- @echo IMAGE_SERVER_URL -->/scripts/mobile/android-theme.css" type="text/css">
+<link href="/scripts/mobile/ps-iui.css" rel="stylesheet">
+<link rel="stylesheet" title="default" href="/scripts/mobile/ps-iui.css" type="text/css" />
+<link rel="alternate stylesheet" title="android" href="/scripts/mobile/android-theme.css" type="text/css">
 
-<script type="application/x-javascript" src="<!-- @echo IMAGE_SERVER_URL -->/scripts/mobile/ps-iui.js"></script>
-<SCRIPT type="application/x-javascript" src="<!-- @echo IMAGE_SERVER_URL -->/scripts/iui/0.31/iui-theme-switcher.js"></SCRIPT>
+<script type="application/x-javascript" src="/scripts/mobile/ps-iui.js"></script>
+<SCRIPT type="application/x-javascript" src="/scripts/iui/0.31/iui-theme-switcher.js"></SCRIPT>
 <script type="text/javascript">
 	iui.animOn = true;
 	var uagent = navigator.userAgent.toLowerCase();
 	if(uagent.indexOf('android') != -1) {
-		iui.ts.setTheme("android");	
+		iui.ts.setTheme("android");
 	} else {
-		iui.ts.setTheme("default");	
+		iui.ts.setTheme("default");
 	}
 </script>
 
@@ -36,7 +36,7 @@
         <a id="backButton" class="button" href="#" type="backlink"></a>
 		<a id="otherButton" class="button" href="#"></a>
     </div>
-    
+
     <ul id="home" title="Home" selected="true" hideBackButton="true" otherButtonLabel="Logout" otherButtonHref="home.html?ac=logoff" otherButtonTarget="_self">
 	<div align="right"></div>
     	<li class="group">Current Student: ~[x:username]<br />
@@ -44,7 +44,7 @@
 	<li><a href="#students-list" id="curstudent">Change Student</a></li>
 	<li>No info available, please select another Student.</li>
 	</ul>
-	
+
 ~[brij_render:parentportal-pkg;:listStudentsAssociatedWithGuardian]
 
 

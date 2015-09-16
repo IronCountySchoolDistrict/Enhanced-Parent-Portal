@@ -76,17 +76,17 @@ LEFT OUTER JOIN SYNC_PGASSIGNMENTSMAP sync_pga on pga.dcid = sync_pga.pgassignme
 LEFT OUTER JOIN PSM_ASSIGNMENTSCORE PSMAS ON sync_pga.sectionassignmentid = psmas.sectionassignmentid and sync_cc.sectionenrollmentid = psmas.sectionenrollmentid
 LEFT OUTER JOIN SECTIONSCORESID SSI ON sec.id = ssi.sectionid and cc.studentid = ssi.studentid
 LEFT OUTER JOIN SECTIONSCORESASSIGNMENTS SSA ON pga.id = ssa.assignment and ssi.dcid = ssa.fdcid
-WHERE 
+WHERE
 CASE WHEN PSMAS.EXEMPT != 1 THEN 1
      WHEN PSMAS.EXEMPT = 1 and (PSMAS.SCORE is null or PSMAS.ACTUALSCOREENTERED is null) THEN 2 ELSE 1 END = 1
 AND
-CASE 
+CASE
            WHEN PGA.PUBLISHSTATE = 1 THEN PGA.PUBLISHONSPECIFICDATE
            WHEN PGA.PUBLISHSTATE = 2 THEN (PGA.DATEDUE  - PGA.PUBLISHDAYSBEFOREDUE)
            WHEN PGA.PUBLISHSTATE = 3 THEN PGA.DATEDUE
            WHEN PGA.PUBLISHSTATE = 4 THEN to_date('12/31/9999','MM/DD/YYYY')
-           ELSE PGA.DATEDUE 
-      		END BETWEEN SYSDATE - to_number(CASE WHEN '~[gpv:timeframe]' is null THEN '14' ELSE '~[gpv:timeframe]' END) 
+           ELSE PGA.DATEDUE
+      		END BETWEEN SYSDATE - to_number(CASE WHEN '~[gpv:timeframe]' is null THEN '14' ELSE '~[gpv:timeframe]' END)
 	AND (SELECT max(date2) from termbins where schoolid=~(curschoolid) and yearid =~(curyearid) and upper(storecode) = upper('~(current.final.grade.name)'))
 ORDER BY PGA.DATEDUE desc, upper(pga.name);alternatecolor;nonemessage=<tr><td colspan="8">No assignments within this ~[gpv:timeframe] day time period.</td></tr>]
 			  <tr class="oddrow">
@@ -97,11 +97,11 @@ ORDER BY PGA.DATEDUE desc, upper(pga.name);alternatecolor;nonemessage=<tr><td co
 				<td>~(earnposs;t)</td>
 		<td>~(percent)</td>
 		<td align="center">~(ltrgrade;t)</td>
-		<td><img style="display:~(turnedin;t)" src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_check.gif">
-		<img style="display:~(late;t)" src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_late.gif">
-		<img style="display:~(missing;t)" src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_missing.gif">
-		<img style="display:~(exempt;t)" src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_exempt.gif">
-		<img style="display:~(notcalc;t)" src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_excluded.gif"></td>
+		<td><img style="display:~(turnedin;t)" src="/images/icon_check.gif">
+		<img style="display:~(late;t)" src="/images/icon_late.gif">
+		<img style="display:~(missing;t)" src="/images/icon_missing.gif">
+		<img style="display:~(exempt;t)" src="/images/icon_exempt.gif">
+		<img style="display:~(notcalc;t)" src="/images/icon_excluded.gif"></td>
 			  </tr>
 			  [/tlist_sql]
 			</tbody>
@@ -112,11 +112,11 @@ ORDER BY PGA.DATEDUE desc, upper(pga.name);alternatecolor;nonemessage=<tr><td co
 	<table border="1" cellspacing="0" cellpadding="3">
     <tr>
         <td colspan="11" align="center">
-            <img src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_check.gif" alt="Collected"> - Collected,
-            <img src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_late.gif" alt="Late"> - Late,
-            <img src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_missing.gif" alt="Missing"> - Missing,
-            <img src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_exempt.gif" alt="Exempt"> - Score is exempt from final grade,
-            <img src="<!-- @echo IMAGE_SERVER_URL -->/images/icon_excluded.gif" alt="Excluded"> - Assignment is not included in final grade
+            <img src="/images/icon_check.gif" alt="Collected"> - Collected,
+            <img src="/images/icon_late.gif" alt="Late"> - Late,
+            <img src="/images/icon_missing.gif" alt="Missing"> - Missing,
+            <img src="/images/icon_exempt.gif" alt="Exempt"> - Score is exempt from final grade,
+            <img src="/images/icon_excluded.gif" alt="Excluded"> - Assignment is not included in final grade
         </td>
     </tr>
     </table>

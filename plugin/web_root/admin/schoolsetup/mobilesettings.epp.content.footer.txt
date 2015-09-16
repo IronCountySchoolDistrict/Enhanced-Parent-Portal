@@ -1,1 +1,1 @@
-<script src="<!-- @echo IMAGE_SERVER_URL -->/enhanced-parent-portal/js/mobile-settings.js"></script>
+<script src="/scripts/enhanced-parent-portal/js/mobile-settings.js"></script>
