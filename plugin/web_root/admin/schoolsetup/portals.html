@@ -1,509 +1,347 @@
-<!--
-    TODO: Change how columns are set up. Possibly break into tabs, split up columns.
-     OR: Tabs based on each school.
-     OR: Show the bar listing each field/school when user scrolls the page.
--->
-
 <!DOCTYPE html>
 <html>
 <!-- non framed -->
 <head>
-    <title>Parent Portal Settings</title>
-    ~[wc:commonscripts]
-    <link href="/images/css/screen.css" rel="stylesheet" media="screen">
-    <link href="/images/css/print.css" rel="stylesheet" media="print">
-    <style>
-        td {
-            text-align: center;
-        }
-        .box-round input {
-            margin: 0;
-        }
-    </style>
-    <script>
-        function selects(what) {
-            // Index returns 0-index value, nth-child uses 1-index value,
-            // so add 1 to account for the offset.
-            var index = $j(this).parent().index() + 1;
-            var selector = 'tr td:nth-child(' + index + ') select';
-            var selectElems = $j(selector);
-            $j.each(selectElems, function(index, elem) {
-                elem.options[0].selected = true;
-            });
-        }
-    </script>
+<title>~[text:psx.htmlc.admin.epp.parent_portal_settings]</title>
+~[wc:commonscripts]
+<link href="/images/css/screen.css" rel="stylesheet" media="screen">
+<link href="/images/css/print.css" rel="stylesheet" media="print">
+<SCRIPT TYPE="text/javascript">
+$j(document).ready(function(){
+	var id,v;
+
+	$j('th input:checkbox').click(function(){
+		id = $j(this).attr('id');
+		if (this.checked) {
+			$j('td #'+id).attr('checked',true);
+		} else {
+			$j('td #'+id).attr('checked',false);
+		}
+	});
+
+	$j('th select').change(function(){
+		id = $j(this).attr('id');
+		v = $j(this).val();
+		$j('td #'+id).val(v);
+	});
+
+});
+</SCRIPT>
 </head>
 
 <body>
 
-~[wc:admin_header_css]<!-- breadcrumb start --><a href="/admin/home.html" target="_top">~[text:psx.html.admin_schoolsetup.home.start_page]</a>
-&gt;~[text:psx.html.admin_schoolsetup.home.school_setup1]<!-- breadcrumb end -->~[wc:admin_navigation_css]
-<form action="portals.html" onsubmit="return true;" id="portalForm" method="POST" name="form1">
+~[wc:admin_header_css]<!-- breadcrumb start --><a href="/admin/home.html" target="_top">~[text:psx.html.admin_schoolsetup.home.start_page]</a> &gt;~[text:psx.html.admin_schoolsetup.home.school_setup1]<!-- breadcrumb end -->~[wc:admin_navigation_css]
+<form action="portals.html"  onsubmit="return true;" id="portalForm" method="POST" name="form1">
 <input type="hidden" name="formSubmitted" value="true"/>
-
-<h1>Parent Portal Settings</h1>
-~[if#formSubmitted.~[gpv:formSubmitted]=True]
-<div id="changes-saved-message" class="feedback-confirm">Changes saved</div>
-[/if#formSubmitted]
-    <BR>The First Page Per Day redirects the Parents to a specified page the first time they log in for the day.
-    <BR>The 1x feature of Student Schedule Requests only works when logged in as a Guardian. Students have Full even if
-    set to 1x or Full.
+<h1>~[text:psx.htmlc.admin.epp.parent_portal_settings]</h1>
+~[if#formSubmitted.~[gpv:formSubmitted]=True]<div id="changes-saved-message" class="feedback-confirm">~[text:psx.htmlc.admin.epp.changes_saved]</div>[/if#formSubmitted]
+<h3>
+	~[text:psx.htmlc.admin.epp.any_item_checked_will] <u>~[text:psx.htmlc.admin.epp.not]</u> ~[text:psx.htmlc.admin.epp.appear_as_icon]
+	<BR>~[text:psx.htmlc.admin.epp.first_page_per_day]
+	<BR>~[text:psx.htmlc.admin.epp.std_sched_request_1x]
+</h3>
 
 <!-- start of content and bounding box -->
 <div class="box-round">
 
 ~[if.district.office]
+<SCRIPT TYPE="text/javascript">
+$j(document).ready(function(){
+	$j('input[type="checkbox"]').closest('td,th').css('text-align','center');
+});
+</SCRIPT>
 <table class="linkDescList">
 <thead>
-    <tr>
-        <td>School Name</td>
-        <td>First Page Per Day<BR></td>
-        <td>Grades & Attendance<BR><input type="button" value="All" onClick="selects.call(this, 'A1');"></td>
-        <td>Score Detail<BR><input type="button" value="All" onClick="selects.call(this, 'A1A');"></td>
-        <td>Score Detail Setup<BR></td>
-        <td>Score Weighting<BR><input type="button" value="All" onClick="selects.call(this, 'A1B');"></td>
-        <td>Grades History<BR><input type="button" value="All" onClick="selects.call(this, 'A2');"></td>
-        <td>Attendance<BR><input type="button" value="All" onClick="selects.call(this, 'A3');"></td>
-        <td>Email<BR><input type="button" value="All" onClick="selects.call(this, 'A4');"></td>
-        <td>Comments<BR><input type="button" value="All" onClick="selects.call(this, 'A5');"></td>
-        <td>Bulletin<BR><input type="button" value="All" onClick="selects.call(this, 'A6');"></td>
-        <td>Next Year Schedule<BR><input type="button" value="All" onClick="selects.call(this, 'A6A');"></td>
-        <td>Schedule<BR><input type="button" value="All" onClick="selects.call(this, 'A6B');"></td>
-        <td>Student Schedule Requests<BR></td>
-        <td>Balances<BR><input type="button" value="All" onClick="selects.call(this, 'A7');"></td>
-        <td>iCal Calendar<BR><input type="button" value="All" onClick="selects.call(this, 'A8');"></td>
-        <td>Graduation Progress<BR><input type="button" value="All" onClick="selects.call(this, 'A9');"></td>
-        <td>Graduation Progress Setup<BR></td>
-        <td>Demographic Update<BR><input type="button" value="All" onClick="selects.call(this, 'A11');"></td>
-        <td>Honor Roll<BR><input type="button" value="All" onClick="selects.call(this, 'A13');"></td>
-        <td>Test Scores<BR><input type="button" value="All" onClick="selects.call(this, 'A15');"></td>
-        <td>Discipline Log<BR><input type="button" value="All" onClick="selects.call(this, 'A16');"></td>
-        <td>Access Log<BR><input type="button" value="All" onClick="selects.call(this, 'A17');"></td>
-        <td>Fees<BR><input type="button" value="All" onClick="selects.call(this, 'A19');"></td>
-        <td>School Information<BR><input type="button" value="All" onClick="selects.call(this, 'A20');"></td>
-        <td>Disable Grade Download Link<BR><input type="button" value="All" onClick="selects.call(this, 'A20A');"></td>
-    </tr>
-    <tr bgcolor="#edf3fe">~[tlist;schools;school_number>0;alternatecolor;sortcmd;[schools]name,&gt;]
-        <td>~(name)</td>
-        <td align="center">
-            <select name="[pref]guardian1stscreen~(school_number)">
-                <option value="">(Disabled)</option>
-                <option value="accesslog.html">Access Log</option>
-                <option value="lunchbal.html">Balance</option>
-                <option value="bulletin2.html">Bulletin</option>
-                <option value="home.html">Grades & Attendance</option>
-                <option value="termgrades.html">Grade History</option>
-                <option value="honorroll.html">Honor Roll</option>
-                <option value="nextyearschedule.html">Next Year Schedule</option>
-                <option value="studentsched.html">Schedule</option>
-                <option value="schoolinfo.html">School Info</option>
-                <option value="standardGradesFromGradebook.html">Standards Grades</option>
-                <option value="studentsched.html">Schedule</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]gradesattendance~(school_number)" id="a1">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]ppscores~(school_number)" id="a1a">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        <td align="center">
-            <select name="[pref]ppscoresstd~(school_number)">
-                <option value="">Traditional</option>
-                <option value="1">Traditional and Standard</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]ppscoreswght~(school_number)" id="a1b">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-
-        <td align="center">
-            <select name="[pref]historicalgrades~(school_number)" id="a2">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]attendance~(school_number)" id="a3">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]email~(school_number)" id="a4">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]comments~(school_number)" id="a5">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]bulletin~(school_number)" id="a6">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]nextschedule~(school_number)" id="a6a">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]studentsched~(school_number)" id="a6b">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]schedule~(school_number)">
-                <option value="">Hide</option>
-                <option value="0">View Only</option>
-                <option value="1">Edit 1x (Guardian only)</option>
-                <option value="2">Edit Full</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]balance~(school_number)" id="a7">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]icalcalendar~(school_number)" id="a8">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]graduation~(school_number)" id="a9">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]graduationver~(school_number)">
-                <option value="">Grad Progress</option>
-                <option value="1">Grad Planner (new)</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]demographic~(school_number)" id="a11">
-                <option value="">Enabled</option>
-                <option value="2">Enabled (Student Contacts)</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]honorroll~(school_number)" id="a13">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]testscore~(school_number)" id="a15">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]discipline~(school_number)" id="a16">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]accesslog~(school_number)" id="a17">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]fees~(school_number)" id="a19">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]schoolinfo~(school_number)" id="a20">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-        <td align="center">
-            <select name="[pref]eppdisabledl~(school_number)" id="a20a">
-                <option value="">Enabled</option>
-                <option value="1">Disabled</option>
-            </select>
-        </td>
-    </tr>
+<tr>
+<th rowspan="2" class="schName">~[text:psx.htmlc.admin.epp.school_name]</th>
+<th class="firstpg">~[text:psx.htmlc.admin.epp.first_page]</th>
+<th class="grAndAtt">~[text:psx.txt.wildcards.guardian_header_yui.grades_and_attendance]</th>
+<th class="scDetail">~[text:psx.htmlc.admin.epp.score_detail]</th>
+<th class="scDetailSetup">~[text:psx.htmlc.admin.epp.score_detail_setup]</th>
+<th class="scWeighting">~[text:psx.htmlc.admin.epp.score_weighting]</th>
+<th class="grHistory">~[text:psx.txt.wildcards.guardian_header_yui.grade_history]</th>
+<th class="att">~[text:psx.txt.wildcards.guardian_header_yui.attendance_history]</th>
+<th class="email">~[text:psx.txt.wildcards.guardian_header_yui.email_notification]</th>
+<th class="comments">~[text:psx.txt.wildcards.guardian_header_yui.teacher_comments]</th>
+<th class="bulletin">~[text:psx.txt.wildcards.guardian_header_yui.school_bulletin]</th>
+<th class="nextYearSchedule">~[text:psx.htmlc.guardian.epp.next_yr_sched]</th>
+<th class="schedule">~[text:psx.txt.wildcards.guardian_header_yui.my_schedule]</th>
+<th class="studentScheduleRequests">~[text:psx.txt.wildcards.guardian_header_yui.class_registration]</th>
+<th class="balances">~[text:psx.txt.wildcards.guardian_header_yui.balance]</th>
+<th class="icalCalendar">~[text:psx.txt.wildcards.guardian_header_yui.my_calendars]</th>
+<th class="gradProgress">~[text:psx.htmlc.guardian.epp.grad_progress]</th>
+<th class="gradProgressSetup">~[text:psx.htmlc.admin.epp.grad_progress_setup]<BR></th>
+<th class="honorRoll">~[text:psx.htmlc.guardian.epp.honor_roll]</th>
+<th class="testScores">~[text:psx.htmlc.guardian.epp.test_scores]</th>
+<th class="disciplineLog">~[text:psx.htmlc.guardian.epp.discipline]</th>
+<th class="accessLog">~[text:psx.htmlc.guardian.epp.access_logs]</th>
+<th class="fees">~[text:psx.htmlc.admin.epp.fees]</th>
+<th class="schoolInformation">~[text:psx.txt.wildcards.guardian_header_yui.school_information]</th>
+<th class="disableGradeDownloadLink">~[text:psx.htmlc.admin.epp.disable_grade_download]</th>
+</tr>
+<tr>
+<th class="firstpg">
+<select id="guardian1stscreen">
+	<option value="">~[text:psx.htmlc.admin.epp.disabled]</option>
+	<option value="accesslog.html">~[text:psx.htmlc.guardian.epp.access_logs]</option>
+	<option value="lunchbal.html">~[text:psx.txt.wildcards.guardian_header_yui.balance]</option>
+	<option value="bulletin2.html">~[text:psx.txt.wildcards.guardian_header_yui.school_bulletin]</option>
+	<option value="home.html">~[text:psx.txt.wildcards.guardian_header_yui.grades_and_attendance]</option>
+	<option value="termgrades.html">~[text:psx.txt.wildcards.guardian_header_yui.grade_history]</option>
+	<option value="honorroll.html">~[text:psx.htmlc.guardian.epp.honor_roll]</option>
+	<option value="nextyearschedule.html">~[text:psx.htmlc.guardian.epp.next_yr_sched]</option>
+	<option value="studentsched.html">~[text:psx.txt.wildcards.guardian_header_yui.my_schedule]</option>
+	<option value="schoolinformation.html">~[text:psx.txt.wildcards.guardian_header_yui.school_information]</option>
+	<option value="standardGradesFromGradebook.html">~[text:psx.htmlc.guardian.epp.standards_grades]</option>
+</select>
+</th>
+<th class="grAndAtt"><input type="checkbox" value="1" id="gradesattendance"></th>
+<th class="scDetail"><input type="checkbox" value="1" id="ppscores"></th>
+<th class="scDetailSetup">
+<select name="[pref]ppscoresstd~(school_number)" id="ppscoresstd">
+	<option value="">~[text:psx.htmlc.admin.epp.traditional]</option>
+	<option value="1">~[text:psx.htmlc.admin.epp.traditional_standard]</option>
+</select>
+</th>
+<th class="scWeighting"><input type="checkbox" value="1" id="ppscoreswght"></th>
+<th class="grHistory"><input type="checkbox" value="1" id="historicalgrades"></th>
+<th class="att"><input type="checkbox" value="1" id="attendance"></th>
+<th class="email"><input type="checkbox" value="1" id="email"></th>
+<th class="comments"><input type="checkbox" value="1" id="comments"></th>
+<th class="bulletin"><input type="checkbox" value="1" id="bulletin"></th>
+<th class="nextYearSchedule"><input type="checkbox" value="1" id="nextschedule"></th>
+<th class="schedule"><input type="checkbox" value="1" id="studentsched"></th>
+<th class="studentScheduleRequests">
+<select name="[pref]schedule~(school_number)" id="schedule">
+	<option value="">~[text:psx.htmlc.admin.epp.hide]</option>
+	<option value="0">~[text:psx.htmlc.admin.epp.view_only]</option>
+	<option value="1">~[text:psx.htmlc.admin.epp.edit_1x] (Guardian only)</option>
+	<option value="2">~[text:psx.htmlc.admin.epp.edit_full]</option>
+</select>
+</th>
+<th class="balances"><input type="checkbox" value="1" id="balance"></th>
+<th class="icalCalendar"><input type="checkbox" value="1" id="icalcalendar"></th>
+<th class="gradProgress"><input type="checkbox" value="1" id="graduation"></th>
+<th class="gradProgressSetup">
+<select name="[pref]graduationver~(school_number)" id="graduationver">
+	<option value="">~[text:psx.htmlc.admin.epp.grad_progress]</option>
+	<option value="1">~[text:psx.htmlc.admin.epp.grad_progress_new]</option>
+</select>
+</th>
+<th class="honorRoll"><input type="checkbox" value="1" id="honorroll"></th>
+<th class="testScores"><input type="checkbox" value="1" id="testscore"></th>
+<th class="disciplineLog"><input type="checkbox" value="1" id="discipline"></th>
+<th class="accessLog"><input type="checkbox" value="1" id="accesslog"></th>
+<th class="fees"><input type="checkbox" value="1" id="fees"></th>
+<th class="schoolInformation"><input type="checkbox" value="1" id="schoolinfo"></th>
+<th class="disableGradeDownloadLink"><input type="checkbox" value="1" id="eppdisabledl"></th>
+</tr>
+</thead>
+<tbody>
+	<tr class="oddrow" id="schoolRow" data-schid="~(school_number)">~[tlist;schools;school_number>0;alternatecolor;sortcmd;sortorder,&gt;,name,&gt;]
+	<td class="schName">~(name)</td>
+	<td class="firstpg">
+	<select name="[pref]guardian1stscreen~(school_number)" id="guardian1stscreen">
+	  <option value="">~[text:psx.htmlc.admin.epp.disabled]</option>
+	  <option value="accesslog.html">~[text:psx.htmlc.guardian.epp.access_logs]</option>
+	  <option value="lunchbal.html">~[text:psx.txt.wildcards.guardian_header_yui.balance]</option>
+	  <option value="bulletin2.html">~[text:psx.txt.wildcards.guardian_header_yui.school_bulletin]</option>
+	  <option value="home.html">~[text:psx.txt.wildcards.guardian_header_yui.grades_and_attendance]</option>
+	  <option value="termgrades.html">~[text:psx.txt.wildcards.guardian_header_yui.grade_history]</option>
+	  <option value="honorroll.html">~[text:psx.htmlc.guardian.epp.honor_roll]</option>
+	  <option value="nextyearschedule.html">~[text:psx.htmlc.guardian.epp.next_yr_sched]</option>
+	  <option value="studentsched.html">~[text:psx.htmlc.guardian.epp.my_sched]</option>
+	  <option value="schoolinformation.html">~[text:psx.txt.wildcards.guardian_header_yui.school_information]</option>
+	  <option value="standardGradesFromGradebook.html">~[text:psx.htmlc.guardian.epp.standards_grades]</option>
+	</select>
+	</td>
+	<td class="grAndAtt"><input type="checkbox" name="[pref]gradesattendance~(school_number)" value="1" id="gradesattendance"></td>
+ 	<td class="scDetail"><input type="checkbox" name="[pref]ppscores~(school_number)" value="1" id="ppscores"></td>
+ 	<td class="scDetailSetup">
+ 	<select name="[pref]ppscoresstd~(school_number)" id="ppscoresstd">
+	  <option value="">~[text:psx.htmlc.admin.epp.traditional]</option>
+	  <option value="1">~[text:psx.htmlc.admin.epp.traditional_standard]</option>
+	</select>
+	</td>
+	<td class="scWeighting"><input type="checkbox" name="[pref]ppscoreswght~(school_number)" value="1" id="ppscoreswght"></td>
+	<td class="grHistory"><input type="checkbox" name="[pref]historicalgrades~(school_number)" value="1" id="historicalgrades"></td>
+	<td class="att"><input type="checkbox" name="[pref]attendance~(school_number)" value="1" id="attendance"></td>
+	<td class="email"><input type="checkbox" name="[pref]email~(school_number)" value="1" id="email"></td>
+	<td class="comments"><input type="checkbox" name="[pref]comments~(school_number)" value="1" id="comments"></td>
+	<td class="bulletin"><input type="checkbox" name="[pref]bulletin~(school_number)" value="1" id="bulletin"></td>
+	<td class="nextYearSchedule"><input type="checkbox" name="[pref]nextschedule~(school_number)" value="1" id="nextschedule"></td>
+	<td class="schedule"><input type="checkbox" name="[pref]studentsched~(school_number)" value="1" id="studentsched"></td>
+	<td class="studentScheduleRequests">
+	<select name="[pref]schedule~(school_number)" id="schedule">
+	  <option value="">~[text:psx.htmlc.admin.epp.hide]</option>
+	  <option value="0">~[text:psx.htmlc.admin.epp.view_only]</option>
+	  <option value="1">~[text:psx.htmlc.admin.epp.edit_1x] (Guardian only)</option>
+	  <option value="2">~[text:psx.htmlc.admin.epp.edit_full]</option>
+	</select>
+	</td>
+	<td class="balances"><input type="checkbox" name="[pref]balance~(school_number)" value="1" id="balance"></td>
+	<td class="icalCalendar"><input type="checkbox" name="[pref]icalcalendar~(school_number)" value="1" id="icalcalendar"></td>
+	<td class="gradProgress"><input type="checkbox" name="[pref]graduation~(school_number)" value="1" id="graduation"></td>
+ 	<td class="gradProgressSetup">
+ 	<select name="[pref]graduationver~(school_number)" id="graduationver">
+	  <option value="">~[text:psx.htmlc.admin.epp.grad_progress]</option>
+	  <option value="1">~[text:psx.htmlc.admin.epp.grad_progress_new]</option>
+	</select>
+	</td>
+	<td class="honorRoll"><input type="checkbox" name="[pref]honorroll~(school_number)" value="1" id="honorroll"></td>
+	<td class="testScores"><input type="checkbox" name="[pref]testscore~(school_number)" value="1" id="testscore"></td>
+	<td class="disciplineLog"><input type="checkbox" name="[pref]discipline~(school_number)" value="1" id="discipline"></td>
+	<td class="accessLog"><input type="checkbox" name="[pref]accesslog~(school_number)" value="1" id="accesslog"></td>
+	<td class="fees"><input type="checkbox" name="[pref]fees~(school_number)" value="1" id="fees"></td>
+  	<td class="schoolInformation"><input type="checkbox" name="[pref]schoolinfo~(school_number)" value="1" id="schoolinfo"></td>
+  	<td class="disableGradeDownloadLink"><input type="checkbox" name="[pref]eppdisabledl~(school_number)" value="1" id="eppdisabledl"></td>
+</tr>
+</tbody>
 </table>
 [else]
-<table border="0" cellspacing="0" cellpadding="4">
-<tr class="~[evenoddrow;reset]">
-    <td>First page per day</td>
-    <td align="center">
-        <select name="[pref]guardian1stscreen~(curschoolid)">
-            <option value="">(Disabled)</option>
-            <option value="accesslog.html">Access Log</option>
-            <option value="lunchbal.html">Balance</option>
-            <option value="bulletin2.html">Bulletin</option>
-            <option value="home.html">Grades & Attendance</option>
-            <option value="termgrades.html">Grade History</option>
-            <option value="honorroll.html">Honor Roll</option>
-            <option value="nextyearschedule.html">Next Year Schedule</option>
-            <option value="studentsched.html">Schedule</option>
-            <option value="schoolinfo.html">School Info</option>
-            <option value="standardGradesFromGradebook.html">Standards Grades</option>
-            <option value="studentsched.html">Schedule</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Grades &amp; Attendance</td>
-    <td align="center">
-        <select name="[pref]gradesattendance~(school_number)" id="chk1">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Score Detail</td>
-    <td align="center">
-        <select name="[pref]ppscores~(curschoolid)" id="chk1a">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Score Detail Setup</td>
-    <td align="center">
-        <select name="[pref]ppscoresstd~(curschoolid)">
-            <option value="">Traditional</option>
-            <option value="1">Traditional and Standard</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Score Weighting</td>
-    <td align="center">
-        <select name="[pref]ppscoreswght~(curschoolid)" id="chk1b">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Grades History</td>
-    <td align="center">
-        <select name="[pref]historicalgrades~(curschoolid)" id="chk2">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Attendance</td>
-    <td align="center">
-        <select name="[pref]attendance~(curschoolid)" id="chk3">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Email</td>
-    <td align="center">
-        <select name="[pref]email~(curschoolid)" id="chk4">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Comments</td>
-    <td align="center">
-        <select name="[pref]comments~(curschoolid)" id="chk5">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Bulletin</td>
-    <td align="center">
-        <select name="[pref]bulletin~(curschoolid)" id="chk6">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Next Years Schedule</td>
-    <td align="center">
-        <select name="[pref]nextschedule~(curschoolid)" id="chk6a">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Schedule</td>
-    <td align="center">
-        <select name="[pref]studentsched~(curschoolid)" id="chk6b">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Student Schedule Requests</td>
-    <td align="center">
-        <select name="[pref]schedule~(curschoolid)">
-            <option value="">Hide</option>
-            <option value="0">View Only</option>
-            <option value="1">Edit 1x</option>
-            <option value="2">Edit Full</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Balances</td>
-    <td align="center">
-        <select name="[pref]balance~(curschoolid)" id="chk7">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>iCal Calendar</td>
-    <td align="center">
-        <select name="[pref]icalcalendar~(curschoolid)" id="chk8">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Graduation Progress</td>
-    <td align="center">
-        <select name="[pref]graduation~(curschoolid)" id="chk9">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-<td>Graduation Progress Setup</td>
-    <td align="center">
-        <select name="[pref]graduationver~(curschoolid)">
-            <option value="">Grad Progress</option>
-            <option value="1">Grad Planner (new)</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Demographic Update</td>
-    <td align="center">
-        <select name="[pref]demographic~(curschoolid)" id="chk11">
-            <option value="">Enabled</option>
-            <option value="2">Enabled (Student Contacts)</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Honor Roll</td>
-    <td align="center">
-        <select name="[pref]honorroll~(curschoolid)" id="chk13">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Test Scores</td>
-    <td align="center">
-        <select name="[pref]testscore~(curschoolid)" id="chk15">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Discipline Log</td>
-    <td align="center">
-        <select name="[pref]discipline~(curschoolid)" id="chk16">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Access Log</td>
-    <td align="center">
-        <select name="[pref]accesslog~(curschoolid)" id="chk17">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Fees</td>
-    <td align="center">
-        <select name="[pref]fees~(curschoolid)" id="chk19">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>School Information</td>
-    <td align="center">
-        <select name="[pref]schoolinfo~(curschoolid)" id="chk20">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
-<tr class="~[evenoddrow]">
-    <td>Disable Grade Download Link</td>
-    <td align="center">
-        <select name="[pref]eppdisabledl~(curschoolid)" id="chk20a">
-            <option value="">Enabled</option>
-            <option value="1">Disabled</option>
-        </select>
-    </td>
-</tr>
+<table class="linkDescList">
+<tbody>
+  <tr class="firstpg">
+ 	<td>~[text:psx.htmlc.admin.epp.first_page]</td>
+	<td>
+	<select name="[pref]guardian1stscreen~(curschoolid)" id="guardian1stscreen">
+	  <option value="">~[text:psx.htmlc.admin.epp.disabled]</option>
+	  <option value="accesslog.html">~[text:psx.htmlc.guardian.epp.access_logs]</option>
+	  <option value="lunchbal.html">~[text:psx.txt.wildcards.guardian_header_yui.balance]</option>
+	  <option value="bulletin2.html">~[text:psx.txt.wildcards.guardian_header_yui.school_bulletin]</option>
+	  <option value="home.html">~[text:psx.txt.wildcards.guardian_header_yui.grades_and_attendance]</option>
+	  <option value="termgrades.html">~[text:psx.txt.wildcards.guardian_header_yui.grade_history]</option>
+	  <option value="honorroll.html">~[text:psx.htmlc.guardian.epp.honor_roll]</option>
+	  <option value="nextyearschedule.html">~[text:psx.htmlc.guardian.epp.next_yr_sched]</option>
+	  <option value="studentsched.html">~[text:psx.htmlc.guardian.epp.my_sched]</option>
+	  <option value="schoolinformation.html">~[text:psx.txt.wildcards.guardian_header_yui.school_information]</option>
+	  <option value="standardGradesFromGradebook.html">~[text:psx.htmlc.guardian.epp.standards_grades]</option>
+	</select>
+	</td>
+	</tr>
+	<tr class="grAndAtt">
+	<td>~[text:psx.txt.wildcards.guardian_header_yui.grades_and_attendance]</td>
+	<td><input type="checkbox" name="[pref]gradesattendance~(curschoolid)" value="1" id="gradesattendance"></td>
+	</tr>
+  	<tr class="scDetail">
+	<td>~[text:psx.htmlc.admin.epp.score_detail]</td>
+	<td><input type="checkbox" name="[pref]ppscores~(curschoolid)" value="1" id="ppscores"></td>
+	</tr>
+  	<tr class="scDetailSetup">
+	<td>~[text:psx.htmlc.admin.epp.score_detail_setup]</td>
+	<td>
+ 	<select name="[pref]ppscoresstd~(curschoolid)" id="ppscoresstd">
+	  <option value="">~[text:psx.htmlc.admin.epp.traditional]</option>
+	  <option value="1">~[text:psx.htmlc.admin.epp.traditional_standard]</option>
+	</select>
+	</td>
+	</tr>
+	<tr class="scWeighting">
+	<td>~[text:psx.htmlc.admin.epp.score_weighting]</td>
+	<td><input type="checkbox" name="[pref]ppscoreswght~(curschoolid)" value="1" id="ppscoreswght"></td>
+	</tr>
+	<tr class="grHistory">
+	<td>~[text:psx.txt.wildcards.guardian_header_yui.grade_history]</td>
+	<td><input type="checkbox" name="[pref]historicalgrades~(curschoolid)" value="1" id="historicalgrades"></td>
+	</tr>
+	<tr class="att">
+	<td>~[text:psx.txt.wildcards.guardian_header_yui.attendance_history]</td>
+	<td><input type="checkbox" name="[pref]attendance~(curschoolid)" value="1" id="attendance"></td>
+	</tr>
+	<tr class="email">
+	<td>~[text:psx.txt.wildcards.guardian_header_yui.email_notification]</td>
+	<td><input type="checkbox" name="[pref]email~(curschoolid)" value="1" id="email"></td>
+	</tr>
+	<tr class="comments">
+	<td>~[text:psx.txt.wildcards.guardian_header_yui.teacher_comments]</td>
+	<td><input type="checkbox" name="[pref]comments~(curschoolid)" value="1" id="comments"></td>
+	</tr>
+	<tr class="bulletin">
+	<td>~[text:psx.txt.wildcards.guardian_header_yui.school_bulletin]</td>
+	<td><input type="checkbox" name="[pref]bulletin~(curschoolid)" value="1" id="bulletin"></td>
+	</tr>
+	<tr class="nextYearSchedule">
+	<td>~[text:psx.htmlc.guardian.epp.next_yr_sched]</td>
+	<td><input type="checkbox" name="[pref]nextschedule~(curschoolid)" value="1" id="nextschedule"></td>
+	</tr>
+	<tr class="schedule">
+	<td>~[text:psx.htmlc.guardian.epp.my_sched]</td>
+	<td><input type="checkbox" name="[pref]studentsched~(curschoolid)" value="1" id="studentsched"></td>
+	</tr>
+	<tr class="studentScheduleRequests">
+	<td>~[text:psx.txt.wildcards.guardian_header_yui.class_registration]</td>
+	<td>
+	<select name="[pref]schedule~(curschoolid)" id="schedule">
+	  <option value="">~[text:psx.htmlc.admin.epp.hide]</option>
+	  <option value="0">~[text:psx.htmlc.admin.epp.view_only]</option>
+	  <option value="1">~[text:psx.htmlc.admin.epp.edit_1x]</option>
+	  <option value="2">~[text:psx.htmlc.admin.epp.edit_full]</option>
+	</select>
+	</td>
+	</tr>
+	<tr class="balances">
+	<td>~[text:psx.txt.wildcards.guardian_header_yui.balance]</td>
+	<td><input type="checkbox" name="[pref]balance~(curschoolid)" value="1" id="balance"></td>
+	</tr>
+	<tr class="icalCalendar">
+	<td>~[text:psx.txt.wildcards.guardian_header_yui.my_calendars]</td>
+	<td><input type="checkbox" name="[pref]icalcalendar~(curschoolid)" value="1" id="icalcalendar"></td>
+	</tr>
+	<tr class="gradProgress">
+	<td>~[text:psx.htmlc.guardian.epp.grad_progress]</td>
+	<td><input type="checkbox" name="[pref]graduation~(curschoolid)" value="1" id="graduation"></td>
+    </tr>
+	<tr class="gradProgressSetup">
+    <td>~[text:psx.htmlc.admin.epp.grad_progress_setup]</td>
+ 	<td>
+ 	<select name="[pref]graduationver~(curschoolid)" id="graduationver">
+	  <option value="">~[text:psx.htmlc.admin.epp.grad_progress]</option>
+	  <option value="1">~[text:psx.htmlc.admin.epp.grad_progress_new]</option>
+	</select>
+	</td>
+	<tr class="honorRoll">
+	<td>~[text:psx.htmlc.guardian.epp.honor_roll]</td>
+	<td><input type="checkbox" name="[pref]honorroll~(curschoolid)" value="1" id="honorroll"></td>
+	</tr>
+	<tr class="testScores">
+	<td>~[text:psx.htmlc.guardian.epp.test_scores]</td>
+	<td><input type="checkbox" name="[pref]testscore~(curschoolid)" value="1" id="testscore"></td>
+	</tr>
+	<tr class="disciplineLog">
+	<td>~[text:psx.htmlc.guardian.epp.discipline]</td>
+	<td><input type="checkbox" name="[pref]discipline~(curschoolid)" value="1" id="discipline"></td>
+	</tr>
+	<tr class="accessLog">
+	<td>~[text:psx.htmlc.guardian.epp.access_logs]</td>
+	<td><input type="checkbox" name="[pref]accesslog~(curschoolid)" value="1" id="accesslog"></td>
+	</tr>
+	<tr class="fees">
+	<td>~[text:psx.htmlc.admin.epp.fees]</td>
+	<td><input type="checkbox" name="[pref]fees~(curschoolid)" value="1" id="fees"></td>
+  	</tr>
+	<tr class="schoolInformation">
+	<td>~[text:psx.txt.wildcards.guardian_header_yui.school_information]</td>
+	<td><input type="checkbox" name="[pref]schoolinfo~(curschoolid)" value="1" id="schoolinfo"></td>
+	</tr>
+	<tr class="disableGradeDownloadLink">
+	<td>~[text:psx.htmlc.admin.epp.disable_grade_download]</td>
+	<td><input type="checkbox" name="[pref]eppdisabledl~(curschoolid)" value="1" id="eppdisabledl"></td>
+	</tr>
+</tbody>
 </table>
 [/if.district.office]
 <br>
 
 </div>
-<div class="button-row"><input type="hidden" name="ac" value="prim"><input type="hidden" name="ac" value="initschools">~[submitbutton]
-</div>
+<div class="button-row"><input type="hidden" name="ac" value="prim"><input type="hidden" name="ac" value="initschools">~[submitbutton]</div>
 </div>
 <br>
 </form>
 
 
 <!-- end of content of bounding box -->
-
+<div id="cust-epp-footer">~[cust.insertion_point:epp.footer]</div>
 ~[wc:admin_footer_css]
 
 </body>

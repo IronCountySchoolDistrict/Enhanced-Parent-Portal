@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Next Years Schedule - PowerSchool Parent Access</title>
 ~[if#1.pref.nextschedule~([Students]Next_School)=1]~[redirect:/guardian/home_not_available.html]
 [else#1]
 	~[if#1a.isguardianAndSSOEnabled]
@@ -10,64 +9,56 @@
 	[/if#2]
 	[/if#1a]
 [/if#1]
-~[wc:guardian_header]
+
+<title>~[text:psx.htmlc.guardian.epp.next_yr_sched]</title>
+~[wc:guardian_header_yui]
 ~[SetPostValue:schedulerequestyearid=~(schedule.yearidfuture)]
 ~[SetPostValue:id=~(curstudid)]
-  <h1>~[yearname:~[gpv:schedulerequestyearid]] Schedule</h1>
+  <h1>~[yearname:~[gpv:schedulerequestyearid]] ~[text:psx.htmlc.guardian.epp.schedule]</h1>
   <!-- title -->
 
     <!-- start parent content-->
 <div class="box-round group">
-~[if#sched.~(curschoolid)#~(Next_School)]
-<h2>List View</h2>
-<table border="0" cellspacing="0" cellpadding="4">
-<tr bgcolor="#f6f6f6">
-<td class="bold">Course Name</td>
-<td class="bold">Expression</td>
-<td class="bold">Section</td>
-<td class="bold">Teacher</td>
-<td class="bold">Term</td>
+
+<h2>~[text:psx.htmlc.guardian.epp.list_view]</h2>
+<table>
+<thead>
+<tr>
+<th>~[text:psx.htmlc.guardian.epp.course_name]</th>
+<th>~[text:psx.htmlc.guardian.epp.expression]</th>
+<th>~[text:psx.htmlc.guardian.epp.section]</th>
+<th>~[text:psx.htmlc.guardian.epp.teacher]</th>
+<th>~[text:psx.htmlc.guardian.epp.term]</th>
 </tr>
-~[tlist_sql;SELECT c.course_name, cc.expression, cc.section_number, t.lastfirst,term.abbreviation from schedulecc cc 
-inner join schedulebuilds sb on cc.buildid = sb.buildid and sb.currentbuild = 1 and cc.schoolid =sb.schoolid and cc.schoolid = ~(next_school) and cc.studentid=~(curstudid)
-inner join teachers t on cc.teacherid = t.id
-inner join scheduleterms term on cc.termid = term.id and cc.schoolid=term.schoolid
-inner join courses c on cc.course_number = c.course_number order by upper(c.course_name);alternatecolor]
-<tr bgcolor="#edf3fe">
+</thead>
+<tbody>
+~[tlist_sql;
+SELECT c.course_name, cc.expression, cc.section_number, t.lastfirst,term.abbreviation
+FROM schedulecc cc
+  INNER JOIN schedulebuilds sb ON cc.buildid = sb.buildid
+  	AND sb.currentbuild = 1
+  	AND cc.schoolid = sb.schoolid
+  	AND cc.schoolid = ~(next_school)
+  	AND cc.studentid = ~(curstudid)
+  INNER JOIN teachers t ON cc.teacherid = t.id
+  INNER JOIN scheduleterms term ON cc.termid = term.id
+  	AND cc.schoolid = term.schoolid
+  INNER JOIN courses c ON cc.course_number = c.course_number
+ORDER BY upper(c.course_name);alternatecolor]
+<tr class="oddRow">
 <td>~(c.course_name)</td>
 <td>~(cc.expression)</td>
 <td>~(cc.section_number)</td>
 <td>~(t.lastfirst)</td>
 <td>~(term.abbreviation)</td>
+</tr>
 [/tlist_sql]
-</tr>
+</tbody>
 </table>
-[else#sched]
-<h2>List View</h2>
-<table border="0" cellspacing="0" cellpadding="4">
-<tr bgcolor="#f6f6f6">
-<td class="bold">Course Name</td>
-<td class="bold">Expression</td>
-<td class="bold">Section</td>
-<td class="bold">Teacher</td>
-<td class="bold">Term</td>
-</tr>
-~[tlist_sql;SELECT c.course_name, cc.expression, cc.section_number, t.lastfirst,term.abbreviation from schedulecc cc 
-inner join schedulebuilds sb on cc.buildid = sb.buildid and sb.currentbuild = 1 and cc.schoolid =sb.schoolid and cc.schoolid = ~(next_school) and cc.studentid=~(curstudid)
-inner join teachers t on cc.teacherid = t.id
-inner join scheduleterms term on cc.termid = term.id and cc.schoolid=term.schoolid
-inner join courses c on cc.course_number = c.course_number order by upper(c.course_name);alternatecolor]
-<tr bgcolor="#edf3fe">
-<td>~(c.course_name)</td>
-<td>~(cc.expression)</td>
-<td>~(cc.section_number)</td>
-<td>~(t.lastfirst)</td>
-<td>~(term.abbreviation)</td>
-[/tlist_sql]
-</tr>
-</table>
+
+~[if#sched.~(curschoolid)=~(Next_School)]
 <br>
-<h2>Matrix View</h2>
+<h2>~[text:psx.htmlc.guardian.epp.matrix_view]</h2>
 
 <table border="0" cellspacing="0" cellpadding="4">
 <tr>
@@ -84,6 +75,7 @@ inner join courses c on cc.course_number = c.course_number order by upper(c.cour
 <!-- end of title and student content -->
 </div>
 <input id="activeNav" type="hidden" value="#btn-next-year-sched"/>
-<input id="activePageVersion" type="hidden" value="3.3.1"/>
-~[wc:guardian_footer]
-</body></head>
+<input id="activePageVersion" type="hidden" value="5.0.0"/>
+~[wc:guardian_footer_yui]
+</body>
+</html>

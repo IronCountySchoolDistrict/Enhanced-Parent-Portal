@@ -9,48 +9,47 @@
 	[/if#2]
 	[/if#1a]
 [/if#1]
-<title>Assignment List for ~(current.final.grade.name)</title>
-~[wc:guardian_header]
+
+<title>~[text:psx.htmlc.guardian.epp.assignment_list_for]</title>
+~[wc:guardian_header_yui]
 ~[if.~[gpv:timeframe]=]
-~[SetPostValue:timeframe=14]
+  ~[SetPostValue:timeframe=14]
 [/if]
-  <h1>Assignment List for ~(current.final.grade.name)</h1>
+  <h1>~[text:psx.htmlc.guardian.epp.assignment_list_for]</h1>
   <!-- title -->
- 		<form name="searchform" action="ppstudentasmtlist.html" method="POST">
-  <div id="access-log" class="box-round group">
-    <!-- start parent content-->
+
+ <div id="assignment-list" class="box-round group">
+
 <form name="searchform" action="ppstudentasmtlist.html" method="POST">
 <div class="box-round">
-<fieldset>
-<label>Time Frame: </label><select name="timeframe">
-<option ~[if.~[gpv:timeframe]=7]selected[/if] value="7">Past Week
-<option ~[if.~[gpv:timeframe]=14]selected[/if]~[if.~[gpv:timeframe]=]selected[/if] value="14">Past 2 Weeks (Default)
-<option ~[if.~[gpv:timeframe]=31]selected[/if] value="31">Past Month
-<option ~[if.~[gpv:timeframe]=365]selected[/if] value="365">Current Term
-</select>
-</fieldset>
-<div class="button-row">
-~[submitbutton]
-</div>
+ <fieldset>
+ <label>~[text:psx.htmlc.guardian.epp.time_frame]: </label><select name="timeframe">
+ <option ~[if.~[gpv:timeframe]=7]selected[/if] value="7">~[text:psx.htmlc.guardian.epp.past_week]</option>
+ <option ~[if.~[gpv:timeframe]=14]selected[/if]~[if.~[gpv:timeframe]=]selected[/if] value="14">~[text:psx.htmlc.guardian.epp.past_2_weeks_default]</option>
+ <option ~[if.~[gpv:timeframe]=31]selected[/if] value="31">~[text:psx.htmlc.guardian.epp.past_mont]</option>
+ <option ~[if.~[gpv:timeframe]=365]selected[/if] value="365">~[text:psx.htmlc.guardian.epp.current_term]</option>
+ </select>
+ </fieldset>
+ <div class="button-row">~[submitbutton]</div>
 </div>
 </form>
 
 <!-- start bounding box-->
 <div class="box-round">
-			<table border="1" cellspacing="0" cellpadding="3" class="tableToGrid" >
-			<thead>
-			  <tr class="headerrow">
-				<th class="bold">Course</th>
-				<th class="bold" data-sorttype="date">Due Date&nbsp;</th>
-				<th class="bold">Category&nbsp;</th>
-				<th class="bold">Assignment Name&nbsp;</th>
-				<th class="bold" data-sortable="false">Score&nbsp;</th>
-				<th class="bold" data-sortable="false">Percent</th>
-				<th class="bold">Letter Grade</th>
-				<th class="bold" align="center" data-sortable="false">Codes&nbsp;&nbsp;</th>
-			  </tr>
-			</thead>
-			<tbody>
+<table class="tableToGrid" >
+<thead>
+<tr>
+<th>~[text:psx.htmlc.guardian.epp.course]</th>
+<th data-sorttype="date">~[text:psx.htmlc.guardian.epp.due_date]</th>
+<th>~[text:psx.htmlc.guardian.epp.category]</th>
+<th>~[text:psx.htmlc.guardian.epp.assignment_name]</th>
+<th data-sortable="false">~[text:psx.htmlc.guardian.epp.score]</th>
+<th data-sortable="false">~[text:psx.htmlc.guardian.epp.percent]</th>
+<th>~[text:psx.htmlc.guardian.epp.letter_grade]</th>
+<th class="center" data-sortable="false">~[text:psx.htmlc.guardian.epp.codes]</th>
+</tr>
+</thead>
+<tbody>
 ~[tlist_sql;
 SELECT
 c.course_name,
@@ -88,49 +87,50 @@ CASE
            ELSE PGA.DATEDUE
       		END BETWEEN SYSDATE - to_number(CASE WHEN '~[gpv:timeframe]' is null THEN '14' ELSE '~[gpv:timeframe]' END)
 	AND (SELECT max(date2) from termbins where schoolid=~(curschoolid) and yearid =~(curyearid) and upper(storecode) = upper('~(current.final.grade.name)'))
-ORDER BY PGA.DATEDUE desc, upper(pga.name);alternatecolor;nonemessage=<tr><td colspan="8">No assignments within this ~[gpv:timeframe] day time period.</td></tr>]
-			  <tr class="oddrow">
-				<td>~(c.course_name;t)</td>
-				<td>~(PGA.DATEDUE;d)</td>
-				<td>~(pgc.name;t)</td>
-				<td>~(pga.name;t)</td>
-				<td>~(earnposs;t)</td>
-		<td>~(percent)</td>
-		<td align="center">~(ltrgrade;t)</td>
-		<td><img style="display:~(turnedin;t)" src="/images/icon_check.gif">
-		<img style="display:~(late;t)" src="/images/icon_late.gif">
-		<img style="display:~(missing;t)" src="/images/icon_missing.gif">
-		<img style="display:~(exempt;t)" src="/images/icon_exempt.gif">
-		<img style="display:~(notcalc;t)" src="/images/icon_excluded.gif"></td>
-			  </tr>
-			  [/tlist_sql]
-			</tbody>
-			</table>
+ORDER BY PGA.DATEDUE desc, upper(pga.name);alternatecolor;nonemessage=<tfoot><tr><td colspan="8">~[text:psx.htmlc.guardian.epp.no_assignments_within_this] ~[gpv:timeframe] ~[text:psx.htmlc.guardian.epp.day_time_period]</td></tr></tfoot>]
+<tr class="oddrow">
+<td>~(c.course_name;t)</td>
+<td>~(PGA.DATEDUE;d)</td>
+<td>~(pgc.name;t)</td>
+<td>~(pga.name;t)</td>
+<td>~(earnposs;t)</td>
+<td>~(percent)</td>
+<td class="center">~(ltrgrade;t)</td>
+<td>
+  <img style="display:~(turnedin;t)" src="/images/icon_check.gif">
+  <img style="display:~(late;t)" src="/images/icon_late.gif">
+  <img style="display:~(missing;t)" src="/images/icon_missing.gif">
+  <img style="display:~(exempt;t)" src="/images/icon_exempt.gif">
+  <img style="display:~(notcalc;t)" src="/images/icon_excluded.gif">
+</td>
+</tr>
+[/tlist_sql]
+</tbody>
+</table>
 </div>
 
 <div class="box-round">
-	<table border="1" cellspacing="0" cellpadding="3">
-    <tr>
-        <td colspan="11" align="center">
-            <img src="/images/icon_check.gif" alt="Collected"> - Collected,
-            <img src="/images/icon_late.gif" alt="Late"> - Late,
-            <img src="/images/icon_missing.gif" alt="Missing"> - Missing,
-            <img src="/images/icon_exempt.gif" alt="Exempt"> - Score is exempt from final grade,
-            <img src="/images/icon_excluded.gif" alt="Excluded"> - Assignment is not included in final grade
-        </td>
-    </tr>
-    </table>
-
-  </div>
+<table border="1" cellspacing="0" cellpadding="3">
+<tr>
+<td class="center">
+  <img src="/images/icon_check.gif" alt="Collected"> - ~[text:psx.html.guardian.scores._collected],
+  <img src="/images/icon_late.gif" alt="Late"> - ~[text:psx.html.guardian.scores._late],
+  <img src="/images/icon_missing.gif" alt="Missing"> - ~[text:psx.html.guardian.scores._missing],
+  <img src="/images/icon_exempt.gif" alt="Exempt"> - ~[text:psx.html.guardian.scores._score_is_exempt_from_final_grade],
+  <img src="/images/icon_excluded.gif" alt="Excluded"> - ~[text:psx.html.guardian.scores._assignment_is_not_included_in_final_grade]
+</td>
+</tr>
+</table>
 </div>
 
-
+  </div>
 </div>
 <!-- end parent content -->
 
 <!-- end of title and student content -->
 </div>
 <input id="activeNav" type="hidden" value="#btn-gradesAttendance"/>
-<input id="activePageVersion" type="hidden" value="3.3.1"/>
-~[wc:guardian_footer]
-</body></head>
+<input id="activePageVersion" type="hidden" value="5.0.0"/>
+~[wc:guardian_footer_yui]
+</body>
+</html>

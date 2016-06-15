@@ -7,4 +7,17 @@
     <!-- End of customization to allow students to submit requests 1 time -->
 </script>
 
-<script src="/scripts/enhanced-parent-portal/js/schedulesetup.js"></script>
+
+<script>
+  require.config({
+    paths: {
+      'schedulesetup': '/scripts/enhanced-parent-portal/js/schedulesetup'
+    }
+  });
+
+  require(['jquery', 'schedulesetup'], ($, schedulesetup) => {
+    $(() => {
+      schedulesetup.main();
+    });
+  })
+</script>

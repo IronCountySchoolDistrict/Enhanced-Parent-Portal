@@ -1,1 +1,0 @@
-<script src="/scripts/enhanced-parent-portal/js/mobile-settings.js"></script>

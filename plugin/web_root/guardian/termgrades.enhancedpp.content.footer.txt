@@ -1,192 +1,95 @@
-<!-- start psData -->
-<script>
-    if (typeof psData === 'undefined') {
-        var psData = {};
-    }
-    psData.guardianSSO = ~[if.isguardianAndSSOEnabled]true[else]false[/if];
-    psData.historicalGrades = ~[if.~[displaypref:historicalgrades~(curschoolid)]=1]false[else]true[/if];
-    psData.sgShowPa = ~[if.prefschool.sgshowpa=]true[else]false[/if];
-    psData.allowWebAccess = ~(decode;~([Students]allowwebaccess);1;true;false);
-    psData.curYearId = ~[if.~(curyearid)=]null[else]~(curyearid)[/if];
-    psData.maxYearId = ~[tlist_sql;
-            select max(substr(termid,1,2))
-            from storedgrades
-            where studentid=~(curstudid)
-            order by
-            upper(course_name),
-            storecode
-            ]
-                ~(termid)
-            [/tlist_sql];
-    psData.histYearId = ~[if.~[gpv:histyearid]=]null[else]~[gpv:histyearid][/if];
-    psData.storeCodes = [
-            ~[tlist_sql;
-                select distinct
-                storecode
-                from storedgrades
-                where
-                studentid=~(curstudid) and
-                ~[if.~[gpv:histyearid]=]
-                    termid in (select to_char(max(substr(termid,1,2)))||'00' from storedgrades where studentid=~(curstudid))
-                [else]
-                    termid=~[gpv:histyearid]00
-                [/if]
-                order by storecode asc
-            ]
-                "~(storecode)",
-            [/tlist_sql]
-        ];
-    psData.yearIDs = [
-            ~[tlist_sql;
-                select distinct
-                substr(termid,1,2)
-                from storedgrades
-                where studentid=~(curstudid)
-                order by substr(termid,1,2) desc
-            ]
-                ~(termid),
-            [/tlist_sql]
-        ];
-    psData.storedGrades = [
-            ~[tlist_sql;
-                select
-                    course_name,
-                    storecode,
-                    percent,
-                    behavior,
-                    earnedcrhrs,
-                    grade,
-                    dcid
-                from storedgrades
-                where
-                ~[if.~[gpv:histyearid]=]
-                termid between
-                    (select to_char(max(substr(termid,1,2)))||'00' from storedgrades where studentid=~(curstudid)) and
-                    (select to_char(max(substr(termid,1,2)))||'99' from storedgrades where studentid=~(curstudid))
-                [else]
-                    termid between ~[gpv:histyearid]00 and ~[gpv:histyearid]99
-                [/if] and
-                studentid=~(curstudid)
-                order by upper(course_name), storecode
-            ]
-                {
-                    "courseName": "~(course_name)",
-                    "storecode": "~(storecode)",
-                    "percent": "~(percent)",
-                    "behavior": "~(behavior)",
-                    "earnedCreditHours": "~(earnedcrhrs)",
-                    "grade": "~(grade)",
-                    "dcid": "~(dcid)"
-                },
-            [/tlist_sql]
-        ];
-</script>
-<!-- end psData -->
+~[if#1.pref.historicalgrades~(curschoolid)=1]~[redirect:/guardian/home_not_available.html]
+[else#1]
+	~[if#1a.isguardianAndSSOEnabled]
+	~[if#2.~([Students]allowwebaccess)=0]
+	~[redirect:/guardian/home_not_available.html]
+	[/if#2]
+	[/if#1a]
+[/if#1]
 
-<!-- CSS -->
+<div id="customContent">
+~[if#1.prefschool.sgshowpa=1][else#1]
+<ul class="tabs" id="nav-secondary">
+  <li class="selected"><a href="#">~[text:psx.txt.wildcards.guardian_header_yui.grade_history]</a></li>
+  <li><a href="/guardian/termgradesstd.html?histyearid=~[gpv:histyearid]">~[text:psx.htmlc.guardian.epp.standards_grades]</a></li>
+</ul>
+[/if#1]
+
+~[f.variable_create;name=histyearid;type=INT;when=NEVER]
+~[if.~[gpv:histyearid]=]
+~[f.variable_set;name=histyearid;value=~(curyearid)]
+[else]
+~[f.variable_set;name=histyearid;value=~[gpv:histyearid]]
+[/if]
+
 <style type="text/css">
-    .coursecol {
-        border: 2px solid;
-    }
+<!--
+.coursecol {border-style:solid;border-width:2px;}
+-->
 </style>
 
-<!-- TEMPLATES -->
-<script type="text/template" id="version-template">
-    ~[wc:epp_version]
+		<!-- BEGIN Dynamic Year tabs -->
+<ul class="tabs" id="nav-secondary">
+~[tlist_sql;select distinct
+CASE WHEN ~(v.histyearid) = substr(termid,1,2) THEN 'class="selected"' ELSE '' END class1,
+CASE WHEN ~(v.histyearid) = substr(termid,1,2) THEN '<a href="#">'||to_char(substr(termid,1,2)+1990)||'-'||to_char(substr(termid,1,2)+1991)||'</a>'
+	ELSE '<a href="termgrades.html?histyearid='||substr(termid,1,2)||'">'||to_char(substr(termid,1,2)+1990)||'-'||to_char(substr(termid,1,2)+1991)||'</a>' END class2,
+substr(termid,1,2) yearid, '~(v.histyearid)' yeartest from storedgrades where studentid=~(curstudid) order by to_char(substr(termid,1,2)+1990)||'-'||to_char(substr(termid,1,2)+1991)]
+
+	<li ~(class1)>
+      	~(class2)
+	</li>
+[/tlist_sql]
+</ul>
+        <!-- END Dynamic Year tabs -->
+
+~[f.variable_create;name=termstart;type=INT;when=NEVER]
+~[f.variable_set;name=termstart;value=~(v.histyearid)00]
+~[f.variable_create;name=termend;type=INT;when=NEVER]
+~[f.variable_set;name=termend;value=~(v.histyearid)99]
+~[f.table_info;table=Storedgrades;dothisfor=all;field=storecode;fn=sel;*studentid=~(curstudid);condfield1=termid;condfieldtype1=INT;comparator1=.gte.;condval1=~(v.termstart);condfield2=termid;condfieldtype2=INT;comparator2=.lte.;condval2=~(v.termend);]
+~[f.order_by;table=Storedgrades;object1=termid;type1=INT;direction1=.gt.]
+~[f.variable_create;name=sql;type=TEXT;when=NEVER]
+~[f.variable_create;name=colgroup;type=TEXT;when=NEVER]
+~[f.variable_create;name=Header;type=TEXT;when=NEVER]
+~[f.variable_create;name=Header2;type=TEXT;when=NEVER]
+~[f.variable_create;name=storecodelist;type=TEXT;when=never]
+~[f.variable_set;name=storecodelist;value=~(f.unique_val;table=storedgrades;dothisfor=currentsel;field=storecode;fieldtype=TEXT;delim=CMA);]
+~[f.array;name=list;fn=create;value=~(v.storecodelist);delim=,;elem_type=TEXT;]
+~[duplicate;~[f.array;name=list;fn=count];zz;count;counterstart=1]
+~[f.variable_add;name=colgroup;value=<colgroup span="4" class="coursecol"></colgroup>]
+~[f.variable_add;name=Header;value=<th class="center" colspan="4">~[f.array;name=list;fn=value;index=zz]</th>]
+~[f.variable_add;name=Header2;value=<th class="center">~[text:psx.htmlc.guardian.epp.grade]</th><th class="center">%</th><th class="center">~[text:psx.htmlc.guardian.epp.cit]</th><th class="center">~[text:psx.htmlc.guardian.epp.hrs]</th>]
+~[f.variable_add;name=sql;value='<td class="center">'||max(case when storecode='~[f.array;name=list;fn=value;index=zz]' then Grade else '&nbsp'||chr(59) end)||'</td>'||'<td class="center">'||max(case when storecode='~[f.array;name=list;fn=value;index=zz]' then '<a href="tgscores.html?frn=031'||dcid||'&histyearid=~[gpv:histyearid]&fg='||storecode||'">'||percent||'</a>' else '&nbsp'||chr(59) end)||'</td>'||'<td class="center">'||max(case when storecode='~[f.array;name=list;fn=value;index=zz]' then behavior else '&nbsp'||chr(59) end)||'</td>'||'<td class="center">'||max(case when storecode='~[f.array;name=list;fn=value;index=zz]' then to_char(earnedcrhrs) else '&nbsp'||chr(59) end)||'</td>'||]
+[/duplicate]
+			<table border="2" cellspacing="0" cellpadding="3" style="border-collapse: collapse">
+			<colgroup></colgroup>
+			~(v.colgroup)
+			<thead>
+			  <tr>
+				<th rowspan="2" class="bold">~[text:psx.htmlc.guardian.epp.course_name]</th>
+				~(v.header)
+			  </tr>
+			  <tr>
+				~(v.header2)
+			  </tr>
+			</thead>
+			<tbody>
+~[tlist_sql;
+SELECT course_name, ~(v.sql)'' grades
+from storedgrades where studentid=~(curstudid) and termid between ~(v.histyearid)00 and ~(v.histyearid)99 group by course_name order by upper(course_name);alternatecolor]
+			  <tr bgcolor="#edf3fe">
+				<td>~(course_name)~[guv:test]</td>
+				~(grades)
+			  </tr>
+			  [/tlist_sql]
+			</tbody>
+			</table>
+</div>
+
+<script language="JavaScript">
+$j(document).ready(function(){
+    $j('input#activeNav').after( '<input id="activePageVersion" type="hidden" value="5.0.0"/>' );
+	$j('table.grid').before( $j('div#customContent') ).remove();
+});
 </script>
-
-<script type="text/template" id="no-grades-template">
-    <h1>No Grade History</h1>
-    <p>This student does not have any available grades information.</p>
-</script>
-
-<script type="text/template" id="nav-template">
-    <ul class="tabs" id="nav-secondary">
-        <li class="selected">
-            <a href="#">Grade History</a>
-        </li>
-        <li>
-            <a href="/guardian/termgradesstd.html?histyearid=<%= histYearId %>">Standards Grade History</a>
-        </li>
-    </ul>
-</script>
-
-<script type="text/template" id="grades-template">
-    <table border="2" cellspacing="0" cellpadding="3" style="border-collapse: collapse">
-        <colgroup></colgroup>
-        <%
-            _.each(storeCodes, function(code) {
-        %>
-            <colgroup span="4" class="coursecol"></colgroup>
-        <%
-            });
-        %>
-        <tr>
-            <td rowspan="2" class="bold">Course Name</td>
-            <%
-                _.each(storeCodes, function(code) {
-            %>
-                <td align="center" class="bold" colspan="4"><%= code %></td>
-            <%
-                });
-            %>
-        </tr>
-
-        <tr>
-            <%
-                _.each(storeCodes, function(code) {
-            %>
-                <td align="center" class="bold">Grade</td>
-                <td align="center" class="bold">%</td>
-                <td align="center" class="bold">Cit</td>
-                <td align="center" class="bold">Hrs</td>
-            <%
-                });
-            %>
-        </tr>
-
-
-            <%
-                _.each(courseGrades, function(grade) {
-            %>
-                <tr>
-                <td><%= grade.courseName %></td>
-            <%
-                    _.each(grade.courseGrades, function(gradeElem) {
-            %>
-                <td align="center"><%= gradeElem %></td>
-            <%
-                    });
-            %>
-                </tr>
-            <%
-                });
-            %>
-
-
-    </table>
-</script>
-
-<script type="text/template" id="year-tabs-template">
-    <!-- start of tabs -->
-
-    <!-- BEGIN Dynamic Year tabs -->
-    <ul class="tabs" id="years-nav-secondary">
-        <%
-            _.each(yearTabs, function(year) {
-
-        %>
-            <li class="<%= year.liClass %>">
-                <a href="<%= year.href %>"><%= year.label %></a>
-            </li>
-        <%
-            });
-        %>
-    </ul>
-    <!-- END Dynamic Year tabs -->
-
-    <!-- end of tabs -->
-</script>
-
-<!-- SCRIPT INCLUDES -->
-<script src="/scripts/enhanced-parent-portal/js/termgrades.js"></script>

@@ -1,5 +1,9 @@
-<script type="text/template" id="version-template">
-    ~[wc:epp_version]
-</script>
+~[if#SCHED.~[gpv:schedulerequestyearid]=]
+~[SetPostValue:schedulerequestyearid=~(schedule.yearidfuture)]
+[/if#SCHED]
 
-<script src="/scripts/enhanced-parent-portal/js/requests.js"></script>
+<script language="JavaScript">
+$j(document).ready(function(){
+    $j('input#activeNav').after( '<input id="activePageVersion" type="hidden" value="5.0.0"/>' );
+});
+</script>

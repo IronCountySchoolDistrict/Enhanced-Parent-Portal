@@ -10,22 +10,35 @@
 	[/if#1a]
 [/if#1]
 
-<title>Discipline Log Records</title>
-~[wc:guardian_header]
-  <h1>Discipline Log Records</h1>
+<title>~[text:psx.htmlc.guardian.epp.discipline_logs]</title>
+~[wc:guardian_header_yui]
+  <h1>~[text:psx.htmlc.guardian.epp.discipline_logs]</h1>
   <!-- title -->
 
   <div id="discipline-log" class="box-round group">
 
-<table border="0" cellspacing="0" cellpadding="4" width=100%>
-<tr bgcolor="#f6f6f6">
-<td class="bold">Date</td>
-<td class="bold">Description</td>
+<table>
+<thead>
+<tr>
+<th>~[text:psx.htmlc.guardian.epp.date]</th>
+<th>~[text:psx.htmlc.guardian.epp.description]</th>
 </tr>
-<tr bgcolor="#edf3fe">~[tlist;log;StudentID=~([students]id);logtypeid=-100000;alternatecolor;nonemessage=No log entries were found for this student.;sortcmd;entry_date,&lt;]
-<td>~([Log]entry_date)</td>
-<td>~([Log]entry_author) - <span class="bold">~([Log]subject)</span> -  ~([Log]entry)</td>
+</thead>
+<tbody>
+
+~[tlist_sql;
+SELECT l.entry_date, l.entry_author, l.subject, l.entry
+FROM log l
+WHERE l.logtypeid = -100000
+  AND l.studentid = ~(id)
+ORDER BY l.entry_date desc;nonemessage=<tr><td colspan="100%" >~[text:psx.htmlc.guardian.epp.no_discipline]</td></tr>;alternatecolor]
+<tr class="oddRow">
+<td>~(entry_date;d)</td>
+<td>~(entry_author;t) - <span class="bold">~(subject;t)</span> -  ~(entry;t)</td>
 </tr>
+[/tlist_sql]
+
+</tbody>
 </table>
 
   </div>
@@ -38,6 +51,7 @@
 <!-- end of title and student content -->
 </div>
 <input id="activeNav" type="hidden" value="#btn-discipline-log"/>
-<input id="activePageVersion" type="hidden" value="3.3.1"/>
-~[wc:guardian_footer]
-</body></head>
+<input id="activePageVersion" type="hidden" value="5.0.0"/>
+~[wc:guardian_footer_yui]
+</body>
+</html>

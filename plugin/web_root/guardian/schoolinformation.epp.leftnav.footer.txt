@@ -10,82 +10,82 @@
 <table id="school-info" style="display:none">
 <colgroup><col style="width:20%"><col></colgroup>
 <tr class="headerRow">
-<td colspan="100%" class="bold"><center>School Information</center></td>
+<td colspan="100%" class="bold"><center>~[text:psx.htmlc.guardian.epp.school_info]</center></td>
 </tr>
 
 ~[tlist_sql;
-SELECT sch.Name schoolname, sch.SchoolAddress, sch.SchoolCity, sch.SchoolState , sch.SchoolZip, sch.SchoolPhone, sch.SchoolFax, sch.Principal, 
-  sch.PrincipalPhone, sch.PrincipalEmail, sch.AsstPrincipal, sch.AsstPrincipalPhone, sch.AsstPrincipalEmail, 
+SELECT sch.Name schoolname, sch.SchoolAddress, sch.SchoolCity, sch.SchoolState , sch.SchoolZip, sch.SchoolPhone, sch.SchoolFax, sch.Principal,
+  sch.PrincipalPhone, sch.PrincipalEmail, sch.AsstPrincipal, sch.AsstPrincipalPhone, sch.AsstPrincipalEmail,
 ps_customfields.getCF('Schools',sch.school_number,'Att_sec_email') Att_sec_email,
 ps_customfields.getCF('Schools',sch.school_number,'Registrar_email') Registrar_email
 FROM Schools sch
 WHERE sch.School_Number = ~(curschoolid)]
 <tr class="~[evenoddrow;reset]">
-<td class="bold"><label>School Name:</label></td>
+<td class="bold"><label>~[text:psx.htmlc.guardian.epp.school_name]:</label></td>
 <td>~(SchoolName;t)</td>
 </tr>
 <tr class="~[evenoddrow]">
-<td class="bold"><label>School Address:</label></td>
+<td class="bold"><label>~[text:psx.htmlc.guardian.epp.school_address]:</label></td>
 <td>~(SchoolName;t) ~(SchoolAddress;t) ~(SchoolCity;t), ~(SchoolState;t)  ~(SchoolZip;t)</td>
 </tr>
 <tr class="~[evenoddrow]">
-<td class="bold"><label>School Phone:</label></td>
+<td class="bold"><label>~[text:psx.htmlc.guardian.epp.school_phone]:</label></td>
 <td>~(SchoolPhone;t)</td>
 </tr>
 <tr class="~[evenoddrow]">
-<td class="bold"><label>School Fax:</label></td>
+<td class="bold"><label>~[text:psx.htmlc.guardian.epp.school_fax]:</label></td>
 <td>~(SchoolFax;t)</td>
 </tr>
 <tr><td colspan="100%"><hr></td></tr>
 <tr class="~[evenoddrow]">
-<td class="bold"><label>School Principal:</label></td>
+<td class="bold"><label>~[text:psx.htmlc.guardian.epp.p_name]:</label></td>
 <td>~(Principal;t)</td>
 </tr>
 <tr class="~[evenoddrow]">
-<td class="bold"><label>Principal's Phone:</label></td>
+<td class="bold"><label>~[text:psx.htmlc.guardian.epp.p_phone]:</label></td>
 <td>~(PrincipalPhone;t)</td>
 </tr>
 <tr class="~[evenoddrow]">
-<td class="bold"><label>Principal's Email:</label></td>
+<td class="bold"><label>~[text:psx.htmlc.guardian.epp.p_email]:</label></td>
 <td><a href="mailto:~(PrincipalEmail;t)">~(PrincipalEmail;t)</a></td>
 </tr>
 <tr><td colspan="100%"><hr></td></tr>
 <tr class="~[evenoddrow]">
-<td class="bold"><label>Assistant Principal:</label></td>
+<td class="bold"><label>~[text:psx.htmlc.guardian.epp.ap_name]:</label></td>
 <td>~(AsstPrincipal;t)</td>
 </tr>
 <tr class="~[evenoddrow]">
-<td class="bold"><label>Assistant Principal's Phone:</label></td>
+<td class="bold"><label>~[text:psx.htmlc.guardian.epp.ap_phone]:</label></td>
 <td>~(AsstPrincipalPhone;t)</td>
 </tr>
 <tr class="~[evenoddrow]">
-<td class="bold"><label>Assistant Principal's Email:</label></td>
+<td class="bold"><label>~[text:psx.htmlc.guardian.epp.ap_email]:</label></td>
 <td><a href="mailto:~(AsstPrincipalEmail;t)">~(AsstPrincipalEmail;t)</a></td>
 </tr>
 <tr><td colspan="100%"><hr></td></tr>
 <tr class="~[evenoddrow]">
-<td class="bold"><label>Attendance Secretary's Email:</label></td>
+<td class="bold"><label>~[text:psx.htmlc.guardian.epp.attendance_email]:</label></td>
 <td><a href="mailto:~(Att_sec_email;t)">~(Att_sec_email;t)</a></td>
 </tr>
 <tr><td colspan="100%"><hr></td></tr>
 <tr class="~[evenoddrow]">
-<td class="bold"><label>Registrar's Email:</label></td>
+<td class="bold"><label>~[text:psx.htmlc.guardian.epp.registrar_email]:</label></td>
 <td><a href="mailto:~(Registrar_email;t)">~(Registrar_email;t)</a></td>
 </tr>
-[/tlist_sql] 
+[/tlist_sql]
 <tr><td colspan="100%"><hr></td></tr>
 </table>
 
 <table id="school-terms" style="display:none">
 <thead>
 <tr class="headerRow">
-<th colspan="100%"><center>This Year's Terms</center></th>
+<th colspan="100%"><center>~[text:psx.htmlc.guardian.epp.this_year_terms]</center></th>
 </tr>
 <tr class="headerRow">
-<th>Term</th>
-<th>Start Date</th>
-<th>End Date</th>
-<th style="text-align:center"># School Days</th>
+<th>~[text:psx.htmlc.guardian.epp.term]</th>
+<th>~[text:psx.htmlc.guardian.epp.start_date]</th>
+<th>~[text:psx.htmlc.guardian.epp.end_date]</th>
+<th style="text-align:center"># ~[text:psx.htmlc.guardian.epp.school_days]</th>
 </tr>
 </thead>
 <tbody>
@@ -119,7 +119,7 @@ $j(document).ready(function(){
 		$j('table#school-info').append($j('div#schoolinfoview table').find('tr:gt(3)'));
 		$j('div#schoolinfoview').remove();
 	});
-    
+
     $j('input#activeNav').after( '<input id="activePageVersion" type="hidden" value="4.0"/>' );
 });
 </script>

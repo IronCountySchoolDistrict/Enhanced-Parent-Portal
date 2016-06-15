@@ -10,7 +10,6 @@ which uses on-by-default (1=false, 0=true) boolean values.-->
             "prefMobileDisableGuardian": ~[if.prefschool.mobiledisable_guardian=1]true[else]false[/if],
             "prefGradesAttendance": ~[if.pref.gradesattendance~(curschoolid)=1]false[else#ga]true[/if],
             "enabledMouseUpdate": ~(f.table_info;table=students;dothisfor=all;field=enabledemoupdate;*id=~(curstudid);fn=value),
-
         }
      '
         ></div>
@@ -31,7 +30,7 @@ which uses on-by-default (1=false, 0=true) boolean values.-->
     ~[SetPostValue:enabledemoupdate=~(f.table_info;table=students;dothisfor=all;field=enabledemoupdate;*id=~(curstudid);fn=value)]
     ~[if#1.pref.demographic~(curschoolid)=1][else#1]~[if#2.~[gpv:enabledemoupdate]=1]
     <center><B>Please check your demographics to ensure the information we have on file is correct.</B>
-    </center>[/if#2][/if#1]<br>
+    </center>[/if#2][/if#1]
     ~[if#score.pref.ppscores~(schoolid)=1][else#score]
     <center><a href="/guardian/ppstudentasmtlist.html">Click Here</a> to see a list of all your
         ~[if#isguardian.isguardian]students [/if#isguardian]past assignments for this term.
@@ -42,4 +41,14 @@ which uses on-by-default (1=false, 0=true) boolean values.-->
     ~[wc:epp_version]
 </script>
 
-<script src="/scripts/enhanced-parent-portal/js/home.js"></script>
+<script>
+  require.config({
+    paths: {
+      'home': '/scripts/enhanced-parent-portal/js/home'
+    }
+  });
+
+  require(['home'], home => {
+    home.main();
+  })
+</script>
