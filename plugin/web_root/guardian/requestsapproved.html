@@ -1,10 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>~[text:psx.htmlc.guardian.epp.class_registration_approved]</title>
-~[wc:guardian_header_yui]
+<title>Class Registration Approved</title>
+~[wc:guardian_header]
 <div id="content-main">
-  <h1>~[text:psx.htmlc.guardian.epp.class_registration_approved]</h1>
+  <h1>Class Registration Approved</h1>
   <!-- title -->
 
   <div id="parent-email-setup" class="box-round group">
@@ -13,7 +13,7 @@
       <fieldset class="inline">
       ~[SetPostValue:nextschool=~(f.table_info;table=students;dothisfor=all;field=Next_School;*id=~(curstudid);fn=value)]
 ~[if#2.pref.schedule~[gpv:nextschool]=1]
-<input type="hidden" name="[01]Sched_AllowRequests" value="0">
+<input type="hidden" name="[STUDENTS.U_STUDENTS_EXTENSION]Sched_AllowRequests" value="0">
 [/if#2]
        <input type="hidden" name="ac" value="autosendupdate">
       <button type="submit" value="Submit">Submit</button>
@@ -34,7 +34,6 @@
 <!-- end of title and student content -->
 </div>
 <input id="activeNav" type="hidden" value="#btn-classRegistration"/>
-<input id="activePageVersion" type="hidden" value="5.0.0"/>
-~[wc:guardian_footer_yui]
-</body>
-</html>
+<input id="activePageVersion" type="hidden" value="3.3"/>
+~[wc:guardian_footer]
+</body></head>
