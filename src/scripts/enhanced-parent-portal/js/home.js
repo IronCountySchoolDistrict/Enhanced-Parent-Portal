@@ -1,9 +1,12 @@
-/*global $j*/
-var headerTemplate = $j($j('#header-template').html());
-var headerSelect = $j('h1');
-headerTemplate.insertAfter(headerSelect);
-headerSelect.remove();
+import $ from 'jquery';
 
-var verTemplate = $j($j('#version-template').html());
-var verSelect = $j('activeNav');
-verTemplate.insertAfter(verSelect);
+export function main() {
+  var headerTemplate = $('#header-template').html();
+  var headerSelect = $('h1');
+  headerSelect.after(headerTemplate);
+  headerSelect.remove();
+
+  var verTemplate = $('#version-template').html();
+  var verSelect = $('activeNav');
+  verSelect.after(verTemplate);
+}

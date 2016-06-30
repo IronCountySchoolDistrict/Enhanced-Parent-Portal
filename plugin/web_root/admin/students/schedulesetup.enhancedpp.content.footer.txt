@@ -2,9 +2,22 @@
     <!-- Start of customization to allow students to submit requests 1 time -->
     <tr class="~[evenoddrow]">
         <td class="bold">Allow student to submit requests</td>
-        <td><input type="checkbox" name="[Students]Sched_AllowRequests" value="1"></td>
+        <td><input type="checkbox" name="[STUDENTS.U_STUDENTS_EXTENSION]Sched_AllowRequests" value="1"></td>
     </tr>
     <!-- End of customization to allow students to submit requests 1 time -->
 </script>
 
-<script src="/scripts/enhanced-parent-portal/js/schedulesetup.js"></script>
+
+<script>
+  require.config({
+    paths: {
+      'schedulesetup': '/scripts/enhanced-parent-portal/js/schedulesetup'
+    }
+  });
+
+  require(['jquery', 'schedulesetup'], ($, schedulesetup) => {
+    $(() => {
+      schedulesetup.main();
+    });
+  })
+</script>

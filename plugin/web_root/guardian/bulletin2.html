@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>School Bulletin - PowerSchool Parent Access</title>
-~[wc:guardian_header]
-<!-- start of content -->
-<div class="box-round group">
-	<h2>~[text]psx.html.guardian.bulletin.bulletin_for,param:~[schoolname],param:~[bulletindate][/text]<input id="currentDate1" size="11" type="input" class="psDateWidget jumpDate" value="~[bulletindate;0]" disabled/></h2>
-    ~[x:bulletinitems]
-<div class="nextprevdate">
-    ~[text]psx.html.guardian.bulletin.change_date[/text] <input id="currentDate2" size="11" type="input" class="psDateWidget jumpDate psDateHighlight" value="~[bulletindate;0]" disabled/>
-</div>
 
-<div style="display:none" id="fakeAnchor"></div>
-<div>~[x:bulletindays]</div>
-</div>
+<head>
+	<title>~[text:psx.htmlc.guardian.epp.school_bulletin]</title>
+	~[wc:guardian_header_yui]
+	<!-- start of content -->
+	<div class="box-round group">
+		<h2>~[text]psx.html.guardian.bulletin.bulletin_for,param:~[schoolname],param:~[bulletindate][/text]<input id="currentDate1" size="11" type="input" class="psDateWidget jumpDate" value="~[bulletindate;0]" disabled/></h2> ~[x:bulletinitems]
+		<div class="nextprevdate">
+			~[text]psx.html.guardian.bulletin.change_date[/text]
+			<input id="currentDate2" size="11" type="input" class="psDateWidget jumpDate psDateHighlight" value="~[bulletindate;0]" disabled/>
+		</div>
+
+		<div style="display:none" id="fakeAnchor"></div>
+		<div>~[x:bulletindays]</div>
+	</div>
 	~[get_js_texts:psx.jshtml.guardian.bulletin.]
 
 
 	<script>
-
-        function calendarClosed(dateText) {
+		function calendarClosed(dateText) {
 
 			var anchor = '<a href="/guardian/bulletin.html?date=' + dateText + '" id="anchorYanker" class="dialogM" title="' + pss_text("psx.jshtml.guardian.bulletin.daily_bulletin") + '"></a> ';
-			
+
 			$j('#fakeAnchor').html(anchor);
 			$j('#anchorYanker').trigger('click');
 
 		}
-
 	</script>
 
-<!-- end of content -->
-</div>
-<input id="activeNav" type="hidden" value="#btn-schoolBulletin"/>
-<input id="activePageVersion" type="hidden" value="3.3.2"/>
-~[wc:guardian_footer]
-</body>
+	<!-- end of content -->
+	</div>
+	<input id="activeNav" type="hidden" value="#btn-schoolBulletin" />
+	<input id="activePageVersion" type="hidden" value="5.0.0" />
+	~[wc:guardian_footer_yui]
+	</body>
+
 </html>

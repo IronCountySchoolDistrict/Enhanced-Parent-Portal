@@ -10,31 +10,31 @@
 	[/if#1a]
 [/if#1]
 
-<title>Parent / Student Access Summary</title>
-~[wc:guardian_header]
-  <h1>Parent / Student Access Summary</h1>
+<title>~[text:psx.htmlc.guardian.epp.ps_access_summary]</title>
+~[wc:guardian_header_yui]
+  <h1>~[text:psx.htmlc.guardian.epp.ps_access_summary]</h1>
   <!-- title -->
 
   <div id="access-log" class="box-round group">
     <!-- start parent content-->
 <table border="0" cellspacing="0" cellpadding="4">
 <tr bgcolor="#f6f6f6">
-~[if.isguardianAndSSOEnabled]
-<td colspan="5" class="bold">Parent Access Summary</td>
+<td colspan="100%" class="bold">~[text:psx.ftl.admin_students.parentaccess.parentguardian_access_summary]</td>
 </tr>
+~[if.isguardianAndSSOEnabled]
 <tr bgcolor="#e9e9e9">
 <td>&nbsp;</td>
-<td class="bold">Date</td>
-<td class="bold">Time</td>
-<td class="bold">Accessed By</td>
-<td class="bold">Duration<br>(minutes)</td>
+<td class="bold">~[text:psx.htmlc.guardian.epp.date]</td>
+<td class="bold">~[text:psx.htmlc.guardian.epp.time]</td>
+<td class="bold">~[text:psx.htmlc.guardian.epp.accessed_by]</td>
+<td class="bold">~[text:psx.htmlc.guardian.epp.duration]<br>~[text:psx.htmlc.guardian.epp.minutes]</td>
 </tr>
- ~[tlist_sql; select PhoneLog.Date_value, PhoneLog.StartTime, guardian.lastname||', '||guardian.firstname guardname, PhoneLog.Duration 
-from PhoneLog 
+ ~[tlist_sql; select PhoneLog.Date_value, PhoneLog.StartTime, guardian.lastname||', '||guardian.firstname guardname, PhoneLog.Duration
+from PhoneLog
 inner join guardian on guardian.accountidentifier=PhoneLog.optionschosen
-where (PhoneLog.StudentID = ~(curstudid) and ((PhoneLog.LogType <> 2) or (PhoneLog.LogType IS NULL))) order by date_value desc;nonemessage=<TR><TD colspan="5" >No parental accesses for this student.</TD></TR>;alternatecolor]
-    
-    <tr bgcolor="#edf3fe">
+where (PhoneLog.StudentID = ~(curstudid) and ((PhoneLog.LogType <> 2) or (PhoneLog.LogType IS NULL))) order by date_value desc;nonemessage=<TR><TD colspan="5" >~[text:psx.htmlc.guardian.epp.parent_no_access]</TD></TR>;alternatecolor]
+
+    <tr class="oddRow">
     <td>~(count;-).</td>
     <td>~(PhoneLog.Date_value;d)</td>
     <td>~(PhoneLog.StartTime;l;format=time)</td>
@@ -44,18 +44,15 @@ where (PhoneLog.StudentID = ~(curstudid) and ((PhoneLog.LogType <> 2) or (PhoneL
     [/tlist_sql]
 
 [else]
-
-<td colspan="4" class="bold">Parent Access Summary</td>
-</tr>
 <tr bgcolor="#e9e9e9">
 <td>&nbsp;</td>
-<td class="bold">Date</td>
-<td class="bold">Time</td>
-<td class="bold">Duration<br>(minutes)</td>
+<td class="bold">~[text:psx.htmlc.guardian.epp.date]</td>
+<td class="bold">~[text:psx.htmlc.guardian.epp.time]</td>
+<td class="bold">~[text:psx.htmlc.guardian.epp.duration]<br>~[text:psx.htmlc.guardian.epp.minutes]</td>
 </tr>
- ~[tlist_sql; select PhoneLog.Date_value, PhoneLog.StartTime, PhoneLog.Duration from PhoneLog where (PhoneLog.StudentID = ~(curstudid) and ((PhoneLog.LogType <> 2) or (PhoneLog.LogType IS NULL))) order by date_value desc;nonemessage=<TR><TD colspan="4" >No parental accesses for this student.</TD></TR>;alternatecolor]
-    
-    <tr bgcolor="#edf3fe">
+ ~[tlist_sql; select PhoneLog.Date_value, PhoneLog.StartTime, PhoneLog.Duration from PhoneLog where (PhoneLog.StudentID = ~(curstudid) and ((PhoneLog.LogType <> 2) or (PhoneLog.LogType IS NULL))) order by date_value desc;nonemessage=<TR><TD colspan="4" >~[text:psx.htmlc.guardian.epp.parent_no_access]</TD></TR>;alternatecolor]
+
+    <tr class="oddRow">
     <td align="right">~(count;-).</td>
     <td>~(PhoneLog.Date_value;d)</td>
     <td align="right">~(PhoneLog.StartTime;l;format=time)</td>
@@ -72,13 +69,13 @@ where (PhoneLog.StudentID = ~(curstudid) and ((PhoneLog.LogType <> 2) or (PhoneL
 </tr>
 <tr bgcolor="#e9e9e9">
 <td>&nbsp;</td>
-<td>Date</td>
-<td>Time</td>
-<td>Duration<br>(minutes)</td>
+<td class="bold">~[text:psx.htmlc.guardian.epp.date]</td>
+<td class="bold">~[text:psx.htmlc.guardian.epp.time]</td>
+<td class="bold">~[text:psx.htmlc.guardian.epp.duration]<br>~[text:psx.htmlc.guardian.epp.minutes]</td>
 </tr>
 
- ~[tlist_sql; select PhoneLog.Date_value, PhoneLog.StartTime, PhoneLog.Duration from PhoneLog where (PhoneLog.StudentID = ~(curstudid) and PhoneLog.LogType = 2) order by date_value desc;nonemessage=<TR><TD colspan="4" >No student accesses for this student.</TD></TR>;alternatecolor]
-    
+ ~[tlist_sql; select PhoneLog.Date_value, PhoneLog.StartTime, PhoneLog.Duration from PhoneLog where (PhoneLog.StudentID = ~(curstudid) and PhoneLog.LogType = 2) order by date_value desc;nonemessage=<TR><TD colspan="4" >~[text:psx.htmlc.guardian.epp.student_no_access]</TD></TR>;alternatecolor]
+
     <tr bgcolor="#edf3fe">
     <td align="right">~(count;-).</td>
     <td>~(PhoneLog.Date_value;d)</td>
@@ -98,6 +95,7 @@ where (PhoneLog.StudentID = ~(curstudid) and ((PhoneLog.LogType <> 2) or (PhoneL
 <!-- end of title and student content -->
 </div>
 <input id="activeNav" type="hidden" value="#btn-access-log"/>
-<input id="activePageVersion" type="hidden" value="3.3.1"/>
-~[wc:guardian_footer]
-</body></head>
+<input id="activePageVersion" type="hidden" value="5.0.0"/>
+~[wc:guardian_footer_yui]
+</body>
+</html>

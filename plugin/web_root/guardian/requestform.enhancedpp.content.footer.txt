@@ -3,30 +3,32 @@
 ~[SetPostValue:allowwebaccess=~(f.table_info;table=students;field=allowwebaccess;dothisfor=all;*id=~(curstudid);fn=value)]
 ~[SetPostValue:Sched_AllowRequests=~(f.table_info;table=students;field=Sched_AllowRequests;dothisfor=all;*id=~(curstudid);fn=value)]
 ~[SetPostValue:nextschoolname=~(f.table_info;table=schools;field=name;dothisfor=all;*school_number=~[gpv:nextschool];fn=value)]
-~[if#1.pref.schedule~[gpv:nextschool]=1]~[redirect:/guardian/home_not_available.html]
+~[if#1.pref.schedule~[gpv:nextschool]=]~[redirect:/guardian/home_not_available.html]
 [else#1]
-~[if#1a.isguardianAndSSOEnabled]
-~[if#2.~[gpv:allowwebaccess]=0]
-~[redirect:/guardian/home_not_available.html]
-[/if#2]
-[/if#1a]
+	~[if#1a.isguardianAndSSOEnabled]
+	~[if#2.~[gpv:allowwebaccess]=0]
+	~[redirect:/guardian/home_not_available.html]
+	[/if#2]
+	[/if#1a]
 [/if#1]
-~[if.~[gpv:Sched_AllowRequests]#1]
-~[redirect:/guardian/requests.html?schedulerequestyearid=~(schedule.yearidfuture)]
-[/if]
+~[if#1.~[gpv:Sched_AllowRequests]#1]
+  ~[if#true.~[gpv:Sched_AllowRequests]#True]
+    ~[redirect:/guardian/requests.html?schedulerequestyearid=~(schedule.yearidfuture)]
+  [/if#true]
+[/if#1]
 <!--Custom EPP Logic End-->
 
-<script type="text/template" id="header-template">
-    <h1>~[text]psx.html.guardian.requestform.welcome_to_the__class_registration_system_for,param:~(schoolname),param:~[yearname:~[gpv:schedulerequestyearid]][/text] ~(studentname)</h1>
-</script>
+<div id="enableif">
+~[if#2.pref.schedule~[gpv:nextschool]=1]
+		<p style="color:red;">~[text:psx.htmlc.guardian.epp.requests_submitted_once]<br>~[text:psx.htmlc.guardian.epp.contact_counselor_futher_changes]</p>
+		<input type="hidden" name="enableif" value="1">
 
-<script type="text/template" id="requests-template">
-    <p style="color:red;">Requests can only be submitted once.<br>You will need to contact your counselor if you need to make further changes.</p>
-    <input type="hidden" name="enableif" value="1">
-</script>
+[/if#2]
+</div>
 
-<script type="text/template" id="version-template">
-    ~[wc:epp_version]
+<script language="JavaScript">
+$j(document).ready(function(){
+    $j('input#activeNav').after( '<input id="activePageVersion" type="hidden" value="5.0.0"/>' );
+	$j('div.button-row').before( $j('div#enableif') );
+});
 </script>
-
-<script src="/scripts/enhanced-parent-portal/js/requestform.js"></script>

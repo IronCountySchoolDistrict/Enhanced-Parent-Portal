@@ -93,4 +93,14 @@
 </div>
 <!--PDS Versioning/Contibutor Information End-->
 
-<script src="/scripts/enhanced-parent-portal/js/guardian-header-yui.js"></script>
+<script>
+  require.config({
+    paths: {
+      guardianHeaderYui: '/scripts/enhanced-parent-portal/js/guardian-header-yui'
+    }
+  });
+
+  require(['guardianHeaderYui'], guardianHeaderYui => {
+    guardianHeaderYui.main();
+  })
+</script>

@@ -1,6 +1,6 @@
 <script language="JavaScript">
 $j(document).ready(function(){
-    $j('input#activeNav').after( '<input id="activePageVersion" type="hidden" value="4.0"/>' );
+	$j('input#activeNav').after( '<input id="activePageVersion" type="hidden" value="5.0.0"/>' );
 	$j('h2:first').addClass('balance').next().addClass('balance').next().addClass('fees').next().addClass('fees');
 ~[if#2.pref.balance~(curschoolid)=1]$j('.balance').remove();[/if#2]
 ~[if#1.pref.fees~(curschoolid)=1]$j('.fees').remove();[/if#1]

@@ -1,34 +1,14 @@
+~[if#1.pref.comments~(curschoolid)=1]~[redirect:/guardian/home_not_available.html]
+[else#1]
+	~[if#1a.isguardianAndSSOEnabled]
+	~[if#2.~([Students]allowwebaccess)=0]
+	~[redirect:/guardian/home_not_available.html]
+	[/if#2]
+	[/if#1a]
+[/if#1]
 
-<!-- PS DATA -->
-<style>
-    pre {
-        white-space: pre-wrap; /* css-3 */
-        white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
-        white-space: -pre-wrap; /* Opera 4-6 */
-        white-space: -o-pre-wrap; /* Opera 7 */
-        word-wrap: break-word; /* Internet Explorer 5.5+ */
-    }
-</style>
-
-<!-- TEMPLATES -->
-<div id="ps-data"
-    data-prefs='
-        {
-            "comments": ~(decode;~[displaypref:comments~(curschoolid)];1;true;false)
-        }
-    '
-    data-ps='
-        {
-            "isGuardianAndSSOEnabled": ~[if.isguardianAndSSOEnabled]true[else]false[/if],
-            "allowWebAccess": ~(decode;~([Students]allowwebaccess);1;true;false),
-            "histYearId": ~[gpv:histyearid]
-        }
-    '
-></div>
-
-<script type="text/template" id="version-template">
-    ~[wc:epp_version]
+<script language="JavaScript">
+$j(document).ready(function(){
+    $j('input#activeNav').after( '<input id="activePageVersion" type="hidden" value="5.0.0"/>' );
+});
 </script>
-
-<!-- SCRIPT INCLUDES -->
-<script src="/scripts/enhanced-parent-portal/js/teachercomments.js"></script>

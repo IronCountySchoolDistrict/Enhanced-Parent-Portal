@@ -2,8 +2,8 @@
 	$j('a[href*="misc-district.html"]').closest('tr').after(
 		'<!-- BEGIN link for Parent Portal Settings -->\
 		<tr>\
-			<td><a href="/admin/schoolsetup/portals.html">Parent Portal Settings</a></td>\
-			<td>Set which icons appear on the parent portal based on the school the child attends.</td>\
+			<td><a href="/admin/schoolsetup/portals.html">~[text:psx.htmlc.admin.epp.parent_portal_settings]</a></td>\
+			<td>~[text:psx.htmlc.admin.epp.set_which_icons_appear_parent]</td>\
 		</tr>\
 		<!-- END link for Parent Portal Settings -->'
 	);

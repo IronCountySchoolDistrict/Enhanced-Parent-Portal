@@ -9,21 +9,26 @@
 	[/if#2]
 	[/if#1a]
 [/if#1]
-<title>Graduation Progress</title>
-~[wc:guardian_header]
-  <h1>Graduation Progress</h1>
+
+<title>~[text:psx.htmlc.guardian.epp.grad_progress]</title>
+~[wc:guardian_header_yui]
+  <h1>~[text:psx.htmlc.guardian.epp.grad_progress]</h1>
   <!-- title -->
 
   <div id="graduation-progress" class="box-round group">
-<table border="0" cellspacing="0" cellpadding="4" align="center">
-<tr bgcolor="#f6f6f6">
-<td class="bold">Requirement</td>
-<td class="bold">Req</td>
-<td class="bold">Completed</td>
-<td class="bold">Current</td>
-<td class="bold">Needed</td>
-<td>&nbsp;</td>
+
+<table>
+<thead>
+<tr>
+<th>~[text:psx.htmlc.guardian.epp.requirement]</th>
+<th>~[text:psx.htmlc.guardian.epp.req]</th>
+<th>~[text:psx.htmlc.guardian.epp.completed]</th>
+<th>~[text:psx.htmlc.guardian.epp.current]</th>
+<th>~[text:psx.htmlc.guardian.epp.needed]</th>
+<th>&nbsp;</th>
 </tr>
+</thead>
+<tbody>
 <tr bgcolor="#edf3fe">~[gradcheck]
 <td>[name]</td>
 <td>[hoursrequired]</td>
@@ -32,6 +37,9 @@
 <td>[status]</td>
 <td>&nbsp;</td>
 </tr>
+</tbody>
+</table>
+
   </div>
 </div>
 
@@ -42,6 +50,7 @@
 <!-- end of title and student content -->
 </div>
 <input id="activeNav" type="hidden" value="#btn-graduation-progress"/>
-<input id="activePageVersion" type="hidden" value="3.3.1"/>
-~[wc:guardian_footer]
-</body></head>
+<input id="activePageVersion" type="hidden" value="5.0.0"/>
+~[wc:guardian_footer_yui]
+</body>
+</html>
