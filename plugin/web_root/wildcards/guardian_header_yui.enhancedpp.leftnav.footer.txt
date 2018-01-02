@@ -26,7 +26,7 @@
     #btn-school-info a {background: url(/images/enhanced-parent-portal/iconSchoolInfo.png) no-repeat;}
     #btn-test-scores a {background: url(/images/enhanced-parent-portal/iconTestScores.png) no-repeat;}
     #btn-web-based-cal a {background: url(/images/enhanced-parent-portal/iconWebBasedCal.png) no-repeat;}
-    #btn-next-year-sched a {background: url(/images/enhanced-parent-portal/iconClassReg.png) no-repeat;}
+    #btn-next-year-sched a {background: url(/images/img/iconClassReg.png) no-repeat;}
     #btn-student-contacts a {
         background: url(/images/enhanced-parent-portal/iconStudentContacts.png) no-repeat;
         background-size: 35px;
